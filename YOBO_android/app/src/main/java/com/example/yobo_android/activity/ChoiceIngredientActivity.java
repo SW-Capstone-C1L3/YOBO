@@ -1,0 +1,16 @@
+package com.example.yobo_android.activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import com.example.yobo_android.R;
+
+public class ChoiceIngredientActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choice_ingredient);
+    }
+}
