@@ -8,13 +8,14 @@
     tools:context=".activity.RecipeActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="411dp"
-        android:layout_height="332dp" />
+        android:id="@+id/recipeImage"
+        android:layout_width="match_parent"
+        android:layout_height="365dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/recipeOrder"
         android:layout_width="match_parent"
-        android:layout_height="395dp"
-        android:text="요리순서" />
+        android:layout_height="366dp"
+        android:scrollbars="vertical"
+        android:text="TextView" />
 </LinearLayout>
