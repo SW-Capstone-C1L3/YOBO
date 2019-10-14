@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +45,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
+        Intent intent = new Intent();
         if (id == R.id.nav_enroll_recipe) {
-            Intent intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
+        }else if(id == R.id.nav_scrap_recipe){
+            intent = new Intent(MainActivity.this,BoardActivity.class);
         }
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -37,23 +37,24 @@
                 android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>
         <Button
-            android:id="@+id/banner1"
+            android:id="@+id/btnRecipeRecommendation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ImageButton1" />
+            android:text="레시피 추천" />
         <Button
-            android:id="@+id/banner2"
+            android:id="@+id/btnChoiceIngredient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ImageButton2" />
+            android:text="재료 선택 " />
         <Button
-            android:id="@+id/banner3"
+            android:id="@+id/btnChoiceCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ImageButton3" />
+            android:text="카테고리" />
+
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
