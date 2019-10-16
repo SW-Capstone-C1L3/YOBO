@@ -18,11 +18,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 // recylerView는 개발자가 어댑터를 직접 구현해야함. 반드시 RecyclerView.Adapter 상속해서 구현
-public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ItemViewHolder>{
+public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
     // adapter에 들어갈 list 입니다.
     private ArrayList<Recipe> listRecipe = new ArrayList<>();
     private Context context;
+
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
+        HeaderViewHolder(View headerView){
+            super(headerView);
+        }
+    }
 
     // RecyclerView의 핵심인 ViewHolder 입니다.
     // 여기서 subView를 setting 해줍니다.
@@ -45,13 +54,12 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ItemViewHold
             recipeImage = itemView.findViewById(R.id.recipeImage);
         }
 
-        void onBind(Recipe recipe) {
+        void onBind(Recipe recipe, int position) {
 
             recipeName.setText(recipe.getRecipeName());
             recipeSubContents.setText(recipe.getRecipeSubContents());
             recipeWriter.setText(recipe.getRecipeWriter());
             recipeScore.setText(""+recipe.getRecipeScore());
-
             recipeImage.setImageResource(recipe.getRecipeImageId());
 
             itemView.setOnClickListener(this);
@@ -72,20 +80,43 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ItemViewHold
     // item view를 위한 viewHolder 객체 생성 및 return
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         this.context = parent.getContext();
+        RecyclerView.ViewHolder holder;
+        View view;
 
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate 시킵니다.
         // return 인자는 ViewHolder 입니다.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
-        return new ItemViewHolder(view);
+        if(viewType == TYPE_HEADER){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_header, parent, false);
+            holder = new HeaderViewHolder(view);
+        }
+        else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
+            holder = new ItemViewHolder(view);
+        }
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
-        holder.onBind(listRecipe.get(position));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof HeaderViewHolder){
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+        }
+        else{
+            // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
+            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+            itemViewHolder.onBind(listRecipe.get(position), position); // if add header, listRecipe.get(position - 1)
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position){
+//        if(position == 0)
+//            return TYPE_HEADER;
+//        else
+            return TYPE_ITEM;
     }
 
 

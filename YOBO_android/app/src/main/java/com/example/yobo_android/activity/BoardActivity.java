@@ -1,11 +1,17 @@
 package com.example.yobo_android.activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
@@ -23,9 +29,29 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
+        Toolbar toolbar = findViewById(R.id.board_toolbar);
+        toolbar.setTitle("YOBO");
+        setSupportActionBar(toolbar);
+
         init();
 
         getData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.toolbar_action, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search :
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void init() {

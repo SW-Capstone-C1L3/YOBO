@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.yobo_android.R;
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
+    private Button mBtnRecipeRecommendation;
+    private Button mBtnChoiceIngredient;
+    private Button mBtnRecipeCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +47,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.openDrawer(mNavigationView);
             }
         });
+
+        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
+        mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
+        mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
+
+        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent();
+                switch(v.getId()){
+                    case R.id.btnRecipeRecommendation:
+                        intent = new Intent(MainActivity.this, RecipeActivity.class);
+                        break;
+
+                    case R.id.btnChoiceIngredient:
+                        intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
+                        break;
+
+                    case R.id.btnRecipeCategory:
+                        intent = new Intent(MainActivity.this, BoardActivity.class);
+                        break;
+
+                }
+                startActivity(intent);
+            }
+        };
+        mBtnRecipeRecommendation.setOnClickListener(onClickListener);
+        mBtnChoiceIngredient.setOnClickListener(onClickListener);
+        mBtnRecipeCategory.setOnClickListener(onClickListener);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
+        Intent intent = new Intent();
         if (id == R.id.nav_enroll_recipe) {
-            Intent intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
+        }else if(id == R.id.nav_scrap_recipe){
+            intent = new Intent(MainActivity.this,BoardActivity.class);
         }
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
