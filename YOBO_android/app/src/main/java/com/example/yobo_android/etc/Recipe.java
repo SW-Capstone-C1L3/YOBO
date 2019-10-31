@@ -1,5 +1,9 @@
 package com.example.yobo_android.etc;
 
+/*
+* 레시피 객체
+ */
+
 public class Recipe {
 
     private String recipeId;

@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 
 import com.example.yobo_android.R;
 
+/*
+* RecipeActivity에 띄워지는 Fragment
+* 1번째 fragment로 레시피 메인 사진, 이름 등을 나타내는 UI
+ */
+
 public class RecipeMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

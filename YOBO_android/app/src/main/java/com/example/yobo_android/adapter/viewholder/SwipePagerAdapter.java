@@ -8,6 +8,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+/*
+* 밀어서 fragment를 전환하는데 사용되는 Adapter
+* 지금은 Acitivity 내의 Adapter class 생성으로 사용중, 즉 이 class 미사용중
+ */
+
 public class SwipePagerAdapter extends FragmentStatePagerAdapter{
 
     public SwipePagerAdapter(FragmentManager fm){

@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 
 import com.example.yobo_android.R;
 
+/*
+* MainActivity의 첫번째 layout에 띄워지는 Fragment
+* 요리 추천 UI를 띄워준다. 선택 시 RecipeActivity로 이동
+ */
 public class RecipeRecomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

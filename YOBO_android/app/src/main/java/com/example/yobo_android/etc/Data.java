@@ -1,5 +1,9 @@
 package com.example.yobo_android.etc;
 
+/*
+* data form(예제)
+ */
+
 public class Data {
 
     private String title;

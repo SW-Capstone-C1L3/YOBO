@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+* BoardActivity에서 목록을 구성하는 item viewholder를 만들어주는 Adapter
+*/
+
+
 // recylerView는 개발자가 어댑터를 직접 구현해야함. 반드시 RecyclerView.Adapter 상속해서 구현
 public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 

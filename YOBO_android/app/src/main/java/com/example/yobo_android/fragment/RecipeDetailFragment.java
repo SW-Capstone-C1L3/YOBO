@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 
 import com.example.yobo_android.R;
 
+/*
+* RecipeActivity에 띄워지는 Fragment
+* 2번째 fragment로 레시피의 상세정보제공 UI
+*/
+
 public class RecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

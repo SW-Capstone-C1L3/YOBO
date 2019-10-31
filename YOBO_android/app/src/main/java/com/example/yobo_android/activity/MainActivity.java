@@ -27,6 +27,13 @@ import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
 
+/*
+* 레시피 목록을 보여주는 BoardActivity
+* 1. RecipeDetailFragment로 요리추천 -> RecipeActivity로 이동
+* 2. 요리재료검색 선택 -> ChoiceIngredientActivity로 이동
+* 3. 요리카테고리검색 선택 -> CategorySearchActivity로 이동
+*/
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;

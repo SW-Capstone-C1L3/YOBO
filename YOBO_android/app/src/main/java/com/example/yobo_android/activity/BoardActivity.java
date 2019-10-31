@@ -1,16 +1,11 @@
 package com.example.yobo_android.activity;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 
 import com.example.yobo_android.R;
@@ -19,6 +14,12 @@ import com.example.yobo_android.etc.Recipe;
 
 import java.util.Arrays;
 import java.util.List;
+
+
+/*
+* 검색에 따른 레시피 목록을 보여주는 Activity
+* 레시피 item 선택 시 RecipeActivity 이동
+ */
 
 public class BoardActivity extends AppCompatActivity {
 

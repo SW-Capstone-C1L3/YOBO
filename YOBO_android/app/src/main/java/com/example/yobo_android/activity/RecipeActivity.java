@@ -35,6 +35,13 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+* 레시피 Activity
+* 1. RecipeMainFragment
+* 2. RecipeDetailFragment
+* 3. 이후 RecipeOrderFragment로 조리법 나열
+*/
+
 public class RecipeActivity extends FragmentActivity {
 
     private int NUM_PAGES = 3;
