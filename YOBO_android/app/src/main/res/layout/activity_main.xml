@@ -36,12 +36,12 @@
                 android:textColor="@android:color/background_light"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>
-        <Button
-            android:id="@+id/btnRecipeRecommendation"
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="레시피 추천" />
+            android:layout_height="80px"
+            android:layout_weight="1"/>
         <Button
             android:id="@+id/btnChoiceIngredient"
             android:layout_width="match_parent"

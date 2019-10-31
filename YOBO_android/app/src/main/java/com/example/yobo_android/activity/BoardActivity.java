@@ -29,29 +29,9 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        Toolbar toolbar = findViewById(R.id.board_toolbar);
-        toolbar.setTitle("YOBO");
-        setSupportActionBar(toolbar);
-
         init();
 
         getData();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.toolbar_action, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search :
-                return true;
-            default :
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void init() {
