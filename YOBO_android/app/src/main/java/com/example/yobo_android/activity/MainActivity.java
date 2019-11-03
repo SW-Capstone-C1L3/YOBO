@@ -74,6 +74,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //login test용 버튼
+        Button b =findViewById(R.id.loginbnt);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
+                        NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
+                startActivity(intent);            }
+        });
+
+
+
 //        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
         mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
