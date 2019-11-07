@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.fragment.RecipeDetailFragment;
@@ -27,14 +29,20 @@ public class RecipeActivity extends FragmentActivity {
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
 
+    private String recipeId = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
+        Intent intent = getIntent();
+        recipeId = intent.getExtras().getString("recipeId");
+
         mPager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
+
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
