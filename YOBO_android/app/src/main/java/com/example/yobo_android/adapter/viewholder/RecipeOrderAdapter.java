@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+/*
+* 필요 X
+*/
 public class RecipeOrderAdapter extends RecyclerView.Adapter<RecipeOrderAdapter.ItemViewHolder> {
 
     private ArrayList<RecipeOrder> listRecipeOrder = new ArrayList<>();

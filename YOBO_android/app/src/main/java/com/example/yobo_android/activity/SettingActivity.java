@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 import com.example.yobo_android.R;
 
+/*
+* 환경설정 Activity
+ */
+
 public class SettingActivity extends AppCompatActivity {
 
     @Override

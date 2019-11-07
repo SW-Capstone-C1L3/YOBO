@@ -10,6 +10,10 @@ import android.widget.ImageButton;
 
 import com.example.yobo_android.R;
 
+/*
+* 레시피를 작성하는 Activity
+ */
+
 public class EnrollRecipeActivity extends AppCompatActivity {
 
     @Override
