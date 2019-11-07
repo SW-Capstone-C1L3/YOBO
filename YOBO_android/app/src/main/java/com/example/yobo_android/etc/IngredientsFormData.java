@@ -1,20 +1,20 @@
 package com.example.yobo_android.etc;
 
 public class IngredientsFormData {
-    private String ingredientsText;
+    private String ingredientsName;
     private String ingredientsQuantity;
 
     public IngredientsFormData(String ingredientsText, String ingredientsQuantity) {
-        this.ingredientsText = ingredientsText;
+        this.ingredientsName = ingredientsText;
         this.ingredientsQuantity = ingredientsQuantity;
     }
 
-    public String getIngredientsText() {
-        return ingredientsText;
+    public String getIngredientsName() {
+        return ingredientsName;
     }
 
-    public void setIngredientsText(String ingredientsText) {
-        this.ingredientsText = ingredientsText;
+    public void setIngredientsName(String ingredientsName) {
+        this.ingredientsName = ingredientsName;
     }
 
     public String getIngredientsQuantity() {

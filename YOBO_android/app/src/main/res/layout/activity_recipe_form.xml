@@ -45,13 +45,13 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView8"
                 android:text="레시피 제목"
-                style="@style/RecipeTextViewFormStyle"/>
+                style="@style/RecipeFormTextViewStyle"/>
 
             <EditText
                 android:id="@+id/recipe_name"
@@ -67,25 +67,28 @@
             <TextView
                 android:id="@+id/textView9"
                 android:text="레시피 대표 사진"
-                style="@style/RecipeTextViewFormStyle"/>
+                style="@style/RecipeFormTextViewStyle"/>
 
             <ImageView
                 android:id="@+id/cooking_description_image"
                 android:layout_width="match_parent"
-                android:layout_height="250sp"/>
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_add_a_photo_24dp"/>
 
             <TextView
                 android:id="@+id/textView10"
                 android:text="레시피 간단 설명"
-                style="@style/RecipeTextViewFormStyle"/>
+                style="@style/RecipeFormTextViewStyle"/>
 
             <EditText
                 android:id="@+id/cooking_description"
                 android:layout_width="match_parent"
-                android:layout_height="100sp"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10sp"
                 android:gravity="start"
                 android:inputType="textMultiLine"
+                android:lines="5"
                 android:hint="레시피에 대한 간단 설명을 해주세요!"
                 android:textSize="15sp"
                 android:background="@null"/>
@@ -93,7 +96,7 @@
             <TextView
                 android:id="@+id/textView11"
                 android:text="주재료 정보"
-                style="@style/RecipeTextViewFormStyle"/>
+                style="@style/RecipeFormTextViewStyle"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mainIngredientFormRecyclerView"
@@ -109,7 +112,7 @@
             <TextView
                 android:id="@+id/textView12"
                 android:text="부재료 정보"
-                style="@style/RecipeTextViewFormStyle"/>
+                style="@style/RecipeFormTextViewStyle"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/subIngredientFormRecyclerView"
@@ -122,6 +125,45 @@
                 android:layout_gravity="center"
                 android:text="재료 추가"/>
 
+            <TextView
+                android:id="@+id/textView13"
+                android:text="레시피 순서"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipeSequenceFormRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/recipeSequenceFormAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="순서 추가"/>
+
+            <TextView
+                android:id="@+id/textView14"
+                android:text="카테고리 설정"
+                style="@style/RecipeFormTextViewStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/spinnerCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerCountry"/>
+                <View style="@style/ListDividerVertical"/>
+                <Spinner
+                    android:id="@+id/spinnerCookingType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerCookingType"/>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

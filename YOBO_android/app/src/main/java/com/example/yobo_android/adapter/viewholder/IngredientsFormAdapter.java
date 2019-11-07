@@ -32,7 +32,8 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         IngredientsFormData item = mDataList.get(position);
-        holder.ingredientNameText.setText(item.getIngredientsText());
+        holder.mIngredientNameText.setText(item.getIngredientsName());
+        holder.mIngredientQuantityText.setText(item.getIngredientsQuantity());
     }
 
     @Override
@@ -42,12 +43,12 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
 
     // ViewHolder 만든 것
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        EditText ingredientNameText;
-        EditText ingredientQuantityText;
+        EditText mIngredientNameText;
+        EditText mIngredientQuantityText;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ingredientNameText = itemView.findViewById(R.id.ingredientNameDescription);
-            ingredientQuantityText = itemView.findViewById(R.id.ingredientQuantityDescription);
+            mIngredientNameText = itemView.findViewById(R.id.ingredientNameText);
+            mIngredientQuantityText = itemView.findViewById(R.id.ingredientQuantityText);
         }
     }
 

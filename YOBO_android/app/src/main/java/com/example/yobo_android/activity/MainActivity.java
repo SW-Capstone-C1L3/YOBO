@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.btnRecipeCategory:
                         intent = new Intent(MainActivity.this, BoardActivity.class);
                         break;
-
                 }
                 startActivity(intent);
             }

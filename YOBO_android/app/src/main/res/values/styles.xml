@@ -10,8 +10,20 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+
+    <style name="ListDividerHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1sp</item>
+        <item name="android:background">#999999</item>
+    </style>
+
+    <style name="ListDividerVertical">
+        <item name="android:layout_width">1sp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#999999</item>
+    </style>
     
-    <style name="RecipeTextViewFormStyle">
+    <style name="RecipeFormTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40sp</item>
         <item name="android:paddingLeft">10sp</item>
@@ -22,6 +34,5 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

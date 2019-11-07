@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerCountry">
+        <item>[나라별]</item>
+        <item>한식</item>
+        <item>중식</item>
+        <item>일식</item>
+        <item>양식</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="spinnerCookingType">
+        <item>[조리별]</item>
+        <item>밥 요리</item>
+        <item>면 요리</item>
+        <item>국물 요리</item>
+        <item>구이</item>
+        <item>튀김</item>
+        <item>간식</item>
+        <item>반찬류</item>
+        <item>샐러드</item>
+        <item>디저트</item>
+        <item>기타</item>
+    </string-array>
+</resources>
