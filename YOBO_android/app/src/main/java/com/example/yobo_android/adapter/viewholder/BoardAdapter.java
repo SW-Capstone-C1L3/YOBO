@@ -61,11 +61,11 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         void onBind(Recipe recipe, int position) {
 
-            recipeName.setText(recipe.getRecipeName());
-            recipeSubContents.setText(recipe.getRecipeSubContents());
-            recipeWriter.setText(recipe.getRecipeWriter());
-            recipeScore.setText(""+recipe.getRecipeScore());
-            recipeImage.setImageResource(recipe.getRecipeImageId());
+            recipeName.setText(recipe.getName());
+            recipeSubContents.setText(recipe.getReciepSubDescription());
+            recipeWriter.setText(recipe.getWriter());
+            recipeScore.setText(""+recipe.getRating());
+//            recipeImage.setImageResource(recipe.getRecipeImageId());
 
             itemView.setOnClickListener(this);
         }
@@ -106,6 +106,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        // 현재 사용X
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
