@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -24,6 +27,7 @@ import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
 import com.example.yobo_android.etc.IngredientsFormData;
 import com.example.yobo_android.etc.RecipeSequenceFormData;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,14 +52,21 @@ public class RecipeFormActivity extends AppCompatActivity {
     Spinner mSpinnerCountry;
     Spinner mSpinnerCookingType;
 
+    EditText mEtRecipeName;
+    EditText mEtCookingDescription;
+
     String selectedCountry;
     String selectedCookingType;
     int tempPosForSequenceForm;
+    boolean flagCookingDescriptionImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_form);
+
+        mEtRecipeName = findViewById(R.id.recipe_name);
+        mEtCookingDescription = findViewById(R.id.cooking_description);
 
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
@@ -73,8 +84,11 @@ public class RecipeFormActivity extends AppCompatActivity {
         mBtnWriteRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
-                // 완료 버튼 눌렀을 때 DB와 서버에 레시피 등록 !!
+                saveRecyclerViewInfo();
+                if(checkInput()){
+                    //TODO
+                    // 완료 버튼 눌렀을 때 DB와 서버에 레시피 등록 !!
+                }
             }
         });
 
@@ -117,7 +131,6 @@ public class RecipeFormActivity extends AppCompatActivity {
         for(int i=0;i<3;i++)
             mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null,null));
 
-        // 이 부분 getApplicationContext() 로 했을 때 오류 났음 - JH
         recipeSequenceFormAdapter = new RecipeSequenceFormAdapter(mRecipeSequenceFormDataList);
         recipeSequenceFormAdapter.setOnItemClickListener(new RecipeSequenceFormAdapter.OnItemClickListener() {
             @Override
@@ -130,7 +143,6 @@ public class RecipeFormActivity extends AppCompatActivity {
             }
         });
         recipeSequenceFormRecyclerView.setAdapter(recipeSequenceFormAdapter);
-
     }
 
     private void setAddBtnForRecyclerViews() {
@@ -174,7 +186,7 @@ public class RecipeFormActivity extends AppCompatActivity {
             }
         });
         mSpinnerCookingType = findViewById(R.id.spinnerCookingType);
-        mSpinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerCookingType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCookingType = parent.getItemAtPosition(position).toString();
@@ -194,6 +206,7 @@ public class RecipeFormActivity extends AppCompatActivity {
             //사진 경로
             Uri imageUri = data.getData();
             Glide.with(this).load(imageUri.toString()).into(mImageCookingDescription);
+            flagCookingDescriptionImage = true;
 
         }else if(requestCode == 2000 && resultCode == RESULT_OK && data != null){
 
@@ -211,5 +224,60 @@ public class RecipeFormActivity extends AppCompatActivity {
 
     private boolean pictureSelected(int requestCode, int resultCode, @Nullable Intent data) {
         return requestCode == 1000 && resultCode == RESULT_OK && data != null;
+    }
+
+    public void saveRecyclerViewInfo(){
+        //TODO RecyclerView에 입력된 정보 한번에 저장
+    }
+
+    public boolean checkInput(){
+        boolean flag = true;
+        String snackBarMessage = null;
+
+        if(mEtRecipeName.length() == 0){
+            snackBarMessage = "레시피 제목을 입력해주세요 :(";
+        }else if(mEtCookingDescription.length() == 0){
+            snackBarMessage = "레시피 간단 설명을 입력해주세요 :(";
+        }else if(!flagCookingDescriptionImage){
+            snackBarMessage = "레시피 대표 사진을 등록해주세요 :(";
+        }else if(mainIngredientsCheck()){
+            snackBarMessage = "주재료 정보를 모두 입력해주세요 :(";
+        }else if(subIngredientsCheck()){
+            snackBarMessage = "부재료 정보를 모두 입력해주세요 :(";
+        }else if(recipeSequenceCheck()){
+            snackBarMessage = "레시피 순서를 모두 입력해주세요 :(";
+        }else if(mSpinnerCountry.getSelectedItem().toString().equals("[나라별]")){
+            snackBarMessage = "나라별 카테고리 설정을 해주세요 :(";
+        }else if(mSpinnerCookingType.getSelectedItem().toString().equals("[조리별]")){
+            snackBarMessage = "조리별 카테고리 설정을 해주세요 :(";
+        }
+
+        if(snackBarMessage != null) {
+            Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
+                    snackBarMessage, Snackbar.LENGTH_LONG);
+            make.setAction("확인", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            make.setActionTextColor(Color.GREEN);
+            make.show();
+            flag = false;
+        }
+        return flag;
+    }
+    public boolean mainIngredientsCheck(){
+        for(IngredientsFormData data : mMainIngredientsDataList){
+
+        }
+        return false;
+    }
+    public boolean subIngredientsCheck(){
+        //TODO 부재료 정보 확인
+        return false;
+    }
+    public boolean recipeSequenceCheck(){
+        //TODO 레시피 순서 정보 확인
+        return false;
     }
 }
