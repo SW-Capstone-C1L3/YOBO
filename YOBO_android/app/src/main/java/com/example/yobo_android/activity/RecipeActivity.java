@@ -1,120 +1,218 @@
 package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.ContentValues;
-import android.os.AsyncTask;
+import android.Manifest;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextClock;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.adapter.viewholder.RecipeOrderAdapter;
-import com.example.yobo_android.adapter.viewholder.SwipePagerAdapter;
-import com.example.yobo_android.etc.RecipeOrder;
+import com.example.yobo_android.fragment.ForthFragment;
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
+import me.relex.circleindicator.CircleIndicator;
+import java.util.ArrayList;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-
-public class RecipeActivity extends FragmentActivity {
-
-    private int NUM_PAGES = 3;
+public class RecipeActivity extends AppCompatActivity {
+    FragmentPagerAdapter adapterViewPager;
+    private Fragment[] fragment = new Fragment[4];
+    private int NUM_PAGES = 4;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
-
+    private static final String TAG2 ="MyTag2";
+    private static final String TAG ="MyTag";
+    final int PERMISSION = 1;
+    String message;
+    Intent intent;
+    SpeechRecognizer mRecognizer;
+    TextView textView;
+    ViewPager vpPager;
+    String result;
+    int cnt=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+        textView = findViewById(R.id.recipe);
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(pagerAdapter);
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
+        adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+
+        if ( Build.VERSION.SDK_INT >= 23 ){
+            // 퍼미션 체크
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET,
+                    Manifest.permission.RECORD_AUDIO},PERMISSION);
+        }
+
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(vpPager);
+        intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
     }
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 4;
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = new Fragment();
-            switch (position){
-                case 0:
-                    fragment = new RecipeMainFragment();
-                    break;
-                case 1:
-                    fragment = new RecipeDetailFragment();
-                    break;
-                case 2:
-                    fragment = new RecipeOrderFragment();
-                    break;
-            }
-            return fragment;
-        }
-
+        // Returns total number of pages
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return NUM_ITEMS;
         }
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return RecipeMainFragment.newInstance(0, "Page # 1");
+                case 1:
+                    return RecipeDetailFragment.newInstance(1, "Page # 2");
+                case 2:
+                    return RecipeOrderFragment.newInstance(2, "Page # 3");
+                case 3:
+                    return ForthFragment.newInstance(3, "Page # 4");
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
+
+    }
+    public void selectIndex(int nexIdx){
+        Log.i("aaaaaaa","selectItem 입장");
+        vpPager.setCurrentItem(nexIdx,true);
     }
 
-    // XXXXXXXX
-    /*private void init(){
-        RecyclerView recyclerView = findViewById(R.id.recyclerRecipeOrderView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecipeOrderAdapter();
-        recyclerView.setAdapter(adapter);
+    public void start(){
+        Log.i("aaaaaaaa", "start");
+        mRecognizer = SpeechRecognizer.createSpeechRecognizer(RecipeActivity.this);
+        mRecognizer.setRecognitionListener(listener);
+        mRecognizer.startListening(intent);
+        Log.i(TAG, "음성인식 시작");
+
     }
-
-    private void getData(){
-        List<Integer> listResId = Arrays.asList(
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground,
-                R.drawable.ic_launcher_foreground
-        );
-        for(int i=0;i<10;i++){
-            RecipeOrder recipeOrder = new RecipeOrder();
-            recipeOrder.setRecipeOrderImageId(listResId.get(i));
-            recipeOrder.setRecipeOrderNumber(""+i);
-            recipeOrder.setRecipeOrderDescription("설명ㅁㅁㄻㄻㄻㄻㄻㄻㄹㄴㄻㄹ");
-
-            adapter.addItem(recipeOrder);
+    ///********************************여기서부터 추가
+    private RecognitionListener listener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle params) {
+            Toast.makeText(getApplicationContext(),"음성인식을 시작합니다.",Toast.LENGTH_SHORT).show();
         }
-        adapter.notifyDataSetChanged();
-    }*/
+
+        @Override
+        public void onBeginningOfSpeech() {
+            Log.i(TAG2,"onBeginningOfSpeech");
+        }
+
+        @Override
+        public void onRmsChanged(float rmsdB) {
+            float f = rmsdB*100;
+            if(f>900) {
+                String str = Float.toString(rmsdB * 100);
+                Log.i(TAG, str);
+            }
+        }
+
+        @Override
+        public void onBufferReceived(byte[] buffer) {
+            Log.i(TAG2,"onBufferReceived");
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            Log.i(TAG2,"onBufferReceived");
+        }
+
+        @Override
+        public void onError(int error) {
+            switch (error) {
+                case SpeechRecognizer.ERROR_AUDIO:
+                    message = "오디오 에러";
+                    break;
+                case SpeechRecognizer.ERROR_CLIENT:
+                    message = "클라이언트 에러";
+                    break;
+                case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                    message = "퍼미션 없음";
+                    break;
+                case SpeechRecognizer.ERROR_NETWORK:
+                    message = "네트워크 에러";
+                    break;
+                case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                    message = "네트웍 타임아웃";
+                    break;
+                case SpeechRecognizer.ERROR_NO_MATCH:
+                    message = "찾을 수 없음";
+                    break;
+                case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+                    message = "RECOGNIZER가 바쁨";
+                    break;
+                case SpeechRecognizer.ERROR_SERVER:
+                    message = "서버가 이상함";
+                    break;
+                case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                    message = "말하는 시간초과";
+                    break;
+                default:
+                    message = "알 수 없는 오류임";
+                    break;
+            }
+            Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message,Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onResults(Bundle results) {
+            // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줍니다.
+            ArrayList<String> matches =
+                    results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            result="";
+            for(int i = 0; i < matches.size() ; i++){
+                //textView.setText(matches.get(i));
+                result+=matches.get(i);
+            }
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+            Log.i("aaaaaaaa",result);
+            if(result.equals("다음")) {
+                Log.i("aaaaaaaa","if문안에 들어옴touch");
+                //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
+                mRecognizer.stopListening();
+                selectIndex(++cnt);
+            }
+            else if(result.equals("다시")){
+                //Log.i("ddddddddddddddd",String.valueOf(cnt));
+                Log.i("ddddddddddddddd","다시");
+                adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+                vpPager.setAdapter(adapterViewPager);
+                selectIndex(cnt);
+            }
+        }
+
+        @Override
+        public void onPartialResults(Bundle partialResults) {}
+
+        @Override
+        public void onEvent(int eventType, Bundle params) {}
+    };
 }

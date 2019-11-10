@@ -7,9 +7,27 @@
     android:orientation="vertical"
     tools:context=".activity.RecipeActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        app:ci_drawable="@drawable/black_radius"
+        app:ci_height="7dp"
+        app:ci_width="7dp"
+        app:ci_margin="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="48sp">
+    </me.relex.circleindicator.CircleIndicator>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnOnOff"
+        android:layout_width="150sp"
+        android:layout_height="50sp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="말하기 On/Off" />
 
 </LinearLayout>
