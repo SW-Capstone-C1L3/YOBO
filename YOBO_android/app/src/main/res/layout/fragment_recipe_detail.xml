@@ -15,13 +15,35 @@
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="요리카테고리" />
+            android:text="요리카테고리"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ex) 한식,밥"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/재료"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="재료"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="주재료"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/mainIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ex)고기,고추장,양파"
             android:textSize="18sp" />
 
         <TextView
@@ -29,30 +51,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="부재료"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/subIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ex)파,참깨"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView7"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="난이도" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/serving"
+                android:layout_width="wrap_content"
+                android:layout_height="70sp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="몇인분"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/difficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="70sp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="난이도"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="70sp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="평점
+"
+                android:textSize="30sp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="몇인분" />
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="요리순서?" />
+            android:text="요리순서"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="리사이클러뷰 써야할듯"
+            android:textSize="18sp" />
     </LinearLayout>
+
 </LinearLayout>

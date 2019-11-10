@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.activity.RecipeActivity;
 
 /*
 * RecipeActivity에 띄워지는 Fragment
@@ -16,6 +19,7 @@ import com.example.yobo_android.R;
 */
 
 public class RecipeDetailFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -23,4 +27,5 @@ public class RecipeDetailFragment extends Fragment {
 
         return rootView;
     }
+
 }

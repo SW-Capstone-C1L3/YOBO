@@ -35,11 +35,12 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+
     implementation files('libs/naveridlogin_android_sdk_4.2.5.aar')
 
     implementation 'com.android.support:appcompat-v7:28.0.3'
     implementation 'com.android.support:support-core-utils:28.0.3'
     implementation 'com.android.support:customtabs:28.0.3'
-    implementation 'com.android.support:support-v4:28.0.3'
+    implementation 'com.android.support:support-v4:28.0.3
 
 }
