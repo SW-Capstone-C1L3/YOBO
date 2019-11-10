@@ -19,7 +19,7 @@ import com.example.yobo_android.activity.RecipeActivity;
 */
 
 public class RecipeDetailFragment extends Fragment {
-
+    Button btn;
     // newInstance constructor for creating fragment with arguments
     public static RecipeDetailFragment newInstance(int page, String title) {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
@@ -34,6 +34,13 @@ public class RecipeDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+        btn =(Button)view.findViewById(R.id.btn_startRecipe);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((RecipeActivity)getActivity()).selectIndex(2);
+            }
+        });
         return view;
     }
 }

@@ -76,7 +76,6 @@ public class BoardActivity extends AppCompatActivity {
             try {
                 //GET Request
                 return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=1");
-
                 // POST Request
 //                JSONObject postDataParams = new JSONObject();
 //                postDataParams.put("name", "Manjeet");
