@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+* BoardActivity에서 목록을 구성하는 item viewholder를 만들어주는 Adapter
+*/
+
+
 // recylerView는 개발자가 어댑터를 직접 구현해야함. 반드시 RecyclerView.Adapter 상속해서 구현
 public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -38,6 +43,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     // 즉 item view를 저장하는 뷰홀드 클래스
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private String recipeId;
         private TextView recipeName;
         private TextView recipeSubContents;
         private TextView recipeWriter;
@@ -56,11 +62,12 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         void onBind(Recipe recipe, int position) {
 
-            recipeName.setText(recipe.getRecipeName());
-            recipeSubContents.setText(recipe.getRecipeSubContents());
-            recipeWriter.setText(recipe.getRecipeWriter());
-            recipeScore.setText(""+recipe.getRecipeScore());
-            recipeImage.setImageResource(recipe.getRecipeImageId());
+            recipeId = recipe.getRecipeId();
+            recipeName.setText(recipe.getName());
+            recipeSubContents.setText(recipe.getReciepSubDescription());
+            recipeWriter.setText(recipe.getWriter());
+            recipeScore.setText(""+recipe.getRating());
+//            recipeImage.setImageResource(recipe.getRecipeImageId());
 
             itemView.setOnClickListener(this);
         }
@@ -72,6 +79,9 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
                 //getAdapterPosition();
                 Intent intent = new Intent(context, RecipeActivity.class);
+
+                //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
+                intent.putExtra("recipeId",recipeId);
                 context.startActivity(intent);
             }
         }
@@ -101,6 +111,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        // 현재 사용X
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }

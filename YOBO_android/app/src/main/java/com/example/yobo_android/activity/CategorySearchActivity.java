@@ -9,6 +9,11 @@ import android.widget.Button;
 
 import com.example.yobo_android.R;
 
+/*
+* 카테고리로 요리를 검색하는 Activity
+* 카테고리 선택시 BoardActivity로 이동
+ */
+
 public class CategorySearchActivity extends AppCompatActivity {
 
     private Button mBtnKorean;

@@ -8,10 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
 
+/*
+* RecipeActivity에 띄워지는 Fragment
+* 2번째 fragment로 레시피의 상세정보제공 UI
+*/
 
 public class RecipeDetailFragment extends Fragment {
 
@@ -20,14 +25,11 @@ public class RecipeDetailFragment extends Fragment {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
         return fragment;
     }
-
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-    // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

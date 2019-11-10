@@ -1,22 +1,50 @@
 package com.example.yobo_android.etc;
 
+/*
+* 레시피 객체
+ */
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Recipe {
 
-    private String recipeId;
-    private String recipeName;
-    private String recipeSubContents;
-    private String recipeWriter;
-    private int recipeScore;
-    private int recipeImageId;
-    //private ? recipeImage
+    private String recipeId; // doc_id
+    private String name; // recipe_name
+    private String writer;
+    private int difficulty;
+    private float rating;
+    private String recipeImageId;
+    private String reciepSubDescription;
+//    private String[] category;
+    private int serving;
+//    private JSONArray cooking_description;
+//    private JSONArray cooking_ingredient;
+//    private JSONArray sub_cooking_ingredient;
 
 
-    public int getRecipeImageId() {
-        return recipeImageId;
+    public int getServing() {
+        return serving;
     }
 
-    public void setRecipeImageId(int recipeImageId) {
-        this.recipeImageId = recipeImageId;
+    public void setServing(int serving) {
+        this.serving = serving;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public String getWriter() {
+        return writer;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
     }
 
     public String getRecipeId() {
@@ -27,35 +55,35 @@ public class Recipe {
         this.recipeId = recipeId;
     }
 
-    public String getRecipeName() {
-        return recipeName;
+    public String getName() {
+        return name;
     }
 
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getRecipeSubContents() {
-        return recipeSubContents;
+    public float getRating() {
+        return rating;
     }
 
-    public void setRecipeSubContents(String recipeSubContents) {
-        this.recipeSubContents = recipeSubContents;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
-    public String getRecipeWriter() {
-        return recipeWriter;
+    public String getRecipeImageId() {
+        return recipeImageId;
     }
 
-    public void setRecipeWriter(String recipeWriter) {
-        this.recipeWriter = recipeWriter;
+    public void setRecipeImageId(String recipeImageId) {
+        this.recipeImageId = recipeImageId;
     }
 
-    public int getRecipeScore() {
-        return recipeScore;
+    public String getReciepSubDescription() {
+        return reciepSubDescription;
     }
 
-    public void setRecipeScore(int recipeScore) {
-        this.recipeScore = recipeScore;
+    public void setReciepSubDescription(String reciepSubDescription) {
+        this.reciepSubDescription = reciepSubDescription;
     }
 }

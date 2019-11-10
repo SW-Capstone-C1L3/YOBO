@@ -13,6 +13,11 @@ import android.widget.TextView;
 
 import com.example.yobo_android.R;
 
+/*
+* RecipeActivity에 띄워지는 Fragment
+* 1번째 fragment로 레시피 메인 사진, 이름 등을 나타내는 UI
+ */
+
 public class RecipeMainFragment extends Fragment {
     // newInstance constructor for creating fragment with arguments
     public static RecipeMainFragment newInstance(int page, String title) {

@@ -11,10 +11,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +26,13 @@ import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
+
+/*
+* 레시피 목록을 보여주는 BoardActivity
+* 1. RecipeDetailFragment로 요리추천 -> RecipeActivity로 이동
+* 2. 요리재료검색 선택 -> ChoiceIngredientActivity로 이동
+* 3. 요리카테고리검색 선택 -> CategorySearchActivity로 이동
+*/
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -66,6 +73,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.openDrawer(mNavigationView);
             }
         });
+
+        //login test용 버튼
+        Button b =findViewById(R.id.loginbnt);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
+                        NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
+                startActivity(intent);            }
+        });
+
+
 
 //        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
         mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
@@ -87,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.btnRecipeCategory:
                         intent = new Intent(MainActivity.this, CategorySearchActivity.class);
                         break;
-
                 }
                 startActivity(intent);
             }

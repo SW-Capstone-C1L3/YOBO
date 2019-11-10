@@ -2,8 +2,10 @@ package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -21,11 +23,21 @@ import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.fragment.ForthFragment;
+
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
 import me.relex.circleindicator.CircleIndicator;
 import java.util.ArrayList;
+
+/*
+* 레시피 Activity
+* 1. RecipeMainFragment
+* 2. RecipeDetailFragment
+* 3. 이후 RecipeOrderFragment로 조리법 나열
+*/
 
 public class RecipeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
@@ -43,6 +55,7 @@ public class RecipeActivity extends AppCompatActivity {
     ViewPager vpPager;
     String result;
     int cnt=2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +77,14 @@ public class RecipeActivity extends AppCompatActivity {
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
+
     }
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 4;
-
+        
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
+
         }
 
         // Returns total number of pages
@@ -92,6 +107,7 @@ public class RecipeActivity extends AppCompatActivity {
                 default:
                     return null;
             }
+
         }
 
         // Returns the page title for the top indicator
@@ -112,7 +128,6 @@ public class RecipeActivity extends AppCompatActivity {
         mRecognizer.setRecognitionListener(listener);
         mRecognizer.startListening(intent);
         Log.i(TAG, "음성인식 시작");
-
     }
     ///********************************여기서부터 추가
     private RecognitionListener listener = new RecognitionListener() {

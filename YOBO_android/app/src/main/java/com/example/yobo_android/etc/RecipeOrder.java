@@ -1,5 +1,9 @@
 package com.example.yobo_android.etc;
 
+
+/*
+* 필요 X
+ */
 public class RecipeOrder {
 
     private String recipeOrderId;
