@@ -11,7 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/Full">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.RecipeFormActivity"/>
         <activity android:name=".activity.CategorySearchActivity"/>
         <activity android:name=".activity.EnrollRecipeActivity" />
@@ -21,13 +29,6 @@
         <activity android:name=".activity.RecipeActivity" />
         <activity android:name=".activity.NaverLoginActivity"/>
         <activity android:name=".activity.MainActivity">
-
-
-        <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
