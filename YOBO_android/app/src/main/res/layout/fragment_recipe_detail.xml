@@ -89,8 +89,7 @@
                 android:layout_height="70sp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="평점
-"
+                android:text="평점"
                 android:textSize="30sp" />
         </LinearLayout>
 
@@ -109,4 +108,10 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/btn_startRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="요리 시작" />
 </LinearLayout>
