@@ -34,14 +34,13 @@ import java.util.List;
 public class BoardActivity extends AppCompatActivity {
 
     private BoardAdapter adapter;
-    private TextView tv4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        init();
+        recyclerViewInit();
         new RequestAsync().execute();
 
      }
@@ -97,7 +96,7 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private void init() {
+    private void recyclerViewInit() {
         RecyclerView recyclerView = findViewById(R.id.recyclerBoardView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

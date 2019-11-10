@@ -44,19 +44,25 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pagerMain"
             android:layout_width="match_parent"
-            android:layout_height="80px"
-            android:layout_weight="1"/>
+            android:layout_height="80sp"
+            android:layout_weight="1"
+            />
+
         <Button
             android:id="@+id/btnChoiceIngredient"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80sp"
             android:layout_weight="1"
-            android:text="재료 선택 " />
+            android:background="@drawable/choice_ingredient"
+            android:text="재료 선택"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnRecipeCategory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80sp"
             android:layout_weight="1"
             android:text="카테고리" />
 
