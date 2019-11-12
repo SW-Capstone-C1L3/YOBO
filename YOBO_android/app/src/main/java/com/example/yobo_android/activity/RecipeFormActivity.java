@@ -228,6 +228,14 @@ public class RecipeFormActivity extends AppCompatActivity {
 
     public void saveRecyclerViewInfo(){
         //TODO RecyclerView에 입력된 정보 한번에 저장
+        for(IngredientsFormData data : mMainIngredientsDataList){
+            Log.i("TEST",data.getIngredientsName());
+            Log.i("TEST2", data.getIngredientsQuantity());
+        }
+        for(IngredientsFormData data : mSubIngredientsDataList){
+            Log.i("TEST3",data.getIngredientsName());
+            Log.i("TEST4", data.getIngredientsQuantity());
+        }
     }
 
     public boolean checkInput(){
@@ -242,8 +250,6 @@ public class RecipeFormActivity extends AppCompatActivity {
             snackBarMessage = "레시피 대표 사진을 등록해주세요 :(";
         }else if(mainIngredientsCheck()){
             snackBarMessage = "주재료 정보를 모두 입력해주세요 :(";
-        }else if(subIngredientsCheck()){
-            snackBarMessage = "부재료 정보를 모두 입력해주세요 :(";
         }else if(recipeSequenceCheck()){
             snackBarMessage = "레시피 순서를 모두 입력해주세요 :(";
         }else if(mSpinnerCountry.getSelectedItem().toString().equals("[나라별]")){
@@ -267,15 +273,15 @@ public class RecipeFormActivity extends AppCompatActivity {
         return flag;
     }
     public boolean mainIngredientsCheck(){
-        for(IngredientsFormData data : mMainIngredientsDataList){
+        for(int i=0; i<mMainIngredientsDataList.size(); i++){
+            if(mMainIngredientsDataList.get(i).getIngredientsName().equals("")
+            || mMainIngredientsDataList.get(i).getIngredientsQuantity().equals("")){
+                return true;
+            }
+       }
+        return false;
+    }
 
-        }
-        return false;
-    }
-    public boolean subIngredientsCheck(){
-        //TODO 부재료 정보 확인
-        return false;
-    }
     public boolean recipeSequenceCheck(){
         //TODO 레시피 순서 정보 확인
         return false;
