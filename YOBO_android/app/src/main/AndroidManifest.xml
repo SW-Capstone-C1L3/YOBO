@@ -29,6 +29,7 @@
         <activity android:name=".activity.RecipeActivity" />
         <activity android:name=".activity.NaverLoginActivity"/>
         <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.ShowIngredientActivity"/>
         <activity android:name=".activity.ShopIngredientActivity">
         </activity>
     </application>

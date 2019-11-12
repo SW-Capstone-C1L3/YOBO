@@ -1,68 +1,48 @@
 package com.example.yobo_android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.yobo_android.R;
+import com.example.yobo_android.fragment.BottomSheetFragment;
 
-public class ShopIngredientActivity extends AppCompatActivity {
-    private Button mBtnIng1;
-    private Button mBtnIng2;
-    private Button mBtnIng3;
-    private Button mBtnIng4;
+
+public class ShowIngredientActivity extends AppCompatActivity{
+
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
-    MenuItem mSearch;
+    private Button mBuy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_ingredient);
+        setContentView(R.layout.activity_show_ingredient);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mBtnIng1 = findViewById(R.id.btnIng1);
-        mBtnIng2 = findViewById(R.id.btnIng2);
-        mBtnIng3 = findViewById(R.id.btnIng3);
-        mBtnIng4 = findViewById(R.id.btnIng4);
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
-        Button.OnClickListener onClickListener = new Button.OnClickListener() {
+        mBuy = findViewById(R.id.btnBuy);
+        mBuy.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                switch (v.getId()) {
-                    case R.id.btnIng1:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                    case R.id.btnIng2:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                    case R.id.btnIng3:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                    case R.id.btnIng4:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                }
-                //재료의 정보를 넘겨줘야됨
-                startActivity(intent);
+            public void onClick(View view) {
+                BottomSheetFragment fragment = new BottomSheetFragment();
+                fragment.show(getSupportFragmentManager(), "TAG");
             }
-
-        };
-        mBtnIng1.setOnClickListener(onClickListener);
-        mBtnIng2.setOnClickListener(onClickListener);
-        mBtnIng3.setOnClickListener(onClickListener);
-        mBtnIng4.setOnClickListener(onClickListener);
+        });
     }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -77,7 +57,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("hhhhhhhhhhhhhhhh","title gone");
                 mtoolbarTitle.setVisibility(View.GONE);
             }
         });
@@ -85,29 +64,10 @@ public class ShopIngredientActivity extends AppCompatActivity {
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                Log.i("hhhhhhhhhhhhhhhh","title visible");
                 mtoolbarTitle.setVisibility(View.VISIBLE);
                 return false;
             }
         });
-
-//        //메뉴 아이콘 클릭했을 시 확장, 취소했을 시 축소
-//        mSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                TextView text=(TextView)findViewById(R.id.txtstatus);
-//                text.setText("현재 상태 : 확장됨");
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                TextView text=(TextView)findViewById(R.id.txtstatus);
-//                text.setText("현재 상태 : 축소됨");
-//                return true;
-//            }
-//        });
-
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //
@@ -116,7 +76,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);
                 //text.setText(query + "를 검색합니다.");
-
                 return true;
             }
 
@@ -125,7 +84,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 //TextView text = (TextView) findViewById(R.id.txtsearch);
                 //text.setText("검색식 : " + newText);
-
                 return true;
             }
         });
