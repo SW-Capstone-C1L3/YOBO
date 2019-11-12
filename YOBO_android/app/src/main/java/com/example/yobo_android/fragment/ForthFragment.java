@@ -41,7 +41,7 @@ public class ForthFragment extends Fragment implements View.OnClickListener, Tex
     // newInstance constructor for creating fragment with arguments
     public static ForthFragment newInstance(int page, String title) {
         ForthFragment fragment = new ForthFragment();
-        Log.i("cccccccccccc4",String.valueOf(page));
+        Log.i("ccccccccccc","4frag new instance");
         return fragment;
     }
     // Inflate the view for the fragment based on layout XML
@@ -56,22 +56,29 @@ public class ForthFragment extends Fragment implements View.OnClickListener, Tex
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent,MY_DATA_CHECK);
+        Log.i("ccccccccccc","4frag onCreateView");
         return view;
+    }
+
+    public void onViewCreated (View view,
+                               Bundle savedInstanceState){
+        Log.i("cccccccccc","4Frag onViewCreated called");
     }
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("ccccccccccc","4frag onCreate");
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser){
         if(isVisibleToUser){
-            Log.i("aaaaaaaaaaaaaa","현재 4frag가 보여짐");
+            Log.i("ccccccccccc","현재 4frag가 보여짐");
             Speech();
         }
         else{
-            Log.i("aaaaaaaaaaaaa","현재 4frag가 보여지지 않음");
+            Log.i("ccccccccccc","현재 4frag가 보여지지 않음");
         }
         super.setUserVisibleHint(isVisibleToUser);
     }

@@ -17,7 +17,7 @@
         android:id="@+id/btnOnOff"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:text="OnOff" />
+        android:text="말하기" />
     <TextView
         android:id="@+id/recipe"
         android:layout_width="match_parent"

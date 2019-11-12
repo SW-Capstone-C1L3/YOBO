@@ -48,6 +48,8 @@ public class RecipeDetailFragment extends Fragment {
     private TextView detailRecipeSubIngredient;
     private RecyclerView recyclerView;
 
+    Button btn;
+
     // newInstance constructor for creating fragment with arguments
     public static RecipeDetailFragment newInstance(String recipeId) {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
@@ -149,6 +151,14 @@ public class RecipeDetailFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerRecipeDetailView);
 
         recyclerViewInit();
+        btn =(Button)view.findViewById(R.id.btn_startRecipe);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((RecipeActivity)getActivity()).selectIndex(2);
+            }
+        });
+
         return view;
     }
 
