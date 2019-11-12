@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.yobo_android.R;
 
@@ -16,10 +17,10 @@ import com.example.yobo_android.R;
 
 public class CategorySearchActivity extends AppCompatActivity {
 
-    private Button mBtnKorean;
-    private Button mBtnWestern;
-    private Button mBtnChinese;
-    private Button mBtnJapanese;
+    private TextView mBtnKorean;
+    private TextView mBtnWestern;
+    private TextView mBtnChinese;
+    private TextView mBtnJapanese;
     // private Button mBtn
 
     @Override

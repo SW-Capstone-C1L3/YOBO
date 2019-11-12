@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,13 +55,15 @@ public class BoardActivity extends AppCompatActivity {
 
                 JSONObject recipe = recipeList.getJSONObject(i);
 
+                JSONArray descriptionInfo = recipe.getJSONArray("cooking_description");
+
                 recipeItem.setRecipeId(recipe.getString("_id"));
                 recipeItem.setName(recipe.getString("recipe_name"));
                 recipeItem.setWriter(recipe.getString("writer_id"));
                 recipeItem.setDifficulty(recipe.getInt("difficulty"));
                 recipeItem.setRating(recipe.getLong("rating"));
-//                recipe_category = recipe.get
                 recipeItem.setServing(recipe.getInt("serving"));
+                recipeItem.setDescriptionNum(descriptionInfo.length() + 2);
 
                 adapter.addItem(recipeItem);
             }
@@ -75,7 +78,7 @@ public class BoardActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 //GET Request
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=1");
+                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");
 
                 // POST Request
 //                JSONObject postDataParams = new JSONObject();
@@ -105,5 +108,4 @@ public class BoardActivity extends AppCompatActivity {
         adapter = new BoardAdapter();
         recyclerView.setAdapter(adapter);
     }
-
 }

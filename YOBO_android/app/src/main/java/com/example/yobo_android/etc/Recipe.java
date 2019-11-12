@@ -19,9 +19,18 @@ public class Recipe {
 //    private String[] category;
     private int serving;
 //    private JSONArray cooking_description;
+    private int DescriptionNum;
 //    private JSONArray cooking_ingredient;
 //    private JSONArray sub_cooking_ingredient;
 
+
+    public int getDescriptionNum() {
+        return DescriptionNum;
+    }
+
+    public void setDescriptionNum(int descriptionNum) {
+        DescriptionNum = descriptionNum;
+    }
 
     public int getServing() {
         return serving;

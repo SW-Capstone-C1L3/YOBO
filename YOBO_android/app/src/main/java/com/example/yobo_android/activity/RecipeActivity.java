@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.api.RequestHttpURLConnection;
+import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.RecipeOrder;
 import com.example.yobo_android.fragment.ForthFragment;
 
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -29,6 +33,12 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
+import com.example.yobo_android.fragment.TestFragment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import me.relex.circleindicator.CircleIndicator;
 import java.util.ArrayList;
 
@@ -41,8 +51,8 @@ import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
-    private Fragment[] fragment = new Fragment[4];
-    private int NUM_PAGES = 4;
+//    private Fragment[] fragment = new Fragment[4];
+//    private static int NUM_PAGES;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private static final String TAG2 ="MyTag2";
@@ -51,16 +61,21 @@ public class RecipeActivity extends AppCompatActivity {
     String message;
     Intent intent;
     SpeechRecognizer mRecognizer;
-    TextView textView;
     ViewPager vpPager;
     String result;
     int cnt=2;
+
+    private static String recipeId;
+    private static int recipeDescriptionNum;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-        textView = findViewById(R.id.recipe);
+
+        recipeId = getIntent().getStringExtra("recipeId");
+        recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
@@ -77,14 +92,9 @@ public class RecipeActivity extends AppCompatActivity {
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
-
     }
-
-
-
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 4;
-        
+//        private static int NUM_ITEMS = 10;
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
 
@@ -93,22 +103,22 @@ public class RecipeActivity extends AppCompatActivity {
         // Returns total number of pages
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            return recipeDescriptionNum;
         }
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return RecipeMainFragment.newInstance(0, "Page # 1");
+                    return RecipeMainFragment.newInstance(recipeId);//recipe.getName(), recipe.getWriter(), recipe.getReciepSubDescription());
                 case 1:
-                    return RecipeDetailFragment.newInstance(1, "Page # 2");
-                case 2:
-                    return RecipeOrderFragment.newInstance(2, "Page # 3");
-                case 3:
-                    return ForthFragment.newInstance(3, "Page # 4");
+                    return RecipeDetailFragment.newInstance(recipeId);
+//                case 2:
+//                    return RecipeOrderFragment.newInstance(2, "Page # 3");
+//                case 3:
+//                    return ForthFragment.newInstance(3, "Page # 4");
                 default:
-                    return null;
+                    return TestFragment.newInstance("asd","asd");
             }
 
         }
