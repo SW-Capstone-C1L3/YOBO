@@ -236,6 +236,9 @@ public class RecipeFormActivity extends AppCompatActivity {
             Log.i("TEST3",data.getIngredientsName());
             Log.i("TEST4", data.getIngredientsQuantity());
         }
+        for(RecipeSequenceFormData data : mRecipeSequenceFormDataList){
+            Log.i("TEST5",data.getRecipeSequenceFormDescription());
+        }
     }
 
     public boolean checkInput(){
@@ -283,7 +286,12 @@ public class RecipeFormActivity extends AppCompatActivity {
     }
 
     public boolean recipeSequenceCheck(){
-        //TODO 레시피 순서 정보 확인
+        for(int i=0; i<mRecipeSequenceFormDataList.size(); i++){
+            if(mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormDescription().equals("")
+            || mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormImageId() == null){
+                return true;
+            }
+        }
         return false;
     }
 }
