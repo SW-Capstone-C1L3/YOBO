@@ -17,12 +17,17 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.fragment.RecipeDetailFragment;
@@ -40,18 +45,21 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    MenuItem mSearch;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
 //    private Button mBtnRecipeRecommendation;
     private Button mBtnChoiceIngredient;
     private Button mBtnRecipeCategory;
-
+    private Button mBtnShop;
+    private TextView mtoolbarTitle;
     // for recipe recommendation
     private int NUM_PAGES = 3;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
-
+    private ImageButton mBtnOpen;
+    private Button mBtnLogin;
 
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -65,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -74,11 +81,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
+        mtoolbarTitle = findViewById(R.id.toolbar_title);
         mPager = (ViewPager) findViewById(R.id.pagerMain);
         pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
 
-        ImageButton mBtnOpen = findViewById(R.id.menuImageButton);
+        mBtnOpen = findViewById(R.id.menuImageButton);
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //login test용 버튼
-        Button b =findViewById(R.id.loginbnt);
-        b.setOnClickListener(new View.OnClickListener() {
+        mBtnLogin =findViewById(R.id.loginbnt);
+        mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
@@ -101,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
         mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
-
+        mBtnShop = findViewById(R.id.btnShop);
         Button.OnClickListener onClickListener = new Button.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -118,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.btnRecipeCategory:
                         intent = new Intent(MainActivity.this, CategorySearchActivity.class);
                         break;
+
+                    case R.id.btnShop:
+                        intent = new Intent(MainActivity.this, ShopIngredientActivity.class);
+                        break;
                 }
                 startActivity(intent);
             }
@@ -125,6 +137,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        mBtnRecipeRecommendation.setOnClickListener(onClickListener);
         mBtnChoiceIngredient.setOnClickListener(onClickListener);
         mBtnRecipeCategory.setOnClickListener(onClickListener);
+        mBtnShop.setOnClickListener(onClickListener);
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        //search_menu.xml 등록
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_action, menu);
+        final MenuItem mSearch = menu.findItem(R.id.action_search);
+        SearchView searchView = (android.widget.SearchView) mSearch.getActionView();
+
+        // Detect SearchView icon clicks
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("hhhhhhhhhhhhhhhh","title gone");
+                mtoolbarTitle.setVisibility(View.GONE);
+                mBtnLogin.setVisibility(View.GONE);
+            }
+        });
+        // Detect SearchView close
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.i("hhhhhhhhhhhhhhhh","title visible");
+                mtoolbarTitle.setVisibility(View.VISIBLE);
+                mBtnLogin.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+//        //메뉴 아이콘 클릭했을 시 확장, 취소했을 시 축소
+//        mSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                TextView text=(TextView)findViewById(R.id.txtstatus);
+//                text.setText("현재 상태 : 확장됨");
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                TextView text=(TextView)findViewById(R.id.txtstatus);
+//                text.setText("현재 상태 : 축소됨");
+//                return true;
+//            }
+//        });
+
+        SearchView sv = (SearchView) mSearch.getActionView();
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //
+//            //검색버튼을 눌렀을 경우
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //TextView text = (TextView) findViewById(R.id.txtresult);
+                //text.setText(query + "를 검색합니다.");
+
+                return true;
+            }
+
+            //텍스트가 바뀔때마다 호출
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //TextView text = (TextView) findViewById(R.id.txtsearch);
+                //text.setText("검색식 : " + newText);
+
+                return true;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -141,6 +227,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     @Override
     public void onBackPressed() {

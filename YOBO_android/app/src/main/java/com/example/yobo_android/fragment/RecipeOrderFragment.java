@@ -42,11 +42,12 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String TAG ="MyTag";
     TextView tvLabel;
     public RecipeOrderFragment(){
-
+        Log.i("cccccccccccc","RecipeOrder created");
     }
     // newInstance constructor for creating fragment with arguments
     public static RecipeOrderFragment newInstance(int page, String title) {
         RecipeOrderFragment fragment = new RecipeOrderFragment();
+        Log.i("ccccccccccc","recipeorder new instance");
         return fragment;
     }
 
@@ -63,22 +64,29 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent,MY_DATA_CHECK);
+        Log.i("ccccccccccc","recipeorder onCreateView");
         return view;
+    }
+    public void onViewCreated (View view,
+                        Bundle savedInstanceState){
+        Log.i("cccccccccc","RecipeOrderFrag onViewCreated called");
+
     }
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i("ccccccccccc","recipeorder onCreate");
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser){
         if(isVisibleToUser){
-            Log.i("aaaaaaaaaaaaaa","현재 3frag가 보여짐");
+            Log.i("ccccccccccc","현재 3frag가 보여짐");
             Speech();
         }
         else{
-            Log.i("aaaaaaaaaaaaa","현재 3frag가 보여지지 않음");
+            Log.i("ccccccccccc","현재 3frag가 보여지지 않음");
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -96,7 +104,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onInit(int status) {
-        Log.i("aaaaaaa","onInit3");
+        Log.i("cccccccccccc","onInit3");
         if (status == TextToSpeech.SUCCESS) {
             // 작업 성공
             int language = tts.setLanguage(Locale.KOREAN);  // 언어 설정

@@ -87,6 +87,7 @@ public class RecipeActivity extends AppCompatActivity {
         
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
+            Log.i("ccccccccccccccc","recipeAct MyPagerAdapter");
 
         }
 
@@ -98,6 +99,7 @@ public class RecipeActivity extends AppCompatActivity {
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
+            Log.i("ccccccccccccccc","recipeAct getItem, item: " + String.valueOf(position));
             switch (position) {
                 case 0:
                     return RecipeMainFragment.newInstance(0, "Page # 1");
@@ -116,17 +118,18 @@ public class RecipeActivity extends AppCompatActivity {
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
+            Log.i("ccccccccccccccc","recipeAct getPageTitle, item: " + String.valueOf(position));
             return "Page " + position;
         }
 
     }
     public void selectIndex(int nexIdx){
-        Log.i("aaaaaaa","selectItem 입장");
+        Log.i("cccccccccccccccc","selectItem 입장");
         vpPager.setCurrentItem(nexIdx,true);
     }
 
     public void start(){
-        Log.i("aaaaaaaa", "start");
+        Log.i("cccccccccccccccc", "start");
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(RecipeActivity.this);
         mRecognizer.setRecognitionListener(listener);
         mRecognizer.startListening(intent);
