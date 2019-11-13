@@ -1,13 +1,11 @@
 package com.example.yobo_android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -17,11 +15,18 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.yobo_android.R;
 import com.example.yobo_android.fragment.BottomSheetFragment;
 
+import org.w3c.dom.Text;
 
-public class ShowIngredientActivity extends AppCompatActivity{
+
+public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
 
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
+    private TextView mIngredientName;
+    private TextView mIngredientPrice;
+    private TextView mIngredientUnit;
+    private TextView mCompanyName;
+    private TextView mIngredientDescription;
     private Button mBuy;
 
     @Override
@@ -31,6 +36,19 @@ public class ShowIngredientActivity extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Intent intent = getIntent();
+        String IngredientName = intent.getExtras().getString("Ingredient_name");
+        String IngredientPrice = intent.getExtras().getString("Ingredient_price");
+        String IngredientUnit = intent.getExtras().getString("Ingredient_unit");
+        String IngredientDescription = intent.getExtras().getString("Ingredient_description");
+        String CompanyName = intent.getExtras().getString("Company_name");
+        mIngredientName.setText(IngredientName);
+        mIngredientPrice.setText(IngredientPrice);
+        mIngredientUnit.setText(IngredientUnit);
+        mIngredientDescription.setText(IngredientDescription);
+        mCompanyName.setText(CompanyName);
+
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
         mBuy = findViewById(R.id.btnBuy);
@@ -41,6 +59,11 @@ public class ShowIngredientActivity extends AppCompatActivity{
                 fragment.show(getSupportFragmentManager(), "TAG");
             }
         });
+    }
+
+    public void goToBasket(){       //장바구니로 가기
+        Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this,basketActivity.class);
+        startActivity(intent);
     }
 
     @Override

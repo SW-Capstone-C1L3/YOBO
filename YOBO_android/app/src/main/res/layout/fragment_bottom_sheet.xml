@@ -5,18 +5,29 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Total Price: Rs. 457" />
-
-    <TextView
-        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="개당 가격 : " />
+        <TextView
+        android:id="@+id/one_price"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Please select a payment method:"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:gravity="right"
+        android:text="100" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text=" 원" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,23 +36,68 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/btnMinus"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@android:color/black"
-            android:text="Cash"
-            android:textColor="@android:color/white" />
-
+            android:background="@drawable/btn_edge_lightgray"
+            android:text="-"
+            android:textSize="25sp"
+            android:textColor="@color/colorLightGray"  />
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/btnIngredientQuantity"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:background="@android:color/black"
-            android:text="Card"
-            android:textColor="@android:color/white" />
+            android:background="@drawable/btn_edge_lightgray"
+            android:text="1"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:textSize="25sp"
+            android:textColor="@android:color/black" />
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_edge_lightgray"
+            android:text="+"
+            android:textSize="25sp"
+            android:textColor="@color/colorLightGray" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="총 가격: "
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="총 가격"
+            android:gravity="right"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text=" 원" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnPurchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_edge_red"
+        android:text="장바구니에 담기"
+        android:textColor="@color/colorRed"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 </LinearLayout>

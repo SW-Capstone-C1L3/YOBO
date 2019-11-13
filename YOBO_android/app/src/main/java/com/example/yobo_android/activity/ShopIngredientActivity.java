@@ -1,6 +1,7 @@
 package com.example.yobo_android.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,13 +13,25 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.example.yobo_android.R;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.yobo_android.R;
+import com.example.yobo_android.adapter.viewholder.BoardAdapter;
+import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;
+import com.example.yobo_android.api.RequestHttpURLConnection;
+import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.ShoppingIngredientData;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+//장보기 눌렀을때 뜨는 화면
 public class ShopIngredientActivity extends AppCompatActivity {
-    private Button mBtnIng1;
-    private Button mBtnIng2;
-    private Button mBtnIng3;
-    private Button mBtnIng4;
+
+    private ShopIngredientAdapter adapter;
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     MenuItem mSearch;
@@ -29,40 +42,65 @@ public class ShopIngredientActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mBtnIng1 = findViewById(R.id.btnIng1);
-        mBtnIng2 = findViewById(R.id.btnIng2);
-        mBtnIng3 = findViewById(R.id.btnIng3);
-        mBtnIng4 = findViewById(R.id.btnIng4);
+
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
-        Button.OnClickListener onClickListener = new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                switch (v.getId()) {
-                    case R.id.btnIng1:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                    case R.id.btnIng2:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                    case R.id.btnIng3:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                    case R.id.btnIng4:
-                        intent = new Intent(ShopIngredientActivity.this, ShowIngredientActivity.class);
-                        break;
-                }
-                //재료의 정보를 넘겨줘야됨
-                startActivity(intent);
-            }
-
-        };
-        mBtnIng1.setOnClickListener(onClickListener);
-        mBtnIng2.setOnClickListener(onClickListener);
-        mBtnIng3.setOnClickListener(onClickListener);
-        mBtnIng4.setOnClickListener(onClickListener);
+        recyclerViewInit();
+        new ShopIngredientActivity.RequestAsync().execute();
     }
+    public void jsonParser(String json) {
+        try {
+            JSONArray ShopIngredientList = new JSONArray(json);
+            Log.i("hhhhhhhhhhhhhhhhh",String.valueOf(ShopIngredientList.length()));
+            for(int i=0; i<ShopIngredientList.length(); i++){
+                ShoppingIngredientData ingreditem = new ShoppingIngredientData();
+                JSONObject ingredient = ShopIngredientList.getJSONObject(i);
+                ingreditem.setSel_id(ingredient.getString("_id"));
+                ingreditem.setProduct_name(ingredient.getString("product_name"));
+                ingreditem.setProduct_price(ingredient.getInt("product_price"));
+                ingreditem.setProduct_category(ingredient.getString("product_category"));
+                ingreditem.setProduct_qty(ingredient.getInt("product_qty"));
+                ingreditem.setProduct_unit(ingredient.getString("product_unit"));
+                ingreditem.setProduct_description(ingredient.getString("product_description"));
+                ingreditem.setProvided_company_id(ingredient.getString("product_company_id"));
+                ingreditem.setCompany_name(ingredient.getString("company_name"));
+                ingreditem.setProduct_image(ingredient.getString("product_image"));
+                adapter.addItem(ingreditem);
+            }
+            adapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class RequestAsync extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                //GET Request
+                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/product/getProducteList/?pageNum=0");
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            if (s != null) {
+                jsonParser(s);
+            }
+        }
+    }
+
+    private void recyclerViewInit() {
+        RecyclerView recyclerView = findViewById(R.id.recyclerShopIngredientView);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new ShopIngredientAdapter();
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -91,23 +129,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
             }
         });
 
-//        //메뉴 아이콘 클릭했을 시 확장, 취소했을 시 축소
-//        mSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                TextView text=(TextView)findViewById(R.id.txtstatus);
-//                text.setText("현재 상태 : 확장됨");
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                TextView text=(TextView)findViewById(R.id.txtstatus);
-//                text.setText("현재 상태 : 축소됨");
-//                return true;
-//            }
-//        });
-
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //
@@ -116,7 +137,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);
                 //text.setText(query + "를 검색합니다.");
-
                 return true;
             }
 
@@ -125,7 +145,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 //TextView text = (TextView) findViewById(R.id.txtsearch);
                 //text.setText("검색식 : " + newText);
-
                 return true;
             }
         });
