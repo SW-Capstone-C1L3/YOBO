@@ -175,23 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-//        //메뉴 아이콘 클릭했을 시 확장, 취소했을 시 축소
-//        mSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                TextView text=(TextView)findViewById(R.id.txtstatus);
-//                text.setText("현재 상태 : 확장됨");
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                TextView text=(TextView)findViewById(R.id.txtstatus);
-//                text.setText("현재 상태 : 축소됨");
-//                return true;
-//            }
-//        });
-
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setQueryHint("레시피 검색");
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

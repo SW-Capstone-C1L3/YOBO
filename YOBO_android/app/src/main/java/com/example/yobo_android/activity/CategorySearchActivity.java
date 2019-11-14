@@ -37,22 +37,31 @@ public class CategorySearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
+                String category;
                 switch (v.getId()){
                     case R.id.btnKorean:
                         // category keyword와 같이
+                        category = "한식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                     case R.id.btnWestern:
                         // category keyword와 같이
+                        category="양식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                     case R.id.btnChinese:
                         // category keyword와 같이
+                        category="중식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                     case R.id.btnJapanese:
                         // category keyword와 같이
+                        category="일식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                 }
                 startActivity(intent);

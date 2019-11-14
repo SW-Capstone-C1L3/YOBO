@@ -3,8 +3,12 @@ package com.example.yobo_android.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.http.HEAD;
 
 import android.content.ContentValues;
+
+import android.content.Intent;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +40,7 @@ public class BoardActivity extends AppCompatActivity {
 
     private BoardAdapter adapter;
     private String query = null;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +49,12 @@ public class BoardActivity extends AppCompatActivity {
         if(getIntent().getStringExtra("query") != null){
             query = getIntent().getStringExtra("query");
         }
+        if(getIntent().getStringExtra("category") != null){
+            query = getIntent().getStringExtra("category");
+        }
 
         recyclerViewInit();
         new RequestAsync().execute();
-
      }
 
     public void jsonParser(String json) {
@@ -83,9 +90,14 @@ public class BoardActivity extends AppCompatActivity {
                 //GET Request
                 if(query != null)
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/search/?recipeName="+query);
+                else if(category != null){
+                    if(category.equals("한식"))
+                        return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%ED%95%9C%EC%8B%9D&pageNum=0");
+                    else if(category.equals("일식"))
+                        return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%EC%9D%BC%EC%8B%9D&pageNum=0");
+                }
                 else
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");
-
                 // POST Request
 //                JSONObject postDataParams = new JSONObject();
 //                postDataParams.put("name", "Manjeet");
@@ -96,6 +108,7 @@ public class BoardActivity extends AppCompatActivity {
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }
+            return null;
         }
         @Override
         protected void onPostExecute(String s) {

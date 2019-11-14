@@ -27,10 +27,12 @@
         <activity android:name=".activity.ChoiceIngredientActivity" />
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.RecipeActivity" />
-        <activity android:name=".activity.NaverLoginActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.ShopIngredientActivity"></activity>
-    </application>
+        <activity android:name=".activity.NaverLoginActivity"/>
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.basketActivity"/>
+        <activity android:name=".activity.ShowSelectedIngredientInfoActivity"/>
+        <activity android:name=".activity.ShopIngredientActivity"/>
+        </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
