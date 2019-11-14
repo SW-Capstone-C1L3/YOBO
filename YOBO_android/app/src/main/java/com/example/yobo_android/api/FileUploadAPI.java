@@ -1,6 +1,7 @@
 package com.example.yobo_android.api;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -14,9 +15,9 @@ import retrofit2.http.PartMap;
 
 public interface FileUploadAPI {
     @Multipart
-    @POST("/api/")
-    Call<ResponseBody> uploadImages(@Part Map< ArrayList<MultipartBody.Part>, Map<String, RequestBody>> description,
-                                    @PartMap Map<String, RequestBody> mainIngredient);
+    @POST("/upload")
+    Call<ResponseBody> uploadImage(@Part List<MultipartBody.Part> file, // for images
+                                   @Part("name") RequestBody requestBody); // for text?
 
 
 }

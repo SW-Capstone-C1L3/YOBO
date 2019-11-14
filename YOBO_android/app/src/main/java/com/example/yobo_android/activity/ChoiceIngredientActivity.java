@@ -31,7 +31,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
         btnSource = (Button)findViewById(R.id.source);
 
         //버턴의 롱클릭 리스너 등록
-
         btnSource.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
@@ -39,15 +38,10 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
 
                 // TODO Auto-generated method stub
-
                 //롱클릭시 클립데이터를 만듬
-
                 ClipData clip = ClipData.newPlainText("dragtext", "dragtext");
 
                 //드래그할 데이터, 섀도우 지정, 드래그 앤 드롭 관련 데이터를 가지는 객체 지정, 0
-
-
-
                 v.startDrag(clip, new View.DragShadowBuilder(v), null, 0);
 
                 return false;
@@ -67,20 +61,15 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
 
                 // TODO Auto-generated method stub
-
                 ClipData clip = ClipData.newRawUri("uri",
-
                         Uri.parse("content://com.example.ch20_contentprovider/word/boy"));
 
                 v.startDrag(clip, new View.DragShadowBuilder(v), null, 0);
 
                 return false;
-
             }
 
         });
-
-
 
         btnTarget = (Button)findViewById(R.id.target);
 
@@ -101,7 +90,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             Button btn;
 
             //드래그 객체가 버튼인지 확인
-
             if(v instanceof Button){
 
                 btn = (Button)v;
@@ -111,13 +99,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
                 return false;
 
             }
-
-
-
-
-
             //이벤트를 받음
-
             switch(event.getAction()){
 
                 //드래그가 시작되면
