@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,7 @@ import java.util.List;
 public class BoardActivity extends AppCompatActivity {
 
     private BoardAdapter adapter;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,8 @@ public class BoardActivity extends AppCompatActivity {
 
         recyclerViewInit();
         new RequestAsync().execute();
-
+        Intent intent = getIntent();
+        category = intent.getExtras().getString("category");
      }
 
     public void jsonParser(String json) {
@@ -75,7 +78,12 @@ public class BoardActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 //GET Request
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=1");
+                if(category.equals("한식"))
+                    return  RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%ED%95%9C%EC%8B%9D&pageNum=0");
+                else if(category.equals("일식"))
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%EC%9D%BC%EC%8B%9D&pageNum=0");
+                else
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=1");
                 // POST Request
 //                JSONObject postDataParams = new JSONObject();
 //                postDataParams.put("name", "Manjeet");

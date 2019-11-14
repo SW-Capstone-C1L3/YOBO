@@ -112,7 +112,6 @@ public class RecipeActivity extends AppCompatActivity {
                 default:
                     return null;
             }
-
         }
 
         // Returns the page title for the top indicator
