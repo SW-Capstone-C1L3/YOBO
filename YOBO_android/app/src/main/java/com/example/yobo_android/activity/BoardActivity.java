@@ -35,11 +35,15 @@ import java.util.List;
 public class BoardActivity extends AppCompatActivity {
 
     private BoardAdapter adapter;
+    private String query = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+        if(getIntent().getStringExtra("query") != null){
+            query = getIntent().getStringExtra("query");
+        }
 
         recyclerViewInit();
         new RequestAsync().execute();
@@ -54,7 +58,6 @@ public class BoardActivity extends AppCompatActivity {
                 Recipe recipeItem = new Recipe();
 
                 JSONObject recipe = recipeList.getJSONObject(i);
-
                 JSONArray descriptionInfo = recipe.getJSONArray("cooking_description");
 
                 recipeItem.setRecipeId(recipe.getString("_id"));
@@ -78,7 +81,10 @@ public class BoardActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 //GET Request
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");
+                if(query != null)
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/search/?recipeName="+query);
+                else
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");
 
                 // POST Request
 //                JSONObject postDataParams = new JSONObject();

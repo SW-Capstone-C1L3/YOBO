@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -22,15 +24,16 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class RequestHttpURLConnection {
-
     public static String sendPost(String r_url , JSONObject postDataParams) throws Exception {
         URL url = new URL(r_url);
+        String boundary = "androidupload";
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(20000);
         conn.setConnectTimeout(20000);
         conn.setRequestMethod("POST");
         conn.setDoInput(true);
+        conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
         conn.setDoOutput(true);
 
         OutputStream os = conn.getOutputStream();

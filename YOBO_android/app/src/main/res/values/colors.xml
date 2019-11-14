@@ -8,4 +8,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorPinkTrans">#E6E82D50</color>
     <color name="colorPink">#E82D50</color>
+    <color name="colorBlack">#000000</color>
+
 </resources>

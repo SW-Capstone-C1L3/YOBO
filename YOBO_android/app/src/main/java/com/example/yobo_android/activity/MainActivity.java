@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
     private Button mBtnLogin;
+    // user Info in nav header
+    private TextView nav_header_user_name;
+    private TextView nav_header_user_id;
 
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -190,13 +193,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        });
 
         SearchView sv = (SearchView) mSearch.getActionView();
+        sv.setQueryHint("레시피 검색");
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //
-//            //검색버튼을 눌렀을 경우
+
+//          //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);
                 //text.setText(query + "를 검색합니다.");
+                Intent intent = new Intent(getApplication(),BoardActivity.class);
+                intent.putExtra("query",query);
+                startActivity(intent);
 
                 return true;
             }
