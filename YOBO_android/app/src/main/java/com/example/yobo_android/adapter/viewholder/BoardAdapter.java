@@ -37,6 +37,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private String recipeId;
+        private int recipeDescriptionNum;
         private TextView recipeName;
         private TextView recipeSubContents;
         private TextView recipeWriter;
@@ -56,6 +57,8 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         void onBind(Recipe recipe, int position) {
 
             recipeId = recipe.getRecipeId();
+            recipeDescriptionNum = recipe.getDescriptionNum();
+
             recipeName.setText(recipe.getName());
             recipeSubContents.setText(recipe.getReciepSubDescription());
             recipeWriter.setText(recipe.getWriter());
@@ -73,6 +76,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
                 //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
                 intent.putExtra("recipeId",recipeId);
+                intent.putExtra("recipeDescriptionNum",recipeDescriptionNum);
                 context.startActivity(intent);
             }
         }

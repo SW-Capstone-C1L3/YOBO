@@ -4,21 +4,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/recipeOrderNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="1" />
-
     <TextView
         android:id="@+id/recipeDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="어쩌구저쩌구 여기에서 주재료랑 부재료, 소요시간 색깔로 강조해줘야하는데 " />
+        android:text="요리 설명" />
 
-    <ImageView
-        android:id="@+id/recipeOrderImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher" />
 </LinearLayout>

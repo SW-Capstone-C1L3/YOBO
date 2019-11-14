@@ -26,32 +26,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnKorean"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400px"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold"
-                    android:background="@drawable/korean"
-                    android:text="한식"
-                    android:textSize="20sp"/>
-
-                <Button
-                    android:id="@+id/btnChinese"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/south_korea"/>
+                    <TextView
+                        android:id="@+id/btnKorean"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="한식"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400px"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/china"
-                    android:text="중식" />
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/btnChinese"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="중식"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -59,26 +67,35 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnJapanese"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400px"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/japan"
-                    android:text="일식" />
-
-                <Button
-                    android:id="@+id/btnWestern"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/btnJapanese"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="일식"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400px"
-                    android:textColor="@color/colorWhite"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/europe"
-                    android:text="양식" />
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/united_kingdom"/>
+                    <TextView
+                        android:id="@+id/btnWestern"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="양식"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -93,28 +110,148 @@
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:text="카테고리2"
+            android:text="종류별 요리"
             android:gravity="center_vertical"
             android:textStyle="bold"
             android:textSize="30sp" />
 
-        <Button
-            android:id="@+id/button7"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rice"/>
+                    <TextView
+                        android:id="@+id/btnRice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="밥요리"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/soup"/>
+                    <TextView
+                        android:id="@+id/btnSoup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="국물요리"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/meat"/>
+                    <TextView
+                        android:id="@+id/btnMeat"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="고기요리"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/burger"/>
+                    <TextView
+                        android:id="@+id/btnFastfood"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="패스트푸드요리"/>
+                </LinearLayout>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/fried_chicken"/>
+                    <TextView
+                        android:id="@+id/btnTang"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="튀김요리"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/noodles"/>
+                    <TextView
+                        android:id="@+id/btnNoodle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="면요리"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/cake"/>
+                    <TextView
+                        android:id="@+id/btnDesert"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="디저트요리"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/cookies"/>
+                    <TextView
+                        android:id="@+id/btnCookie"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="간식요리"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

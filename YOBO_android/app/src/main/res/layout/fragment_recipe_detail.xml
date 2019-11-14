@@ -19,7 +19,7 @@
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/category"
+            android:id="@+id/detailRecipeCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ex) 한식,밥"
@@ -40,7 +40,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/mainIngredient"
+            android:id="@+id/detailRecipeMainIngredient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ex)고기,고추장,양파"
@@ -54,7 +54,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/subIngredient"
+            android:id="@+id/detailRecipeSubIngredient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ex)파,참깨"
@@ -66,7 +66,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/serving"
+                android:id="@+id/detailRecipeServing"
                 android:layout_width="wrap_content"
                 android:layout_height="70sp"
                 android:layout_weight="1"
@@ -75,7 +75,7 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/difficulty"
+                android:id="@+id/detailRecipeDifficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="70sp"
                 android:layout_weight="1"
@@ -84,7 +84,7 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/rating"
+                android:id="@+id/detailRecipeRating"
                 android:layout_width="wrap_content"
                 android:layout_height="70sp"
                 android:layout_weight="1"
@@ -100,12 +100,10 @@
             android:text="요리순서"
             android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/textView13"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerRecipeDetailView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="리사이클러뷰 써야할듯"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 
