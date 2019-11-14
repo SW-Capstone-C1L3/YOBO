@@ -13,14 +13,6 @@
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <ImageButton
-            android:id="@+id/menuImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="TODO"
-            android:src="@drawable/ic_menu" />
-
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"

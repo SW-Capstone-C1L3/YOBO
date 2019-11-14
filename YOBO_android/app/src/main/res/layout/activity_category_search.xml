@@ -37,12 +37,20 @@
                     android:id="@+id/btnKorean"
                     android:layout_width="match_parent"
                     android:layout_height="400px"
-                    android:text="한식" />
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:background="@drawable/korean"
+                    android:text="한식"
+                    android:textSize="20sp"/>
 
                 <Button
                     android:id="@+id/btnChinese"
                     android:layout_width="match_parent"
                     android:layout_height="400px"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:background="@drawable/china"
                     android:text="중식" />
             </LinearLayout>
 
@@ -56,12 +64,20 @@
                     android:id="@+id/btnJapanese"
                     android:layout_width="match_parent"
                     android:layout_height="400px"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:background="@drawable/japan"
                     android:text="일식" />
 
                 <Button
                     android:id="@+id/btnWestern"
                     android:layout_width="match_parent"
                     android:layout_height="400px"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:background="@drawable/europe"
                     android:text="양식" />
             </LinearLayout>
         </LinearLayout>
