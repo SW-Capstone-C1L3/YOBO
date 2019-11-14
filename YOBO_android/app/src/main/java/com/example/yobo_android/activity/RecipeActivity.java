@@ -122,7 +122,6 @@ public class RecipeActivity extends AppCompatActivity {
                 default:
                     return TestFragment.newInstance("asd","asd");
             }
-
         }
 
         // Returns the page title for the top indicator
