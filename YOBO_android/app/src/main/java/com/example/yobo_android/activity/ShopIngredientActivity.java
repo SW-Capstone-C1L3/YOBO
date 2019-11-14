@@ -62,7 +62,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 ingreditem.setProduct_qty(ingredient.getInt("product_qty"));
                 ingreditem.setProduct_unit(ingredient.getString("product_unit"));
                 ingreditem.setProduct_description(ingredient.getString("product_description"));
-                ingreditem.setProvided_company_id(ingredient.getString("product_company_id"));
+                ingreditem.setProvided_company_id(ingredient.getString("provided_company_id"));
                 ingreditem.setCompany_name(ingredient.getString("company_name"));
                 ingreditem.setProduct_image(ingredient.getString("product_image"));
                 adapter.addItem(ingreditem);

@@ -2,6 +2,7 @@ package com.example.yobo_android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,11 +25,11 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     private TextView mtoolbarTitle;
     private TextView mIngredientName;
     private TextView mIngredientPrice;
-    private TextView mIngredientUnit;
     private TextView mCompanyName;
     private TextView mIngredientDescription;
     private Button mBuy;
-
+    String IngredientPrice;
+    private final String Tag = "abcde";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +40,15 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         String IngredientName = intent.getExtras().getString("Ingredient_name");
-        String IngredientPrice = intent.getExtras().getString("Ingredient_price");
+        IngredientPrice = intent.getExtras().getString("Ingredient_price");
         String IngredientUnit = intent.getExtras().getString("Ingredient_unit");
         String IngredientDescription = intent.getExtras().getString("Ingredient_description");
         String CompanyName = intent.getExtras().getString("Company_name");
-        mIngredientName.setText(IngredientName);
-        mIngredientPrice.setText(IngredientPrice);
-        mIngredientUnit.setText(IngredientUnit);
-        mIngredientDescription.setText(IngredientDescription);
-        mCompanyName.setText(CompanyName);
 
+        mIngredientName = findViewById(R.id.textView_ingredient_name);
+        mIngredientPrice = findViewById(R.id.textView_ingredient_price);
+        mIngredientDescription = findViewById(R.id.textView_ingredient_description);
+        mCompanyName = findViewById(R.id.textView_company_name);
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
         mBuy = findViewById(R.id.btnBuy);
@@ -59,8 +59,16 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                 fragment.show(getSupportFragmentManager(), "TAG");
             }
         });
+        mIngredientName.setText(IngredientName);
+        mIngredientPrice.setText(IngredientPrice+"/"+IngredientUnit);
+        mIngredientDescription.setText(IngredientDescription);
+        mCompanyName.setText(CompanyName);
     }
 
+    public String giveVal(){
+        String substr = IngredientPrice.substring(0,IngredientPrice.length()-1);
+        return substr;
+    }
     public void goToBasket(){       //장바구니로 가기
         Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this,basketActivity.class);
         startActivity(intent);

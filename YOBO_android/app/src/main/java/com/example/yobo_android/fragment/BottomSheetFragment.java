@@ -23,32 +23,30 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     Button mbtnQuantity;
     Button mbtnPlus;
     Button mbtnPurchase;
-    TextView one;
-
     public BottomSheetFragment(){
 
     }
 
+
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-
+        String price = ((ShowSelectedIngredientInfoActivity)getActivity()).giveVal();
         //Set the custom view
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bottom_sheet, null);
         dialog.setContentView(view);
-        one = view.findViewById(R.id.textView_ingredient_price);
         mOnePrice = view.findViewById(R.id.one_price);
         mTotalPrice = view.findViewById(R.id.total_price);
         mbtnMinus = view.findViewById(R.id.btnMinus);
         mbtnQuantity = view.findViewById(R.id.btnIngredientQuantity);
         mbtnPlus = view.findViewById(R.id.btnPlus);
         mbtnPurchase = view.findViewById(R.id.btnPurchase);
-        mOnePrice.setText(one.getText().toString());
-        mTotalPrice.setText(mOnePrice.getText().toString());
+
+        mOnePrice.setText(price);
+        mTotalPrice.setText(price);
         Button.OnClickListener onClickListener = new Button.OnClickListener(){
             @Override
             public void onClick(View v){
-                Log.i("jjjjjjjjjjjjjjjjjj",String.valueOf(v.getId()));
                 String str = mbtnQuantity.getText().toString();
                 String price = mOnePrice.getText().toString();
                 Integer amount = Integer.parseInt(str);
@@ -69,6 +67,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                         Log.i("jjjjjjjjjjjjjjjjj","장바구니에 담기 클릭");
                         if(amount>0)
                             ((ShowSelectedIngredientInfoActivity)getActivity()).goToBasket();
+                        else
+                            Toast.makeText(getContext(), "1개 이상 담아주시기 바랍니다.",Toast.LENGTH_SHORT).show();
+
                     default:
                         break;
                 }
