@@ -2,7 +2,6 @@ package com.example.yobo_android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.yobo_android.R;
 import com.example.yobo_android.fragment.BottomSheetFragment;
-
-import org.w3c.dom.Text;
 
 
 public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
@@ -44,7 +41,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         String IngredientUnit = intent.getExtras().getString("Ingredient_unit");
         String IngredientDescription = intent.getExtras().getString("Ingredient_description");
         String CompanyName = intent.getExtras().getString("Company_name");
-
         mIngredientName = findViewById(R.id.textView_ingredient_name);
         mIngredientPrice = findViewById(R.id.textView_ingredient_price);
         mIngredientDescription = findViewById(R.id.textView_ingredient_description);
@@ -70,7 +66,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         return substr;
     }
     public void goToBasket(){       //장바구니로 가기
-        Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this,basketActivity.class);
+        Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this, BasketActivity.class);
         startActivity(intent);
     }
 

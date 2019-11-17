@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);            }
         });
 
-
-
 //        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
         mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
