@@ -24,6 +24,7 @@
         <activity android:name=".activity.CategorySearchActivity" />
         <activity android:name=".activity.EnrollRecipeActivity" />
         <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.CommentActivity"/>
         <activity android:name=".activity.ChoiceIngredientActivity" />
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.RecipeActivity" />

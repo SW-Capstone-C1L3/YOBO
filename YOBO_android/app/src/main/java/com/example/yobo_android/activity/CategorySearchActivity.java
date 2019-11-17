@@ -33,7 +33,8 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnChinese = findViewById(R.id.btnChinese);
         mBtnJapanese = findViewById(R.id.btnJapanese);
 
-        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+
+        TextView.OnClickListener onClickListener = new TextView.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();

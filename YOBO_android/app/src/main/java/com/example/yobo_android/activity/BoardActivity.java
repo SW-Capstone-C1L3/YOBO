@@ -40,7 +40,7 @@ public class BoardActivity extends AppCompatActivity {
             query = getIntent().getStringExtra("query");
         }
         if(getIntent().getStringExtra("category") != null){
-            query = getIntent().getStringExtra("category");
+            category = getIntent().getStringExtra("category");
         }
 
         recyclerViewInit();
