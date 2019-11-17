@@ -3,6 +3,8 @@ package com.example.yobo_android.activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;
 import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.IngredientsBasketData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
+import com.example.yobo_android.fragment.BottomSheetFragBasket;
+import com.example.yobo_android.fragment.BottomSheetFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +39,8 @@ public class BasketActivity extends AppCompatActivity {
     private Integer cnt=0;
     private String tmp2="";
     private Integer price;
+    private Button mbtnBuyAll;
+    private Integer sum_all_price=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +51,14 @@ public class BasketActivity extends AppCompatActivity {
 
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
+        mbtnBuyAll = findViewById(R.id.btnBuyAll);
+        mbtnBuyAll.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetFragBasket fragment = new BottomSheetFragBasket();
+                fragment.show(getSupportFragmentManager(), "TAG");
+            }
+        });
         recyclerViewInit();
         new BasketActivity.RequestAsync().execute();
     }
@@ -56,25 +70,24 @@ public class BasketActivity extends AppCompatActivity {
             for(int i=0; i<BasketIngredientList.length(); i++){
                 IngredientsBasketData basketitem = new IngredientsBasketData();
                 JSONObject basket = BasketIngredientList.getJSONObject(i);
-//                str+=basket.getString("product_id");
-//                str+=' ';
-//                cnt++;
-//                basketitem.setBasket_qty(price);
-//                basketitem.setIngredientName(str);
+                basketitem.setIngredientDescription(basket.getString("product_description"));
                 basketitem.setBasket_product_id(basket.getString("product_id"));
+                basketitem.setIngredientImage(basket.getString("product_image"));
+                basketitem.setIngredientName(basket.getString("product_name"));
+                basketitem.setIngredientPrice(basket.getInt("product_price"));
                 basketitem.setBasket_qty(basket.getInt("qty"));
+                sum_all_price +=basket.getInt("qty")*basket.getInt("product_price");
+                basketitem.setUser_id("5dc6e8de068a0d0928838088");      /*****여기 전달받은 id로 바꿔야됨****/
                 adapter.addItem(basketitem);
             }
             adapter.notifyDataSetChanged();
-            String[] ParsedURL = str.split(" ");
-            for(int i=0;i<cnt;i++) {
-                Log.i("jjjjjjjjjjjjjj" + i, ParsedURL[i]);
-                tmp2 = ParsedURL[i];
-                new RequestAsync().execute();
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public String giveSum(){
+        return String.valueOf(sum_all_price);
     }
 
     public class RequestAsync extends AsyncTask<String,String,String> {

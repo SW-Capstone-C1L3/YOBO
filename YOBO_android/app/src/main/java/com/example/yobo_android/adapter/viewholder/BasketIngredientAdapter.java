@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yobo_android.R;
 import com.example.yobo_android.etc.IngredientsBasketData;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -28,27 +30,29 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
     // 즉 item view를 저장하는 뷰홀드 클래스
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private String user_id;
-        private TextView ingredient_id;
-        private TextView basket_qty;
+        private String ingredientDescription;
+        private String basket_product_Id;
+        private ImageView ingredient_image;
+        private TextView ingredient_name;
         private TextView ingredient_price;
-        private TextView basket_product_id;
+        private TextView basket_qty;
         private TextView tot_price;
-        private Object basket;
 
         ItemViewHolder(View itemView) {
             super(itemView);
-            ingredient_id = itemView.findViewById(R.id.BaksetIngredientName);
+            ingredient_image = itemView.findViewById(R.id.ShopIngredientImage);
+            ingredient_name = itemView.findViewById(R.id.BaksetIngredientName);
             basket_qty = itemView.findViewById(R.id.basket_ingredient_qty);
             ingredient_price = itemView.findViewById(R.id.BaksetIngredientPrice);
             tot_price = itemView.findViewById(R.id.ingredient_total_Price);
         }
 
         void onBind(IngredientsBasketData ingredientsBasketData, int position) {
-            //product_image.setImageResource(shoppingIngredientData.getProduct_image());
-//            ingredient_id.setText(ingredientsBasketData.getBasket_product_id());
-//            ingredient_price.setText(String.valueOf(ingredientsBasketData.getIngredientPrice()));
+            //ingredient_image.setImageResource(Integer.parseInt(ingredientsBasketData.getIngredientImage()));
+            ingredient_name.setText(ingredientsBasketData.getIngredientName());
+            ingredient_price.setText(String.valueOf(ingredientsBasketData.getIngredientPrice()) + "원");
             basket_qty.setText("개수: " +String.valueOf(ingredientsBasketData.getBasket_qty()));
-            tot_price.setText(String.valueOf(ingredientsBasketData.getBasket_qty()));       /***1개당 가격도 곱해야됨***/
+            tot_price.setText("총 금액: "+String.valueOf(ingredientsBasketData.getBasket_qty()*ingredientsBasketData.getIngredientPrice())+"원");       /***1개당 가격도 곱해야됨***/
             itemView.setOnClickListener(this);
         }
 

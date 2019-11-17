@@ -5,6 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_enroll_recipe"
@@ -28,6 +32,15 @@
         android:id="@+id/recyclerShopIngredientView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:scrollbars="vertical"/>
 
+    <Button
+        android:id="@+id/btnGoToBasket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_edge_red"
+        android:textColor="@color/colorRed"
+        android:text="장바구니로 이동" />
+    </LinearLayout>
 </LinearLayout>
