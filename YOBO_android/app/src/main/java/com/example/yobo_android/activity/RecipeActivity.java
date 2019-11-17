@@ -61,8 +61,10 @@ public class RecipeActivity extends AppCompatActivity {
     private PagerAdapter pagerAdapter;
     private TextView mLike;
     private TextView mComments;
+    private TextView mAlert;
     private Button mbtnLike;
     private Button mbtnComments;
+    private Button mbtnAlert;
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
@@ -74,6 +76,7 @@ public class RecipeActivity extends AppCompatActivity {
     String result;
     int cnt=2;
     private int i=0;
+    private int j=0;
     private static String recipeId;
     private static int recipeDescriptionNum;
 
@@ -89,8 +92,10 @@ public class RecipeActivity extends AppCompatActivity {
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         mLike = (TextView)findViewById(R.id.textLike);
         mComments = (TextView)findViewById(R.id.textComments);
+        mAlert = (TextView)findViewById(R.id.textAlert);
         mbtnLike = (Button)findViewById(R.id.btnLike);
         mbtnComments = (Button)findViewById(R.id.btnComment);
+        mbtnAlert = (Button)findViewById(R.id.btnAlert);
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
@@ -129,7 +134,7 @@ public class RecipeActivity extends AppCompatActivity {
                     mbtnLike.setBackgroundResource(R.drawable.like);
                 else
                     mbtnLike.setBackgroundResource(R.drawable.unlike);
-                checkInput();
+                checkInput("like");
             }
         });
         mLike.setOnClickListener(new View.OnClickListener(){
@@ -140,12 +145,33 @@ public class RecipeActivity extends AppCompatActivity {
                     mbtnLike.setBackgroundResource(R.drawable.like);
                 else
                     mbtnLike.setBackgroundResource(R.drawable.unlike);
-                checkInput();
+                checkInput("like");
+            }
+        });
+        mbtnAlert.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                j = 1 - j;
+                if (j == 1)
+                    mbtnAlert.setBackgroundResource(R.drawable.warning);
+                else if (j == 0)
+                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
+                checkInput("alert");
+            }
+        });
+        mAlert.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                j = 1 - j;
+                if (j == 1)
+                    mbtnAlert.setBackgroundResource(R.drawable.warning);
+                else if (j == 0)
+                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
+                checkInput("alert");
             }
         });
         mbtnComments.setOnClickListener(onClickListener);
         mComments.setOnClickListener(onClickListener);
-
     }
     public static class MyPagerAdapter extends FragmentPagerAdapter {
 //        private static int NUM_ITEMS = 10;
@@ -300,13 +326,21 @@ public class RecipeActivity extends AppCompatActivity {
         public void onEvent(int eventType, Bundle params) {}
     };
 
-    public void checkInput() {
+    public void checkInput(String str) {
         String snackBarMessage = null;
         if (snackBarMessage==null) {
-            if(i==1)
-                snackBarMessage = "즐겨찾기가 등록되었습니다";
-            else if(i==0)
-                snackBarMessage = "즐겨찾기가 해제되었습니다";
+            if(str.equals("like")) {
+                if (i == 1)
+                    snackBarMessage = "즐겨찾기가 등록되었습니다";
+                else if (i == 0)
+                    snackBarMessage = "즐겨찾기가 해제되었습니다";
+            }
+            else if(str.equals("alert")){
+                if(j==1)
+                    snackBarMessage = "신고가 접수되었습니다";
+                else if(j==0)
+                    snackBarMessage = "신고가 취소되었습니다";
+            }
             Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
                     snackBarMessage, Snackbar.LENGTH_LONG);
             make.setAction("확인", new View.OnClickListener() {
