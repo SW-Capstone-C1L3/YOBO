@@ -22,6 +22,7 @@ import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;
 import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShoppingIngredientData;
+import com.example.yobo_android.fragment.BottomSheetFragBasket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,12 +35,21 @@ public class ShopIngredientActivity extends AppCompatActivity {
     private ShopIngredientAdapter adapter;
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
+    private Button mbtnGoToBakset;
     MenuItem mSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_ingredient);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
+        mbtnGoToBakset = findViewById(R.id.btnGoToBasket);
+        mbtnGoToBakset.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ShopIngredientActivity.this, BasketActivity.class);
+                startActivity(intent);
+            }
+        });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 

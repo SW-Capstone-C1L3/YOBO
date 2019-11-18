@@ -35,4 +35,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/detailRecipeName"
         android:text="부가설명" />
+
 </RelativeLayout>

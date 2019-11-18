@@ -24,15 +24,17 @@
         <activity android:name=".activity.CategorySearchActivity" />
         <activity android:name=".activity.EnrollRecipeActivity" />
         <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.CommentActivity"/>
         <activity android:name=".activity.ChoiceIngredientActivity" />
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.RecipeActivity" />
         <activity android:name=".activity.NaverLoginActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.basketActivity" />
         <activity android:name=".activity.ShowSelectedIngredientInfoActivity" />
         <activity android:name=".activity.ShopIngredientActivity" />
+        <activity android:name=".activity.BasketActivity"/>
     </application>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 

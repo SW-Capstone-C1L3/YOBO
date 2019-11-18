@@ -3,34 +3,22 @@ package com.example.yobo_android.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.http.HEAD;
 
-import android.content.ContentValues;
-
-import android.content.Intent;
-
-import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.View;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.Recipe;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 
 /*
 * 검색에 따른 레시피 목록을 보여주는 Activity
@@ -43,6 +31,7 @@ public class BoardActivity extends AppCompatActivity {
     private String query = null;
     private String category;
     private String ingredients;
+    Integer num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +51,16 @@ public class BoardActivity extends AppCompatActivity {
         new RequestAsync().execute();
      }
 
+
     public void jsonParser(String json) {
         try {
             JSONArray recipeList = new JSONArray(json);
+            //화면에 아무것도 출력되지 않는것 방지
+            num = recipeList.length();
+            if(num==0 && query!=null) {
+                Log.i("jjjjjjjjjjjjjj","아무것도 일치하는게 없음");
+                checkInput();
+            }
 
             for(int i=0; i<recipeList.length(); i++){
                 Recipe recipeItem = new Recipe();
@@ -121,7 +117,11 @@ public class BoardActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if (s != null) {
+                Log.i("jjjjjjjjjjjjjjjjjj","something in " + s);
                 jsonParser(s);
+            }
+            else if(s==null){
+                Log.i("jjjjjjjjjjjjjjj","nothing in");
             }
         }
     }
@@ -134,5 +134,22 @@ public class BoardActivity extends AppCompatActivity {
 
         adapter = new BoardAdapter();
         recyclerView.setAdapter(adapter);
+    }
+
+
+    public void checkInput() {
+        String snackBarMessage = null;
+        if (snackBarMessage == null) {
+            snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
+            Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
+                    snackBarMessage, Snackbar.LENGTH_LONG);
+            make.setAction("확인", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            make.setActionTextColor(Color.RED);
+            make.show();
+        }
     }
 }
