@@ -14,5 +14,6 @@
     <color name="colorAqua">#00FFFF</color>
     <color name="colorBlue">#0000FF</color>
     <color name="colorLightskyblue">#87CEFA</color>
+    <color name="colorTransparent">#00000000</color>
 
 </resources>

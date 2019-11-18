@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,8 @@ public class BoardActivity extends AppCompatActivity {
 
     private BoardAdapter adapter;
     private String query = null;
-    String category;
+    private String category;
+    private ArrayList<String> ingredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,10 @@ public class BoardActivity extends AppCompatActivity {
             query = getIntent().getStringExtra("query");
         }
         if(getIntent().getStringExtra("category") != null){
-            query = getIntent().getStringExtra("category");
+            category = getIntent().getStringExtra("category");
+        }
+        if(getIntent().getStringExtra("ingredients") != null){
+            ingredients = getIntent().getStringArrayListExtra("ingredients");
         }
 
         recyclerViewInit();
@@ -95,6 +100,9 @@ public class BoardActivity extends AppCompatActivity {
                         return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%ED%95%9C%EC%8B%9D&pageNum=0");
                     else if(category.equals("일식"))
                         return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%EC%9D%BC%EC%8B%9D&pageNum=0");
+                }
+                else if(ingredients != null){
+
                 }
                 else
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");
