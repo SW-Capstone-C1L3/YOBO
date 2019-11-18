@@ -42,7 +42,7 @@ public class BoardActivity extends AppCompatActivity {
     private BoardAdapter adapter;
     private String query = null;
     private String category;
-    private ArrayList<String> ingredients;
+    private String ingredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class BoardActivity extends AppCompatActivity {
             category = getIntent().getStringExtra("category");
         }
         if(getIntent().getStringExtra("ingredients") != null){
-            ingredients = getIntent().getStringArrayListExtra("ingredients");
+            ingredients = getIntent().getStringExtra("ingredients");
         }
 
         recyclerViewInit();
@@ -102,7 +102,7 @@ public class BoardActivity extends AppCompatActivity {
                         return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%EC%9D%BC%EC%8B%9D&pageNum=0");
                 }
                 else if(ingredients != null){
-
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getByingredients?"+ingredients);
                 }
                 else
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");

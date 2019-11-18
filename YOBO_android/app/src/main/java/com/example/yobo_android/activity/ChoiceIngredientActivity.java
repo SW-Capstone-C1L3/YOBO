@@ -34,7 +34,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
     GridView srcGrid;
     GridView destGrid;
 
-    ArrayList<String> srcIngredient = new ArrayList<>(Arrays.asList("고기","꿀","간장"));
+    ArrayList<String> srcIngredient = new ArrayList<>(Arrays.asList("김","꿀","간장"));
     ArrayList<String> destIngredient = new ArrayList<>();
 
     GridAdapter srcAdapter = new GridAdapter(this, srcIngredient);
@@ -57,10 +57,13 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getApplication(),BoardActivity.class);
-
-                for(int i=0;i<destIngredient.size();i++){
-//                    ddd+=destIngredient.get(i);
+                String ingredients = "";
+                for(int i=0; i < destIngredient.size(); i++){
+                    ingredients += ("ingredients=" + destIngredient.get(i) + "&");
                 }
+                ingredients = ingredients.substring(0,ingredients.length() - 1);
+                Log.i("ddd",ingredients);
+                intent.putExtra("ingredients", ingredients);
 
                 startActivity(intent);
             }
