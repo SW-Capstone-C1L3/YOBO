@@ -2,21 +2,39 @@ package com.example.yobo_android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.yobo_android.R;
+import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.fragment.BottomSheetFragment;
+
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Query;
 
 
 public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
+
+    HashMap<String,Object> hashMap = new HashMap<>();
+    Retrofit retrofit;
+    ApiService apiService;
 
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
@@ -25,7 +43,8 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     private TextView mCompanyName;
     private TextView mIngredientDescription;
     private Button mBuy;
-    String IngredientPrice;
+    private String Ingredient_id;
+    private String IngredientPrice;
     private final String Tag = "abcde";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +56,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         String IngredientName = intent.getExtras().getString("Ingredient_name");
+        Ingredient_id = intent.getExtras().getString("Ingredient_id");
         IngredientPrice = intent.getExtras().getString("Ingredient_price");
         String IngredientUnit = intent.getExtras().getString("Ingredient_unit");
         String IngredientDescription = intent.getExtras().getString("Ingredient_description");
@@ -65,7 +85,34 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         String substr = IngredientPrice.substring(0,IngredientPrice.length()-1);
         return substr;
     }
-    public void goToBasket(){       //장바구니로 가기
+    public void goToBasket(int amount){       //장바구니로 가기
+        retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        apiService = retrofit.create(ApiService.class);
+
+        String product_id = Ingredient_id;
+        int qty = amount;
+        String userId = "5dc6e8de068a0d0928838088";
+        hashMap.put("Product_id", product_id);
+        hashMap.put("qty",qty);
+        hashMap.put("User_id",userId);
+        Call<ResponseBody> call = apiService.insertBasket(hashMap);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(ShowSelectedIngredientInfoActivity.this,"GOOD",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(ShowSelectedIngredientInfoActivity.this,"WRONG",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
         Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this, BasketActivity.class);
         startActivity(intent);
     }
