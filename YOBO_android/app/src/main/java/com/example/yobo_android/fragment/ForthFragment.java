@@ -39,7 +39,7 @@ public class ForthFragment extends Fragment implements View.OnClickListener, Tex
 
     }
     // newInstance constructor for creating fragment with arguments
-    public static ForthFragment newInstance(int page, String title) {
+    public static ForthFragment newInstance(String recipeId) {
         ForthFragment fragment = new ForthFragment();
         Log.i("ccccccccccc","4frag new instance");
         return fragment;

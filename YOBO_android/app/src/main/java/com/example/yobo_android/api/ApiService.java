@@ -18,4 +18,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/yobo/basket/insertBasket")
     Call<ResponseBody> insertBasket(@FieldMap HashMap<String,Object> parameters);
+
+    @FormUrlEncoded
+    @POST("/yobo/basket/DeleteBasket")
+    Call<ResponseBody> DeleteBasket(@FieldMap HashMap<String,Object> parameters);
 }

@@ -36,6 +36,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     Retrofit retrofit;
     ApiService apiService;
 
+    private String userId;
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private TextView mIngredientName;
@@ -91,28 +92,22 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-
-        String product_id = Ingredient_id;
-        int qty = amount;
-        String userId = "5dc6e8de068a0d0928838088";
-        hashMap.put("Product_id", product_id);
-        hashMap.put("qty",qty);
+        userId = "5dc6e8de068a0d0928838088";
+        hashMap.put("Product_id", Ingredient_id);
+        hashMap.put("qty",amount);
         hashMap.put("User_id",userId);
         Call<ResponseBody> call = apiService.insertBasket(hashMap);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(ShowSelectedIngredientInfoActivity.this,"GOOD",Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowSelectedIngredientInfoActivity.this,"장바구니에 담았습니다",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(ShowSelectedIngredientInfoActivity.this,"WRONG",Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowSelectedIngredientInfoActivity.this,"장바구니에 담기 실패",Toast.LENGTH_LONG).show();
             }
         });
-
-
-
         Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this, BasketActivity.class);
         startActivity(intent);
     }
