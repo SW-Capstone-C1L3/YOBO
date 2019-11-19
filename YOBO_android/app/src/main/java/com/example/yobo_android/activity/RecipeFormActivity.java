@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
+import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.IngredientsFormData;
 import com.example.yobo_android.etc.RecipeSequenceFormData;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,9 +34,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class RecipeFormActivity extends AppCompatActivity {
 
     private static final int PICK_FROM_ALBUM = 1000;
+
+    Retrofit retrofit;
+    ApiService apiService;
 
     List<IngredientsFormData> mMainIngredientsDataList = new ArrayList<>();
     List<IngredientsFormData> mSubIngredientsDataList = new ArrayList<>();
@@ -84,11 +96,28 @@ public class RecipeFormActivity extends AppCompatActivity {
         mBtnWriteRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveRecyclerViewInfo();
-                if(checkInput()){
-                    //TODO
-                    // 완료 버튼 눌렀을 때 DB와 서버에 레시피 등록 !!
-                }
+                //if(checkInput()){
+
+
+               // }
+//                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).build();
+//                apiService = retrofit.create(ApiService.class);
+//                Call<ResponseBody> comment = apiService.getComment(1);
+//                comment.enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        try {
+//                            Log.v("Test",response.body().string());
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                    }
+//                });
+
             }
         });
 
@@ -226,21 +255,6 @@ public class RecipeFormActivity extends AppCompatActivity {
         return requestCode == 1000 && resultCode == RESULT_OK && data != null;
     }
 
-    public void saveRecyclerViewInfo(){
-        //TODO RecyclerView에 입력된 정보 한번에 저장
-        for(IngredientsFormData data : mMainIngredientsDataList){
-            Log.i("TEST",data.getIngredientsName());
-            Log.i("TEST2", data.getIngredientsQuantity());
-        }
-        for(IngredientsFormData data : mSubIngredientsDataList){
-            Log.i("TEST3",data.getIngredientsName());
-            Log.i("TEST4", data.getIngredientsQuantity());
-        }
-        for(RecipeSequenceFormData data : mRecipeSequenceFormDataList){
-            Log.i("TEST5",data.getRecipeSequenceFormDescription());
-        }
-    }
-
     public boolean checkInput(){
         boolean flag = true;
         String snackBarMessage = null;
@@ -294,4 +308,5 @@ public class RecipeFormActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }
