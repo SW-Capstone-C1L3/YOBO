@@ -107,6 +107,7 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
         listBasketIngredient.add(ingredientsBasketData);
     }
     public void removeItem(int position){
+        Log.i("kkkkk remove",String.valueOf(position));
         listBasketIngredient.remove(position);
         notifyItemRemoved(position);
     }
