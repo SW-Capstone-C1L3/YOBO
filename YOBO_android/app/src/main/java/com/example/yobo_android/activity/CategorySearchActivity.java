@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.yobo_android.R;
 
@@ -16,10 +17,10 @@ import com.example.yobo_android.R;
 
 public class CategorySearchActivity extends AppCompatActivity {
 
-    private Button mBtnKorean;
-    private Button mBtnWestern;
-    private Button mBtnChinese;
-    private Button mBtnJapanese;
+    private TextView mBtnKorean;
+    private TextView mBtnWestern;
+    private TextView mBtnChinese;
+    private TextView mBtnJapanese;
     // private Button mBtn
 
     @Override
@@ -32,26 +33,36 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnChinese = findViewById(R.id.btnChinese);
         mBtnJapanese = findViewById(R.id.btnJapanese);
 
-        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+
+        TextView.OnClickListener onClickListener = new TextView.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
+                String category;
                 switch (v.getId()){
                     case R.id.btnKorean:
                         // category keyword와 같이
+                        category = "한식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                     case R.id.btnWestern:
                         // category keyword와 같이
+                        category="양식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                     case R.id.btnChinese:
                         // category keyword와 같이
+                        category="중식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                     case R.id.btnJapanese:
                         // category keyword와 같이
+                        category="일식";
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
                         break;
                 }
                 startActivity(intent);

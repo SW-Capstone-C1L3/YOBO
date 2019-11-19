@@ -20,8 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 /*
-* 필요 X
-*/
+ * recipeDetailFragment에서 요리순서에 쓰일 adapter
+ */
+
 public class RecipeOrderAdapter extends RecyclerView.Adapter<RecipeOrderAdapter.ItemViewHolder> {
 
     private ArrayList<RecipeOrder> listRecipeOrder = new ArrayList<>();
@@ -29,24 +30,16 @@ public class RecipeOrderAdapter extends RecyclerView.Adapter<RecipeOrderAdapter.
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Button btnRecipeOrderNumber;
         private TextView mRecipeDescription;
-        private ImageView mRecipeOrderImage;
 
         ItemViewHolder(View itemView){
             super(itemView);
 
-            btnRecipeOrderNumber = itemView.findViewById(R.id.recipeOrderNumber);
             mRecipeDescription = itemView.findViewById(R.id.recipeDescription);
-            mRecipeOrderImage = itemView.findViewById(R.id.recipeOrderImage);
         }
 
         void onBind(RecipeOrder recipeOrder) {
-            btnRecipeOrderNumber.setText("" + recipeOrder.getRecipeOrderNumber());
             mRecipeDescription.setText(recipeOrder.getRecipeOrderDescription());
-            mRecipeOrderImage.setImageResource(recipeOrder.getRecipeOrderImageId());
-
-            //itemView.setOnClickListener(this);
         }
 
         @Override

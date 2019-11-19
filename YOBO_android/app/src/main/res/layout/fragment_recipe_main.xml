@@ -16,7 +16,7 @@
         android:id="@+id/detailRecipeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1450px"
+        android:layout_marginTop="500sp"
         android:text="요리이름"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -25,6 +25,15 @@
         android:id="@+id/detailRecipeWriter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1600px"
+        android:layout_toRightOf="@+id/detailRecipeName"
+        android:layout_alignBottom="@+id/detailRecipeName"
         android:text="요리작성자" />
+
+    <TextView
+        android:id="@+id/detailRecipeSubDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailRecipeName"
+        android:text="부가설명" />
+
 </RelativeLayout>

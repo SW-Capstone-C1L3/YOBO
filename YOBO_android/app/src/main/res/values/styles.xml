@@ -17,12 +17,23 @@
         <item name="android:background">#999999</item>
     </style>
 
+    <style name="Full" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="colorPrimary">@color/colorPink</item>
+        <item name="colorPrimaryDark">@color/colorPink</item>
+        <item name="colorAccent">@color/colorPink</item>
+    </style>
+
     <style name="ListDividerVertical">
         <item name="android:layout_width">1sp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">#999999</item>
     </style>
-    
+
+    <style name="Regular" parent="android:TextAppearance">
+        <item name="fontPath">fonts/SourceSansPro-Regular.otf</item>
+    </style>
+
     <style name="RecipeFormTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40sp</item>
@@ -31,6 +42,13 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#000000</item>
         <item name="android:background">#d3d3d3</item>
+    </style>
+
+    <style name="Ingredient">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background"></item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

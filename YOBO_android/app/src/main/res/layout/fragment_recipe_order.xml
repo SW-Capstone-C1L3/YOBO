@@ -13,11 +13,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:src="@mipmap/ic_launcher" />
-
+    <Button
+        android:id="@+id/btnOnOff"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="말하기" />
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/recipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="n th 조리법" />
+        android:text="n th 조리법\n 가나다라마바사 아자차카파타하" />
+
 </LinearLayout>

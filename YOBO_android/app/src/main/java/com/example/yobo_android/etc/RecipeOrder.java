@@ -2,7 +2,7 @@ package com.example.yobo_android.etc;
 
 
 /*
-* 필요 X
+* RecipeActivity, Fragment에서 사용중
  */
 public class RecipeOrder {
 
