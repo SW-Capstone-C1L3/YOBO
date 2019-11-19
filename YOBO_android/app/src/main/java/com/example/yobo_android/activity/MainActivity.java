@@ -59,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
-    private Button mBtnLogin;
     // user Info in nav header
     private TextView nav_header_user_name;
     private TextView nav_header_user_id;
+
+    private Button mBtnLoginInNavHeader;
 
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -96,15 +97,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.openDrawer(mNavigationView);
             }
         });
-
-        //login test용 버튼
-        mBtnLogin =findViewById(R.id.loginbnt);
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
+        View header = mNavigationView.getHeaderView(0);
+        mBtnLoginInNavHeader = (Button) header.findViewById(R.id.loginButtonInNavHeader);
+        mBtnLoginInNavHeader.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
                         NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
-                startActivity(intent);            }
+                startActivity(intent);
+            }
         });
 
 //        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
@@ -159,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Log.i("hhhhhhhhhhhhhhhh","title gone");
                 mtoolbarTitle.setVisibility(View.GONE);
-                mBtnLogin.setVisibility(View.GONE);
             }
         });
         // Detect SearchView close
@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onClose() {
                 Log.i("hhhhhhhhhhhhhhhh","title visible");
                 mtoolbarTitle.setVisibility(View.VISIBLE);
-                mBtnLogin.setVisibility(View.VISIBLE);
                 return false;
             }
         });
