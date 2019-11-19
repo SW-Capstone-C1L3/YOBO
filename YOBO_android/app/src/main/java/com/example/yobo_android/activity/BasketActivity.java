@@ -128,8 +128,6 @@ public class BasketActivity extends AppCompatActivity{
             }
         });
         adapter.removeItem(deletePos);
-        recyclerViewInit();
-        new BasketActivity.RequestAsync().execute();
     }
 
     public class RequestAsync extends AsyncTask<String,String,String> {
