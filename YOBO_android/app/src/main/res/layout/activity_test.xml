@@ -4,31 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ChoiceIngredientActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.TestActivity">
 
     <GridView
-        android:id="@+id/srcIngredient"
+        android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
         android:gravity="center"
-        android:layout_weight="1" />
+        android:numColumns="5"
+        android:layout_weight="1"/>
     <GridView
-        android:id="@+id/destIngredient"
+        android:id="@+id/grid2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
         android:gravity="center"
+        android:numColumns="5"
         android:layout_weight="1"
         android:background="@color/colorPinkTrans"/>
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="재료검색"/>
-
 </LinearLayout>
-
-

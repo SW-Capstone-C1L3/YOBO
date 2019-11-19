@@ -5,18 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
@@ -24,52 +31,34 @@ import com.example.yobo_android.R;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-/*
-* 재료를 선택해서 레시피를 검색하는 Activity
-* 재료선택완료시 BoardActivity로 이동
-*/
+public class TestActivity extends AppCompatActivity {
 
-public class ChoiceIngredientActivity extends AppCompatActivity {
-    GridView srcGrid;
-    GridView destGrid;
+    GridView grid;
+    GridView grid2;
 
-    ArrayList<String> srcIngredient = new ArrayList<>(Arrays.asList("김","꿀","간장"));
-    ArrayList<String> destIngredient = new ArrayList<>();
+    ArrayList<String> name = new ArrayList<String>(Arrays.asList("고기","꿀","간장"));
+    ArrayList<String> name2 = new ArrayList<String>(Arrays.asList("감"));
 
-    GridAdapter srcAdapter = new GridAdapter(this, srcIngredient);
-    GridAdapter destAdapter = new GridAdapter(this, destIngredient);
+    GridAdapter adapter = new GridAdapter(this, name);
+    GridAdapter adapter2 = new GridAdapter(this, name2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choice_ingredient);
+        setContentView(R.layout.activity_test);
 
-        srcGrid = findViewById(R.id.srcIngredient);
-        srcGrid.setOnDragListener(new MyDragListener());
-        srcGrid.setAdapter(srcAdapter);
 
-        destGrid = findViewById(R.id.destIngredient);
-        destGrid.setOnDragListener(new MyDragListener());
-        destGrid.setAdapter(destAdapter);
+        grid = findViewById(R.id.grid);
+        grid.setOnDragListener(new MyDragListener());
+        grid.setAdapter(adapter);
 
-        findViewById(R.id.btnSearch).setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(getApplication(),BoardActivity.class);
-                String ingredients = "";
-                for(int i=0; i < destIngredient.size(); i++){
-                    ingredients += ("ingredients=" + destIngredient.get(i) + "&");
-                }
-                ingredients = ingredients.substring(0,ingredients.length() - 1);
-                Log.i("ddd",ingredients);
-                intent.putExtra("ingredients", ingredients);
 
-                startActivity(intent);
-            }
-        });
+        grid2 = findViewById(R.id.grid2);
+        grid2.setOnDragListener(new MyDragListener());
+        grid2.setAdapter(adapter2);
     }
-
     public class GridAdapter extends BaseAdapter {
         Context context;
         ArrayList<String> ingreName;
@@ -117,7 +106,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             }
         }
     }
-
     class MyDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -135,35 +123,28 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
-                    ViewGroup owner = (ViewGroup) view.getParent();
-
-                    int preView = owner.getId();
-                    int curView = v.getId();
-
-                    if(preView != curView){
-                        if(v.getId() == destGrid.getId()){
-                            srcIngredient.remove(((Button)view).getText().toString());
-                            destIngredient.add(((Button)view).getText().toString());
-                        }
-                        else if(v.getId() == srcGrid.getId()){
-                            destIngredient.remove(((Button)view).getText().toString());
-                            srcIngredient.add(((Button)view).getText().toString());
-                        }
+                    ViewGroup owner = (ViewGroup) view.getParent(); // drop된 layout
+//                    owner.removeView(view);
+//                    LinearLayout container = (LinearLayout) v;
+//                    container.addView(view);
+                    if(owner.getId() == grid.getId()){
+                        name.remove(((Button)view).getText().toString());
+                        name2.add(((Button)view).getText().toString());
                     }
-                    srcAdapter.notifyDataSetChanged();
-                    destAdapter.notifyDataSetChanged();
+                    else if(owner.getId() == grid2.getId()){
+                        name2.remove(((Button)view).getText().toString());
+                        name.add(((Button)view).getText().toString());
+                    }
+                    adapter.notifyDataSetChanged();
+                    adapter2.notifyDataSetChanged();
 
                     view.setVisibility(View.VISIBLE);
                     break;
-
                 case DragEvent.ACTION_DRAG_ENDED:
-                    break;
-
                 default:
                     break;
             }
             return true;
         }
     }
-
 }

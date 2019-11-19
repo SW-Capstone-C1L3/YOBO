@@ -29,7 +29,8 @@ public class BoardActivity extends AppCompatActivity {
 
     private BoardAdapter adapter;
     private String query = null;
-    String category;
+    private String category;
+    private String ingredients;
     Integer num;
 
     @Override
@@ -41,6 +42,9 @@ public class BoardActivity extends AppCompatActivity {
         }
         if(getIntent().getStringExtra("category") != null){
             category = getIntent().getStringExtra("category");
+        }
+        if(getIntent().getStringExtra("ingredients") != null){
+            ingredients = getIntent().getStringExtra("ingredients");
         }
 
         recyclerViewInit();
@@ -92,6 +96,9 @@ public class BoardActivity extends AppCompatActivity {
                         return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%ED%95%9C%EC%8B%9D&pageNum=0");
                     else if(category.equals("일식"))
                         return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%EC%9D%BC%EC%8B%9D&pageNum=0");
+                }
+                else if(ingredients != null){
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getByingredients?"+ingredients);
                 }
                 else
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");

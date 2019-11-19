@@ -44,6 +44,13 @@
         <item name="android:background">#d3d3d3</item>
     </style>
 
+    <style name="Ingredient">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background"></item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
