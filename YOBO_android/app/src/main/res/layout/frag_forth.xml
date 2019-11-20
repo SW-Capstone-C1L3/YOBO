@@ -5,23 +5,30 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="444444"/>
 
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="444444"
-        app:layout_constraintBottom_toTopOf="@+id/btnOnOff2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnOnOff2"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:text="말하기"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnOnOff2"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/volume"/>
+            <Button
+                android:id="@+id/btnSpeak2"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:text="음성인식"/>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
