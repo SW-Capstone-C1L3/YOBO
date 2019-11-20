@@ -3,6 +3,8 @@ package com.example.yobo_android.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -11,7 +13,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.fragment.RecipeDetailFragment;
@@ -35,6 +40,8 @@ import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 /*
 * 레시피 목록을 보여주는 BoardActivity
@@ -80,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        permissionCheck();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
@@ -215,8 +224,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
-
     @Override
     public void onBackPressed() {
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -241,5 +248,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    public void permissionCheck() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            ArrayList<String> arrayPermission = new ArrayList<>();
+
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                arrayPermission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                arrayPermission.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (arrayPermission.size() > 0) {
+                String[] strArray = new String[arrayPermission.size()];
+                strArray = arrayPermission.toArray(strArray);
+                ActivityCompat.requestPermissions(this, strArray, 1000);
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1000: {
+                if (grantResults.length < 1) {
+                    Toast.makeText(this, "Failed get permission", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Permission is denied : " + permissions[i], Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                Toast.makeText(this, "Permission is granted", Toast.LENGTH_SHORT).show();
+            }
+            break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

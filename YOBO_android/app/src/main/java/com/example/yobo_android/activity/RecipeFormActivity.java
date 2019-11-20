@@ -1,5 +1,6 @@
 package com.example.yobo_android.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -20,27 +20,39 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
 import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.etc.Cooking_description;
 import com.example.yobo_android.etc.IngredientsFormData;
+import com.example.yobo_android.etc.Main_cooking_ingredient;
+import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.RecipeSequenceFormData;
+import com.example.yobo_android.etc.Sub_cooking_ingredient;
 import com.google.android.material.snackbar.Snackbar;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeFormActivity extends AppCompatActivity {
 
@@ -48,10 +60,16 @@ public class RecipeFormActivity extends AppCompatActivity {
 
     Retrofit retrofit;
     ApiService apiService;
+    List<Uri> fileUris = new ArrayList<>();
 
     List<IngredientsFormData> mMainIngredientsDataList = new ArrayList<>();
     List<IngredientsFormData> mSubIngredientsDataList = new ArrayList<>();
     List<RecipeSequenceFormData> mRecipeSequenceFormDataList = new ArrayList<>();
+
+    List<String> category = new ArrayList<>();
+    List<Cooking_description> cooking_descriptions = new ArrayList<>();
+    List<Main_cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
+    List<Sub_cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
 
     IngredientsFormAdapter mainIngredientsAdapter;
     IngredientsFormAdapter subIngredientsAdapter;
@@ -96,28 +114,43 @@ public class RecipeFormActivity extends AppCompatActivity {
         mBtnWriteRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if(checkInput()){
+                if(checkInput()){
+                    category.add("한식");
+                    cooking_descriptions.add(new Cooking_description("TEMP", "TEMP"));
+                    main_cooking_ingredients.add(new Main_cooking_ingredient("고기", 3, "근"));
+                    sub_cooking_ingredients.add(new Sub_cooking_ingredient("후추", 2, "번"));
+                    final RecipeData recipe = new RecipeData(category,cooking_descriptions, 3, main_cooking_ingredients,
+                            3, "TEST", 2, sub_cooking_ingredients,"LJH2");
 
+                    OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    okhttpClientBuilder.addInterceptor(logging);
 
-               // }
-//                retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).build();
-//                apiService = retrofit.create(ApiService.class);
-//                Call<ResponseBody> comment = apiService.getComment(1);
-//                comment.enqueue(new Callback<ResponseBody>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                        try {
-//                            Log.v("Test",response.body().string());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    @Override
-//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                    }
-//                });
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(ApiService.API_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(okhttpClientBuilder.build())
+                            .build();
+                    apiService = retrofit.create(ApiService.class);
+                    List<MultipartBody.Part> parts = new ArrayList<>();
+                    for(int i=0 ; i<fileUris.size(); i++){
+                        parts.add(prepareFileParts("image",fileUris.get(i)));
 
+                    }
+                    Call<ResponseBody> call = apiService.uploadRecipe(parts,recipe);
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("ERROR", t.toString());
+                            Log.e("ERROR", call.toString());
+                        }
+                    });
+                }
             }
         });
 
@@ -307,6 +340,14 @@ public class RecipeFormActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @NonNull
+    private MultipartBody.Part prepareFileParts(String partName, Uri fileUri){
+        File file = FileUtils.getFile(this,fileUri);
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
     }
 
 }
