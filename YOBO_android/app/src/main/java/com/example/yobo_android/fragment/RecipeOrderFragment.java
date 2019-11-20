@@ -34,7 +34,8 @@ import java.util.Locale;
  */
 public class RecipeOrderFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener{
 
-    Button btn;
+    private Button btn;
+    private Button speak;
     private TextToSpeech tts;
     private static final int MY_DATA_CHECK =1234;
     /////////이 밑으로 부터 추가
@@ -58,9 +59,25 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
         btn =(Button)view.findViewById(R.id.btnOnOff);
+        speak=view.findViewById(R.id.btnSpeak);
+        speak.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ((RecipeActivity)getActivity()).start();
+            }
+        });
         tvLabel = (TextView)view.findViewById(R.id.recipe);
         tts = new TextToSpeech(getActivity(), this);
-        btn.setOnClickListener(this);
+        //btn.setOnClickListener(this);
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                String text = tvLabel.getText().toString().trim();
+                tts.setPitch((float) 1.0);      // 음량
+                tts.setSpeechRate((float) 1.5); // 재생속도
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"ababa");
+            }
+        });
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent,MY_DATA_CHECK);
