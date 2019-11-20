@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#F4E82D50</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorMain">#00DD99</color>
-    <color name="colorLightGray">#AAAAAA</color>
+    <color name="colorLightGray">#AAAAAA</color>>
+    <color name="colorLightGrayTrans">#F2AAAAAA</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorPinkTrans">#E6E82D50</color>
     <color name="colorPink">#E82D50</color>

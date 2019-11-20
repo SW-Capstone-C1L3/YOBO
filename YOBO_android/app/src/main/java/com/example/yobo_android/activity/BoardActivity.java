@@ -70,13 +70,14 @@ public class BoardActivity extends AppCompatActivity {
                 Recipe recipeItem = new Recipe();
 
                 JSONObject recipe = recipeList.getJSONObject(i);
+
                 JSONArray descriptionInfo = recipe.getJSONArray("cooking_description");
 
                 recipeItem.setRecipeId(recipe.getString("_id"));
                 recipeItem.setName(recipe.getString("recipe_name"));
                 recipeItem.setWriter(recipe.getString("writer_id"));
                 recipeItem.setDifficulty(recipe.getInt("difficulty"));
-                recipeItem.setRating(recipe.getLong("rating"));
+                recipeItem.setRating(recipe.getString("rating")+"점");
                 recipeItem.setServing(recipe.getInt("serving"));
                 recipeItem.setDescriptionNum(descriptionInfo.length() + 2);
 

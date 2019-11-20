@@ -47,12 +47,12 @@ public class RecipeActivity extends AppCompatActivity {
 //    private static int NUM_PAGES;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
-    private TextView mLike;
-    private TextView mComments;
-    private TextView mAlert;
-    private Button mbtnLike;
-    private Button mbtnComments;
-    private Button mbtnAlert;
+    private Button mLike;
+    private Button mComments;
+    private Button mAlert;
+//    private Button mbtnLike;
+//    private Button mbtnComments;
+//    private Button mbtnAlert;
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
@@ -78,12 +78,9 @@ public class RecipeActivity extends AppCompatActivity {
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
-        mLike = (TextView)findViewById(R.id.textLike);
-        mComments = (TextView)findViewById(R.id.textComments);
-        mAlert = (TextView)findViewById(R.id.textAlert);
-        mbtnLike = (Button)findViewById(R.id.btnLike);
-        mbtnComments = (Button)findViewById(R.id.btnComment);
-        mbtnAlert = (Button)findViewById(R.id.btnAlert);
+        mLike = (Button)findViewById(R.id.textLike);
+        mComments = (Button)findViewById(R.id.textComments);
+        mAlert = (Button)findViewById(R.id.textAlert);
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
@@ -99,68 +96,59 @@ public class RecipeActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
 
-        TextView.OnClickListener onClickListener = new TextView.OnClickListener(){
+        Button.OnClickListener onClickListener = new Button.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
-                switch (v.getId()){
-                    case R.id.btnComment:
-                        intent = new Intent(RecipeActivity.this,CommentActivity.class);
-                        intent.putExtra("recipe_id",recipeId);
-                        break;
-                    case R.id.textComments:
-                        intent = new Intent(RecipeActivity.this,CommentActivity.class);
-                        intent.putExtra("recipe_id",recipeId);
-                        break;
-                }
-                startActivityForResult(intent,REQUEST_TEST);
+                intent = new Intent(RecipeActivity.this,CommentActivity.class);
+                startActivity(intent);
             }
         };
-        mbtnLike.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                i=1-i;
-                if(i==1)
-                    mbtnLike.setBackgroundResource(R.drawable.like);
-                else
-                    mbtnLike.setBackgroundResource(R.drawable.unlike);
-                checkInput("like");
-            }
-        });
-        mLike.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                i=1-i;
-                if(i==1)
-                    mbtnLike.setBackgroundResource(R.drawable.like);
-                else
-                    mbtnLike.setBackgroundResource(R.drawable.unlike);
-                checkInput("like");
-            }
-        });
-        mbtnAlert.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                j = 1 - j;
-                if (j == 1)
-                    mbtnAlert.setBackgroundResource(R.drawable.warning);
-                else if (j == 0)
-                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
-                checkInput("alert");
-            }
-        });
-        mAlert.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                j = 1 - j;
-                if (j == 1)
-                    mbtnAlert.setBackgroundResource(R.drawable.warning);
-                else if (j == 0)
-                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
-                checkInput("alert");
-            }
-        });
-        mbtnComments.setOnClickListener(onClickListener);
+//        mbtnLike.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                i=1-i;
+//                if(i==1)
+//                    mbtnLike.setBackgroundResource(R.drawable.like);
+//                else
+//                    mbtnLike.setBackgroundResource(R.drawable.unlike);
+//                checkInput("like");
+//            }
+//        });
+//        mLike.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                i=1-i;
+//                if(i==1)
+//                    mbtnLike.setBackgroundResource(R.drawable.like);
+//                else
+//                    mbtnLike.setBackgroundResource(R.drawable.unlike);
+//                checkInput("like");
+//            }
+//        });
+//        mbtnAlert.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                j = 1 - j;
+//                if (j == 1)
+//                    mbtnAlert.setBackgroundResource(R.drawable.warning);
+//                else if (j == 0)
+//                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
+//                checkInput("alert");
+//            }
+//        });
+//        mAlert.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                j = 1 - j;
+//                if (j == 1)
+//                    mbtnAlert.setBackgroundResource(R.drawable.warning);
+//                else if (j == 0)
+//                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
+//                checkInput("alert");
+//            }
+//        });
+//        mbtnComments.setOnClickListener(onClickListener);
         mComments.setOnClickListener(onClickListener);
     }
 

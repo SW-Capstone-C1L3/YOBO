@@ -11,23 +11,34 @@
         android:id="@+id/srcIngredient"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
+        android:numColumns="3"
         android:gravity="center"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:scrollbars="vertical"
+        android:background="@color/colorLightGray"/>
     <GridView
         android:id="@+id/destIngredient"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
+        android:numColumns="3"
         android:gravity="center"
         android:layout_weight="1"
+        android:padding="10dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:scrollbars="vertical"
         android:background="@color/colorPinkTrans"/>
 
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="재료검색"/>
+        android:text="재료검색"
+        android:textColor="@color/colorPinkTrans"
+        android:background="@color/colorWhite"/>
 
 </LinearLayout>
 
