@@ -2,7 +2,6 @@ package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -13,38 +12,25 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.RequestHttpURLConnection;
-import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.RecipeOrder;
 import com.example.yobo_android.fragment.ForthFragment;
-
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.TestFragment;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import me.relex.circleindicator.CircleIndicator;
 import java.util.ArrayList;
 
@@ -91,7 +77,6 @@ public class RecipeActivity extends AppCompatActivity {
 
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
-
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         mLike = (Button)findViewById(R.id.textLike);
         mComments = (Button)findViewById(R.id.textComments);
