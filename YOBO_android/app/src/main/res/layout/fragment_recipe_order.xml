@@ -13,16 +13,26 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:src="@mipmap/ic_launcher" />
-    <Button
-        android:id="@+id/btnOnOff"
-        android:layout_width="100sp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="말하기" />
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnOnOff"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/volume"/>
+        <Button
+            android:id="@+id/btnSpeak"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:text="음성인식"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/recipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="n th 조리법\n 가나다라마바사 아자차카파타하" />
+        android:text="1번 조리법" />
 
 </LinearLayout>

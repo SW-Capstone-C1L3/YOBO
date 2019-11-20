@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_edge_red"
                 android:textColor="@color/colorRed"
-                android:text="구매하기" />
+                android:text="장바구니에 담기" />
         </LinearLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

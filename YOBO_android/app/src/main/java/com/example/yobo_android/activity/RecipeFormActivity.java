@@ -180,7 +180,6 @@ public class RecipeFormActivity extends AppCompatActivity  {
                 startActivityForResult(intent,PICK_FROM_ALBUM);
             }
         });
-
         setRecyclerViews();
         setAddBtnForRecyclerViews();
         setSpinners();

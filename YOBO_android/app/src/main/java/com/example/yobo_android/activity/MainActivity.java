@@ -1,6 +1,7 @@
 package com.example.yobo_android.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -14,13 +15,17 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +33,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.SearchView;
@@ -40,6 +46,7 @@ import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuItem mSearch;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-
+    private int REQUEST_TEST =1000;
 //    private Button mBtnRecipeRecommendation;
     private Button mBtnChoiceIngredient;
     private Button mBtnRecipeCategory;
@@ -192,8 +199,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //text.setText(query + "를 검색합니다.");
                 Intent intent = new Intent(getApplication(),BoardActivity.class);
                 intent.putExtra("query",query);
-                startActivity(intent);
-
+                startActivityForResult(intent,REQUEST_TEST);
                 return true;
             }
 
@@ -289,5 +295,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    //검색 일치 항목이 존재하지 않는 경우 상단에 snackbar가 뜨도록 설정하는 함수
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TEST) {
+            if (resultCode == RESULT_OK) {
+                String snackBarMessage;
+                snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
+                Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
+                        snackBarMessage, Snackbar.LENGTH_LONG);
+                View view = make.getView();
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
+                params.gravity = Gravity.TOP;
+                params.width = getScreenSize(this).x;
+                make.setAction("확인", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+                make.setActionTextColor(Color.RED);
+                make.show();
+            }
+        }
+    }
+    public Point getScreenSize(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return  size;
     }
 }
