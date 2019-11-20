@@ -7,6 +7,8 @@ package com.example.yobo_android.etc;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class Recipe {
 
     private String recipeId; // doc_id
@@ -16,6 +18,32 @@ public class Recipe {
     private String rating;
     private String recipeImageId;
     private String reciepSubDescription;
+    private int serving;
+    private int DescriptionNum;
+    private ArrayList<String> recipeDescription;
+    private ArrayList<String> recipeDescriptionImage;
+
+    //    private String[] category;
+    //    private JSONArray cooking_description;
+//    private JSONArray cooking_ingredient;
+//    private JSONArray sub_cooking_ingredient;
+
+
+    public ArrayList<String> getRecipeDescription() {
+        return recipeDescription;
+    }
+
+    public void setRecipeDescription(ArrayList<String> recipeDescription) {
+        this.recipeDescription = recipeDescription;
+    }
+
+    public ArrayList<String> getRecipeDescriptionImage() {
+        return recipeDescriptionImage;
+    }
+
+    public void setRecipeDescriptionImage(ArrayList<String> recipeDescriptionImage) {
+        this.recipeDescriptionImage = recipeDescriptionImage;
+    }
 
     public String getRating() {
         return rating;
@@ -25,12 +53,6 @@ public class Recipe {
         this.rating = rating;
     }
 
-    //    private String[] category;
-    private int serving;
-//    private JSONArray cooking_description;
-    private int DescriptionNum;
-//    private JSONArray cooking_ingredient;
-//    private JSONArray sub_cooking_ingredient;
 
 
     public int getDescriptionNum() {

@@ -66,6 +66,7 @@ public class BoardActivity extends AppCompatActivity {
                 Recipe recipeItem = new Recipe();
 
                 JSONObject recipe = recipeList.getJSONObject(i);
+
                 JSONArray descriptionInfo = recipe.getJSONArray("cooking_description");
 
                 recipeItem.setRecipeId(recipe.getString("_id"));
