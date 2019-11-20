@@ -108,4 +108,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         // 외부에서 item을 추가시킬 함수입니다.
         listShopIngredient.add(shoppingIngredientData);
     }
+    public void setImage(int position, String str){
+        listShopIngredient.get(position).setProduct_image(str);
+    }
 }

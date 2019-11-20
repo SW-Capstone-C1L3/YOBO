@@ -108,7 +108,8 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                 Toast.makeText(ShowSelectedIngredientInfoActivity.this,"장바구니에 담기 실패",Toast.LENGTH_LONG).show();
             }
         });
-        Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this, BasketActivity.class);
+        Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this,ShopIngredientActivity.class);
+        finish();
         startActivity(intent);
     }
 
@@ -140,7 +141,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //
-//            //검색버튼을 눌렀을 경우
+            //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);

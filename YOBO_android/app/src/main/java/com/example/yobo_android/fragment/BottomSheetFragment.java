@@ -27,7 +27,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     }
 
-
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
@@ -70,7 +69,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                         }
                         else
                             Toast.makeText(getContext(), "1개 이상 담아주시기 바랍니다.",Toast.LENGTH_SHORT).show();
-
                     default:
                         break;
                 }
@@ -88,7 +86,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onStateChanged(@NonNull View bottomSheet, int newState) {
                     String state = "";
-
                     switch (newState) {
                         case BottomSheetBehavior.STATE_DRAGGING: {
                             state = "DRAGGING";
@@ -112,10 +109,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                             break;
                         }
                     }
-
-                    Toast.makeText(getContext(), "Bottom Sheet State Changed to: " + state, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Bottom Sheet State Changed to: " + state, Toast.LENGTH_SHORT).show();
                 }
-
                 @Override
                 public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 }

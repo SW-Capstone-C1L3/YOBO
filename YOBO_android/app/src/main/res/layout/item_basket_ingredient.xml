@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150sp"
-        app:cardCornerRadius="20dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="10dp"
         android:layout_margin="3dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,11 +39,11 @@
                         <TextView
                             android:id="@+id/BaksetIngredientName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:hint="IngredientName"
                             android:layout_weight="1"
                             android:textColor="@android:color/black"
-                            android:textSize="30sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
                         <Button
                             android:id="@+id/btnDelete"

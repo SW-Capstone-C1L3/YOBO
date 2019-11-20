@@ -20,8 +20,10 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +70,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
+    private int REQUEST_TEST=1000;
     final int PERMISSION = 1;
     String message;
     Intent intent;
@@ -163,6 +166,27 @@ public class RecipeActivity extends AppCompatActivity {
 //        mbtnComments.setOnClickListener(onClickListener);
         mComments.setOnClickListener(onClickListener);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TEST) {
+            if (resultCode == RESULT_OK) {
+                String snackBarMessage;
+                snackBarMessage = "댓글이 존재하지 않습니다.";
+                Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
+                        snackBarMessage, Snackbar.LENGTH_LONG);
+                make.setAction("확인", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+                make.setActionTextColor(Color.RED);
+                make.show();
+            }
+        }
+    }
+
     public static class MyPagerAdapter extends FragmentPagerAdapter {
 //        private static int NUM_ITEMS = 10;
         public MyPagerAdapter(FragmentManager fragmentManager) {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -59,7 +60,10 @@ public class BoardActivity extends AppCompatActivity {
             num = recipeList.length();
             if(num==0 && query!=null) {
                 Log.i("jjjjjjjjjjjjjj","아무것도 일치하는게 없음");
-                checkInput();
+                Intent intent = new Intent();
+                intent.putExtra("result","no value");
+                setResult(RESULT_OK,intent);
+                finish();
             }
 
             for(int i=0; i<recipeList.length(); i++){
