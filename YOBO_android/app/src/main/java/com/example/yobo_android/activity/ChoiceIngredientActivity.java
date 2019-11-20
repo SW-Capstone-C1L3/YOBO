@@ -137,6 +137,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             textParams.gravity = Gravity.CENTER;
             name.setLayoutParams(textParams);
             name.setGravity(Gravity.CENTER);
+            name.setTextColor(Color.BLACK);
 
             btnIngre.addView(image,0);
             btnIngre.addView(name,1);

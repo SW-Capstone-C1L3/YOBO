@@ -13,10 +13,19 @@ public class Recipe {
     private String name; // recipe_name
     private String writer;
     private int difficulty;
-    private float rating;
+    private String rating;
     private String recipeImageId;
     private String reciepSubDescription;
-//    private String[] category;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    //    private String[] category;
     private int serving;
 //    private JSONArray cooking_description;
     private int DescriptionNum;
@@ -72,13 +81,6 @@ public class Recipe {
         this.name = name;
     }
 
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
 
     public String getRecipeImageId() {
         return recipeImageId;

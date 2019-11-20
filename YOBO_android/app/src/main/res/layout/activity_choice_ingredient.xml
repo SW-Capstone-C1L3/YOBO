@@ -37,8 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="재료검색"
-        android:textColor="@color/colorWhite"
-        android:background="@color/colorPink"/>
+        android:textColor="@color/colorPinkTrans"
+        android:background="@color/colorWhite"/>
 
 </LinearLayout>
 

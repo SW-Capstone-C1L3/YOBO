@@ -72,7 +72,7 @@ public class BoardActivity extends AppCompatActivity {
                 recipeItem.setName(recipe.getString("recipe_name"));
                 recipeItem.setWriter(recipe.getString("writer_id"));
                 recipeItem.setDifficulty(recipe.getInt("difficulty"));
-                recipeItem.setRating(recipe.getLong("rating"));
+                recipeItem.setRating(recipe.getString("rating")+"점");
                 recipeItem.setServing(recipe.getInt("serving"));
                 recipeItem.setDescriptionNum(descriptionInfo.length() + 2);
 
