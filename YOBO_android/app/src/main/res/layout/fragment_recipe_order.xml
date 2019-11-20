@@ -33,6 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="n th 조리법\n 가나다라마바사 아자차카파타하" />
+        android:text="1번 조리법" />
 
 </LinearLayout>
