@@ -1,17 +1,13 @@
 package com.example.yobo_android.api;
 
-<<<<<<< HEAD
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
-=======
 
 import java.util.HashMap;
 import retrofit2.http.FieldMap;
->>>>>>> 258bb25e3358a16b8692891273a17279f49f50f2
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
