@@ -1,6 +1,7 @@
 package com.example.yobo_android.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,11 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;
@@ -28,10 +32,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 //장보기 눌렀을때 뜨는 화면
 public class ShopIngredientActivity extends AppCompatActivity {
-
+    private ArrayList<String> image_list = new ArrayList<>();
     private ShopIngredientAdapter adapter;
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
@@ -46,6 +52,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
         mbtnGoToBakset.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
+                adapter.notifyItemChanged(0);
                 Intent intent = new Intent(ShopIngredientActivity.this, BasketActivity.class);
                 startActivity(intent);
             }
@@ -75,12 +82,20 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 ingreditem.setProvided_company_id(ingredient.getString("provided_company_id"));
                 ingreditem.setCompany_name(ingredient.getString("company_name"));
                 ingreditem.setProduct_image(ingredient.getString("product_image"));
+                Log.i("kkkkkkkkk1",ingredient.getString("product_name"));
+                image_list.add(ingredient.getString("product_image"));
                 adapter.addItem(ingreditem);
             }
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        int cnt=0;
+        for(String str : image_list) {
+            Log.i("kkkkkkkkkkkk" + (cnt++), str);
+        }
+        Log.i("kkkkkkk image: request전","ddd");
+        //adapter.setImage(cnt,str);
     }
 
     public class RequestAsync extends AsyncTask<String,String,String> {
