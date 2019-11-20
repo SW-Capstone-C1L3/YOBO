@@ -1,5 +1,11 @@
 package com.example.yobo_android.api;
 
+import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.RecipeData;
+
+import java.util.List;
+
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -13,7 +19,8 @@ import retrofit2.http.Query;
 public interface ApiService {
     public static final String API_URL = "http://45.119.146.82:8081";
 
-//    @Multipart
-//    @POST("/yobo/recipe/createRecipe")
-//    Call<이부분> uploadRecipe(@Multipart... );
+    @Multipart
+    @POST("/yobo/recipe/createRecipe")
+    Call<ResponseBody> uploadRecipe(@Part List<MultipartBody.Part> files,
+                                      @Part("recipe") RecipeData recipe);
 }
