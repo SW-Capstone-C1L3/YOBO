@@ -43,13 +43,15 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
                           EditTextListenerForRecipeSeqForm editTextListenerForRecipeSeqForm) {
             super(itemView);
             mRecipeSequenceFormText = itemView.findViewById(R.id.recipeSequenceFormText);
+            mRecipeSequenceFormImage = itemView.findViewById(R.id.recipeSequenceFormImage);
+
             this.editTextListenerForRecipeSeqForm = editTextListenerForRecipeSeqForm;
             mRecipeSequenceFormText.addTextChangedListener(editTextListenerForRecipeSeqForm);
 
-            mRecipeSequenceFormImage = itemView.findViewById(R.id.recipeSequenceFormImage);
             mRecipeSequenceFormImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mRecipeSequenceFormText.clearFocus();
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         if(mListener != null){
@@ -64,6 +66,7 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_recipe_sequence_form, parent, false);
         return new ViewHolder(view, new EditTextListenerForRecipeSeqForm());
@@ -73,9 +76,9 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         RecipeSequenceFormData item = mDataList.get(position);
         //holder.mRecipeSequenceFormImage.setImageResource(item.getRecipeSequenceFormImageId());
+        holder.editTextListenerForRecipeSeqForm.updatePosition(holder.getAdapterPosition());
         holder.mRecipeSequenceFormImage.setImageBitmap(item.getRecipeSequenceFormImageId());
         holder.mRecipeSequenceFormText.setText(item.getRecipeSequenceFormDescription());
-        holder.editTextListenerForRecipeSeqForm.updatePosition(holder.getAdapterPosition());
 
     }
 

@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.yobo_android.R;
@@ -30,7 +29,6 @@ import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.Cooking_description;
 import com.example.yobo_android.etc.IngredientsFormData;
 import com.example.yobo_android.etc.Main_cooking_ingredient;
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.RecipeSequenceFormData;
 import com.example.yobo_android.etc.Sub_cooking_ingredient;
@@ -54,9 +52,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RecipeFormActivity extends AppCompatActivity {
+public class RecipeFormActivity extends AppCompatActivity  {
 
     private static final int PICK_FROM_ALBUM = 1000;
+    private static final int PICK_FROM_ALBUM2 = 2000;
 
     Retrofit retrofit;
     ApiService apiService;
@@ -115,12 +114,29 @@ public class RecipeFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkInput()){
-                    category.add("한식");
-                    cooking_descriptions.add(new Cooking_description("TEMP", "TEMP"));
-                    main_cooking_ingredients.add(new Main_cooking_ingredient("고기", 3, "근"));
-                    sub_cooking_ingredients.add(new Sub_cooking_ingredient("후추", 2, "번"));
-                    final RecipeData recipe = new RecipeData(category,cooking_descriptions, 3, main_cooking_ingredients,
-                            3, "TEST", 2, sub_cooking_ingredients,"LJH2");
+
+                    category.add(mSpinnerCountry.getSelectedItem().toString());
+                    category.add(mSpinnerCookingType.getSelectedItem().toString());
+                    cooking_descriptions.add(new Cooking_description(
+                            mEtCookingDescription.getText().toString(), "TEMP"));
+                    for (int i = 0; i < mRecipeSequenceFormDataList.size(); i++) {
+                        cooking_descriptions.add(new Cooking_description(
+                                        mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormDescription(),
+                                        "TEMP"));
+                    }
+                    for (int i = 0; i < mMainIngredientsDataList.size(); i++) {
+                        main_cooking_ingredients.add(new Main_cooking_ingredient(
+                                mMainIngredientsDataList.get(i).getIngredientsName(), 2, "근"));
+
+                    }
+                    for (int i = 0; i < mSubIngredientsDataList.size(); i++) {
+                        sub_cooking_ingredients.add(new Sub_cooking_ingredient(
+                                mSubIngredientsDataList.get(i).getIngredientsName(), 2, "숟가락"));
+                    }
+                    final RecipeData recipe = new RecipeData(
+                            category,cooking_descriptions, 3, main_cooking_ingredients,
+                            3, mEtRecipeName.getText().toString(),
+                            2, sub_cooking_ingredients,"LJH");
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -132,11 +148,12 @@ public class RecipeFormActivity extends AppCompatActivity {
                             .addConverterFactory(GsonConverterFactory.create())
                             .client(okhttpClientBuilder.build())
                             .build();
+
                     apiService = retrofit.create(ApiService.class);
+
                     List<MultipartBody.Part> parts = new ArrayList<>();
                     for(int i=0 ; i<fileUris.size(); i++){
                         parts.add(prepareFileParts("image",fileUris.get(i)));
-
                     }
                     Call<ResponseBody> call = apiService.uploadRecipe(parts,recipe);
                     call.enqueue(new Callback<ResponseBody>() {
@@ -159,8 +176,7 @@ public class RecipeFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 사진 요청
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent,PICK_FROM_ALBUM);
             }
         });
@@ -174,7 +190,7 @@ public class RecipeFormActivity extends AppCompatActivity {
         RecyclerView mainIngredientsRecyclerView = findViewById(R.id.mainIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForMainIngredients = new LinearLayoutManager(this);
         mainIngredientsRecyclerView.setLayoutManager(layoutManagerForMainIngredients);
-        for(int i=0;i<3;i++)
+        for(int i=0;i<2;i++)
             mMainIngredientsDataList.add(new IngredientsFormData(null,null));
         mainIngredientsAdapter = new IngredientsFormAdapter(mMainIngredientsDataList);
         mainIngredientsRecyclerView.setAdapter(mainIngredientsAdapter);
@@ -182,7 +198,7 @@ public class RecipeFormActivity extends AppCompatActivity {
         RecyclerView subIngredientsRecyclerView = findViewById(R.id.subIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForSubIngredients = new LinearLayoutManager(this);
         subIngredientsRecyclerView.setLayoutManager(layoutManagerForSubIngredients);
-        for(int i=0;i<3;i++)
+        for(int i=0;i<2;i++)
             mSubIngredientsDataList.add(new IngredientsFormData(null,null));
         subIngredientsAdapter = new IngredientsFormAdapter(mSubIngredientsDataList);
         subIngredientsRecyclerView.setAdapter(subIngredientsAdapter);
@@ -190,7 +206,8 @@ public class RecipeFormActivity extends AppCompatActivity {
         RecyclerView recipeSequenceFormRecyclerView = findViewById(R.id.recipeSequenceFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForRecipeSequenceForm = new LinearLayoutManager(this);
         recipeSequenceFormRecyclerView.setLayoutManager(layoutManagerForRecipeSequenceForm);
-        for(int i=0;i<3;i++)
+
+        for(int i=0;i<2;i++)
             mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null,null));
 
         recipeSequenceFormAdapter = new RecipeSequenceFormAdapter(mRecipeSequenceFormDataList);
@@ -198,10 +215,9 @@ public class RecipeFormActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int pos) {
                 tempPosForSequenceForm = pos;
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.putExtra("sequencePosition", pos);
-                intent.setType("image/*");
-                startActivityForResult(intent,2000);
+                startActivityForResult(intent,PICK_FROM_ALBUM2);
             }
         });
         recipeSequenceFormRecyclerView.setAdapter(recipeSequenceFormAdapter);
@@ -264,28 +280,30 @@ public class RecipeFormActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(pictureSelected(requestCode, resultCode, data)){
-            //사진 경로
+        if(pictureSelected(resultCode,data)){
             Uri imageUri = data.getData();
-            Glide.with(this).load(imageUri.toString()).into(mImageCookingDescription);
-            flagCookingDescriptionImage = true;
+            Log.i("TEST2", "Uri :" + imageUri.toString());
 
-        }else if(requestCode == 2000 && resultCode == RESULT_OK && data != null){
+            fileUris.add(imageUri);
+            if(requestCode == PICK_FROM_ALBUM){
+                Glide.with(this).load(imageUri.toString()).into(mImageCookingDescription);
+                flagCookingDescriptionImage = true;
 
-            Uri imageUri = data.getData();
-            try {
-                //사진을 bitmap으로 얻기
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
-                mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setRecipeSequenceFormImageId(bitmap);
-                recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
-            } catch (IOException e) {
-                e.printStackTrace();
+            }else if(requestCode == PICK_FROM_ALBUM2){
+                try {
+                    //사진을 bitmap으로 얻기
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
+                    mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setRecipeSequenceFormImageId(bitmap);
+                    recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    private boolean pictureSelected(int requestCode, int resultCode, @Nullable Intent data) {
-        return requestCode == 1000 && resultCode == RESULT_OK && data != null;
+    private boolean pictureSelected(int resultCode, @Nullable Intent data) {
+        return resultCode == RESULT_OK && data != null;
     }
 
     public boolean checkInput(){
