@@ -1,5 +1,7 @@
 package com.example.yobo_android.adapter.viewholder;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +35,18 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
 
     //ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
+        EditTextListenerForRecipeSeqForm editTextListenerForRecipeSeqForm;
         ImageView mRecipeSequenceFormImage;
         EditText mRecipeSequenceFormText;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView,
+                          EditTextListenerForRecipeSeqForm editTextListenerForRecipeSeqForm) {
             super(itemView);
-            mRecipeSequenceFormImage = itemView.findViewById(R.id.recipeSequenceFormImage);
             mRecipeSequenceFormText = itemView.findViewById(R.id.recipeSequenceFormText);
+            this.editTextListenerForRecipeSeqForm = editTextListenerForRecipeSeqForm;
+            mRecipeSequenceFormText.addTextChangedListener(editTextListenerForRecipeSeqForm);
 
+            mRecipeSequenceFormImage = itemView.findViewById(R.id.recipeSequenceFormImage);
             mRecipeSequenceFormImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -60,7 +66,7 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_recipe_sequence_form, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, new EditTextListenerForRecipeSeqForm());
     }
 
     @Override
@@ -69,11 +75,35 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
         //holder.mRecipeSequenceFormImage.setImageResource(item.getRecipeSequenceFormImageId());
         holder.mRecipeSequenceFormImage.setImageBitmap(item.getRecipeSequenceFormImageId());
         holder.mRecipeSequenceFormText.setText(item.getRecipeSequenceFormDescription());
+        holder.editTextListenerForRecipeSeqForm.updatePosition(holder.getAdapterPosition());
 
     }
 
     @Override
     public int getItemCount() {
         return mDataList.size();
+    }
+
+    public class EditTextListenerForRecipeSeqForm implements TextWatcher{
+        private int position;
+
+        public void updatePosition(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mDataList.get(position).setRecipeSequenceFormDescription(s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 }

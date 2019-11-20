@@ -45,7 +45,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         Log.i("cccccccccccc","RecipeOrder created");
     }
     // newInstance constructor for creating fragment with arguments
-    public static RecipeOrderFragment newInstance(int page, String title) {
+    public static RecipeOrderFragment newInstance(String recipeId) {
         RecipeOrderFragment fragment = new RecipeOrderFragment();
         Log.i("ccccccccccc","recipeorder new instance");
         return fragment;

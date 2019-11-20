@@ -44,7 +44,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         void onBind(ShoppingIngredientData shoppingIngredientData, int position) {
-            //product_image.setImageResource(shoppingIngredientData.getProduct_image());
+            //product_image.setImageResource(Integer.parseInt(shoppingIngredientData.getProduct_image()));
             sel_ingredient_Id = shoppingIngredientData.getSel_id();
             product_unit = shoppingIngredientData.getProduct_unit();
             product_description = shoppingIngredientData.getProduct_description();
@@ -60,7 +60,8 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if (pos != RecyclerView.NO_POSITION) { // 갱신하는 과정에서 뷰홀더가 참조하는 아이템이 어댑터에서 삭제되면 NO_POSITION 리턴
                 Intent intent = new Intent(context, ShowSelectedIngredientInfoActivity.class);
                 //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
-                intent.putExtra("Ingredient_image",sel_ingredient_Id);
+                intent.putExtra("Ingredient_id",sel_ingredient_Id);
+                intent.putExtra("Ingredient_image",product_image.getResources().toString());
                 intent.putExtra("Ingredient_name",product_name.getText().toString());
                 intent.putExtra("Ingredient_description",product_description);
                 intent.putExtra("Company_name",company_name);
