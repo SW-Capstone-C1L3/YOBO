@@ -25,43 +25,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <LinearLayout
+                android:layout_height="30dp"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/south_korea"/>
+                <TextView
+                    android:id="@+id/btnKorean"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/south_korea"/>
-                    <TextView
-                        android:id="@+id/btnKorean"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="한식"/>
-                </LinearLayout>
-                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="한식"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/china"
+                    />
+                <TextView
+                    android:id="@+id/btnChinese"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/china"
-                        />
-                    <TextView
-                        android:id="@+id/btnChinese"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="중식"/>
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="중식"/>
             </LinearLayout>
 
             <LinearLayout
