@@ -1,9 +1,7 @@
 package com.example.yobo_android.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,8 +24,6 @@ import com.example.yobo_android.fragment.BottomSheetFragBasket;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -120,7 +116,7 @@ public class BasketActivity extends AppCompatActivity{
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(BasketActivity.this,ing_name+"이 삭제되었습니다",Toast.LENGTH_LONG).show();
+                Toast.makeText(BasketActivity.this,ing_name+" 삭제되었습니다",Toast.LENGTH_LONG).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {

@@ -73,8 +73,7 @@ public class BottomSheetFragBasket extends BottomSheetDialogFragment {
                             break;
                         }
                     }
-
-                    Toast.makeText(getContext(), "Bottom Sheet State Changed to: " + state, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Bottom Sheet State Changed to: " + state, Toast.LENGTH_SHORT).show();
                 }
                 @Override
                 public void onSlide(@NonNull View bottomSheet, float slideOffset) {
