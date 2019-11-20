@@ -195,10 +195,10 @@ public class RecipeActivity extends AppCompatActivity {
                     return RecipeMainFragment.newInstance(recipeId);//recipe.getName(), recipe.getWriter(), recipe.getReciepSubDescription());
                 case 1:
                     return RecipeDetailFragment.newInstance(recipeId);
-//                case 2:
-//                    return RecipeOrderFragment.newInstance(2, "Page # 3");
-//                case 3:
-//                    return ForthFragment.newInstance(3, "Page # 4");
+                case 2:
+                    return RecipeOrderFragment.newInstance(recipeId);
+                case 3:
+                    return ForthFragment.newInstance(recipeId);
                 default:
                     return TestFragment.newInstance("asd","asd");
             }

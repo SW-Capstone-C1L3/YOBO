@@ -32,15 +32,26 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/BaksetIngredientName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="IngredientName"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/BaksetIngredientName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="IngredientName"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/black"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btnDelete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/delete"/>
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/BaksetIngredientPrice"
                         android:layout_width="match_parent"

@@ -65,8 +65,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                     case R.id.btnPurchase:
                         //장바구니 DB에 올리는 작업
                         Log.i("jjjjjjjjjjjjjjjjj","장바구니에 담기 클릭");
-                        if(amount>0)
-                            ((ShowSelectedIngredientInfoActivity)getActivity()).goToBasket();
+                        if(amount>0) {
+                            ((ShowSelectedIngredientInfoActivity) getActivity()).goToBasket(amount);
+                        }
                         else
                             Toast.makeText(getContext(), "1개 이상 담아주시기 바랍니다.",Toast.LENGTH_SHORT).show();
 
