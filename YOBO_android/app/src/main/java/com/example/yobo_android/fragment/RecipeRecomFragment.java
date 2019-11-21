@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.activity.MainActivity;
 
 /*
 * MainActivity의 첫번째 layout에 띄워지는 Fragment
