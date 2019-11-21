@@ -247,7 +247,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public Fragment getItem(int position) {
-            return new RecipeRecomFragment();
+            switch (position){
+                case 0:
+                    return RecipeRecomFragment.newInstance("0");
+                case 1:
+                    return RecipeRecomFragment.newInstance("1");
+                case 2:
+                    return RecipeRecomFragment.newInstance("2");
+                default:
+                    return RecipeRecomFragment.newInstance("0");
+            }
         }
 
         @Override
