@@ -11,9 +11,9 @@
 
     <string-array name="spinnerCookingType">
         <item>[조리별]</item>
-        <item>밥 요리</item>
-        <item>면 요리</item>
-        <item>국물 요리</item>
+        <item>밥</item>
+        <item>면</item>
+        <item>국물</item>
         <item>구이</item>
         <item>튀김</item>
         <item>간식</item>
