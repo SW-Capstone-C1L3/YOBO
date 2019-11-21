@@ -99,9 +99,9 @@ public class RecipeActivity extends AppCompatActivity {
         Button.OnClickListener onClickListener = new Button.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent();
-                intent = new Intent(RecipeActivity.this,CommentActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(RecipeActivity.this,CommentActivity.class);
+                intent.putExtra("recipe_id",recipeId);
+                startActivityForResult(intent,REQUEST_TEST);
             }
         };
 //        mbtnLike.setOnClickListener(new View.OnClickListener(){
@@ -202,7 +202,6 @@ public class RecipeActivity extends AppCompatActivity {
                     return TestFragment.newInstance("asd","asd");
             }
         }
-
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
