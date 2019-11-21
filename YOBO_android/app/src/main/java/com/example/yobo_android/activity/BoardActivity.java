@@ -97,10 +97,7 @@ public class BoardActivity extends AppCompatActivity {
                 if(query != null)
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/search/?recipeName="+query);
                 else if(category != null){
-                    if(category.equals("한식"))
-                        return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%ED%95%9C%EC%8B%9D&pageNum=0");
-                    else if(category.equals("일식"))
-                        return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate=%EC%9D%BC%EC%8B%9D&pageNum=0");
+                    return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getListbyCate/?cate="+category);
                 }
                 else if(ingredients != null){
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getByingredients?"+ingredients);
@@ -117,7 +114,6 @@ public class BoardActivity extends AppCompatActivity {
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }
-            return null;
         }
         @Override
         protected void onPostExecute(String s) {
