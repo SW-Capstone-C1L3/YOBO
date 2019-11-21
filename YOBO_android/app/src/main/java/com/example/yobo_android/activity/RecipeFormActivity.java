@@ -127,17 +127,17 @@ public class RecipeFormActivity extends AppCompatActivity  {
                     }
                     for (int i = 0; i < mMainIngredientsDataList.size(); i++) {
                         main_cooking_ingredients.add(new Main_cooking_ingredient(
-                                mMainIngredientsDataList.get(i).getIngredientsName(), 2, "근"));
+                                mMainIngredientsDataList.get(i).getIngredientsName(), 0, ""));
 
                     }
                     for (int i = 0; i < mSubIngredientsDataList.size(); i++) {
                         sub_cooking_ingredients.add(new Sub_cooking_ingredient(
-                                mSubIngredientsDataList.get(i).getIngredientsName(), 2, "숟가락"));
+                                mSubIngredientsDataList.get(i).getIngredientsName(), 0, ""));
                     }
                     final RecipeData recipe = new RecipeData(
-                            category,cooking_descriptions, 3, main_cooking_ingredients,
-                            3.0, mEtRecipeName.getText().toString(),
-                            2, sub_cooking_ingredients,"LJH");
+                            category,cooking_descriptions, 0, main_cooking_ingredients,
+                            0.0, mEtRecipeName.getText().toString(),
+                            0, sub_cooking_ingredients,"LJH");
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

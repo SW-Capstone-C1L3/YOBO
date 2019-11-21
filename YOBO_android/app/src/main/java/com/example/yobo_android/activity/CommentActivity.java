@@ -37,7 +37,7 @@ public class CommentActivity extends AppCompatActivity {
     public void jsonParser(String json) {
         try {
             JSONArray CommentList = new JSONArray(json);
-            for(int i=0; i<CommentList.length(); i++){
+            for(int i=CommentList.length()-1; i>=0; i--){
                 CommentData commentItem = new CommentData();
                 JSONObject comment = CommentList.getJSONObject(i);
                 commentItem.setComment_id(comment.getString("_id"));

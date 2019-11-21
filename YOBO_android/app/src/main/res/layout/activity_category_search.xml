@@ -5,102 +5,162 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".activity.CategorySearchActivity">
+    tools:context=".activity.CategorySearchActivity"><LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="10dp">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorLightGray" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="150px"
+        android:gravity="center_vertical"
+        android:text=" 나라별 요리 "
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorLightGray" />
+</LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:gravity="center_vertical"
-            android:text="나라별 요리"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
+        android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="70dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
-                <LinearLayout
+                android:padding="10dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/south_korea"/>
+
+                <TextView
+                    android:id="@+id/btnKorean"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/south_korea"/>
-                    <TextView
-                        android:id="@+id/btnKorean"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="한식"/>
-                </LinearLayout>
-                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="한식"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:padding="10dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/china"
+                    />
+                <TextView
+                    android:id="@+id/btnChinese"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/china"
-                        />
-                    <TextView
-                        android:id="@+id/btnChinese"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="중식"/>
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="중식"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25dp" />
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="70dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
-                <LinearLayout
+                android:padding="10dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/japan"/>
+
+                <TextView
+                    android:id="@+id/btnJapanese"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/japan"/>
-                    <TextView
-                        android:id="@+id/btnJapanese"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="일식"/>
-                </LinearLayout>
-                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="일식"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:padding="10dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/united_kingdom"/>
+
+                <TextView
+                    android:id="@+id/btnWestern"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/united_kingdom"/>
-                    <TextView
-                        android:id="@+id/btnWestern"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="양식"/>
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="양식"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25dp" />
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorLightGray" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="150px"
+            android:gravity="center_vertical"
+            android:text=" 종류별 요리 "
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorLightGray" />
     </LinearLayout>
 
     <LinearLayout
@@ -108,16 +168,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:text="종류별 요리"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textSize="30sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,63 +179,79 @@
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/rice"/>
+
                     <TextView
                         android:id="@+id/btnRice"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="밥요리"/>
+                        android:text="밥요리"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/soup"/>
+
                     <TextView
                         android:id="@+id/btnSoup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="국물요리"/>
+                        android:text="국물요리"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/meat"/>
+
                     <TextView
                         android:id="@+id/btnMeat"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="고기요리"/>
+                        android:text="고기요리"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/burger"/>
+
                     <TextView
                         android:id="@+id/btnFastfood"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="패스트푸드요리"/>
+                        android:text="패스트푸드"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -196,65 +262,82 @@
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/fried_chicken"/>
+
                     <TextView
                         android:id="@+id/btnTang"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="튀김요리"/>
+                        android:text="튀김요리"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/noodles"/>
+
                     <TextView
                         android:id="@+id/btnNoodle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="면요리"/>
+                        android:text="면요리"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/cake"/>
+
                     <TextView
                         android:id="@+id/btnDesert"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="디저트요리"/>
+                        android:text="디저트"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1">
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/cookies"/>
+
                     <TextView
                         android:id="@+id/btnCookie"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="간식요리"/>
+                        android:text="간식"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

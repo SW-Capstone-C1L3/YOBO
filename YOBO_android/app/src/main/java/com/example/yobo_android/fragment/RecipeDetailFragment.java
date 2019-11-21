@@ -100,9 +100,9 @@ public class RecipeDetailFragment extends Fragment {
             }
             detailRecipeSubIngredient.setText(tmp);
 
-            detailRecipeServing.setText(recipeInfo.getString("serving")+"");
+            detailRecipeServing.setText(recipeInfo.getString("serving")+"인분");
             detailRecipeDifficulty.setText(recipeInfo.getString("difficulty")+"");
-            detailRecipeRating.setText(recipeInfo.getString("rating")+"");
+            detailRecipeRating.setText(recipeInfo.getString("rating")+"점");
 
             //order[]
             for(int i=0; i<descriptionInfo.length(); i++){

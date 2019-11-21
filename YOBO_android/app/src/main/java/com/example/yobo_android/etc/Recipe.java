@@ -1,7 +1,7 @@
 package com.example.yobo_android.etc;
 
 /*
-* 레시피 객체
+ * 레시피 객체
  */
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Recipe {
     public Recipe(List<String> category, List<Cooking_description> cooking_description,
-                      Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
-                      Double rating, String recipe_name, Integer serving,
-                      List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id) {
+                  Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
+                  Double rating, String recipe_name, Integer serving,
+                  List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id) {
         this.category = category;
         this.cooking_description = cooking_description;
         this.difficulty = difficulty;
@@ -23,9 +23,9 @@ public class Recipe {
         this.writer_id = writer_id;
     }
     public Recipe(List<String> category, List<Cooking_description> cooking_description,
-                      Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
-                      Double rating, String recipe_name, Integer serving,
-                      List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id,String _id) {
+                  Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
+                  Double rating, String recipe_name, Integer serving,
+                  List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id,String _id) {
         this.category = category;
         this.cooking_description = cooking_description;
         this.difficulty = difficulty;

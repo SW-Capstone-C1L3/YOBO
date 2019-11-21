@@ -2,7 +2,6 @@ package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -20,20 +19,14 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.api.RequestHttpURLConnection;
-import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.RecipeOrder;
 import com.example.yobo_android.fragment.ForthFragment;
-
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
@@ -46,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import me.relex.circleindicator.CircleIndicator;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -61,12 +56,13 @@ public class RecipeActivity extends AppCompatActivity {
 //    private static int NUM_PAGES;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
-    private TextView mLike;
-    private TextView mComments;
-    private TextView mAlert;
-    private Button mbtnLike;
-    private Button mbtnComments;
-    private Button mbtnAlert;
+    private Button mLike;
+    private Button mComments;
+    private Button mAlert;
+//    private Button mbtnLike;
+//    private Button mbtnComments;
+//    private Button mbtnAlert;
+    private static ArrayList<String> description = new ArrayList<>();
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
@@ -89,16 +85,15 @@ public class RecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
+        new RequestAsync().execute();
+
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
-        mLike = (TextView)findViewById(R.id.textLike);
-        mComments = (TextView)findViewById(R.id.textComments);
-        mAlert = (TextView)findViewById(R.id.textAlert);
-        mbtnLike = (Button)findViewById(R.id.btnLike);
-        mbtnComments = (Button)findViewById(R.id.btnComment);
-        mbtnAlert = (Button)findViewById(R.id.btnAlert);
+        mLike = (Button)findViewById(R.id.textLike);
+        mComments = (Button)findViewById(R.id.textComments);
+        mAlert = (Button)findViewById(R.id.textAlert);
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
@@ -114,68 +109,59 @@ public class RecipeActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
 
-        TextView.OnClickListener onClickListener = new TextView.OnClickListener(){
+        Button.OnClickListener onClickListener = new Button.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent();
-                switch (v.getId()){
-                    case R.id.btnComment:
-                        intent = new Intent(RecipeActivity.this,CommentActivity.class);
-                        intent.putExtra("recipe_id",recipeId);
-                        break;
-                    case R.id.textComments:
-                        intent = new Intent(RecipeActivity.this,CommentActivity.class);
-                        intent.putExtra("recipe_id",recipeId);
-                        break;
-                }
+                Intent intent = new Intent(RecipeActivity.this,CommentActivity.class);
+                intent.putExtra("recipe_id",recipeId);
                 startActivityForResult(intent,REQUEST_TEST);
             }
         };
-        mbtnLike.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                i=1-i;
-                if(i==1)
-                    mbtnLike.setBackgroundResource(R.drawable.like);
-                else
-                    mbtnLike.setBackgroundResource(R.drawable.unlike);
-                checkInput("like");
-            }
-        });
-        mLike.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                i=1-i;
-                if(i==1)
-                    mbtnLike.setBackgroundResource(R.drawable.like);
-                else
-                    mbtnLike.setBackgroundResource(R.drawable.unlike);
-                checkInput("like");
-            }
-        });
-        mbtnAlert.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                j = 1 - j;
-                if (j == 1)
-                    mbtnAlert.setBackgroundResource(R.drawable.warning);
-                else if (j == 0)
-                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
-                checkInput("alert");
-            }
-        });
-        mAlert.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                j = 1 - j;
-                if (j == 1)
-                    mbtnAlert.setBackgroundResource(R.drawable.warning);
-                else if (j == 0)
-                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
-                checkInput("alert");
-            }
-        });
-        mbtnComments.setOnClickListener(onClickListener);
+//        mbtnLike.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                i=1-i;
+//                if(i==1)
+//                    mbtnLike.setBackgroundResource(R.drawable.like);
+//                else
+//                    mbtnLike.setBackgroundResource(R.drawable.unlike);
+//                checkInput("like");
+//            }
+//        });
+//        mLike.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                i=1-i;
+//                if(i==1)
+//                    mbtnLike.setBackgroundResource(R.drawable.like);
+//                else
+//                    mbtnLike.setBackgroundResource(R.drawable.unlike);
+//                checkInput("like");
+//            }
+//        });
+//        mbtnAlert.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                j = 1 - j;
+//                if (j == 1)
+//                    mbtnAlert.setBackgroundResource(R.drawable.warning);
+//                else if (j == 0)
+//                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
+//                checkInput("alert");
+//            }
+//        });
+//        mAlert.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                j = 1 - j;
+//                if (j == 1)
+//                    mbtnAlert.setBackgroundResource(R.drawable.warning);
+//                else if (j == 0)
+//                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
+//                checkInput("alert");
+//            }
+//        });
+//        mbtnComments.setOnClickListener(onClickListener);
         mComments.setOnClickListener(onClickListener);
     }
 
@@ -216,20 +202,21 @@ public class RecipeActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Log.i("ccccccccccccccc","recipeAct getItem, item: " + String.valueOf(position));
+            Log.i("asdqwe",position+"rrr");
             switch (position) {
                 case 0:
                     return RecipeMainFragment.newInstance(recipeId);//recipe.getName(), recipe.getWriter(), recipe.getReciepSubDescription());
                 case 1:
                     return RecipeDetailFragment.newInstance(recipeId);
-                case 2:
-                    return RecipeOrderFragment.newInstance(recipeId);
-                case 3:
-                    return ForthFragment.newInstance(recipeId);
+//                case 2:
+//                    return RecipeOrderFragment.newInstance(recipeId);
+//                case 3:
+//                    return ForthFragment.newInstance(recipeId);
                 default:
-                    return TestFragment.newInstance("asd","asd");
+                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
+//                    return TestFragment.newInstance("asd","asd");
             }
         }
-
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
@@ -376,6 +363,38 @@ public class RecipeActivity extends AppCompatActivity {
             });
             make.setActionTextColor(Color.RED);
             make.show();
+        }
+    }
+
+    public void jsonParser(String json) {
+        try {
+            JSONObject recipeInfo = new JSONObject(json);
+            JSONArray descriptionInfo = recipeInfo.getJSONArray("cooking_description");
+
+            for(int i=0; i<descriptionInfo.length(); i++){
+                description.add(descriptionInfo.getJSONObject(i).getString("description"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class RequestAsync extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                //GET Request
+                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipebyDid/?Did="+recipeId);
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            if (s != null) {
+                Log.i("qweasd2","hi132");
+                jsonParser(s);
+            }
         }
     }
 }

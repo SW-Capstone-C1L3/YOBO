@@ -23,6 +23,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -76,8 +77,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // user Info in nav header
     private TextView nav_header_user_name;
     private TextView nav_header_user_id;
-
+    private Integer num=0;
     private Button mBtnLoginInNavHeader;
+
+    Thread thread = null;
+    Handler handler = null;
+    int p=0;	//페이지번호
+    int v=1;
 
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -156,9 +162,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnChoiceIngredient.setOnClickListener(onClickListener);
         mBtnRecipeCategory.setOnClickListener(onClickListener);
         mBtnShop.setOnClickListener(onClickListener);
+
+        handler = new Handler(){
+            public void handleMessage(android.os.Message msg) {
+                if(p==0)
+                    mPager.setCurrentItem(1);
+                else if(p==1)
+                    mPager.setCurrentItem(2);
+                else if(p==2)
+                    mPager.setCurrentItem(0);
+                p=(p+1)%3;
+            }
+        };
+        thread = new Thread(){
+            //run은 jvm이 쓰레드를 채택하면, 해당 쓰레드의 run메서드를 수행한다.
+            public void run() {
+                super.run();
+                while(true){
+                    try {
+                        Thread.sleep(5000);
+                        handler.sendEmptyMessage(0);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        thread.start();
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -208,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onQueryTextChange(String newText) {
                 //TextView text = (TextView) findViewById(R.id.txtsearch);
                 //text.setText("검색식 : " + newText);
-
                 return true;
             }
         });
@@ -247,7 +278,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public Fragment getItem(int position) {
-            return new RecipeRecomFragment();
+            switch (position){
+                case 0:
+                    return RecipeRecomFragment.newInstance("0");
+                case 1:
+                    return RecipeRecomFragment.newInstance("1");
+                case 2:
+                    return RecipeRecomFragment.newInstance("2");
+                default:
+                    return RecipeRecomFragment.newInstance("0");
+            }
         }
 
         @Override
@@ -255,7 +295,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return NUM_PAGES;
         }
     }
-
+    public void changeImage(int idx){
+        int nexIdx = (idx+1)%3;
+        mPager.setCurrentItem(nexIdx,true);
+    }
     public void permissionCheck() {
         if (Build.VERSION.SDK_INT >= 23) {
             ArrayList<String> arrayPermission = new ArrayList<>();

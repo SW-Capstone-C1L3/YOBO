@@ -20,14 +20,15 @@
             <ImageView
                 android:id="@+id/recipeImage"
                 android:layout_width="match_parent"
-                android:layout_height="140sp"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:layout_height="140dp"
+                android:src="@mipmap/ic_launcher" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -38,8 +39,10 @@
                     <TextView
                         android:id="@+id/recipeName"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:includeFontPadding="false"
+                        android:paddingLeft="20dp"
+                        android:gravity="center"
                         android:text="recipeName"
                         android:textColor="@android:color/black"
                         android:textSize="35sp"
@@ -59,14 +62,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/recipeWriter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
                         android:text="recipeWriter"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
@@ -76,7 +79,6 @@
                         android:id="@+id/recipeScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
                         android:text="recipeScore"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="13sp" />

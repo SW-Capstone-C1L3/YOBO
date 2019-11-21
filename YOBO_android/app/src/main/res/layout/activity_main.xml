@@ -56,29 +56,40 @@
                     android:layout_height="350dp" />
 
                 <Button
-                    android:id="@+id/btnChoiceIngredient"
+                    android:id="@+id/btnRecipeCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:background="@drawable/choice_ingredient"
-                    android:text="재료 선택"
+                    android:layout_height="120dp"
+                    android:background="@drawable/category"
+                    android:paddingRight="40sp"
+                    android:text="카테고리"
+                    android:textAlignment="viewEnd"
                     android:textColor="@color/colorWhite"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btnRecipeCategory"
+                    android:id="@+id/btnChoiceIngredient"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:text="카테고리" />
+                    android:layout_height="120dp"
+                    android:background="@drawable/choice"
+                    android:text="재료 선택"
+                    android:paddingLeft="40sp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <Button
                     android:id="@+id/btnShop"
                     android:layout_width="match_parent"
-                    android:background="@drawable/shopping_basket"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:layout_height="350dp"
-                    android:text="장보기" />
+                    android:layout_height="120dp"
+                    android:background="@drawable/basket"
+                    android:text="장보기"
+                    android:paddingRight="40sp"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
