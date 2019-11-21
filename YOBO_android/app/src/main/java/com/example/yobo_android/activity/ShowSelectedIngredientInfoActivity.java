@@ -108,9 +108,9 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                 Toast.makeText(ShowSelectedIngredientInfoActivity.this,"장바구니에 담기 실패",Toast.LENGTH_LONG).show();
             }
         });
-        Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this,ShopIngredientActivity.class);
+        //Intent intent = new Intent(ShowSelectedIngredientInfoActivity.this,ShopIngredientActivity.class);
         finish();
-        startActivity(intent);
+        //startActivity(intent);
     }
 
     @Override
