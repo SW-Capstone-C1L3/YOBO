@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@color/colorLightGrayTrans">
-
             <Button
                 android:id="@+id/textComments"
                 android:layout_width="wrap_content"
