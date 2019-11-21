@@ -52,7 +52,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         return fragment;
     }
 
-
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +86,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     public void onViewCreated (View view,
                         Bundle savedInstanceState){
         Log.i("cccccccccc","RecipeOrderFrag onViewCreated called");
-
     }
     // Store instance variables based on arguments passed
     @Override
