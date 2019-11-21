@@ -51,7 +51,6 @@ public class RecipeMainFragment extends Fragment {
         if(getArguments() != null) {
             recipeId = getArguments().getString(ARG_RECIPE_ID);
         }
-
     }
 
     public void jsonParser(String json) {
@@ -60,7 +59,7 @@ public class RecipeMainFragment extends Fragment {
 
             detailRecipeName.setText(recipeInfo.getString("recipe_name"));
             detailRecipeWriter.setText(recipeInfo.getString("writer_id"));
-            detailRecipeSubDescription.setText("아직 DB에 없음");
+            detailRecipeSubDescription.setText("");
 
         } catch (JSONException e) {
             e.printStackTrace();

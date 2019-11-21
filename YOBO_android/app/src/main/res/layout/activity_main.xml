@@ -58,7 +58,7 @@
                 <Button
                     android:id="@+id/btnRecipeCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     android:background="@drawable/category"
                     android:paddingRight="40sp"
                     android:text="카테고리"
@@ -70,7 +70,7 @@
                 <Button
                     android:id="@+id/btnChoiceIngredient"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     android:background="@drawable/choice"
                     android:text="재료 선택"
                     android:paddingLeft="40sp"
@@ -82,7 +82,7 @@
                 <Button
                     android:id="@+id/btnShop"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     android:background="@drawable/basket"
                     android:text="장보기"
                     android:paddingRight="40sp"
