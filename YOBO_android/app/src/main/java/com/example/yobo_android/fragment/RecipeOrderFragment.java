@@ -1,6 +1,7 @@
 package com.example.yobo_android.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -24,7 +25,13 @@ import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
+import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.RecipeOrder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -33,6 +40,11 @@ import java.util.Locale;
  * 3번째부터의 모든 fragment로 레시피의 조리 순서를 나타내는 UI
  */
 public class RecipeOrderFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener{
+    private static final String ARG_RECIPE_ID ="";
+    private static final String ARG_DESCRIPTION = "";
+
+    private static String recipeId;
+    private static String description;
 
     private Button btn;
     private Button speak;
@@ -42,22 +54,40 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
     TextView tvLabel;
+
     public RecipeOrderFragment(){
         Log.i("cccccccccccc","RecipeOrder created");
     }
     // newInstance constructor for creating fragment with arguments
-    public static RecipeOrderFragment newInstance(String recipeId) {
+    public static RecipeOrderFragment newInstance(String recipeId, String description) {
         RecipeOrderFragment fragment = new RecipeOrderFragment();
-        Log.i("ccccccccccc","recipeorder new instance");
+        Bundle args = new Bundle();
+        args.putString(ARG_RECIPE_ID, recipeId);
+        args.putString(ARG_DESCRIPTION, description);
+        fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        if(getArguments() != null) {
+            recipeId = getArguments().getString(ARG_RECIPE_ID);
+            description = getArguments().getString(ARG_DESCRIPTION);
+        }
+        super.onCreate(savedInstanceState);
+    }
 
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
+
+        tvLabel = (TextView)view.findViewById(R.id.recipe);
+//        new RequestAsync().execute();
+        tvLabel.setText(description);
+
         btn =(Button)view.findViewById(R.id.btnOnOff);
         speak=view.findViewById(R.id.btnSpeak);
         speak.setOnClickListener(new View.OnClickListener(){
@@ -66,7 +96,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                 ((RecipeActivity)getActivity()).start();
             }
         });
-        tvLabel = (TextView)view.findViewById(R.id.recipe);
         tts = new TextToSpeech(getActivity(), this);
         //btn.setOnClickListener(this);
         btn.setOnClickListener(new View.OnClickListener(){
@@ -86,16 +115,8 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     }
     public void onViewCreated (View view,
                         Bundle savedInstanceState){
-        Log.i("cccccccccc","RecipeOrderFrag onViewCreated called");
-
     }
     // Store instance variables based on arguments passed
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.i("ccccccccccc","recipeorder onCreate");
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser){
         if(isVisibleToUser){
@@ -159,4 +180,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         }
         super.onDestroy();
     }
+
+
 }

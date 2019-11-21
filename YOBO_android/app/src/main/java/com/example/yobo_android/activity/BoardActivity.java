@@ -104,13 +104,6 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 else
                     return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipeList/?pageNum=2");
-                // POST Request
-//                JSONObject postDataParams = new JSONObject();
-//                postDataParams.put("name", "Manjeet");
-//                postDataParams.put("email", "manjeet@gmail.com");
-//                postDataParams.put("phone", "+1111111111");
-//
-//                return RequestHttpURLConnection.sendPost("https://prodevsblog.com/android_post.php", postDataParams);
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }

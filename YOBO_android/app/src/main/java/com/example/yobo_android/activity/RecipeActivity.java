@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.fragment.ForthFragment;
 
 import com.example.yobo_android.fragment.RecipeDetailFragment;
@@ -31,7 +33,14 @@ import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.TestFragment;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import me.relex.circleindicator.CircleIndicator;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -53,6 +62,7 @@ public class RecipeActivity extends AppCompatActivity {
 //    private Button mbtnLike;
 //    private Button mbtnComments;
 //    private Button mbtnAlert;
+    private static ArrayList<String> description = new ArrayList<>();
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
@@ -75,8 +85,11 @@ public class RecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
+        new RequestAsync().execute();
+
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
+
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         mLike = (Button)findViewById(R.id.textLike);
         mComments = (Button)findViewById(R.id.textComments);
@@ -189,17 +202,19 @@ public class RecipeActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             Log.i("ccccccccccccccc","recipeAct getItem, item: " + String.valueOf(position));
+            Log.i("asdqwe",position+"rrr");
             switch (position) {
                 case 0:
                     return RecipeMainFragment.newInstance(recipeId);//recipe.getName(), recipe.getWriter(), recipe.getReciepSubDescription());
                 case 1:
                     return RecipeDetailFragment.newInstance(recipeId);
-                case 2:
-                    return RecipeOrderFragment.newInstance(recipeId);
-                case 3:
-                    return ForthFragment.newInstance(recipeId);
+//                case 2:
+//                    return RecipeOrderFragment.newInstance(recipeId);
+//                case 3:
+//                    return ForthFragment.newInstance(recipeId);
                 default:
-                    return TestFragment.newInstance("asd","asd");
+                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
+//                    return TestFragment.newInstance("asd","asd");
             }
         }
         // Returns the page title for the top indicator
@@ -348,6 +363,38 @@ public class RecipeActivity extends AppCompatActivity {
             });
             make.setActionTextColor(Color.RED);
             make.show();
+        }
+    }
+
+    public void jsonParser(String json) {
+        try {
+            JSONObject recipeInfo = new JSONObject(json);
+            JSONArray descriptionInfo = recipeInfo.getJSONArray("cooking_description");
+
+            for(int i=0; i<descriptionInfo.length(); i++){
+                description.add(descriptionInfo.getJSONObject(i).getString("description"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class RequestAsync extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                //GET Request
+                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipebyDid/?Did="+recipeId);
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            if (s != null) {
+                Log.i("qweasd2","hi132");
+                jsonParser(s);
+            }
         }
     }
 }
