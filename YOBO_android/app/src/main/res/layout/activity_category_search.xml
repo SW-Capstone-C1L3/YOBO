@@ -5,44 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".activity.CategorySearchActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp">
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/colorLightGray" />
+    tools:context=".activity.CategorySearchActivity"><LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="10dp">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorLightGray" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="150px"
-            android:gravity="center_vertical"
-            android:text=" 나라별 요리 "
-            android:textAlignment="center"
-            android:textColor="@color/colorBlack"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="@color/colorLightGray" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="150px"
+        android:gravity="center_vertical"
+        android:text=" 나라별 요리 "
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="@color/colorLightGray" />
+</LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,7 +74,6 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/china"
                     />
-
                 <TextView
                     android:id="@+id/btnChinese"
                     android:layout_width="match_parent"
@@ -83,6 +83,14 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="25dp" />
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -123,6 +131,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -330,4 +339,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
