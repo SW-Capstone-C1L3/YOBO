@@ -20,8 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
@@ -34,6 +34,7 @@ import com.example.yobo_android.etc.RecipeSequenceFormData;
 import com.example.yobo_android.etc.Sub_cooking_ingredient;
 import com.google.android.material.snackbar.Snackbar;
 import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,7 +136,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
                     }
                     final RecipeData recipe = new RecipeData(
                             category,cooking_descriptions, 3, main_cooking_ingredients,
-                            3, mEtRecipeName.getText().toString(),
+                            3.0, mEtRecipeName.getText().toString(),
                             2, sub_cooking_ingredients,"LJH");
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
@@ -159,7 +160,8 @@ public class RecipeFormActivity extends AppCompatActivity  {
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                            Toast.makeText(RecipeFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -281,16 +283,14 @@ public class RecipeFormActivity extends AppCompatActivity  {
         super.onActivityResult(requestCode, resultCode, data);
         if(pictureSelected(resultCode,data)){
             Uri imageUri = data.getData();
-            Log.i("TEST2", "Uri :" + imageUri.toString());
-
             fileUris.add(imageUri);
+
             if(requestCode == PICK_FROM_ALBUM){
-                Glide.with(this).load(imageUri.toString()).into(mImageCookingDescription);
+                Picasso.get().load(imageUri).into(mImageCookingDescription);
                 flagCookingDescriptionImage = true;
 
             }else if(requestCode == PICK_FROM_ALBUM2){
                 try {
-                    //사진을 bitmap으로 얻기
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
                     mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setRecipeSequenceFormImageId(bitmap);
                     recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
@@ -326,19 +326,24 @@ public class RecipeFormActivity extends AppCompatActivity  {
         }
 
         if(snackBarMessage != null) {
-            Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
-                    snackBarMessage, Snackbar.LENGTH_LONG);
-            make.setAction("확인", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                }
-            });
-            make.setActionTextColor(Color.GREEN);
-            make.show();
+            showSnackBar(snackBarMessage);
             flag = false;
         }
         return flag;
     }
+
+    private void showSnackBar(String snackBarMessage) {
+        Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
+                snackBarMessage, Snackbar.LENGTH_LONG);
+        make.setAction("확인", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        make.setActionTextColor(Color.GREEN);
+        make.show();
+    }
+
     public boolean mainIngredientsCheck(){
         for(int i=0; i<mMainIngredientsDataList.size(); i++){
             if(mMainIngredientsDataList.get(i).getIngredientsName().equals("")
