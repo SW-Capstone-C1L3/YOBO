@@ -74,12 +74,12 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
                 }
                 else{
                     Intent intent = new Intent(getApplication(),BoardActivity.class);
-                    String ingredients = "";
-                    for(int i=0; i < destIngredient.size(); i++){
-                        ingredients += ("ingredients=" + destIngredient.get(i) + "&");
-                    }
-                    ingredients = ingredients.substring(0,ingredients.length() - 1);
-                    intent.putExtra("ingredients", ingredients);
+//                    String ingredients = "";
+//                    for(int i=0; i < destIngredient.size(); i++){
+//                        ingredients += ("ingredients=" + destIngredient.get(i) + "&");
+//                    }
+//                    ingredients = ingredients.substring(0,ingredients.length() - 1);
+                    intent.putExtra("ingredients", destIngredient);
                     startActivity(intent);
                 }
             }

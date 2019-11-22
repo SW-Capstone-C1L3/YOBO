@@ -45,8 +45,8 @@ public interface ApiService {
                                      @Query("pageNum") int pageNum,
                                      @Query("pageSize") int pageSize);
 
-    @GET("yobo/recipe/getByingredients/")
-    Call<List<Recipe>> getByingredients(@Query("ingredients") String ingredients,
+    @GET("yobo/recipe/getByingredients")
+    Call<List<Recipe>> getByingredients(@Query("ingredients") List<String> ingredients,
                                      @Query("pageNum") int pageNum,
                                      @Query("pageSize") int pageSize);
 }

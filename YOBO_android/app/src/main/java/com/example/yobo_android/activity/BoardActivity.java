@@ -54,7 +54,7 @@ public class BoardActivity extends AppCompatActivity {
     private BoardAdapter adapter;
     private String query = null;
     private String category;
-    private String ingredients;
+    private List<String> ingredients;
     Integer num;
 
     @Override
@@ -67,8 +67,8 @@ public class BoardActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("category") != null) {
             category = getIntent().getStringExtra("category");
         }
-        if (getIntent().getStringExtra("ingredients") != null) {
-            ingredients = getIntent().getStringExtra("ingredients");
+        if (getIntent().getStringArrayListExtra("ingredients") != null) {
+            ingredients = getIntent().getStringArrayListExtra("ingredients");
         }
 
         recyclerViewInit();
