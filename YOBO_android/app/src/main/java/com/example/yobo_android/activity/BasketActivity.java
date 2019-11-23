@@ -26,6 +26,8 @@ import com.example.yobo_android.fragment.BottomSheetFragBasket;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -49,7 +51,7 @@ import kr.co.bootpay.model.BootExtra;
 import kr.co.bootpay.model.BootUser;
 
 public class BasketActivity extends AppCompatActivity{
-
+    ArrayList<String> deleteList = new ArrayList<>();
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private BasketIngredientAdapter adapter;
@@ -59,7 +61,7 @@ public class BasketActivity extends AppCompatActivity{
     Integer deletePos=0;
     Integer len;
     private int stuck = 1;
-    HashMap<String,Object> hashMap = new HashMap<>();
+
     Retrofit retrofit;
     ApiService apiService;
 
@@ -98,6 +100,7 @@ public class BasketActivity extends AppCompatActivity{
                 JSONObject basket = BasketIngredientList.getJSONObject(i);
                 basketitem.setIngredientDescription(basket.getString("product_description"));
                 basketitem.setBasket_product_id(basket.getString("product_id"));
+                deleteList.add(basket.getString("product_id"));
                 basketitem.setIngredientImage(basket.getString("product_image"));
                 basketitem.setIngredientName(basket.getString("product_name"));
                 basketitem.setIngredientPrice(basket.getInt("product_price"));
@@ -117,8 +120,8 @@ public class BasketActivity extends AppCompatActivity{
     }
 
     public void delete(String str,String name, int num, int cost){
-        //삭제하는거 처리해야됨
         final String ing_name = name;
+        HashMap<String,Object> hashMap = new HashMap<>();
         deletePos = num;
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiService.API_URL)
@@ -143,7 +146,7 @@ public class BasketActivity extends AppCompatActivity{
         sum_all_price-=cost;
     }
 
-    public void buy(Integer total){
+    public void buy(Integer total, String destination){
         BootUser bootUser = new BootUser().setPhone("010-1234-5678");
         BootExtra bootExtra = new BootExtra().setQuotas(new int[] {0,2,3});
 
@@ -174,7 +177,10 @@ public class BasketActivity extends AppCompatActivity{
                     public void onDone(@Nullable String message) {
                         Log.d("done", message);
                         /*****완료 이후에 장바구니 DB에 물품들이 존재하지 않는 작업 수행해야함******/
-                        startActivity(new Intent(BasketActivity.this,BasketActivity.class));
+                        for(int i=0;i<deleteList.size();i++)
+                            deleteAll(deleteList.get(i),user_id);
+                        //destination 주소에다가 보내도록
+                        startActivity(new Intent(BasketActivity.this,ShopIngredientActivity.class));
                         finish();
                     }
                 })
@@ -205,6 +211,30 @@ public class BasketActivity extends AppCompatActivity{
                             }
                         })
                 .request();
+    }
+
+    public void deleteAll(String p_id, String u_id){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        apiService = retrofit.create(ApiService.class);
+        //user_id = u_id;     ////
+        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+        hashMap.put("Product_id", p_id);
+        hashMap.put("User_id",user_id);
+        Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //Toast.makeText(BasketActivity.this,ing_name+" 삭제되었습니다",Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(BasketActivity.this,"실패",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public class RequestAsync extends AsyncTask<String,String,String> {
