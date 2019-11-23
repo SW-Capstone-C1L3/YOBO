@@ -18,7 +18,7 @@
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
         android:scrollbars="vertical"
-        android:background="@color/colorLightGray"/>
+        android:background="@color/colorWhite"/>
     <GridView
         android:id="@+id/destIngredient"
         android:layout_width="match_parent"

@@ -19,7 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;

@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
 import com.example.yobo_android.etc.Recipe;
+import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -25,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 // recylerView는 개발자가 어댑터를 직접 구현해야함. 반드시 RecyclerView.Adapter 상속해서 구현
 public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
+    static final String ImageURL = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=";
     private static final int TYPE_ITEM = 1;
 
     // adapter에 들어갈 list 입니다.
@@ -55,13 +59,21 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
 
         void onBind(Recipe recipe, int position) {
+            String temp = recipe.getCooking_description().get(0).getImage();
+            temp = temp.replace("/", "%2F");
+            String sum = ImageURL + temp;
+            try {
+                URL url = new URL(sum);
+                Picasso.get().load(url.toString()).into(recipeImage);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
 
-            recipeId = recipe.getRecipeId();
-            recipeDescriptionNum = recipe.getDescriptionNum();
-
-            recipeName.setText(recipe.getName());
-            recipeSubContents.setText(recipe.getReciepSubDescription());
-            recipeWriter.setText(recipe.getWriter());
+            recipeId = recipe.get_id();
+            recipeDescriptionNum = recipe.getCooking_description().size()+2;
+            recipeName.setText(recipe.getRecipe_name());
+            recipeSubContents.setText(recipe.getCooking_description().get(0).getDescription());
+            recipeWriter.setText(recipe.getWriter_id());
             recipeScore.setText(""+recipe.getRating());
             itemView.setOnClickListener(this);
         }
@@ -100,6 +112,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.onBind(listRecipe.get(position), position);
+
     }
 
     @Override
@@ -114,8 +127,9 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return listRecipe.size();
     }
 
-    public void addItem(Recipe recipe) {
+    public void addItem(Recipe recipe, int position) {
         // 외부에서 item을 추가시킬 함수입니다.
         listRecipe.add(recipe);
+        notifyItemChanged(position);
     }
 }

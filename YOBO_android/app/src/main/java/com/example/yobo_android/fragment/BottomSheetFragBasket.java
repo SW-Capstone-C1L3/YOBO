@@ -1,7 +1,6 @@
 package com.example.yobo_android.fragment;
 
 import android.app.Dialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.BasketActivity;
-import com.example.yobo_android.activity.ShowSelectedIngredientInfoActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -21,6 +19,7 @@ public class BottomSheetFragBasket extends BottomSheetDialogFragment {
 
     private TextView totPrice;
     private Button mbtmBuy;
+    private String price;
     public BottomSheetFragBasket(){
 
     }
@@ -30,15 +29,15 @@ public class BottomSheetFragBasket extends BottomSheetDialogFragment {
         super.setupDialog(dialog, style);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bottom_sheet_basket, null);
         dialog.setContentView(view);
-        String price = ((BasketActivity)getActivity()).giveSum();
+        price = ((BasketActivity)getActivity()).giveSum();
         totPrice = view.findViewById(R.id.basket_total_price);
         totPrice.setText(price);
         mbtmBuy = view.findViewById(R.id.btnBasketPurchase);
         mbtmBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //다른 창(Activity)으로 이동
-                Toast.makeText(getActivity(), "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                ((BasketActivity)getActivity()).buy(Integer.parseInt(price));
             }
         });
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
