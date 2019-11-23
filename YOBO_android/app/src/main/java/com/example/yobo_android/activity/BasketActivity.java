@@ -143,7 +143,7 @@ public class BasketActivity extends AppCompatActivity{
         sum_all_price-=cost;
     }
 
-    public void buy(Integer total){
+    public void buy(Integer total, String destination){
         BootUser bootUser = new BootUser().setPhone("010-1234-5678");
         BootExtra bootExtra = new BootExtra().setQuotas(new int[] {0,2,3});
 
@@ -174,6 +174,7 @@ public class BasketActivity extends AppCompatActivity{
                     public void onDone(@Nullable String message) {
                         Log.d("done", message);
                         /*****완료 이후에 장바구니 DB에 물품들이 존재하지 않는 작업 수행해야함******/
+                        //destination 주소에다가 보내도록
                         startActivity(new Intent(BasketActivity.this,BasketActivity.class));
                         finish();
                     }
