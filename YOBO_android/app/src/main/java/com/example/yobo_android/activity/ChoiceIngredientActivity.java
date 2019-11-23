@@ -112,20 +112,13 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertview, ViewGroup parent) {
-
-//            Button btnIngre = new Button(context);
-//            btnIngre.setLayoutParams(new GridView.LayoutParams(250,150));
-//            btnIngre.setText(ingreName.get(position));
-//            btnIngre.setBackgroundResource(R.drawable.btn_rounded);
-//            btnIngre.setOnLongClickListener(new MyTouchListener());
-
             LinearLayout btnIngre = new LinearLayout(ChoiceIngredientActivity.this);
             btnIngre.setBackgroundColor(Color.WHITE);
             LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(320,180);
             btnIngre.setLayoutParams(layoutParams);
 
             ImageView image = new ImageView(ChoiceIngredientActivity.this);
-            image.setImageResource(R.drawable.heart);
+            image.setImageResource(R.drawable.eat);
             LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(80,80);
             imageParams.setMargins(30,10,10,10);
             imageParams.gravity = Gravity.CENTER;
@@ -191,7 +184,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
 
                     if(preView != curView){
                         if(v.getId() == destGrid.getId()){
-//                            srcIngredient.remove(((Button)view).getText().toString());
                             srcIngredient.remove(((TextView)((LinearLayout)view).getChildAt(1)).getText().toString());
 
                             destIngredient.add(((TextView)((LinearLayout)view).getChildAt(1)).getText().toString());
