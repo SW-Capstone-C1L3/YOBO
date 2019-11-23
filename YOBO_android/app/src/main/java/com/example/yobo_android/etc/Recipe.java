@@ -1,122 +1,151 @@
 package com.example.yobo_android.etc;
 
 /*
-* 레시피 객체
+ * 레시피 객체
  */
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Recipe {
-
-    private String recipeId; // doc_id
-    private String name; // recipe_name
-    private String writer;
-    private int difficulty;
-    private String rating;
-    private String recipeImageId;
-    private String reciepSubDescription;
-    private int serving;
-    private int DescriptionNum;
-    private ArrayList<String> recipeDescription;
-    private ArrayList<String> recipeDescriptionImage;
-
-    //    private String[] category;
-    //    private JSONArray cooking_description;
-//    private JSONArray cooking_ingredient;
-//    private JSONArray sub_cooking_ingredient;
-
-
-    public ArrayList<String> getRecipeDescription() {
-        return recipeDescription;
-    }
-
-    public void setRecipeDescription(ArrayList<String> recipeDescription) {
-        this.recipeDescription = recipeDescription;
-    }
-
-    public ArrayList<String> getRecipeDescriptionImage() {
-        return recipeDescriptionImage;
-    }
-
-    public void setRecipeDescriptionImage(ArrayList<String> recipeDescriptionImage) {
-        this.recipeDescriptionImage = recipeDescriptionImage;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
+    public Recipe(List<String> category, List<Cooking_description> cooking_description,
+                  Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
+                  Double rating, String recipe_name, Integer serving,
+                  List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id) {
+        this.category = category;
+        this.cooking_description = cooking_description;
+        this.difficulty = difficulty;
+        this.main_cooking_ingredients = main_cooking_ingredients;
         this.rating = rating;
-    }
-
-
-
-    public int getDescriptionNum() {
-        return DescriptionNum;
-    }
-
-    public void setDescriptionNum(int descriptionNum) {
-        DescriptionNum = descriptionNum;
-    }
-
-    public int getServing() {
-        return serving;
-    }
-
-    public void setServing(int serving) {
+        this.recipe_name = recipe_name;
         this.serving = serving;
+        this.sub_cooking_ingredients = sub_cooking_ingredients;
+        this.writer_id = writer_id;
+    }
+    public Recipe(List<String> category, List<Cooking_description> cooking_description,
+                  Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
+                  Double rating, String recipe_name, Integer serving,
+                  List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id,String _id) {
+        this.category = category;
+        this.cooking_description = cooking_description;
+        this.difficulty = difficulty;
+        this.main_cooking_ingredients = main_cooking_ingredients;
+        this.rating = rating;
+        this.recipe_name = recipe_name;
+        this.serving = serving;
+        this.sub_cooking_ingredients = sub_cooking_ingredients;
+        this.writer_id = writer_id;
+        this._id = _id;
     }
 
-    public int getDifficulty() {
+    @SerializedName("category")
+    @Expose
+    private List<String> category = null;
+    @SerializedName("cooking_description")
+    @Expose
+    private List<Cooking_description> cooking_description = null;
+    @SerializedName("difficulty")
+    @Expose
+    private Integer difficulty;
+    @SerializedName("main_cooking_ingredients")
+    @Expose
+    private List<Main_cooking_ingredient> main_cooking_ingredients = null;
+    @SerializedName("rating")
+    @Expose
+    private Double rating;
+    @SerializedName("recipe_name")
+    @Expose
+    private String recipe_name;
+    @SerializedName("serving")
+    @Expose
+    private Integer serving;
+    @SerializedName("sub_cooking_ingredients")
+    @Expose
+    private List<Sub_cooking_ingredient> sub_cooking_ingredients = null;
+    @SerializedName("writer_id")
+    @Expose
+    private String writer_id;
+    @SerializedName("_id")
+    @Expose
+    private String _id;
+
+    private int DescriptionNum;
+
+
+    public List<String> getCategory() {
+        return category;
+    }
+
+    public void setCategory(List<String> category) {
+        this.category = category;
+    }
+
+    public List<Cooking_description> getCooking_description() {
+        return cooking_description;
+    }
+
+    public void setCooking_description(List<Cooking_description> cooking_description) {
+        this.cooking_description = cooking_description;
+    }
+
+    public Integer getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
+    public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
     }
 
-    public String getWriter() {
-        return writer;
+    public List<Main_cooking_ingredient> getMain_cooking_ingredients() {
+        return main_cooking_ingredients;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setMain_cooking_ingredients(List<Main_cooking_ingredient> main_cooking_ingredients) {
+        this.main_cooking_ingredients = main_cooking_ingredients;
     }
 
-    public String getRecipeId() {
-        return recipeId;
+    public Double getRating() {
+        return rating;
     }
 
-    public void setRecipeId(String recipeId) {
-        this.recipeId = recipeId;
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
-    public String getName() {
-        return name;
+    public String getRecipe_name() {
+        return recipe_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRecipe_name(String recipe_name) {
+        this.recipe_name = recipe_name;
     }
 
-
-    public String getRecipeImageId() {
-        return recipeImageId;
+    public Integer getServing() {
+        return serving;
     }
 
-    public void setRecipeImageId(String recipeImageId) {
-        this.recipeImageId = recipeImageId;
+    public void setServing(Integer serving) {
+        this.serving = serving;
     }
 
-    public String getReciepSubDescription() {
-        return reciepSubDescription;
+    public List<Sub_cooking_ingredient> getSub_cooking_ingredients() {
+        return sub_cooking_ingredients;
     }
 
-    public void setReciepSubDescription(String reciepSubDescription) {
-        this.reciepSubDescription = reciepSubDescription;
+    public void setSub_cooking_ingredients(List<Sub_cooking_ingredient> sub_cooking_ingredients) {
+        this.sub_cooking_ingredients = sub_cooking_ingredients;
     }
+
+    public String getWriter_id() {
+        return writer_id;
+    }
+
+    public void setWriter_id(String writer_id) {
+        this.writer_id = writer_id;
+    }
+
+    public String get_id() { return _id; }
+
+    public void set_id(String _id) { this._id = _id; }
+
 }

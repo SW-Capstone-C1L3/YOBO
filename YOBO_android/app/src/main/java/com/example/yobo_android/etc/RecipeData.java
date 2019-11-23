@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class RecipeData {
     public RecipeData(List<String> category, List<Cooking_description> cooking_description,
                   Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
-                  Integer rating, String recipe_name, Integer serving,
+                  Double rating, String recipe_name, Integer serving,
                   List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id) {
         this.category = category;
         this.cooking_description = cooking_description;
@@ -18,6 +18,21 @@ public class RecipeData {
         this.serving = serving;
         this.sub_cooking_ingredients = sub_cooking_ingredients;
         this.writer_id = writer_id;
+    }
+    public RecipeData(List<String> category, List<Cooking_description> cooking_description,
+                      Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
+                      Double rating, String recipe_name, Integer serving,
+                      List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id,String _id) {
+        this.category = category;
+        this.cooking_description = cooking_description;
+        this.difficulty = difficulty;
+        this.main_cooking_ingredients = main_cooking_ingredients;
+        this.rating = rating;
+        this.recipe_name = recipe_name;
+        this.serving = serving;
+        this.sub_cooking_ingredients = sub_cooking_ingredients;
+        this.writer_id = writer_id;
+        this._id = _id;
     }
 
     @SerializedName("category")
@@ -34,7 +49,7 @@ public class RecipeData {
     private List<Main_cooking_ingredient> main_cooking_ingredients = null;
     @SerializedName("rating")
     @Expose
-    private Integer rating;
+    private Double rating;
     @SerializedName("recipe_name")
     @Expose
     private String recipe_name;
@@ -47,6 +62,9 @@ public class RecipeData {
     @SerializedName("writer_id")
     @Expose
     private String writer_id;
+    @SerializedName("_id")
+    @Expose
+    private String _id;
 
     public List<String> getCategory() {
         return category;
@@ -80,11 +98,11 @@ public class RecipeData {
         this.main_cooking_ingredients = main_cooking_ingredients;
     }
 
-    public Integer getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -120,4 +138,7 @@ public class RecipeData {
         this.writer_id = writer_id;
     }
 
+    public String get_id() { return _id; }
+
+    public void set_id(String _id) { this._id = _id; }
 }
