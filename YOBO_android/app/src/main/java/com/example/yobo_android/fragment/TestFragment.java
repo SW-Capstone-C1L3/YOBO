@@ -1,28 +1,20 @@
 package com.example.yobo_android.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.RequestHttpURLConnection;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class TestFragment extends Fragment {
 
     private static final String ARG_RECIPE_ID = "";
     private static final String ARG_DESCRIPTION = "";
-
     String recipeId;
     String description;
     TextView tvvv;
@@ -49,8 +41,8 @@ public class TestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_test, container, false);
-        ((TextView)view.findViewById(R.id.tvvv)).setText(description);
-        Log.i("asdasd","createView"+description);
+        tvvv = view.findViewById(R.id.tvvv);
+        tvvv.setText(description);
         return view;
     }
 }
