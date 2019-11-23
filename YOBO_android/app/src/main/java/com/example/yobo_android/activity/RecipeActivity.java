@@ -139,8 +139,8 @@ public class RecipeActivity extends AppCompatActivity {
                     return RecipeDetailFragment.newInstance(recipeId);
                 default:
                     Log.i("asdasd",description.get(position-2)+"asd");
-                    return TestFragment.newInstance(recipeId, description.get(position-2));
-//                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
+//                    return TestFragment.newInstance(recipeId, description.get(position-2));
+                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
             }
         }
         // Returns the page title for the top indicator
@@ -148,9 +148,7 @@ public class RecipeActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return "Page " + position;
         }
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
