@@ -282,6 +282,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(pictureSelected(resultCode,data)){
+            //TODO : 서버에 올릴 사진 크기(용량) 줄이는 작업
             Uri imageUri = data.getData();
             fileUris.add(imageUri);
 

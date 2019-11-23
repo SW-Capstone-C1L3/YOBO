@@ -50,4 +50,6 @@ dependencies {
     implementation 'andhradroid.dev:aFilechooser:1.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
 }

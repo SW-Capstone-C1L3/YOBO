@@ -125,22 +125,5 @@ public class BoardActivity extends AppCompatActivity {
         adapter = new BoardAdapter();
         recyclerView.setAdapter(adapter);
     }
-
-
-    public void checkInput() {
-        String snackBarMessage = null;
-        if (snackBarMessage == null) {
-            snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
-            Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
-                    snackBarMessage, Snackbar.LENGTH_LONG);
-            make.setAction("확인", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                }
-            });
-            make.setActionTextColor(Color.RED);
-            make.show();
-        }
-    }
-
+    
 }
