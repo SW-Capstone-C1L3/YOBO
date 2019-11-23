@@ -318,14 +318,11 @@ public class RecipeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
             Log.i("aaaaaaaa",result);
             if(result.equals("다음")) {
-                Log.i("aaaaaaaa","if문안에 들어옴touch");
                 //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                 mRecognizer.stopListening();
                 selectIndex(++cnt);
             }
             else if(result.equals("다시")){
-                //Log.i("ddddddddddddddd",String.valueOf(cnt));
-                Log.i("ddddddddddddddd","다시");
                 adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
                 vpPager.setAdapter(adapterViewPager);
                 selectIndex(cnt);
