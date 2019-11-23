@@ -54,7 +54,7 @@ public class BoardActivity extends AppCompatActivity {
     private BoardAdapter adapter;
     private String query = null;
     private String category;
-    private String ingredients;
+    private List<String> ingredients;
     Integer num;
 
     @Override
@@ -67,8 +67,8 @@ public class BoardActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("category") != null) {
             category = getIntent().getStringExtra("category");
         }
-        if (getIntent().getStringExtra("ingredients") != null) {
-            ingredients = getIntent().getStringExtra("ingredients");
+        if (getIntent().getStringArrayListExtra("ingredients") != null) {
+            ingredients = getIntent().getStringArrayListExtra("ingredients");
         }
 
         recyclerViewInit();
@@ -125,22 +125,5 @@ public class BoardActivity extends AppCompatActivity {
         adapter = new BoardAdapter();
         recyclerView.setAdapter(adapter);
     }
-
-
-    public void checkInput() {
-        String snackBarMessage = null;
-        if (snackBarMessage == null) {
-            snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
-            Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
-                    snackBarMessage, Snackbar.LENGTH_LONG);
-            make.setAction("확인", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                }
-            });
-            make.setActionTextColor(Color.RED);
-            make.show();
-        }
-    }
-
+    
 }
