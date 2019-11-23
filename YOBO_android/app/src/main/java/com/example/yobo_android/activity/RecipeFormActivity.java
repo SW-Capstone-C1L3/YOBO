@@ -61,7 +61,6 @@ public class RecipeFormActivity extends AppCompatActivity  {
     Retrofit retrofit;
     ApiService apiService;
     List<Uri> fileUris = new ArrayList<>();
-
     List<IngredientsFormData> mMainIngredientsDataList = new ArrayList<>();
     List<IngredientsFormData> mSubIngredientsDataList = new ArrayList<>();
     List<RecipeSequenceFormData> mRecipeSequenceFormDataList = new ArrayList<>();
@@ -94,6 +93,9 @@ public class RecipeFormActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_form);
+
+        Uri dummy = null;
+        fileUris.add(dummy);
 
         mEtRecipeName = findViewById(R.id.recipe_name);
         mEtCookingDescription = findViewById(R.id.cooking_description);
@@ -208,7 +210,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView.LayoutManager layoutManagerForRecipeSequenceForm = new LinearLayoutManager(this);
         recipeSequenceFormRecyclerView.setLayoutManager(layoutManagerForRecipeSequenceForm);
 
-        for(int i=0;i<2;i++)
+        for(int i=0;i<1;i++)
             mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null,null));
 
         recipeSequenceFormAdapter = new RecipeSequenceFormAdapter(mRecipeSequenceFormDataList);
@@ -245,8 +247,13 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddRecipeSequenceForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null, null));
-                recipeSequenceFormAdapter.notifyItemChanged(mRecipeSequenceFormDataList.size()-1);
+                if(mRecipeSequenceFormDataList.get(mRecipeSequenceFormDataList.size()-1).
+                        getRecipeSequenceFormImageId() == null ) {
+                    showSnackBar("레시피 순서의 사진을 등록해주세요 :(");
+                }else{
+                    mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null, null));
+                    recipeSequenceFormAdapter.notifyItemChanged(mRecipeSequenceFormDataList.size()-1);
+                }
             }
         });
     }
@@ -284,14 +291,16 @@ public class RecipeFormActivity extends AppCompatActivity  {
         if(pictureSelected(resultCode,data)){
             //TODO : 서버에 올릴 사진 크기(용량) 줄이는 작업
             Uri imageUri = data.getData();
-            fileUris.add(imageUri);
 
             if(requestCode == PICK_FROM_ALBUM){
+                fileUris.remove(0);
+                fileUris.add(0,imageUri);
                 Picasso.get().load(imageUri).into(mImageCookingDescription);
                 flagCookingDescriptionImage = true;
 
             }else if(requestCode == PICK_FROM_ALBUM2){
                 try {
+                    fileUris.add(imageUri);
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
                     mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setRecipeSequenceFormImageId(bitmap);
                     recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
