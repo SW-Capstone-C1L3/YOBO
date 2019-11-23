@@ -173,6 +173,9 @@ public class BasketActivity extends AppCompatActivity{
                     @Override
                     public void onDone(@Nullable String message) {
                         Log.d("done", message);
+                        /*****완료 이후에 장바구니 DB에 물품들이 존재하지 않는 작업 수행해야함******/
+                        startActivity(new Intent(BasketActivity.this,BasketActivity.class));
+                        finish();
                     }
                 })
                 .onReady(new ReadyListener() { // 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.

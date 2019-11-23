@@ -1,6 +1,7 @@
 package com.example.yobo_android.fragment;
 
 import android.app.Dialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;

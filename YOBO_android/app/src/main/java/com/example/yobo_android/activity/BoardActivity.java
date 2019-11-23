@@ -105,7 +105,6 @@ public class BoardActivity extends AppCompatActivity {
                         adapter.addItem(recipeList.get(i), i);
                     }
                 }
-
                 @Override
                 public void onFailure(Call<List<Recipe>> call, Throwable t) {
                     Toast.makeText(BoardActivity.this, "Fail", Toast.LENGTH_SHORT).show();
