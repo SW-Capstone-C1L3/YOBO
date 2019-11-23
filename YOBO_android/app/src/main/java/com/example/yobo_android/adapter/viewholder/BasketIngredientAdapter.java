@@ -40,7 +40,7 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
         private TextView basket_qty;
         private TextView tot_price;
         private Button btnDelete;
-
+        private Integer cost;
         ItemViewHolder(View itemView) {
             super(itemView);
             btnDelete = itemView.findViewById(R.id.btnDelete);
@@ -59,7 +59,8 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
                 public void onClick(View view) {
                     //Log.i("kkkkkkk click, pos: ",String.valueOf(position));
                     Log.i("kkkkkk,return",listBasketIngredient.get(getAdapterPosition()).getBasket_product_id());
-                    ((BasketActivity)context).delete(listBasketIngredient.get(getAdapterPosition()).getBasket_product_id(),listBasketIngredient.get(getAdapterPosition()).getIngredientName(),getAdapterPosition());
+                    cost = listBasketIngredient.get(getAdapterPosition()).getBasket_qty()*listBasketIngredient.get(getAdapterPosition()).getIngredientPrice();
+                    ((BasketActivity)context).delete(listBasketIngredient.get(getAdapterPosition()).getBasket_product_id(),listBasketIngredient.get(getAdapterPosition()).getIngredientName(),getAdapterPosition(),cost);
                 }
             });
             ingredient_name.setText(ingredientsBasketData.getIngredientName());
