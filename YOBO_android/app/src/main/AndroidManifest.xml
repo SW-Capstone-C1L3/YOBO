@@ -10,13 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.SplashActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.TestActivity" />
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.RecipeActivity2"
             android:theme="@style/Full">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,7 +26,7 @@
         <activity android:name=".activity.CategorySearchActivity" />
         <activity android:name=".activity.EnrollRecipeActivity" />
         <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.CommentActivity"/>
+        <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.ChoiceIngredientActivity" />
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.RecipeActivity" />
@@ -32,15 +34,15 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ShowSelectedIngredientInfoActivity" />
         <activity android:name=".activity.ShopIngredientActivity" />
-        <activity android:name=".activity.BasketActivity"/>
+        <activity android:name=".activity.BasketActivity" />
     </application>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>

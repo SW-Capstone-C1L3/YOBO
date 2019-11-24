@@ -43,8 +43,8 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String ARG_RECIPE_ID ="";
     private static final String ARG_DESCRIPTION = "";
 
-    private static String recipeId;
-    private static String description;
+    private String recipeId;
+    private String description;
 
     private Button btn;
     private Button speak;
