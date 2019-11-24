@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
+import com.example.yobo_android.activity.RecipeMainActivity;
 import com.example.yobo_android.etc.Recipe;
 import com.squareup.picasso.Picasso;
 
@@ -64,7 +65,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             String sum = ImageURL + temp;
             try {
                 URL url = new URL(sum);
-                Picasso.get().load(url.toString()).into(recipeImage);
+            Picasso.get().load(url.toString()).into(recipeImage);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -84,8 +85,9 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             if (pos != RecyclerView.NO_POSITION) { // 갱신하는 과정에서 뷰홀더가 참조하는 아이템이 어댑터에서 삭제되면 NO_POSITION 리턴
 
                 //getAdapterPosition();
-                Intent intent = new Intent(context, RecipeActivity.class);
+//                Intent intent = new Intent(context, RecipeActivity.class);
 
+                Intent intent = new Intent(context, RecipeMainActivity.class);
                 //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
                 intent.putExtra("recipeId",recipeId);
                 intent.putExtra("recipeDescriptionNum",recipeDescriptionNum);

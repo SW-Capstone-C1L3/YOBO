@@ -8,10 +8,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Recipe {
-    public Recipe(List<String> category, List<Cooking_description> cooking_description,
-                  Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
-                  Double rating, String recipe_name, Integer serving,
-                  List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id) {
+    public Recipe(List<String> category,
+                  List<Cooking_description> cooking_description,
+                  Integer difficulty,
+                  List<Main_cooking_ingredient> main_cooking_ingredients,
+                  List<Sub_cooking_ingredient> sub_cooking_ingredients,
+                  Double rating,
+                  String recipe_name,
+                  Integer serving,
+                  String writer_id) {
         this.category = category;
         this.cooking_description = cooking_description;
         this.difficulty = difficulty;
