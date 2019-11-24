@@ -59,10 +59,7 @@ public class RecipeActivity extends AppCompatActivity {
     private Button mLike;
     private Button mComments;
     private Button mAlert;
-//    private Button mbtnLike;
-//    private Button mbtnComments;
-//    private Button mbtnAlert;
-    private static ArrayList<String> description = new ArrayList<>();
+    private static ArrayList<String> description;
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
@@ -79,7 +76,6 @@ public class RecipeActivity extends AppCompatActivity {
     private static String recipeId;
     private static int recipeDescriptionNum;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +90,9 @@ public class RecipeActivity extends AppCompatActivity {
         mLike = (Button)findViewById(R.id.textLike);
         mComments = (Button)findViewById(R.id.textComments);
         mAlert = (Button)findViewById(R.id.textAlert);
+
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
+        adapterViewPager.notifyDataSetChanged();
         vpPager.setAdapter(adapterViewPager);
 
         if ( Build.VERSION.SDK_INT >= 23 ){
@@ -109,60 +107,47 @@ public class RecipeActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
 
-        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+        mComments.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(RecipeActivity.this,CommentActivity.class);
                 intent.putExtra("recipe_id",recipeId);
                 startActivityForResult(intent,REQUEST_TEST);
             }
-        };
-//        mbtnLike.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                i=1-i;
-//                if(i==1)
-//                    mbtnLike.setBackgroundResource(R.drawable.like);
-//                else
-//                    mbtnLike.setBackgroundResource(R.drawable.unlike);
-//                checkInput("like");
-//            }
-//        });
-//        mLike.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                i=1-i;
-//                if(i==1)
-//                    mbtnLike.setBackgroundResource(R.drawable.like);
-//                else
-//                    mbtnLike.setBackgroundResource(R.drawable.unlike);
-//                checkInput("like");
-//            }
-//        });
-//        mbtnAlert.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                j = 1 - j;
-//                if (j == 1)
-//                    mbtnAlert.setBackgroundResource(R.drawable.warning);
-//                else if (j == 0)
-//                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
-//                checkInput("alert");
-//            }
-//        });
-//        mAlert.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                j = 1 - j;
-//                if (j == 1)
-//                    mbtnAlert.setBackgroundResource(R.drawable.warning);
-//                else if (j == 0)
-//                    mbtnAlert.setBackgroundResource(R.drawable.unwarning);
-//                checkInput("alert");
-//            }
-//        });
-//        mbtnComments.setOnClickListener(onClickListener);
-        mComments.setOnClickListener(onClickListener);
+        });
+    }
+
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        //        private static int NUM_ITEMS = 10;
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return recipeDescriptionNum;
+        }
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return RecipeMainFragment.newInstance(recipeId);
+                case 1:
+                    return RecipeDetailFragment.newInstance(recipeId);
+                default:
+                    Log.i("asdasd",description.get(position-2)+"asd");
+//                    return TestFragment.newInstance(recipeId, description.get(position-2));
+                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
+            }
+        }
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
     }
 
     @Override
@@ -185,46 +170,6 @@ public class RecipeActivity extends AppCompatActivity {
         }
     }
 
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-//        private static int NUM_ITEMS = 10;
-        public MyPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-            Log.i("ccccccccccccccc","recipeAct MyPagerAdapter");
-
-        }
-
-        // Returns total number of pages
-        @Override
-        public int getCount() {
-            return recipeDescriptionNum;
-        }
-        // Returns the fragment to display for that page
-        @Override
-        public Fragment getItem(int position) {
-            Log.i("ccccccccccccccc","recipeAct getItem, item: " + String.valueOf(position));
-            Log.i("asdqwe",position+"rrr");
-            switch (position) {
-                case 0:
-                    return RecipeMainFragment.newInstance(recipeId);//recipe.getName(), recipe.getWriter(), recipe.getReciepSubDescription());
-                case 1:
-                    return RecipeDetailFragment.newInstance(recipeId);
-//                case 2:
-//                    return RecipeOrderFragment.newInstance(recipeId);
-//                case 3:
-//                    return ForthFragment.newInstance(recipeId);
-                default:
-                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
-//                    return TestFragment.newInstance("asd","asd");
-            }
-        }
-        // Returns the page title for the top indicator
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Log.i("ccccccccccccccc","recipeAct getPageTitle, item: " + String.valueOf(position));
-            return "Page " + position;
-        }
-
-    }
     public void selectIndex(int nexIdx){
         Log.i("cccccccccccccccc","selectItem 입장");
         vpPager.setCurrentItem(nexIdx,true);
@@ -318,17 +263,17 @@ public class RecipeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
             Log.i("aaaaaaaa",result);
             if(result.equals("다음")) {
-                Log.i("aaaaaaaa","if문안에 들어옴touch");
                 //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                 mRecognizer.stopListening();
                 selectIndex(++cnt);
+//                vpPager.setCurrentItem(vpPager.getCurrentItem() + 1, true);
             }
             else if(result.equals("다시")){
-                //Log.i("ddddddddddddddd",String.valueOf(cnt));
-                Log.i("ddddddddddddddd","다시");
                 adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
                 vpPager.setAdapter(adapterViewPager);
                 selectIndex(cnt);
+//                vpPager.setCurrentItem(vpPager.getCurrentItem() + 1, true);
+//                vpPager.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -368,6 +313,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     public void jsonParser(String json) {
         try {
+            description = new ArrayList<>();
             JSONObject recipeInfo = new JSONObject(json);
             JSONArray descriptionInfo = recipeInfo.getJSONArray("cooking_description");
 

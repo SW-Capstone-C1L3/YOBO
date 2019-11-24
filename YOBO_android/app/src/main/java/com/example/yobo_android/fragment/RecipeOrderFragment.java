@@ -65,16 +65,18 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         args.putString(ARG_RECIPE_ID, recipeId);
         args.putString(ARG_DESCRIPTION, description);
         fragment.setArguments(args);
+        Log.i("testtest","newins");
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if(getArguments() != null) {
             recipeId = getArguments().getString(ARG_RECIPE_ID);
             description = getArguments().getString(ARG_DESCRIPTION);
         }
-        super.onCreate(savedInstanceState);
+        Log.i("testtest",description);
     }
   
     // Inflate the view for the fragment based on layout XML
@@ -85,8 +87,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
 
         tvLabel = (TextView)view.findViewById(R.id.recipe);
-//        new RequestAsync().execute();
-        tvLabel.setText(description);
 
         btn =(Button)view.findViewById(R.id.btnOnOff);
         speak=view.findViewById(R.id.btnSpeak);
@@ -97,7 +97,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             }
         });
         tts = new TextToSpeech(getActivity(), this);
-        //btn.setOnClickListener(this);
+//        btn.setOnClickListener(this);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
