@@ -21,16 +21,13 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.api.RequestHttpURLConnection;
-import com.example.yobo_android.fragment.ForthFragment;
 
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
-import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.TestFragment;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -40,7 +37,6 @@ import org.json.JSONObject;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*

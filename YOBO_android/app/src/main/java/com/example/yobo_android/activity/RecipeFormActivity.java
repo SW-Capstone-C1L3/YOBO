@@ -61,6 +61,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
     Retrofit retrofit;
     ApiService apiService;
     List<Uri> fileUris = new ArrayList<>();
+
     List<IngredientsFormData> mMainIngredientsDataList = new ArrayList<>();
     List<IngredientsFormData> mSubIngredientsDataList = new ArrayList<>();
     List<RecipeSequenceFormData> mRecipeSequenceFormDataList = new ArrayList<>();
@@ -78,14 +79,20 @@ public class RecipeFormActivity extends AppCompatActivity  {
     Button mBtnAddMainIngredients;
     Button mBtnAddSubIngredients;
     Button mBtnAddRecipeSequenceForm;
+
     Spinner mSpinnerCountry;
     Spinner mSpinnerCookingType;
+    Spinner mSpinnerServing;
+    Spinner mSpinnerDifficulty;
 
     EditText mEtRecipeName;
     EditText mEtCookingDescription;
 
     String selectedCountry;
     String selectedCookingType;
+    String selectedServing;
+    String selectedDifficulty;
+
     int tempPosForSequenceForm;
     boolean flagCookingDescriptionImage;
 
@@ -194,7 +201,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView.LayoutManager layoutManagerForMainIngredients = new LinearLayoutManager(this);
         mainIngredientsRecyclerView.setLayoutManager(layoutManagerForMainIngredients);
         for(int i=0;i<2;i++)
-            mMainIngredientsDataList.add(new IngredientsFormData(null,null));
+            mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
         mainIngredientsAdapter = new IngredientsFormAdapter(mMainIngredientsDataList);
         mainIngredientsRecyclerView.setAdapter(mainIngredientsAdapter);
 
@@ -202,7 +209,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView.LayoutManager layoutManagerForSubIngredients = new LinearLayoutManager(this);
         subIngredientsRecyclerView.setLayoutManager(layoutManagerForSubIngredients);
         for(int i=0;i<2;i++)
-            mSubIngredientsDataList.add(new IngredientsFormData(null,null));
+            mSubIngredientsDataList.add(new IngredientsFormData(null,null,null));
         subIngredientsAdapter = new IngredientsFormAdapter(mSubIngredientsDataList);
         subIngredientsRecyclerView.setAdapter(subIngredientsAdapter);
 
@@ -231,7 +238,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddMainIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainIngredientsDataList.add(new IngredientsFormData(null,null));
+                mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
                 mainIngredientsAdapter.notifyItemChanged(mMainIngredientsDataList.size()-1);
             }
         });
@@ -239,7 +246,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddSubIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSubIngredientsDataList.add(new IngredientsFormData(null, null));
+                mSubIngredientsDataList.add(new IngredientsFormData(null, null,null));
                 subIngredientsAdapter.notifyItemChanged(mSubIngredientsDataList.size()-1);
             }
         });
@@ -276,6 +283,18 @@ public class RecipeFormActivity extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCookingType = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSpinnerServing = findViewById(R.id.spinnerServing);
+        mSpinnerServing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             }
 
             @Override
@@ -327,12 +346,18 @@ public class RecipeFormActivity extends AppCompatActivity  {
             snackBarMessage = "레시피 대표 사진을 등록해주세요 :(";
         }else if(mainIngredientsCheck()){
             snackBarMessage = "주재료 정보를 모두 입력해주세요 :(";
+        }else if(subIngredientsCheck()){
+            snackBarMessage = "부재료 정보를 모두 입력해주세요 :(";
         }else if(recipeSequenceCheck()){
             snackBarMessage = "레시피 순서를 모두 입력해주세요 :(";
         }else if(mSpinnerCountry.getSelectedItem().toString().equals("[나라별]")){
             snackBarMessage = "나라별 카테고리 설정을 해주세요 :(";
         }else if(mSpinnerCookingType.getSelectedItem().toString().equals("[조리별]")){
             snackBarMessage = "조리별 카테고리 설정을 해주세요 :(";
+        }else if(mSpinnerServing.getSelectedItem().toString().equals("[요리 양]")){
+            snackBarMessage = "요리 양 카테고리 설정을 해주세요 :(";
+        }else if(mSpinnerDifficulty.getSelectedItem().toString().equals("[난이도]")){
+            snackBarMessage = "난이도 카테고리 설정을 해주세요 :(";
         }
 
         if(snackBarMessage != null) {
@@ -361,6 +386,16 @@ public class RecipeFormActivity extends AppCompatActivity  {
                 return true;
             }
        }
+        return false;
+    }
+
+    public boolean subIngredientsCheck(){
+        for(int i=0; i<mSubIngredientsDataList.size(); i++){
+            if(mSubIngredientsDataList.get(i).getIngredientsName().equals("")
+                    || mSubIngredientsDataList.get(i).getIngredientsQuantity().equals("")){
+                return true;
+            }
+        }
         return false;
     }
 
