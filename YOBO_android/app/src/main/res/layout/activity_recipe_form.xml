@@ -166,6 +166,28 @@
                     android:layout_weight="1"
                     android:entries="@array/spinnerCookingType"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/textView15"
+                android:text="기타"
+                style="@style/RecipeFormTextViewStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/spinnerServing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerServing"/>
+                <View style="@style/ListDividerVertical"/>
+                <Spinner
+                    android:id="@+id/spinnerDifficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerDifficulty"/>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -82,7 +82,11 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
                 }
                 else{
                     Intent intent = new Intent(getApplication(),BoardActivity.class);
-                    intent.putExtra("ingredients", destIngredient);
+                    ArrayList<String> ingredientNames = new ArrayList<>();
+                    for (int i = 0; i < destIngredient.size(); i++) {
+                        ingredientNames.add(destIngredient.get(i).getIngreName());
+                    }
+                    intent.putExtra("ingredients", ingredientNames);
                     startActivity(intent);
                 }
             }
