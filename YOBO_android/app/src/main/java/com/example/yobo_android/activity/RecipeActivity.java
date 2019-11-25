@@ -77,10 +77,13 @@ public class RecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        new RequestAsync().execute();
-
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
+
+        Log.i("ddd",recipeId);
+        Log.i("ddd",recipeDescriptionNum+"");
+
+        new RequestAsync().execute();
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         mLike = (Button)findViewById(R.id.textLike);
@@ -134,7 +137,7 @@ public class RecipeActivity extends AppCompatActivity {
                 case 1:
                     return RecipeDetailFragment.newInstance(recipeId);
                 default:
-                    Log.i("asdasd",description.get(position-2)+"asd");
+                    Log.i("asdasd",description.get(position)+"asd");
 //                    return TestFragment.newInstance(recipeId, description.get(position-2));
                     return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
             }

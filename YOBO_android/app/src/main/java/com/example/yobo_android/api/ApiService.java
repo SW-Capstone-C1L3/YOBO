@@ -40,6 +40,9 @@ public interface ApiService {
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
 
+    @GET("yobo/recipe/getRecipebyDid/")
+    Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
+
     @GET("yobo/recipe/getListbyCate/")
     Call<List<Recipe>> getListByCate(@Query("cate") String cate,
                                      @Query("pageNum") int pageNum,

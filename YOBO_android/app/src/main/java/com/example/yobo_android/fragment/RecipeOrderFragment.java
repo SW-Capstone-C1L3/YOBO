@@ -76,7 +76,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             recipeId = getArguments().getString(ARG_RECIPE_ID);
             description = getArguments().getString(ARG_DESCRIPTION);
         }
-        Log.i("testtest",description);
     }
   
     // Inflate the view for the fragment based on layout XML
@@ -87,6 +86,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
 
         tvLabel = (TextView)view.findViewById(R.id.recipe);
+        tvLabel.setText(description);
 
         btn =(Button)view.findViewById(R.id.btnOnOff);
         speak=view.findViewById(R.id.btnSpeak);
