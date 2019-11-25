@@ -55,7 +55,6 @@ public class BoardActivity extends AppCompatActivity {
     private String query = null;
     private String category;
     private List<String> ingredients;
-    Integer num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +40,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,14 +85,20 @@ public class RecipeFormActivity extends AppCompatActivity  {
     Button mBtnAddMainIngredients;
     Button mBtnAddSubIngredients;
     Button mBtnAddRecipeSequenceForm;
+
     Spinner mSpinnerCountry;
     Spinner mSpinnerCookingType;
+    Spinner mSpinnerServing;
+    Spinner mSpinnerDifficulty;
 
     EditText mEtRecipeName;
     EditText mEtCookingDescription;
 
     String selectedCountry;
     String selectedCookingType;
+    String selectedServing;
+    String selectedDifficulty;
+
     int tempPosForSequenceForm;
     boolean flagCookingDescriptionImage;
 
@@ -94,6 +106,9 @@ public class RecipeFormActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_form);
+
+        Uri dummy = null;
+        fileUris.add(dummy);
 
         mEtRecipeName = findViewById(R.id.recipe_name);
         mEtCookingDescription = findViewById(R.id.cooking_description);
@@ -191,16 +206,16 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView mainIngredientsRecyclerView = findViewById(R.id.mainIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForMainIngredients = new LinearLayoutManager(this);
         mainIngredientsRecyclerView.setLayoutManager(layoutManagerForMainIngredients);
-        for(int i=0;i<2;i++)
-            mMainIngredientsDataList.add(new IngredientsFormData(null,null));
+        for(int i=0;i<1;i++)
+            mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
         mainIngredientsAdapter = new IngredientsFormAdapter(mMainIngredientsDataList);
         mainIngredientsRecyclerView.setAdapter(mainIngredientsAdapter);
 
         RecyclerView subIngredientsRecyclerView = findViewById(R.id.subIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForSubIngredients = new LinearLayoutManager(this);
         subIngredientsRecyclerView.setLayoutManager(layoutManagerForSubIngredients);
-        for(int i=0;i<2;i++)
-            mSubIngredientsDataList.add(new IngredientsFormData(null,null));
+        for(int i=0;i<1;i++)
+            mSubIngredientsDataList.add(new IngredientsFormData(null,null,null));
         subIngredientsAdapter = new IngredientsFormAdapter(mSubIngredientsDataList);
         subIngredientsRecyclerView.setAdapter(subIngredientsAdapter);
 
@@ -208,7 +223,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView.LayoutManager layoutManagerForRecipeSequenceForm = new LinearLayoutManager(this);
         recipeSequenceFormRecyclerView.setLayoutManager(layoutManagerForRecipeSequenceForm);
 
-        for(int i=0;i<2;i++)
+        for(int i=0;i<1;i++)
             mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null,null));
 
         recipeSequenceFormAdapter = new RecipeSequenceFormAdapter(mRecipeSequenceFormDataList);
@@ -229,7 +244,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddMainIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainIngredientsDataList.add(new IngredientsFormData(null,null));
+                mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
                 mainIngredientsAdapter.notifyItemChanged(mMainIngredientsDataList.size()-1);
             }
         });
@@ -237,7 +252,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddSubIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSubIngredientsDataList.add(new IngredientsFormData(null, null));
+                mSubIngredientsDataList.add(new IngredientsFormData(null, null,null));
                 subIngredientsAdapter.notifyItemChanged(mSubIngredientsDataList.size()-1);
             }
         });
@@ -245,8 +260,13 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddRecipeSequenceForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null, null));
-                recipeSequenceFormAdapter.notifyItemChanged(mRecipeSequenceFormDataList.size()-1);
+                if(mRecipeSequenceFormDataList.get(mRecipeSequenceFormDataList.size()-1).
+                        getRecipeSequenceFormImageId() == null ) {
+                    showSnackBar("레시피 순서의 사진을 등록해주세요 :(");
+                }else{
+                    mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null, null));
+                    recipeSequenceFormAdapter.notifyItemChanged(mRecipeSequenceFormDataList.size()-1);
+                }
             }
         });
     }
@@ -276,22 +296,53 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
             }
         });
+        mSpinnerServing = findViewById(R.id.spinnerServing);
+        mSpinnerServing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedServing = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSpinnerDifficulty = findViewById(R.id.spinnerDifficulty);
+        mSpinnerDifficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedDifficulty = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(pictureSelected(resultCode,data)){
-            //TODO : 서버에 올릴 사진 크기(용량) 줄이는 작업
-            Uri imageUri = data.getData();
-            fileUris.add(imageUri);
+            Uri imageUri = null;
+            try {
+                Bitmap resize = getBitmapFromUri(data.getData());
+                imageUri = getImageUri(getApplicationContext(), resize);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             if(requestCode == PICK_FROM_ALBUM){
+                fileUris.remove(0);
+                fileUris.add(0,imageUri);
                 Picasso.get().load(imageUri).into(mImageCookingDescription);
                 flagCookingDescriptionImage = true;
 
             }else if(requestCode == PICK_FROM_ALBUM2){
                 try {
+                    fileUris.add(imageUri);
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
                     mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setRecipeSequenceFormImageId(bitmap);
                     recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
@@ -318,12 +369,18 @@ public class RecipeFormActivity extends AppCompatActivity  {
             snackBarMessage = "레시피 대표 사진을 등록해주세요 :(";
         }else if(mainIngredientsCheck()){
             snackBarMessage = "주재료 정보를 모두 입력해주세요 :(";
+        }else if(subIngredientsCheck()){
+            snackBarMessage = "부재료 정보를 모두 입력해주세요 :(";
         }else if(recipeSequenceCheck()){
             snackBarMessage = "레시피 순서를 모두 입력해주세요 :(";
         }else if(mSpinnerCountry.getSelectedItem().toString().equals("[나라별]")){
             snackBarMessage = "나라별 카테고리 설정을 해주세요 :(";
         }else if(mSpinnerCookingType.getSelectedItem().toString().equals("[조리별]")){
             snackBarMessage = "조리별 카테고리 설정을 해주세요 :(";
+        }else if(mSpinnerServing.getSelectedItem().toString().equals("[요리 양]")){
+            snackBarMessage = "요리 양 카테고리 설정을 해주세요 :(";
+        }else if(mSpinnerDifficulty.getSelectedItem().toString().equals("[난이도]")){
+            snackBarMessage = "난이도 카테고리 설정을 해주세요 :(";
         }
 
         if(snackBarMessage != null) {
@@ -355,6 +412,16 @@ public class RecipeFormActivity extends AppCompatActivity  {
         return false;
     }
 
+    public boolean subIngredientsCheck(){
+        for(int i=0; i<mSubIngredientsDataList.size(); i++){
+            if(mSubIngredientsDataList.get(i).getIngredientsName().equals("")
+                    || mSubIngredientsDataList.get(i).getIngredientsQuantity().equals("")){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean recipeSequenceCheck(){
         for(int i=0; i<mRecipeSequenceFormDataList.size(); i++){
             if(mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormDescription().equals("")
@@ -371,6 +438,65 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
+
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+
+        ParcelFileDescriptor parcelFileDescriptor = getApplicationContext().getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        //세부 정보 말고 크기 정보만 갖고 온다
+        opts.inJustDecodeBounds = true;
+
+        // ex) 4096 * 3800
+        int width = opts.outWidth;
+        int height=opts.outHeight;
+
+        float sampleRatio = getSampleRatio(width, height);
+
+        opts.inJustDecodeBounds=false;
+        opts.inSampleSize=(int)sampleRatio;
+
+        Bitmap resizedBitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor, null, opts);
+        Log.d("Resizing", "Resized Width / Height" + resizedBitmap.getWidth() + "/" + resizedBitmap.getHeight());
+        parcelFileDescriptor.close();
+        return resizedBitmap;
+    }
+
+    private float getSampleRatio(int width, int height) {
+        //상한
+        final int targetWidth = 1280;
+        final int targetHeight = 1280;
+
+        float ratio;
+
+        if(width > height){
+            //Landscape
+            if(width > targetWidth){
+                ratio = (float)width / (float)targetWidth;
+            }
+            else
+                ratio = 1f;
+        }
+        else{
+            //Portrait
+            if(height > targetHeight){
+                ratio=(float)height/(float)targetHeight;
+            }
+            else
+                ratio = 1f;
+        }
+
+        return Math.round(ratio);
+    }
+
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                inImage, "ResizeImage", null);
+        return Uri.parse(path);
     }
 
 }
