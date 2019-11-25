@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +40,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,7 +206,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView mainIngredientsRecyclerView = findViewById(R.id.mainIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForMainIngredients = new LinearLayoutManager(this);
         mainIngredientsRecyclerView.setLayoutManager(layoutManagerForMainIngredients);
-        for(int i=0;i<2;i++)
+        for(int i=0;i<1;i++)
             mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
         mainIngredientsAdapter = new IngredientsFormAdapter(mMainIngredientsDataList);
         mainIngredientsRecyclerView.setAdapter(mainIngredientsAdapter);
@@ -208,7 +214,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView subIngredientsRecyclerView = findViewById(R.id.subIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForSubIngredients = new LinearLayoutManager(this);
         subIngredientsRecyclerView.setLayoutManager(layoutManagerForSubIngredients);
-        for(int i=0;i<2;i++)
+        for(int i=0;i<1;i++)
             mSubIngredientsDataList.add(new IngredientsFormData(null,null,null));
         subIngredientsAdapter = new IngredientsFormAdapter(mSubIngredientsDataList);
         subIngredientsRecyclerView.setAdapter(subIngredientsAdapter);
@@ -294,7 +300,19 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mSpinnerServing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedServing = parent.getItemAtPosition(position).toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSpinnerDifficulty = findViewById(R.id.spinnerDifficulty);
+        mSpinnerDifficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedDifficulty = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -308,8 +326,13 @@ public class RecipeFormActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(pictureSelected(resultCode,data)){
-            //TODO : 서버에 올릴 사진 크기(용량) 줄이는 작업
-            Uri imageUri = data.getData();
+            Uri imageUri = null;
+            try {
+                Bitmap resize = getBitmapFromUri(data.getData());
+                imageUri = getImageUri(getApplicationContext(), resize);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             if(requestCode == PICK_FROM_ALBUM){
                 fileUris.remove(0);
@@ -415,6 +438,65 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
+
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+
+        ParcelFileDescriptor parcelFileDescriptor = getApplicationContext().getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        //세부 정보 말고 크기 정보만 갖고 온다
+        opts.inJustDecodeBounds = true;
+
+        // ex) 4096 * 3800
+        int width = opts.outWidth;
+        int height=opts.outHeight;
+
+        float sampleRatio = getSampleRatio(width, height);
+
+        opts.inJustDecodeBounds=false;
+        opts.inSampleSize=(int)sampleRatio;
+
+        Bitmap resizedBitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor, null, opts);
+        Log.d("Resizing", "Resized Width / Height" + resizedBitmap.getWidth() + "/" + resizedBitmap.getHeight());
+        parcelFileDescriptor.close();
+        return resizedBitmap;
+    }
+
+    private float getSampleRatio(int width, int height) {
+        //상한
+        final int targetWidth = 1280;
+        final int targetHeight = 1280;
+
+        float ratio;
+
+        if(width > height){
+            //Landscape
+            if(width > targetWidth){
+                ratio = (float)width / (float)targetWidth;
+            }
+            else
+                ratio = 1f;
+        }
+        else{
+            //Portrait
+            if(height > targetHeight){
+                ratio=(float)height/(float)targetHeight;
+            }
+            else
+                ratio = 1f;
+        }
+
+        return Math.round(ratio);
+    }
+
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                inImage, "ResizeImage", null);
+        return Uri.parse(path);
     }
 
 }
