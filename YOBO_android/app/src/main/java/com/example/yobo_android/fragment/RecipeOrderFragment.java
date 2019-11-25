@@ -45,7 +45,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
 
     private String recipeId;
     private String description;
-
+    private int flag =0;
     private Button btn;
     private Button speak;
     private TextToSpeech tts;
@@ -54,6 +54,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
     TextView tvLabel;
+
+    Thread thread = null;
+    Handler handler = null;
 
     public RecipeOrderFragment(){
         Log.i("cccccccccccc","RecipeOrder created");
@@ -87,7 +90,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
 
         tvLabel = (TextView)view.findViewById(R.id.recipe);
-
+        tvLabel.setText(description);
         btn =(Button)view.findViewById(R.id.btnOnOff);
         speak=view.findViewById(R.id.btnSpeak);
         speak.setOnClickListener(new View.OnClickListener(){
@@ -97,7 +100,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             }
         });
         tts = new TextToSpeech(getActivity(), this);
-//        btn.setOnClickListener(this);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -122,13 +124,37 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     public void setUserVisibleHint(boolean isVisibleToUser){
         if(isVisibleToUser){
             Log.i("ccccccccccc","현재 3frag가 보여짐");
-            Speech();
+            flag = 1;
+            handler = new Handler(){
+                public void handleMessage(android.os.Message msg) {
+                    if(flag==1) {
+                        Speech();
+                        flag=0;
+                    }
+                }
+            };
+            thread = new Thread(){
+                public void run() {
+                    super.run();
+                    while(true){
+                        try {
+                            Thread.sleep(1000);
+                            handler.sendEmptyMessage(0);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            thread.start();
         }
         else{
             Log.i("ccccccccccc","현재 3frag가 보여지지 않음");
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     // 글자 읽어주기
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Speech() {

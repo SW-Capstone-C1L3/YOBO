@@ -2,6 +2,7 @@ package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -121,7 +122,6 @@ public class RecipeActivity extends AppCompatActivity {
         //        private static int NUM_ITEMS = 10;
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
-
         }
 
         // Returns total number of pages
@@ -247,7 +247,7 @@ public class RecipeActivity extends AppCompatActivity {
                     message = "알 수 없는 오류임";
                     break;
             }
-            Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message,Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -266,14 +266,11 @@ public class RecipeActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                 mRecognizer.stopListening();
                 selectIndex(++cnt);
-//                vpPager.setCurrentItem(vpPager.getCurrentItem() + 1, true);
             }
             else if(result.equals("다시")){
                 adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
                 vpPager.setAdapter(adapterViewPager);
                 selectIndex(cnt);
-//                vpPager.setCurrentItem(vpPager.getCurrentItem() + 1, true);
-//                vpPager.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -342,5 +339,10 @@ public class RecipeActivity extends AppCompatActivity {
                 jsonParser(s);
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        mRecognizer.stopListening();
+        super.onBackPressed();
     }
 }
