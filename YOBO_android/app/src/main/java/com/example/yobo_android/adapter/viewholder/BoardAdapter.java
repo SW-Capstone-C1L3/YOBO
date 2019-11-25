@@ -71,7 +71,7 @@ public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }
 
             recipeId = recipe.get_id();
-            recipeDescriptionNum = recipe.getCooking_description().size()+2;
+            recipeDescriptionNum = recipe.getCooking_description().size();
             recipeName.setText(recipe.getRecipe_name());
             recipeSubContents.setText(recipe.getCooking_description().get(0).getDescription());
             recipeWriter.setText(recipe.getWriter_id());

@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,13 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.adapter.viewholder.IngredientsAdapter;
 import com.example.yobo_android.api.ApiService;
-import com.example.yobo_android.etc.Main_cooking_ingredient;
+import com.example.yobo_android.etc.Cooking_description;
+import com.example.yobo_android.etc.Cooking_ingredient;
 import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.Sub_cooking_ingredient;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
@@ -45,8 +42,9 @@ public class RecipeMainActivity extends AppCompatActivity {
     int descriptionNum;
 
     Recipe recipe;
-    List<Main_cooking_ingredient> main_cooking_ingredients;
-    List<Sub_cooking_ingredient> sub_cooking_ingredients;
+    List<Cooking_ingredient> main_cooking_ingredients;
+    List<Cooking_ingredient> sub_cooking_ingredients;
+    List<Cooking_description> cooking_descriptions;
 
     private IngredientsAdapter mMainIngredientAdapter;
     private IngredientsAdapter mSubIngredientAdapter;
@@ -86,14 +84,16 @@ public class RecipeMainActivity extends AppCompatActivity {
                     recipe = response.body();
                     main_cooking_ingredients = recipe.getMain_cooking_ingredients();
                     sub_cooking_ingredients = recipe.getSub_cooking_ingredients();
+                    cooking_descriptions = recipe.getCooking_description();
+
                     for (int i = 0; i < main_cooking_ingredients.size(); i++) {
                         mMainIngredientAdapter.addItem(main_cooking_ingredients.get(i));
                     }
-//                    for (int i = 0; i < sub_cooking_ingredients.size(); i++) {
-//                        mSubIngredientAdapter.addItem(sub_cooking_ingredients.get(i),i);
-//                    }
+                    for (int i = 0; i < sub_cooking_ingredients.size(); i++) {
+                        mSubIngredientAdapter.addItem(sub_cooking_ingredients.get(i));
+                    }
                     mMainIngredientAdapter.notifyDataSetChanged();
-//                    mSubIngredientAdapter.notifyDataSetChanged();
+                    mSubIngredientAdapter.notifyDataSetChanged();
 
 
                     String temp = recipe.getCooking_description().get(0).getImage();

@@ -141,7 +141,7 @@ public class RecipeActivity extends AppCompatActivity {
                 case 1:
                     return RecipeDetailFragment.newInstance(recipeId);
                 default:
-                    Log.i("asdasd",description.get(position-2)+"asd");
+                    Log.i("asdasd",description.get(position)+"asd");
 //                    return TestFragment.newInstance(recipeId, description.get(position-2));
                     return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
             }

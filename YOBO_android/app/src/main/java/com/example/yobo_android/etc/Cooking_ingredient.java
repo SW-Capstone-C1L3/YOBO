@@ -3,8 +3,8 @@ package com.example.yobo_android.etc;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Main_cooking_ingredient {
-    public Main_cooking_ingredient(String ingredients_name, Integer qty, String unit) {
+public class Cooking_ingredient {
+    public Cooking_ingredient(String ingredients_name, Integer qty, String unit) {
         this.ingredients_name = ingredients_name;
         this.qty = qty;
         this.unit = unit;

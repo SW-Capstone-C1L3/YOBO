@@ -27,11 +27,10 @@ import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
 import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.Cooking_description;
+import com.example.yobo_android.etc.Cooking_ingredient;
 import com.example.yobo_android.etc.IngredientsFormData;
-import com.example.yobo_android.etc.Main_cooking_ingredient;
 import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.RecipeSequenceFormData;
-import com.example.yobo_android.etc.Sub_cooking_ingredient;
 import com.google.android.material.snackbar.Snackbar;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
@@ -68,8 +67,8 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
     List<String> category = new ArrayList<>();
     List<Cooking_description> cooking_descriptions = new ArrayList<>();
-    List<Main_cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
-    List<Sub_cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
+    List<Cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
+    List<Cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
 
     IngredientsFormAdapter mainIngredientsAdapter;
     IngredientsFormAdapter subIngredientsAdapter;
@@ -126,12 +125,12 @@ public class RecipeFormActivity extends AppCompatActivity  {
                                         "TEMP"));
                     }
                     for (int i = 0; i < mMainIngredientsDataList.size(); i++) {
-                        main_cooking_ingredients.add(new Main_cooking_ingredient(
+                        main_cooking_ingredients.add(new Cooking_ingredient(
                                 mMainIngredientsDataList.get(i).getIngredientsName(), 0, ""));
 
                     }
                     for (int i = 0; i < mSubIngredientsDataList.size(); i++) {
-                        sub_cooking_ingredients.add(new Sub_cooking_ingredient(
+                        sub_cooking_ingredients.add(new Cooking_ingredient(
                                 mSubIngredientsDataList.get(i).getIngredientsName(), 0, ""));
                     }
                     final RecipeData recipe = new RecipeData(

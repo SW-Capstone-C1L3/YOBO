@@ -1,21 +1,14 @@
 package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.activity.RecipeMainActivity;
-import com.example.yobo_android.etc.Main_cooking_ingredient;
-import com.example.yobo_android.etc.Recipe;
-import com.squareup.picasso.Picasso;
+import com.example.yobo_android.etc.Cooking_ingredient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -24,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ItemViewHolder>{
 
     // adapter에 들어갈 list 입니다.
-    private ArrayList<Main_cooking_ingredient> mListIngredient = new ArrayList<>();
+    private ArrayList<Cooking_ingredient> mListIngredient = new ArrayList<>();
     private Context mContext;
 
     // RecyclerView의 핵심인 ViewHolder 입니다.
@@ -44,7 +37,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             mIngredientUnit = itemView.findViewById(R.id.ingredientqty2);
         }
 
-        void onBind(Main_cooking_ingredient ingredient) {
+        void onBind(Cooking_ingredient ingredient) {
             mIngredientName.setText(ingredient.getIngredients_name());
             mIngredientQty.setText(ingredient.getQty()+"");
             mIngredientQty.setText(ingredient.getUnit());
@@ -76,7 +69,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return mListIngredient.size();
     }
 
-    public void addItem(Main_cooking_ingredient ingredient) {
+    public void addItem(Cooking_ingredient ingredient) {
         // 외부에서 item을 추가시킬 함수입니다.
         mListIngredient.add(ingredient);
     }
