@@ -44,7 +44,6 @@ public class RecipeMainActivity extends AppCompatActivity {
     Recipe recipe;
     List<Cooking_ingredient> main_cooking_ingredients;
     List<Cooking_ingredient> sub_cooking_ingredients;
-    List<Cooking_description> cooking_descriptions;
 
     private IngredientsAdapter mMainIngredientAdapter;
     private IngredientsAdapter mSubIngredientAdapter;
@@ -55,7 +54,6 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
-        descriptionNum = getIntent().getIntExtra("recipeDescriptionNum",descriptionNum);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -84,7 +82,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                     recipe = response.body();
                     main_cooking_ingredients = recipe.getMain_cooking_ingredients();
                     sub_cooking_ingredients = recipe.getSub_cooking_ingredients();
-                    cooking_descriptions = recipe.getCooking_description();
+                    descriptionNum = recipe.getCooking_description().size();
 
                     for (int i = 0; i < main_cooking_ingredients.size(); i++) {
                         mMainIngredientAdapter.addItem(main_cooking_ingredients.get(i));
