@@ -3,10 +3,12 @@ package com.example.yobo_android.etc;
 public class IngredientsFormData {
     private String ingredientsName;
     private String ingredientsQuantity;
+    private String ingredientsUnit;
 
-    public IngredientsFormData(String ingredientsText, String ingredientsQuantity) {
+    public IngredientsFormData(String ingredientsText, String ingredientsQuantity, String ingredientsUnit) {
         this.ingredientsName = ingredientsText;
         this.ingredientsQuantity = ingredientsQuantity;
+        this.ingredientsUnit = ingredientsUnit;
     }
 
     public String getIngredientsName() {

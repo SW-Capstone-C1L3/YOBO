@@ -22,12 +22,10 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.api.RequestHttpURLConnection;
-import com.example.yobo_android.fragment.ForthFragment;
 
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
@@ -41,7 +39,6 @@ import org.json.JSONObject;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -82,10 +79,10 @@ public class RecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        new RequestAsync().execute();
-
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
+
+        new RequestAsync().execute();
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         mLike = (Button)findViewById(R.id.textLike);
@@ -129,20 +126,13 @@ public class RecipeActivity extends AppCompatActivity {
         public int getCount() {
             return recipeDescriptionNum;
         }
+
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return RecipeMainFragment.newInstance(recipeId);
-                case 1:
-                    return RecipeDetailFragment.newInstance(recipeId);
-                default:
-                    Log.i("asdasd",description.get(position-2)+"asd");
-//                    return TestFragment.newInstance(recipeId, description.get(position-2));
-                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
-            }
+            return RecipeOrderFragment.newInstance(recipeId, recipeDescriptionNum);
         }
+
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {

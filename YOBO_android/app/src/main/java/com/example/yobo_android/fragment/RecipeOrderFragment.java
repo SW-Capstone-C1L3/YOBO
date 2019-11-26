@@ -44,8 +44,8 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String ARG_DESCRIPTION = "";
 
     private String recipeId;
-    private String description;
     private int flag =0;
+    private int descriptionNum;
     private Button btn;
     private Button speak;
     private TextToSpeech tts;
@@ -54,6 +54,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
     TextView tvLabel;
+    Thread thread = null;
+    Handler handler = null;
+    private  int flag=0;
 
     Thread thread = null;
     Handler handler = null;
@@ -62,13 +65,13 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         Log.i("cccccccccccc","RecipeOrder created");
     }
     // newInstance constructor for creating fragment with arguments
-    public static RecipeOrderFragment newInstance(String recipeId, String description) {
+    public static RecipeOrderFragment newInstance(String recipeId, int descriptionNum) {
         RecipeOrderFragment fragment = new RecipeOrderFragment();
         Bundle args = new Bundle();
         args.putString(ARG_RECIPE_ID, recipeId);
-        args.putString(ARG_DESCRIPTION, description);
+        args.putInt(ARG_DESCRIPTION, descriptionNum);
         fragment.setArguments(args);
-        Log.i("testtest","newins");
+        Log.i("testtest","newins1");
         return fragment;
     }
 
@@ -77,9 +80,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
             recipeId = getArguments().getString(ARG_RECIPE_ID);
-            description = getArguments().getString(ARG_DESCRIPTION);
+            descriptionNum = getArguments().getInt(ARG_DESCRIPTION);
         }
-        Log.i("testtest",description);
+        Log.i("testtest","newins2");
     }
   
     // Inflate the view for the fragment based on layout XML
@@ -90,7 +93,10 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
 
         tvLabel = (TextView)view.findViewById(R.id.recipe);
-        tvLabel.setText(description);
+
+//        tvLabel.setText(description);
+        Log.i("testtest","newins3");
+
         btn =(Button)view.findViewById(R.id.btnOnOff);
         speak=view.findViewById(R.id.btnSpeak);
         speak.setOnClickListener(new View.OnClickListener(){
@@ -113,6 +119,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent,MY_DATA_CHECK);
         Log.i("ccccccccccc","recipeorder onCreateView");
+
         return view;
     }
     public void onViewCreated (View view,

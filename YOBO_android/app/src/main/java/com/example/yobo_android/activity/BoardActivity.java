@@ -55,7 +55,6 @@ public class BoardActivity extends AppCompatActivity {
     private String query = null;
     private String category;
     private List<String> ingredients;
-    Integer num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,7 @@ public class BoardActivity extends AppCompatActivity {
         } else if(ingredients != null){
             call = apiService.getByingredients(ingredients, 0, 10);
         } else
-            call = apiService.getRecipeList(2,10);
+            call = apiService.getRecipeList(0,10);
 
         if (call != null) {
             call.enqueue(new Callback<List<Recipe>>() {
