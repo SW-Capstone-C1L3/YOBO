@@ -8,6 +8,13 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.os.Handler;
 import android.speech.RecognitionListener;
@@ -19,33 +26,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
+import com.example.yobo_android.activity.RecipeMainActivity;
+import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeOrder;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 /*
- * RecipeActivity에 띄워지는 Fragment
- * 3번째부터의 모든 fragment로 레시피의 조리 순서를 나타내는 UI
+ * RecipeActivity에 띄워지는 fragment
+ * 레시피 요리 순서가 띄워짐
  */
 public class RecipeOrderFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener{
-    private static final String ARG_RECIPE_ID ="";
-    private static final String ARG_DESCRIPTION = "";
-
     private String recipeId;
-    private int flag =0;
-    private int descriptionNum;
+    private int position;
+
+    ApiService apiService;
+    Retrofit retrofit;
+
+    Recipe recipe;
+    ImageView mCurImage;
+    TextView mCurDescription;
+
     private Button btn;
     private Button speak;
     private TextToSpeech tts;
@@ -53,21 +70,17 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     /////////이 밑으로 부터 추가
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
-    TextView tvLabel;
     Thread thread = null;
     Handler handler = null;
+    private  int flag = 0;
 
-    public RecipeOrderFragment(){
-        Log.i("cccccccccccc","RecipeOrder created");
-    }
     // newInstance constructor for creating fragment with arguments
-    public static RecipeOrderFragment newInstance(String recipeId, int descriptionNum) {
+    public static RecipeOrderFragment newInstance(String recipeId, int position) {
         RecipeOrderFragment fragment = new RecipeOrderFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_RECIPE_ID, recipeId);
-        args.putInt(ARG_DESCRIPTION, descriptionNum);
+        args.putInt("position", position);
+        args.putString("recipeId", recipeId);
         fragment.setArguments(args);
-        Log.i("testtest","newins1");
         return fragment;
     }
 
@@ -75,10 +88,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
-            recipeId = getArguments().getString(ARG_RECIPE_ID);
-            descriptionNum = getArguments().getInt(ARG_DESCRIPTION);
+            recipeId = getArguments().getString("recipeId");
+            position = getArguments().getInt("position");
         }
-        Log.i("testtest","newins2");
     }
   
     // Inflate the view for the fragment based on layout XML
@@ -86,9 +98,49 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
-        tvLabel = (TextView)view.findViewById(R.id.recipe);
-        tvLabel.setText(String.valueOf(descriptionNum));
-        Log.i("testtest","newins3");
+
+        Log.i("ddd3","in view2");
+        // Retrofit2 때문에 final로, 그래서 다른 함수에서 재활용이 안되네
+        mCurImage = view.findViewById(R.id.curimage);
+        mCurDescription = view.findViewById(R.id.curdescription);
+
+        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okhttpClientBuilder.addInterceptor(logging);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okhttpClientBuilder.build())
+                .build();
+        apiService = retrofit.create(ApiService.class);
+        Call<Recipe> call = null;
+        call = apiService.getReicpebyDid(recipeId);
+        if(call != null) {
+            call.enqueue(new Callback<Recipe>() {
+                @Override
+                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                    recipe = response.body();
+
+                    String temp = recipe.getCooking_description().get(position).getImage();
+                    temp = temp.replace("/", "%2F");
+                    String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                    try {
+                        URL url = new URL(sum);
+                        Picasso.get().load(url.toString()).into(mCurImage);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    mCurDescription.setText(recipe.getCooking_description().get(position).getDescription());
+                }
+                @Override
+                public void onFailure(Call<Recipe> call, Throwable t) {
+                    //Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    Log.i("ERROR", t.toString());
+                    Log.i("ERROR", call.toString());
+                }
+            });
+        }
 
         btn =(Button)view.findViewById(R.id.btnOnOff);
         speak=view.findViewById(R.id.btnSpeak);
@@ -102,7 +154,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String text = tvLabel.getText().toString().trim();
+                String text = mCurDescription.getText().toString().trim();
                 tts.setPitch((float) 1.0);      // 음량
                 tts.setSpeechRate((float) 1.5); // 재생속도
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"ababa");
@@ -159,7 +211,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Speech() {
         Log.i("aaaaaaaa","Speech3");
-        String text = tvLabel.getText().toString().trim();
+        String text = mCurDescription.getText().toString().trim();
         tts.setPitch((float) 1.0);      // 음량
         tts.setSpeechRate((float) 1.5); // 재생속도
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"ababa");
