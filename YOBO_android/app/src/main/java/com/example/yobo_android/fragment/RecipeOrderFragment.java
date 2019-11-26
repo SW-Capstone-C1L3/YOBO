@@ -56,10 +56,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     TextView tvLabel;
     Thread thread = null;
     Handler handler = null;
-    private  int flag=0;
-
-    Thread thread = null;
-    Handler handler = null;
 
     public RecipeOrderFragment(){
         Log.i("cccccccccccc","RecipeOrder created");
@@ -89,12 +85,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
-
         tvLabel = (TextView)view.findViewById(R.id.recipe);
-
-//        tvLabel.setText(description);
+        tvLabel.setText(String.valueOf(descriptionNum));
         Log.i("testtest","newins3");
 
         btn =(Button)view.findViewById(R.id.btnOnOff);
