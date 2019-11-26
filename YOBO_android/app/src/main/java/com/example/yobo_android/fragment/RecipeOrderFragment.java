@@ -44,8 +44,8 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private static final String ARG_DESCRIPTION = "";
 
     private String recipeId;
+    private int flag =0;
     private int descriptionNum;
-
     private Button btn;
     private Button speak;
     private TextToSpeech tts;
@@ -57,6 +57,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     Thread thread = null;
     Handler handler = null;
     private  int flag=0;
+
+    Thread thread = null;
+    Handler handler = null;
 
     public RecipeOrderFragment(){
         Log.i("cccccccccccc","RecipeOrder created");
@@ -90,6 +93,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
 
         tvLabel = (TextView)view.findViewById(R.id.recipe);
+
 //        tvLabel.setText(description);
         Log.i("testtest","newins3");
 
@@ -102,7 +106,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             }
         });
         tts = new TextToSpeech(getActivity(), this);
-//        btn.setOnClickListener(this);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -132,7 +135,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             handler = new Handler(){
                 public void handleMessage(android.os.Message msg) {
                     if(flag==1) {
-                        //Speech();
+                        Speech();
                         flag=0;
                     }
                 }
@@ -158,6 +161,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     // 글자 읽어주기
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Speech() {
