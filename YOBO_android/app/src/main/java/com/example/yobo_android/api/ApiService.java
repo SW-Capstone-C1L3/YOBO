@@ -1,5 +1,6 @@
 package com.example.yobo_android.api;
 
+import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
@@ -54,6 +55,11 @@ public interface ApiService {
 
     @GET("yobo/recipe/getRecipebyDid/")
     Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
+
+    @GET("yobo/comments/getCommentsbyRId/")
+    Call<List<CommentData>> getCommentsbyRId(@Query("RId") String recipeId,
+                                       @Query("pageNum") int pageNum,
+                                       @Query("pageSize") int pageSize);
 
     @GET("yobo/recipe/getListbyCate/")
     Call<List<Recipe>> getListByCate(@Query("cate") String cate,
