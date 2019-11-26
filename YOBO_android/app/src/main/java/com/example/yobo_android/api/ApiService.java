@@ -2,6 +2,7 @@ package com.example.yobo_android.api;
 
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
+import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.etc.UserData;
 
 import java.util.List;
@@ -37,10 +38,19 @@ public interface ApiService {
     Call<List<Recipe>> getRecipeList(@Query("pageNum") int pageNum,
                                      @Query("pageSize") int pageSize);
 
+    @GET("/yobo/product/getProducteList/")
+    Call<List<ShoppingIngredientData>> getProductList(@Query("pageNum") int pageNum,
+                                     @Query("pageSize") int pageSize);
+
     @GET("yobo/recipe/search/")
     Call<List<Recipe>> search(@Query("recipeName") String recipeName,
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
+
+    @GET("yobo/product/search/")
+    Call<List<ShoppingIngredientData>> searchProduct(@Query("productName") String productName,
+                                              @Query("pageNum") int pageNum,
+                                              @Query("pageSize") int pageSize);
 
     @GET("yobo/recipe/getRecipebyDid/")
     Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
