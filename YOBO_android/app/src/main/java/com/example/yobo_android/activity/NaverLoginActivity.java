@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.etc.UserData;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
@@ -24,12 +27,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NaverLoginActivity  extends AppCompatActivity {
 
 
     private static final String TAG = "NaverLoginActivity";
-
+    private static String UserEmail;
     /**
      * client 정보를 넣어준다.
      */
@@ -49,8 +61,17 @@ public class NaverLoginActivity  extends AppCompatActivity {
     private static TextView mOauthExpires;
     private static TextView mOauthTokenType;
     private static TextView mOAuthState;
-
+    private static TextView userDataText;
+    View View;
     private OAuthLoginButton mOAuthLoginButton;
+    Button  buttonOAuth;
+    Button buttonVerifier;
+    Button buttonRefresh;
+    Button buttonOAuthLogout;
+    Button buttonOAuthDeleteToken;
+    Button getUserData;
+
+    UserData userdata = new UserData();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +85,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
         initData();
         initView();
 
-        this.setTitle("OAuthLoginSample Ver." + OAuthLogin.getVersion());
+
     }
 
 
@@ -83,19 +104,106 @@ public class NaverLoginActivity  extends AppCompatActivity {
 
     private void initView() {
         mApiResultText = (TextView) findViewById(R.id.api_result_text);
+        View =this.findViewById(android.R.id.content);
+        buttonOAuth=View.findViewById(R.id.buttonOAuth);
+        buttonVerifier=View.findViewById(R.id.buttonVerifier);
+        buttonRefresh=View.findViewById(R.id.buttonRefresh);
+        buttonOAuthLogout=View.findViewById(R.id.buttonOAuthLogout);
+        buttonOAuthDeleteToken=View.findViewById(R.id.buttonOAuthDeleteToken);
+        getUserData=View.findViewById(R.id.getUserdata);
+        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.buttonOAuth: {
+                        mOAuthLoginInstance.startOauthLoginActivity(NaverLoginActivity.this, mOAuthLoginHandler);
+                        break;
+                    }
+                    case R.id.buttonVerifier: {
+                        new RequestApiTask().execute();
+                        break;
+                    }
+                    case R.id.buttonRefresh: {
+                        new RefreshTokenTask().execute();
+                        break;
+                    }
+                    case R.id.buttonOAuthLogout: {
+                        mOAuthLoginInstance.logout(mContext);
+                        updateView();
+                        break;
+                    }
+                    case R.id.buttonOAuthDeleteToken: {
+                        new DeleteTokenTask().execute();
+                        break;
+                    }
+                    case R.id.getUserdata:{
+                        getUserdata(mOauthAT.getText().toString());
+                        Log.i("Logrd",userdata.toString());
+                        updateView();
 
+                        break;
+
+                    }
+                    default:
+                        break;
+                }
+
+            }
+        };
         mOauthAT = (TextView) findViewById(R.id.oauth_access_token);
         mOauthRT = (TextView) findViewById(R.id.oauth_refresh_token);
         mOauthExpires = (TextView) findViewById(R.id.oauth_expires);
         mOauthTokenType = (TextView) findViewById(R.id.oauth_type);
         mOAuthState = (TextView) findViewById(R.id.oauth_state);
-
+        userDataText=(TextView)findViewById(R.id.api_result_text);
         mOAuthLoginButton = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
         mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
-
+        buttonOAuth.setOnClickListener(onClickListener);
+        buttonVerifier.setOnClickListener(onClickListener);
+        buttonRefresh.setOnClickListener(onClickListener);
+        buttonOAuthLogout.setOnClickListener(onClickListener);
+        buttonOAuthDeleteToken.setOnClickListener(onClickListener);
+        getUserData.setOnClickListener(onClickListener);
         updateView();
     }
 
+    public void getUserdata(String at){
+        Retrofit retrofit;
+        ApiService apiService;
+
+        this.setTitle("OAuthLoginSample Ver." + OAuthLogin.getVersion());
+        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okhttpClientBuilder.addInterceptor(logging);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okhttpClientBuilder.build())
+                .build();
+        apiService = retrofit.create(ApiService.class);
+        Call<UserData> call = apiService.getUserData(at);
+        if (call != null) {
+            call.enqueue(new Callback<UserData>() {
+                @Override
+                public void onResponse(Call<UserData> call, Response<UserData> response) {
+                    Toast.makeText(NaverLoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    Log.i("TEST", call.toString());
+                    Log.i("TEST", response.toString());
+                    userdata = response.body();
+                    Log.i("Logrd",userdata.getUser_email());
+
+                }
+
+                @Override
+                public void onFailure(Call<UserData> call, Throwable t) {
+                    Toast.makeText(NaverLoginActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+                    Log.e("ERROR", call.toString());
+                    Log.e("ERROR", t.toString());
+                }
+            });
+        }
+    }
 
     private void updateView() {
         mOauthAT.setText(mOAuthLoginInstance.getAccessToken(mContext));
@@ -103,6 +211,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
         mOauthExpires.setText(String.valueOf(mOAuthLoginInstance.getExpiresAt(mContext)));
         mOauthTokenType.setText(mOAuthLoginInstance.getTokenType(mContext));
         mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
+        userDataText.setText(userdata.getUser_email());
     }
 
     @Override
@@ -136,35 +245,35 @@ public class NaverLoginActivity  extends AppCompatActivity {
         }
 
     };
-
-    public void onButtonClick(View v) throws Throwable {
-
-        switch (v.getId()) {
-            case R.id.buttonOAuth: {
-                mOAuthLoginInstance.startOauthLoginActivity(NaverLoginActivity.this, mOAuthLoginHandler);
-                break;
-            }
-            case R.id.buttonVerifier: {
-                new RequestApiTask().execute();
-                break;
-            }
-            case R.id.buttonRefresh: {
-                new RefreshTokenTask().execute();
-                break;
-            }
-            case R.id.buttonOAuthLogout: {
-                mOAuthLoginInstance.logout(mContext);
-                updateView();
-                break;
-            }
-            case R.id.buttonOAuthDeleteToken: {
-                new DeleteTokenTask().execute();
-                break;
-            }
-            default:
-                break;
-        }
-    }
+//
+//    public void onButtonClick(View v) throws Throwable {
+//
+//        switch (v.getId()) {
+//            case R.id.buttonOAuth: {
+//                mOAuthLoginInstance.startOauthLoginActivity(NaverLoginActivity.this, mOAuthLoginHandler);
+//                break;
+//            }
+//            case R.id.buttonVerifier: {
+//                new RequestApiTask().execute();
+//                break;
+//            }
+//            case R.id.buttonRefresh: {
+//                new RefreshTokenTask().execute();
+//                break;
+//            }
+//            case R.id.buttonOAuthLogout: {
+//                mOAuthLoginInstance.logout(mContext);
+//                updateView();
+//                break;
+//            }
+//            case R.id.buttonOAuthDeleteToken: {
+//                new DeleteTokenTask().execute();
+//                break;
+//            }
+//            default:
+//                break;
+//        }
+//    }
 
 
     private class DeleteTokenTask extends AsyncTask<Void, Void, Void> {

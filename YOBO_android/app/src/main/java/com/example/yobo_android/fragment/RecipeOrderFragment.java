@@ -63,7 +63,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     ImageView mCurImage;
     TextView mCurDescription;
 
-
     private Button btn;
     private Button speak;
     private TextToSpeech tts;
@@ -98,7 +97,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
 
         Log.i("ddd3","in view2");
@@ -153,7 +151,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             }
         });
         tts = new TextToSpeech(getActivity(), this);
-//        btn.setOnClickListener(this);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -183,7 +180,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             handler = new Handler(){
                 public void handleMessage(android.os.Message msg) {
                     if(flag==1) {
-                        //Speech();
+                        Speech();
                         flag=0;
                     }
                 }
@@ -209,6 +206,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     // 글자 읽어주기
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Speech() {
