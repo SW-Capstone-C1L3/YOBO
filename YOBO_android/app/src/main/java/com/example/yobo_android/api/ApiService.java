@@ -3,6 +3,7 @@ package com.example.yobo_android.api;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
+import com.example.yobo_android.etc.UserData;
 
 import java.util.List;
 import okhttp3.MultipartBody;
@@ -63,5 +64,8 @@ public interface ApiService {
     Call<List<Recipe>> getByingredients(@Query("ingredients") List<String> ingredients,
                                      @Query("pageNum") int pageNum,
                                      @Query("pageSize") int pageSize);
+    @GET("users/naverlog")
+    Call<UserData> getUserData(@Query("at") String at);
+
 }
 
