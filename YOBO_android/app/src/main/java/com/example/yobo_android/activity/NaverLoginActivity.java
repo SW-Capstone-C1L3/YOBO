@@ -3,6 +3,7 @@ package com.example.yobo_android.activity;
 import android.annotation.SuppressLint;
 import android.app.AppComponentFactory;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,15 +78,9 @@ public class NaverLoginActivity  extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_naver_login);
-
-
         mContext = this;
-
-
         initData();
         initView();
-
-
     }
 
 
@@ -191,8 +186,14 @@ public class NaverLoginActivity  extends AppCompatActivity {
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     userdata = response.body();
-                    Log.i("Logrd",userdata.getUser_email());
+//                    Log.i("Logrd",userdata.getUser_email());
+//                    Log.i("kkkkkk1",userdata.getUser_id());
+                    Log.i("kkkkkk2",userdata.get_id());
 
+                    Intent intent = new Intent();
+                    intent.putExtra("result", userdata.get_id());
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
 
                 @Override
@@ -203,6 +204,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                 }
             });
         }
+
     }
 
     private void updateView() {

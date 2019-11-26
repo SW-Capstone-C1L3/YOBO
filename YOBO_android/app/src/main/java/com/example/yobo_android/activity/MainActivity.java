@@ -42,9 +42,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.fragment.RecipeDetailFragment;
-import com.example.yobo_android.fragment.RecipeMainFragment;
-import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -64,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int REQUEST_TEST =1000;
+    private int REQUEST_NAVER=2000;
 //    private Button mBtnRecipeRecommendation;
     private Button mBtnChoiceIngredient;
     private Button mBtnRecipeCategory;
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nav_header_user_id;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-
+    private String u_id;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
@@ -126,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
                         NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_NAVER);
             }
         });
 
@@ -322,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 1000: {
+            case 1000:
                 if (grantResults.length < 1) {
                     Toast.makeText(this, "Failed get permission", Toast.LENGTH_SHORT).show();
                     return;
@@ -334,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
                 Toast.makeText(this, "Permission is granted", Toast.LENGTH_SHORT).show();
-            }
             break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -362,6 +359,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 make.setActionTextColor(Color.RED);
                 make.show();
             }
+        }
+        else if(requestCode == REQUEST_NAVER){
+            u_id = data.getStringExtra("result");
+            Log.i("kkkkk main, u_id",u_id);
         }
     }
     public Point getScreenSize(Activity activity) {
