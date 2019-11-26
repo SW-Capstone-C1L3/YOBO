@@ -156,7 +156,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //
-//            //검색버튼을 눌렀을 경우
+            //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);
