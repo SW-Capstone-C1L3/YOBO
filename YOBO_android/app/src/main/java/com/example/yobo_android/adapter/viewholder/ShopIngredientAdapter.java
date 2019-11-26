@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.ShowSelectedIngredientInfoActivity;
+import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 
 import java.util.ArrayList;
@@ -104,9 +105,10 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return listShopIngredient.size();
     }
 
-    public void addItem(ShoppingIngredientData shoppingIngredientData) {
+    public void addItem(ShoppingIngredientData shoppingIngredientData, int position) {
         // 외부에서 item을 추가시킬 함수입니다.
         listShopIngredient.add(shoppingIngredientData);
+        notifyItemChanged(position);
     }
     public void setImage(int position, String str){
         listShopIngredient.get(position).setProduct_image(str);
