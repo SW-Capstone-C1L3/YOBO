@@ -12,7 +12,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -24,17 +23,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.RequestHttpURLConnection;
 
-import com.example.yobo_android.fragment.RecipeDetailFragment;
-import com.example.yobo_android.fragment.RecipeMainFragment;
 import com.example.yobo_android.fragment.RecipeOrderFragment;
-import com.example.yobo_android.fragment.TestFragment;
-import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.material.snackbar.Snackbar;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -42,15 +34,12 @@ import java.util.ArrayList;
 
 /*
 * 레시피 Activity
-* 1. RecipeMainFragment
-* 2. RecipeDetailFragment
-* 3. 이후 RecipeOrderFragment로 조리법 나열
+* 이후 RecipeOrderFragment로 조리법 나열
 */
 
 public class RecipeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
-//    private Fragment[] fragment = new Fragment[4];
-//    private static int NUM_PAGES;
+
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private Button mLike;
@@ -79,12 +68,7 @@ public class RecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe);
 
         recipeId = getIntent().getStringExtra("recipeId");
-        recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum);
-
-        Log.i("ddd",recipeId);
-        Log.i("ddd",recipeDescriptionNum+"");
-
-        new RequestAsync().execute();
+        recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum) - 1;
 
         vpPager = findViewById(R.id.vpPager);
         mLike = findViewById(R.id.textLike);
@@ -121,7 +105,6 @@ public class RecipeActivity extends AppCompatActivity {
         //        private static int NUM_ITEMS = 10;
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
-
         }
 
         // Returns total number of pages
@@ -129,12 +112,13 @@ public class RecipeActivity extends AppCompatActivity {
         public int getCount() {
             return recipeDescriptionNum;
         }
+
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            return RecipeOrderFragment.newInstance(recipeId, recipeDescriptionNum);
-
+            return RecipeOrderFragment.newInstance(recipeId, position + 1);
         }
+
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
@@ -239,7 +223,7 @@ public class RecipeActivity extends AppCompatActivity {
                     message = "알 수 없는 오류임";
                     break;
             }
-            Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message,Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -258,14 +242,11 @@ public class RecipeActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                 mRecognizer.stopListening();
                 selectIndex(++cnt);
-//                vpPager.setCurrentItem(vpPager.getCurrentItem() + 1, true);
             }
             else if(result.equals("다시")){
                 adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
                 vpPager.setAdapter(adapterViewPager);
                 selectIndex(cnt);
-//                vpPager.setCurrentItem(vpPager.getCurrentItem() + 1, true);
-//                vpPager.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -300,39 +281,6 @@ public class RecipeActivity extends AppCompatActivity {
             });
             make.setActionTextColor(Color.RED);
             make.show();
-        }
-    }
-
-    public void jsonParser(String json) {
-        try {
-            description = new ArrayList<>();
-            JSONObject recipeInfo = new JSONObject(json);
-            JSONArray descriptionInfo = recipeInfo.getJSONArray("cooking_description");
-
-            for(int i=0; i<descriptionInfo.length(); i++){
-                description.add(descriptionInfo.getJSONObject(i).getString("description"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public class RequestAsync extends AsyncTask<String,String,String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                //GET Request
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/recipe/getRecipebyDid/?Did="+recipeId);
-            } catch (Exception e) {
-                return new String("Exception: " + e.getMessage());
-            }
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            if (s != null) {
-                Log.i("qweasd2","hi132");
-                jsonParser(s);
-            }
         }
     }
 }

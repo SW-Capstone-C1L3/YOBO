@@ -100,8 +100,16 @@ public class BoardActivity extends AppCompatActivity {
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     recipeList = response.body();
-                    for (int i = 0; i < recipeList.size(); i++) {
-                        adapter.addItem(recipeList.get(i), i);
+                    if(recipeList.size()==0){
+                        Intent intent = new Intent();
+                        intent.putExtra("result", "some value");
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                    else {
+                        for (int i = 0; i < recipeList.size(); i++) {
+                            adapter.addItem(recipeList.get(i), i);
+                        }
                     }
                 }
                 @Override

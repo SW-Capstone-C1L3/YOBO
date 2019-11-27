@@ -47,14 +47,23 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
 
     ArrayList<IngredientData> srcIngredient
             = new ArrayList<>(Arrays.asList(
-            new IngredientData("김",R.drawable.burger),
-            new IngredientData("돼지고기",R.drawable.cake),
-            new IngredientData("닭고기",R.drawable.carrot),
-            new IngredientData("소고기",R.drawable.fish),
-            new IngredientData("계란",R.drawable.burger),
-            new IngredientData("고추",R.drawable.cake),
-            new IngredientData("시금치",R.drawable.burger),
-            new IngredientData("피망",R.drawable.carrot)));
+            new IngredientData("김",R.drawable.ingre_seaweed),
+            new IngredientData("돼지고기",R.drawable.ingre_pork),
+            new IngredientData("닭고기",R.drawable.ingre_chicken),
+            new IngredientData("소고기",R.drawable.ingre_beef),
+            new IngredientData("계란",R.drawable.ingre_egg),
+            new IngredientData("생선",R.drawable.ingre_fish),
+            new IngredientData("새우",R.drawable.ingre_shrimp),
+            new IngredientData("낙지",R.drawable.ingre_octopus1), // 낙지
+            new IngredientData("문어",R.drawable.ingre_octopus2), // 문어
+            new IngredientData("두부",R.drawable.ingre_tofu),
+            new IngredientData("당면",R.drawable.ingre_dangnoodle),
+            new IngredientData("파스타면",R.drawable.ingre_pastanoodle),
+            new IngredientData("라면",R.drawable.ingre_ranoodle),
+            new IngredientData("김치",R.drawable.ingre_kimchi),
+            new IngredientData("파",R.drawable.ingre_greenonion),
+            new IngredientData("양파",R.drawable.ingre_onion)
+            ));
 
     ArrayList<IngredientData> destIngredient = new ArrayList<>();
 

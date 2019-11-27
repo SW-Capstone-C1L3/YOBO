@@ -46,7 +46,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void onBind(CommentData commentData, int position) {
+            Log.i("kkkk onBind ",commentData+"");
+            Log.i("kkkk onBind ",commentData.getU_id()+"");
             temp = commentData.getTs();
+            Log.i("kkkkkk",temp);
             String[] splitText = temp.split("T");
             for(int i=0;i<splitText.length;i++) {
                 Log.i("kkkkkk test split", splitText[i]);
@@ -85,7 +88,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
         CommentAdapter.ItemViewHolder itemViewHolder = (CommentAdapter.ItemViewHolder) holder;
-        itemViewHolder.onBind(commentlist.get(position), position); // if add header, listRecipe.get(position - 1)
+        Log.i("kkkk onBindView ",commentlist.get(position)+"");
+        itemViewHolder.onBind(commentlist.get(position), position);
     }
 
     @Override
@@ -97,8 +101,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return commentlist.size();
     }
 
-    public void addItem(CommentData commentData) {
+    public void addItem(CommentData commentData, int position) {
         // 외부에서 item을 추가시킬 함수입니다.
         commentlist.add(commentData);
+        Log.i("kkkk additem ",commentData+"");
+        notifyItemChanged(position);
     }
 }

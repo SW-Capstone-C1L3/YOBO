@@ -1,37 +1,42 @@
 package com.example.yobo_android.activity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;
-import com.example.yobo_android.api.RequestHttpURLConnection;
-import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.ShoppingIngredientData;
-import com.example.yobo_android.fragment.BottomSheetFragBasket;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 //장보기 눌렀을때 뜨는 화면
@@ -41,13 +46,68 @@ public class ShopIngredientActivity extends AppCompatActivity {
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private Button mbtnGoToBakset;
+    private String query = null;
     MenuItem mSearch;
+
+    private int REQUEST_TEST =1000;
+    Retrofit retrofit;
+    ApiService apiService;
+    List<ShoppingIngredientData> ingredientList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_ingredient);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         mbtnGoToBakset = findViewById(R.id.btnGoToBasket);
+        if (getIntent().getStringExtra("query") != null) {
+            query = getIntent().getStringExtra("query");
+        }
+        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okhttpClientBuilder.addInterceptor(logging);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okhttpClientBuilder.build())
+                .build();
+        apiService = retrofit.create(ApiService.class);
+
+        Call<List<ShoppingIngredientData>> call = null;
+        if (query != null)
+            call = apiService.searchProduct(query, 0, 10);
+        else
+            call = apiService.getProductList(0,10);
+
+        if (call != null) {
+            call.enqueue(new Callback<List<ShoppingIngredientData>>() {
+                @Override
+                public void onResponse(Call<List<ShoppingIngredientData>> call, Response<List<ShoppingIngredientData>> response) {
+                    //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    Log.i("TEST", call.toString());
+                    Log.i("TEST", response.toString());
+                    ingredientList = response.body();
+                    if(ingredientList.size()==0){
+                        Intent intent = new Intent();
+                        intent.putExtra("result", "some value");
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                    else {
+                        for (int i = 0; i < ingredientList.size(); i++) {
+                            adapter.addItem(ingredientList.get(i), i);
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<List<ShoppingIngredientData>> call, Throwable t) {
+                    //Toast.makeText(BoardActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+                    Log.e("ERROR", call.toString());
+                    Log.e("ERROR", t.toString());
+                }
+            });
+        }
+
         mbtnGoToBakset.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,57 +122,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
         recyclerViewInit();
-        new ShopIngredientActivity.RequestAsync().execute();
-    }
-    public void jsonParser(String json) {
-        try {
-            JSONArray ShopIngredientList = new JSONArray(json);
-            Log.i("hhhhhhhhhhhhhhhhh",String.valueOf(ShopIngredientList.length()));
-            for(int i=0; i<ShopIngredientList.length(); i++){
-                ShoppingIngredientData ingreditem = new ShoppingIngredientData();
-                JSONObject ingredient = ShopIngredientList.getJSONObject(i);
-                ingreditem.setSel_id(ingredient.getString("_id"));
-                ingreditem.setProduct_name(ingredient.getString("product_name"));
-                ingreditem.setProduct_price(ingredient.getInt("product_price"));
-                ingreditem.setProduct_category(ingredient.getString("product_category"));
-                ingreditem.setProduct_qty(ingredient.getInt("product_qty"));
-                ingreditem.setProduct_unit(ingredient.getString("product_unit"));
-                ingreditem.setProduct_description(ingredient.getString("product_description"));
-                ingreditem.setProvided_company_id(ingredient.getString("provided_company_id"));
-                ingreditem.setCompany_name(ingredient.getString("company_name"));
-                ingreditem.setProduct_image(ingredient.getString("product_image"));
-                Log.i("kkkkkkkkk1",ingredient.getString("product_name"));
-                image_list.add(ingredient.getString("product_image"));
-                adapter.addItem(ingreditem);
-            }
-            adapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        int cnt=0;
-        for(String str : image_list) {
-            Log.i("kkkkkkkkkkkk" + (cnt++), str);
-        }
-        Log.i("kkkkkkk image: request전","ddd");
-        //adapter.setImage(cnt,str);
-    }
-
-    public class RequestAsync extends AsyncTask<String,String,String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                //GET Request
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/product/getProducteList/?pageNum=0");
-            } catch (Exception e) {
-                return new String("Exception: " + e.getMessage());
-            }
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            if (s != null) {
-                jsonParser(s);
-            }
-        }
     }
 
     private void recyclerViewInit() {
@@ -156,11 +165,14 @@ public class ShopIngredientActivity extends AppCompatActivity {
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //
-//            //검색버튼을 눌렀을 경우
+            //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);
                 //text.setText(query + "를 검색합니다.");
+                Intent intent = new Intent(getApplication(),ShopIngredientActivity.class);
+                intent.putExtra("query",query);
+                startActivityForResult(intent,REQUEST_TEST);
                 return true;
             }
 
@@ -173,5 +185,35 @@ public class ShopIngredientActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+    //검색 일치 항목이 존재하지 않는 경우 상단에 snackbar가 뜨도록 설정하는 함수
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TEST) {
+            if (resultCode == RESULT_OK) {
+                String snackBarMessage;
+                snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
+                Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
+                        snackBarMessage, Snackbar.LENGTH_LONG);
+                View view = make.getView();
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
+                params.gravity = Gravity.TOP;
+                params.width = getScreenSize(this).x;
+                make.setAction("확인", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+                make.setActionTextColor(Color.RED);
+                make.show();
+            }
+        }
+    }
+    public Point getScreenSize(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return  size;
     }
 }

@@ -176,7 +176,6 @@ public class BasketActivity extends AppCompatActivity{
                     @Override
                     public void onDone(@Nullable String message) {
                         Log.d("done", message);
-                        /*****완료 이후에 장바구니 DB에 물품들이 존재하지 않는 작업 수행해야함******/
                         for(int i=0;i<deleteList.size();i++)
                             deleteAll(deleteList.get(i),user_id);
                         //destination 주소에다가 보내도록
