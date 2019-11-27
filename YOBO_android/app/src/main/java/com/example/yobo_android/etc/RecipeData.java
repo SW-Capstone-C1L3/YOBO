@@ -4,25 +4,14 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+// Post 할 때 쓰는 클래스. Recipe 클래스와 다름.
 public class RecipeData {
-    public RecipeData(List<String> category, List<Cooking_description> cooking_description,
-                  Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
-                  Double rating, String recipe_name, Integer serving,
-                  List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id) {
-        this.category = category;
-        this.cooking_description = cooking_description;
-        this.difficulty = difficulty;
-        this.main_cooking_ingredients = main_cooking_ingredients;
-        this.rating = rating;
-        this.recipe_name = recipe_name;
-        this.serving = serving;
-        this.sub_cooking_ingredients = sub_cooking_ingredients;
-        this.writer_id = writer_id;
-    }
-    public RecipeData(List<String> category, List<Cooking_description> cooking_description,
-                      Integer difficulty, List<Main_cooking_ingredient> main_cooking_ingredients,
+    public RecipeData(List<String> category,
+                      List<Cooking_description> cooking_description,
+                      List<Cooking_ingredient> main_cooking_ingredients,
+                      List<Cooking_ingredient> sub_cooking_ingredients,
                       Double rating, String recipe_name, Integer serving,
-                      List<Sub_cooking_ingredient> sub_cooking_ingredients, String writer_id,String _id) {
+                      Integer difficulty, String writer_id) {
         this.category = category;
         this.cooking_description = cooking_description;
         this.difficulty = difficulty;
@@ -32,7 +21,6 @@ public class RecipeData {
         this.serving = serving;
         this.sub_cooking_ingredients = sub_cooking_ingredients;
         this.writer_id = writer_id;
-        this._id = _id;
     }
 
     @SerializedName("category")
@@ -46,7 +34,7 @@ public class RecipeData {
     private Integer difficulty;
     @SerializedName("main_cooking_ingredients")
     @Expose
-    private List<Main_cooking_ingredient> main_cooking_ingredients = null;
+    private List<Cooking_ingredient> main_cooking_ingredients = null;
     @SerializedName("rating")
     @Expose
     private Double rating;
@@ -58,13 +46,10 @@ public class RecipeData {
     private Integer serving;
     @SerializedName("sub_cooking_ingredients")
     @Expose
-    private List<Sub_cooking_ingredient> sub_cooking_ingredients = null;
+    private List<Cooking_ingredient> sub_cooking_ingredients = null;
     @SerializedName("writer_id")
     @Expose
     private String writer_id;
-    @SerializedName("_id")
-    @Expose
-    private String _id;
 
     public List<String> getCategory() {
         return category;
@@ -90,11 +75,11 @@ public class RecipeData {
         this.difficulty = difficulty;
     }
 
-    public List<Main_cooking_ingredient> getMain_cooking_ingredients() {
+    public List<Cooking_ingredient> getMain_cooking_ingredients() {
         return main_cooking_ingredients;
     }
 
-    public void setMain_cooking_ingredients(List<Main_cooking_ingredient> main_cooking_ingredients) {
+    public void setMain_cooking_ingredients(List<Cooking_ingredient> main_cooking_ingredients) {
         this.main_cooking_ingredients = main_cooking_ingredients;
     }
 
@@ -122,11 +107,11 @@ public class RecipeData {
         this.serving = serving;
     }
 
-    public List<Sub_cooking_ingredient> getSub_cooking_ingredients() {
+    public List<Cooking_ingredient> getSub_cooking_ingredients() {
         return sub_cooking_ingredients;
     }
 
-    public void setSub_cooking_ingredients(List<Sub_cooking_ingredient> sub_cooking_ingredients) {
+    public void setSub_cooking_ingredients(List<Cooking_ingredient> sub_cooking_ingredients) {
         this.sub_cooking_ingredients = sub_cooking_ingredients;
     }
 
@@ -138,7 +123,4 @@ public class RecipeData {
         this.writer_id = writer_id;
     }
 
-    public String get_id() { return _id; }
-
-    public void set_id(String _id) { this._id = _id; }
 }

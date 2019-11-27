@@ -2,6 +2,7 @@ package com.example.yobo_android.api;
 
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
+
 import java.util.List;
 import okhttp3.MultipartBody;
 import java.util.HashMap;
@@ -39,6 +40,9 @@ public interface ApiService {
     Call<List<Recipe>> search(@Query("recipeName") String recipeName,
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
+
+    @GET("yobo/recipe/getRecipebyDid/")
+    Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
 
     @GET("yobo/recipe/getListbyCate/")
     Call<List<Recipe>> getListByCate(@Query("cate") String cate,

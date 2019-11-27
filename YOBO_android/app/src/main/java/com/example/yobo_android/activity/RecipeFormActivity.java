@@ -31,11 +31,10 @@ import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
 import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.Cooking_description;
-import com.example.yobo_android.etc.IngredientsFormData;
-import com.example.yobo_android.etc.Main_cooking_ingredient;
+import com.example.yobo_android.etc.Cooking_ingredient;
+import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.RecipeSequenceFormData;
-import com.example.yobo_android.etc.Sub_cooking_ingredient;
 import com.google.android.material.snackbar.Snackbar;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
@@ -68,14 +67,12 @@ public class RecipeFormActivity extends AppCompatActivity  {
     ApiService apiService;
     List<Uri> fileUris = new ArrayList<>();
 
-    List<IngredientsFormData> mMainIngredientsDataList = new ArrayList<>();
-    List<IngredientsFormData> mSubIngredientsDataList = new ArrayList<>();
     List<RecipeSequenceFormData> mRecipeSequenceFormDataList = new ArrayList<>();
 
     List<String> category = new ArrayList<>();
     List<Cooking_description> cooking_descriptions = new ArrayList<>();
-    List<Main_cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
-    List<Sub_cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
+    List<Cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
+    List<Cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
 
     IngredientsFormAdapter mainIngredientsAdapter;
     IngredientsFormAdapter subIngredientsAdapter;
@@ -130,7 +127,6 @@ public class RecipeFormActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(checkInput()){
-
                     category.add(mSpinnerCountry.getSelectedItem().toString());
                     category.add(mSpinnerCookingType.getSelectedItem().toString());
                     cooking_descriptions.add(new Cooking_description(
@@ -140,19 +136,12 @@ public class RecipeFormActivity extends AppCompatActivity  {
                                         mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormDescription(),
                                         "TEMP"));
                     }
-                    for (int i = 0; i < mMainIngredientsDataList.size(); i++) {
-                        main_cooking_ingredients.add(new Main_cooking_ingredient(
-                                mMainIngredientsDataList.get(i).getIngredientsName(), 0, ""));
 
-                    }
-                    for (int i = 0; i < mSubIngredientsDataList.size(); i++) {
-                        sub_cooking_ingredients.add(new Sub_cooking_ingredient(
-                                mSubIngredientsDataList.get(i).getIngredientsName(), 0, ""));
-                    }
+                    //TODO : DB 바뀌면 difficulty, serving, writer_id(유저 id) 부분 수정
                     final RecipeData recipe = new RecipeData(
-                            category,cooking_descriptions, 0, main_cooking_ingredients,
-                            0.0, mEtRecipeName.getText().toString(),
-                            0, sub_cooking_ingredients,"LJH");
+                            category,cooking_descriptions, main_cooking_ingredients,
+                            sub_cooking_ingredients,0.0,
+                            mEtRecipeName.getText().toString(),0,0,"LJH");
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -207,16 +196,16 @@ public class RecipeFormActivity extends AppCompatActivity  {
         RecyclerView.LayoutManager layoutManagerForMainIngredients = new LinearLayoutManager(this);
         mainIngredientsRecyclerView.setLayoutManager(layoutManagerForMainIngredients);
         for(int i=0;i<1;i++)
-            mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
-        mainIngredientsAdapter = new IngredientsFormAdapter(mMainIngredientsDataList);
+            main_cooking_ingredients.add(new Cooking_ingredient(null,null,null));
+        mainIngredientsAdapter = new IngredientsFormAdapter(main_cooking_ingredients);
         mainIngredientsRecyclerView.setAdapter(mainIngredientsAdapter);
 
         RecyclerView subIngredientsRecyclerView = findViewById(R.id.subIngredientFormRecyclerView);
         RecyclerView.LayoutManager layoutManagerForSubIngredients = new LinearLayoutManager(this);
         subIngredientsRecyclerView.setLayoutManager(layoutManagerForSubIngredients);
         for(int i=0;i<1;i++)
-            mSubIngredientsDataList.add(new IngredientsFormData(null,null,null));
-        subIngredientsAdapter = new IngredientsFormAdapter(mSubIngredientsDataList);
+            sub_cooking_ingredients.add(new Cooking_ingredient(null,null,null));
+        subIngredientsAdapter = new IngredientsFormAdapter(sub_cooking_ingredients);
         subIngredientsRecyclerView.setAdapter(subIngredientsAdapter);
 
         RecyclerView recipeSequenceFormRecyclerView = findViewById(R.id.recipeSequenceFormRecyclerView);
@@ -244,16 +233,16 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnAddMainIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainIngredientsDataList.add(new IngredientsFormData(null,null,null));
-                mainIngredientsAdapter.notifyItemChanged(mMainIngredientsDataList.size()-1);
+                main_cooking_ingredients.add(new Cooking_ingredient(null,null,null));
+                mainIngredientsAdapter.notifyItemChanged(main_cooking_ingredients.size()-1);
             }
         });
         mBtnAddSubIngredients = findViewById(R.id.subIngredientFormAddButton);
         mBtnAddSubIngredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSubIngredientsDataList.add(new IngredientsFormData(null, null,null));
-                subIngredientsAdapter.notifyItemChanged(mSubIngredientsDataList.size()-1);
+                sub_cooking_ingredients.add(new Cooking_ingredient(null, null,null));
+                subIngredientsAdapter.notifyItemChanged(sub_cooking_ingredients.size()-1);
             }
         });
         mBtnAddRecipeSequenceForm = findViewById(R.id.recipeSequenceFormAddButton);
@@ -358,6 +347,8 @@ public class RecipeFormActivity extends AppCompatActivity  {
     }
 
     public boolean checkInput(){
+        //TODO : 키보드 열려있으면 내리는 이벤트 나중에 추가하면 좋을듯!
+
         boolean flag = true;
         String snackBarMessage = null;
 
@@ -371,6 +362,8 @@ public class RecipeFormActivity extends AppCompatActivity  {
             snackBarMessage = "주재료 정보를 모두 입력해주세요 :(";
         }else if(subIngredientsCheck()){
             snackBarMessage = "부재료 정보를 모두 입력해주세요 :(";
+        }else if(ingredientsQtyCheck()){
+            snackBarMessage = "재료 양은 숫자로 입력해주세요 :(";
         }else if(recipeSequenceCheck()){
             snackBarMessage = "레시피 순서를 모두 입력해주세요 :(";
         }else if(mSpinnerCountry.getSelectedItem().toString().equals("[나라별]")){
@@ -403,9 +396,9 @@ public class RecipeFormActivity extends AppCompatActivity  {
     }
 
     public boolean mainIngredientsCheck(){
-        for(int i=0; i<mMainIngredientsDataList.size(); i++){
-            if(mMainIngredientsDataList.get(i).getIngredientsName().equals("")
-            || mMainIngredientsDataList.get(i).getIngredientsQuantity().equals("")){
+        for(int i=0; i<main_cooking_ingredients.size(); i++){
+            if(main_cooking_ingredients.get(i).getIngredients_name().equals("")
+            || main_cooking_ingredients.get(i).getUnit().equals("")){
                 return true;
             }
        }
@@ -413,11 +406,21 @@ public class RecipeFormActivity extends AppCompatActivity  {
     }
 
     public boolean subIngredientsCheck(){
-        for(int i=0; i<mSubIngredientsDataList.size(); i++){
-            if(mSubIngredientsDataList.get(i).getIngredientsName().equals("")
-                    || mSubIngredientsDataList.get(i).getIngredientsQuantity().equals("")){
+        for(int i=0; i<sub_cooking_ingredients.size(); i++){
+            if(sub_cooking_ingredients.get(i).getIngredients_name().equals("")
+                    || sub_cooking_ingredients.get(i).getUnit().equals("")){
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean ingredientsQtyCheck(){
+        for (int i = 0; i < main_cooking_ingredients.size(); i++) {
+            if(main_cooking_ingredients.get(i).getQty()==null) return true;
+        }
+        for (int i = 0; i < sub_cooking_ingredients.size(); i++) {
+            if(sub_cooking_ingredients.get(i).getQty()==null) return true;
         }
         return false;
     }
@@ -431,6 +434,8 @@ public class RecipeFormActivity extends AppCompatActivity  {
         }
         return false;
     }
+
+
 
     @NonNull
     private MultipartBody.Part prepareFileParts(String partName, Uri fileUri){
@@ -473,17 +478,15 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
         if(width > height){
             //Landscape
-            if(width > targetWidth){
+            if(width > targetWidth)
                 ratio = (float)width / (float)targetWidth;
-            }
             else
                 ratio = 1f;
         }
         else{
             //Portrait
-            if(height > targetHeight){
+            if(height > targetHeight)
                 ratio=(float)height/(float)targetHeight;
-            }
             else
                 ratio = 1f;
         }

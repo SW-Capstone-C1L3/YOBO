@@ -39,19 +39,4 @@
         <item>어려움</item>
     </string-array>
 
-    <string-array name="spinnerUnit">
-        <item>[단위]</item>
-        <item>g</item>
-        <item>kg</item>
-        <item>ml</item>
-        <item>L</item>
-        <item>마리</item>
-        <item>근</item>
-        <item>개</item>
-        <item>컵</item>
-        <item>근</item>
-        <item>조각</item>
-        <item>큰술</item>
-        <item>작은술</item>
-    </string-array>
 </resources>

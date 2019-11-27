@@ -90,7 +90,7 @@ public class BoardActivity extends AppCompatActivity {
         } else if(ingredients != null){
             call = apiService.getByingredients(ingredients, 0, 10);
         } else
-            call = apiService.getRecipeList(2,10);
+            call = apiService.getRecipeList(0,10);
 
         if (call != null) {
             call.enqueue(new Callback<List<Recipe>>() {

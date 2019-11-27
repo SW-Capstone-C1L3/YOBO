@@ -22,14 +22,11 @@
             android:id="@+id/ingredientNameText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_weight="1.1"
-            android:background="@null"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:hint="재료 이름"
             android:paddingLeft="20dp"
             android:singleLine="true" />
-
-        <View style="@style/ListDividerVertical"/>
 
         <EditText
             android:id="@+id/ingredientQuantityText"
@@ -37,17 +34,18 @@
             android:layout_height="60dp"
             android:layout_weight="1.2"
             android:paddingStart="20dp"
-            android:background="@null"
             android:gravity="center_vertical"
             android:hint="재료 양"
-            android:paddingLeft="10dp"
-            android:singleLine="true" />
-        <Spinner
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/ingredientUnitText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1.2"
-            android:entries="@array/spinnerUnit"/>
+            android:paddingStart="20dp"
+            android:gravity="center_vertical"
+            android:hint="단위" />
 
     </LinearLayout>
-    <View style="@style/ListDividerHorizontal"/>
 </LinearLayout>
