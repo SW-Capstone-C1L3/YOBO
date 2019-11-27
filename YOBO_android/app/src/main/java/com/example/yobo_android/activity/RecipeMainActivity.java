@@ -55,13 +55,12 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
-        descriptionNum = getIntent().getIntExtra("recipeDescriptionNum",descriptionNum);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        CollapsingToolbarLayout mCollapseToolBar = (CollapsingToolbarLayout) findViewById(R.id.collapsingtoolbar);
+        CollapsingToolbarLayout mCollapseToolBar = findViewById(R.id.collapsingtoolbar);
 
         recyclerViewInit();
 
@@ -84,7 +83,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                     recipe = response.body();
                     main_cooking_ingredients = recipe.getMain_cooking_ingredients();
                     sub_cooking_ingredients = recipe.getSub_cooking_ingredients();
-                    cooking_descriptions = recipe.getCooking_description();
+                    descriptionNum = recipe.getCooking_description().size();
 
                     for (int i = 0; i < main_cooking_ingredients.size(); i++) {
                         mMainIngredientAdapter.addItem(main_cooking_ingredients.get(i));
@@ -123,7 +122,7 @@ public class RecipeMainActivity extends AppCompatActivity {
             });
         }
 
-        ((Button)findViewById(R.id.cook)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.cook)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RecipeMainActivity.this, RecipeActivity.class);

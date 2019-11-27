@@ -2,6 +2,7 @@ package com.example.yobo_android.adapter.viewholder;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.etc.IngredientsFormData;
+import com.example.yobo_android.etc.Cooking_ingredient;
 
 import java.util.List;
 
 public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsFormAdapter.ViewHolder> {
 
-    private List<IngredientsFormData> mDataList;
+    private List<Cooking_ingredient> mDataList;
 
-    public IngredientsFormAdapter(List<IngredientsFormData> dataList){
+    public IngredientsFormAdapter(List<Cooking_ingredient> dataList){
         mDataList = dataList;
     }
 
@@ -28,18 +29,26 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_ingredient_form,parent,false);
-        return new ViewHolder(view, new EditTextListenerForName(), new EditTextListenerForQuantity());
+        return new ViewHolder(view,
+                new EditTextListenerForName(),
+                new EditTextListenerForQuantity(),
+                new EditTextListenerForUnit());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        IngredientsFormData item = mDataList.get(position);
+        Cooking_ingredient item = mDataList.get(position);
 
         holder.textListenerForName.updatePosition(holder.getAdapterPosition());
         holder.textListenerForQuantity.updatePosition(holder.getAdapterPosition());
+        holder.textListenerForUnit.updatePosition(holder.getAdapterPosition());
 
-        holder.mIngredientNameText.setText(item.getIngredientsName());
-        holder.mIngredientQuantityText.setText(item.getIngredientsQuantity());
+        holder.mIngredientNameText.setText(item.getIngredients_name());
+        if(item.getQty() == null)
+            holder.mIngredientQuantityText.setText("");
+        else
+            holder.mIngredientQuantityText.setText(item.getQty());
+        holder.mIngredientUnitText.setText(item.getUnit());
 
     }
 
@@ -52,19 +61,25 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
     public static class ViewHolder extends RecyclerView.ViewHolder{
         EditTextListenerForName textListenerForName;
         EditTextListenerForQuantity textListenerForQuantity;
+        EditTextListenerForUnit textListenerForUnit;
         EditText mIngredientNameText;
         EditText mIngredientQuantityText;
+        EditText mIngredientUnitText;
 
         public ViewHolder(@NonNull View itemView, EditTextListenerForName textListenerForName,
-                          EditTextListenerForQuantity textListenerForQuantity) {
+                          EditTextListenerForQuantity textListenerForQuantity,
+                          EditTextListenerForUnit textListenerForUnit) {
             super(itemView);
             mIngredientNameText = itemView.findViewById(R.id.ingredientNameText);
             mIngredientQuantityText = itemView.findViewById(R.id.ingredientQuantityText);
+            mIngredientUnitText = itemView.findViewById(R.id.ingredientUnitText);
 
             this.textListenerForName = textListenerForName;
             mIngredientNameText.addTextChangedListener(textListenerForName);
             this.textListenerForQuantity = textListenerForQuantity;
             mIngredientQuantityText.addTextChangedListener(textListenerForQuantity);
+            this.textListenerForUnit = textListenerForUnit;
+            mIngredientUnitText.addTextChangedListener(textListenerForUnit);
         }
     }
 
@@ -82,7 +97,7 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mDataList.get(position).setIngredientsName(s.toString());
+            mDataList.get(position).setIngredients_name(s.toString());
         }
 
         @Override
@@ -105,7 +120,35 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mDataList.get(position).setIngredientsQuantity(s.toString());
+            try {
+                mDataList.get(position).setQty(Integer.valueOf(s.toString().trim()));
+            }catch (NumberFormatException e){
+                Log.e("ERROR", e.toString());
+                mDataList.get(position).setQty(null);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    }
+
+    public class EditTextListenerForUnit implements TextWatcher{
+        private int position;
+
+        public void updatePosition(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mDataList.get(position).setUnit(s.toString());
         }
 
         @Override

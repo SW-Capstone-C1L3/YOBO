@@ -28,6 +28,7 @@ import com.example.yobo_android.api.RequestHttpURLConnection;
 
 import com.example.yobo_android.fragment.RecipeDetailFragment;
 import com.example.yobo_android.fragment.RecipeMainFragment;
+import com.example.yobo_android.fragment.RecipeOrderFragment;
 import com.example.yobo_android.fragment.TestFragment;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -85,10 +86,10 @@ public class RecipeActivity extends AppCompatActivity {
 
         new RequestAsync().execute();
 
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
-        mLike = (Button)findViewById(R.id.textLike);
-        mComments = (Button)findViewById(R.id.textComments);
-        mAlert = (Button)findViewById(R.id.textAlert);
+        vpPager = findViewById(R.id.vpPager);
+        mLike = findViewById(R.id.textLike);
+        mComments =findViewById(R.id.textComments);
+        mAlert = findViewById(R.id.textAlert);
 
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
         adapterViewPager.notifyDataSetChanged();
@@ -100,7 +101,7 @@ public class RecipeActivity extends AppCompatActivity {
                     Manifest.permission.RECORD_AUDIO},PERMISSION);
         }
 
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        CircleIndicator indicator = findViewById(R.id.indicator);
         indicator.setViewPager(vpPager);
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
@@ -131,16 +132,8 @@ public class RecipeActivity extends AppCompatActivity {
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return RecipeMainFragment.newInstance(recipeId);
-                case 1:
-                    return RecipeDetailFragment.newInstance(recipeId);
-                default:
-                    Log.i("asdasd",description.get(position)+"asd");
-//                    return TestFragment.newInstance(recipeId, description.get(position-2));
-                    return RecipeOrderFragment.newInstance(recipeId, description.get(position-2));
-            }
+            return RecipeOrderFragment.newInstance(recipeId, recipeDescriptionNum);
+
         }
         // Returns the page title for the top indicator
         @Override
