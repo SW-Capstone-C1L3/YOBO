@@ -138,16 +138,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
     }
 
     private final class MyTouchListener implements View.OnLongClickListener {
-//        public boolean onTouch(View view, MotionEvent motionEvent) {
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                ClipData data = ClipData.newPlainText("", "");
-//                view.startDrag(data, new View.DragShadowBuilder(view), view, 0);
-//                view.setVisibility(View.INVISIBLE);
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
         @Override
         public boolean onLongClick(View view) {
             ClipData data = ClipData.newPlainText("", "");

@@ -6,40 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".activity.ChoiceIngredientActivity"
     android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="10dp">
+        <GridView
+            android:id="@+id/srcIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:scrollbars="none"
+            android:background="@color/colorWhite"/>
+    </androidx.cardview.widget.CardView>
 
-    <GridView
-        android:id="@+id/srcIngredient"
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:src="@drawable/cyclearrow"/>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
-        android:gravity="center"
         android:layout_weight="1"
-        android:padding="10dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:scrollbars="vertical"
-        android:background="@color/colorWhite"/>
-    <GridView
-        android:id="@+id/destIngredient"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="4"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:padding="10dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:scrollbars="vertical"
-        android:background="@color/colorPinkTrans"/>
+        app:cardCornerRadius="20dp"
+        android:layout_margin="10dp">
+        <GridView
+            android:id="@+id/destIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:scrollbars="none"
+            android:background="@color/colorDeepYellow"/>
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="선택완료"
-        android:textColor="@color/colorPinkTrans"
+        android:textSize="14sp"
+        android:textColor="@android:color/secondary_text_light"
         android:background="@color/colorWhite"/>
-
 </LinearLayout>
 
 
