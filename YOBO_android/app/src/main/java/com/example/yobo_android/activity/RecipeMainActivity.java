@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class RecipeMainActivity extends AppCompatActivity {
     int descriptionNum;
     private double rate;
     private RatingBar ratingBar;
+    ImageButton back;
     Recipe recipe;
     List<Cooking_ingredient> main_cooking_ingredients;
     List<Cooking_ingredient> sub_cooking_ingredients;
@@ -62,13 +64,10 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
-
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         CollapsingToolbarLayout mCollapseToolBar = findViewById(R.id.collapsingtoolbar);
-
         recyclerViewInit();
 
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
@@ -163,6 +162,13 @@ public class RecipeMainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        ((ImageButton)findViewById(R.id.back2)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeMainActivity.super.onBackPressed();
+            }
+        });
 
         ((Button)findViewById(R.id.cook)).setOnClickListener(new View.OnClickListener() {
             @Override

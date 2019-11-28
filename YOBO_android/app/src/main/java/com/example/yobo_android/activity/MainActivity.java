@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -95,10 +96,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtnShop.getLayoutParams();
+//        LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) mBtnWriteRecipe.getLayoutParams();
+//        LinearLayout.LayoutParams lp3 = (LinearLayout.LayoutParams) mBtnChoiceIngredient.getLayoutParams();
+//        LinearLayout.LayoutParams lp4 = (LinearLayout.LayoutParams) mBtnRecipeCategory.getLayoutParams();
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
+
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         permissionCheck();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -133,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
         mBtnShop = findViewById(R.id.btnShop);
         mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
+//        Log.i("kkkkkkk",getScreenSize(this).x+"");
+//        lp.height = getScreenSize(this).x;
+//        lp2.height = getScreenSize(this).x;
+//        lp3.height = getScreenSize(this).x;
+//        lp4.height = getScreenSize(this).x;
+//        mBtnShop.setLayoutParams(lp);
+//        mBtnWriteRecipe.setLayoutParams(lp2);
+//        mBtnChoiceIngredient.setLayoutParams(lp3);
+//        mBtnRecipeCategory.setLayoutParams(lp4);
         LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
