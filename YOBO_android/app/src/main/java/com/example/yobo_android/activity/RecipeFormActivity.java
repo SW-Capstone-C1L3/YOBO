@@ -18,6 +18,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -434,8 +435,6 @@ public class RecipeFormActivity extends AppCompatActivity  {
         }
         return false;
     }
-
-
 
     @NonNull
     private MultipartBody.Part prepareFileParts(String partName, Uri fileUri){
