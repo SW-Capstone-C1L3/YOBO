@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Cooking_ingredient {
-    public Cooking_ingredient(String ingredients_name, Integer qty, String unit) {
+    public Cooking_ingredient(String ingredients_name, Double qty, String unit) {
         this.ingredients_name = ingredients_name;
         this.qty = qty;
         this.unit = unit;
@@ -15,7 +15,7 @@ public class Cooking_ingredient {
     private String ingredients_name;
     @SerializedName("qty")
     @Expose
-    private Integer qty;
+    private Double qty;
     @SerializedName("unit")
     @Expose
     private String unit;
@@ -28,11 +28,11 @@ public class Cooking_ingredient {
         this.ingredients_name = ingredients_name;
     }
 
-    public Integer getQty() {
+    public Double getQty() {
         return qty;
     }
 
-    public void setQty(Integer qty) {
+    public void setQty(Double qty) {
         this.qty = qty;
     }
 

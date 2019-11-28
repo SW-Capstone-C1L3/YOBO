@@ -128,6 +128,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(checkInput()){
+
                     category.add(mSpinnerCountry.getSelectedItem().toString());
                     category.add(mSpinnerCookingType.getSelectedItem().toString());
                     cooking_descriptions.add(new Cooking_description(
@@ -142,7 +143,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
                     final RecipeData recipe = new RecipeData(
                             category,cooking_descriptions, main_cooking_ingredients,
                             sub_cooking_ingredients,0.0,
-                            mEtRecipeName.getText().toString(),0,0,"LJH");
+                            mEtRecipeName.getText().toString(),selectedServing,selectedDifficulty,"LJH");
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
