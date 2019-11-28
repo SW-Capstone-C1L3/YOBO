@@ -63,11 +63,11 @@ public class RecipeMainActivity extends AppCompatActivity {
 
         recipeId = getIntent().getStringExtra("recipeId");
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        CollapsingToolbarLayout mCollapseToolBar = (CollapsingToolbarLayout) findViewById(R.id.collapsingtoolbar);
+        CollapsingToolbarLayout mCollapseToolBar = findViewById(R.id.collapsingtoolbar);
 
         recyclerViewInit();
 

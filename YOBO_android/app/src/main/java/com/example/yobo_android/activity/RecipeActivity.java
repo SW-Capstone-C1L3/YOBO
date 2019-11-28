@@ -2,7 +2,6 @@ package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import com.example.yobo_android.R;
 
 import com.example.yobo_android.fragment.RecipeOrderFragment;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -78,7 +78,7 @@ public class RecipeActivity extends AppCompatActivity {
                     Manifest.permission.RECORD_AUDIO},PERMISSION);
         }
 
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        CircleIndicator indicator = findViewById(R.id.indicator);
         indicator.setViewPager(vpPager);
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());

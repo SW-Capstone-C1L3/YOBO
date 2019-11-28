@@ -9,11 +9,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Recipe {
     public Recipe(List<String> category,
-                  List<Cooking_description> main_cooking_description,
-                  Integer difficulty,
+                  List<Cooking_description> cooking_description,
                   List<Cooking_ingredient> main_cooking_ingredients,
                   List<Cooking_ingredient> sub_cooking_ingredients,
                   Double rating,
+                  Integer difficulty,
                   String recipe_name,
                   Integer serving,
                   String writer_id) {

@@ -42,7 +42,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,10 +107,7 @@
                 android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/mainIngredientFormAddButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="재료 추가"/>
+                style="@style/RecipeFormAddButtonStyle"/>
 
             <TextView
                 android:id="@+id/textView12"
@@ -120,12 +118,10 @@
                 android:id="@+id/subIngredientFormRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/subIngredientFormAddButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="재료 추가"/>
+                style="@style/RecipeFormAddButtonStyle"/>
 
             <TextView
                 android:id="@+id/textView13"
@@ -139,10 +135,7 @@
 
             <Button
                 android:id="@+id/recipeSequenceFormAddButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="순서 추가"/>
+                style="@style/RecipeFormAddButtonStyle"/>
 
             <TextView
                 android:id="@+id/textView14"
