@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 // recylerView는 개발자가 어댑터를 직접 구현해야함. 반드시 RecyclerView.Adapter 상속해서 구현
-public class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     static final String ImageURL = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=";
     private static final int TYPE_ITEM = 1;

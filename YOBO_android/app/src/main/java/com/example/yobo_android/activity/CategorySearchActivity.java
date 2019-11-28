@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
@@ -17,11 +18,16 @@ import com.example.yobo_android.R;
 
 public class CategorySearchActivity extends AppCompatActivity {
 
-    private TextView mBtnKorean;
-    private TextView mBtnWestern;
-    private TextView mBtnChinese;
-    private TextView mBtnJapanese;
-    // private Button mBtn
+//    private TextView mBtnKorean;
+//    private TextView mBtnWestern;
+//    private TextView mBtnChinese;
+//    private TextView mBtnJapanese;
+
+    private LinearLayout mBtnKorean;
+    private LinearLayout mBtnWestern;
+    private LinearLayout mBtnChinese;
+    private LinearLayout mBtnJapanese;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +40,7 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnJapanese = findViewById(R.id.btnJapanese);
 
 
-        TextView.OnClickListener onClickListener = new TextView.OnClickListener(){
+        LinearLayout.OnClickListener onClickListener = new TextView.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();

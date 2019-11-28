@@ -42,9 +42,6 @@ public class RecipeActivity extends AppCompatActivity {
 
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
-    private Button mLike;
-    private Button mComments;
-    private Button mAlert;
     private static ArrayList<String> description;
 
     private static final String TAG2 ="MyTag2";
@@ -70,11 +67,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum) - 1;
 
-        vpPager = findViewById(R.id.vpPager);
-        mLike = findViewById(R.id.textLike);
-        mComments =findViewById(R.id.textComments);
-        mAlert = findViewById(R.id.textAlert);
-
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager  = new MyPagerAdapter(getSupportFragmentManager());
         adapterViewPager.notifyDataSetChanged();
         vpPager.setAdapter(adapterViewPager);
@@ -90,15 +83,6 @@ public class RecipeActivity extends AppCompatActivity {
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
-
-        mComments.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(RecipeActivity.this,CommentActivity.class);
-                intent.putExtra("recipe_id",recipeId);
-                startActivityForResult(intent,REQUEST_TEST);
-            }
-        });
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

@@ -53,43 +53,125 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pagerMain"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp" />
+                    android:layout_height="350dp"
+                    android:layout_margin="3dp"/>
 
-                <Button
-                    android:id="@+id/btnRecipeCategory"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/category"
-                    android:paddingRight="40sp"
-                    android:text="카테고리"
-                    android:textAlignment="viewEnd"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnChoiceIngredient"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/choice"
-                    android:text="재료 선택"
-                    android:paddingLeft="40sp"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/btnRecipeCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/btn111"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="20dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/main_btncategory"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="카테고리"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnShop"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/basket"
-                    android:text="장보기"
-                    android:paddingRight="40sp"
-                    android:textAlignment="viewEnd"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                        <LinearLayout
+                            android:id="@+id/btnShop"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/btn33"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="20dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/main_btnmarket"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="마켓"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/btnChoiceIngredient"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/btn222"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="20dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/main_btnchoice"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="재료선택"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btnWriteRecipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/btn44"
+                            android:gravity="center_horizontal">
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="20dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/main_btnnote"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="레시피등록"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

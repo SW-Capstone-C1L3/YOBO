@@ -180,7 +180,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             handler = new Handler(){
                 public void handleMessage(android.os.Message msg) {
                     if(flag==1) {
-                        Speech();
+//                        Speech();
                         flag=0;
                     }
                 }

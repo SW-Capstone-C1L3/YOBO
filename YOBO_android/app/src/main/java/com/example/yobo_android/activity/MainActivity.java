@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,9 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int REQUEST_TEST =1000;
     private int REQUEST_NAVER=2000;
 //    private Button mBtnRecipeRecommendation;
-    private Button mBtnChoiceIngredient;
-    private Button mBtnRecipeCategory;
-    private Button mBtnShop;
+    private LinearLayout mBtnChoiceIngredient;
+    private LinearLayout mBtnRecipeCategory;
+    private LinearLayout mBtnShop;
+    private LinearLayout mBtnWriteRecipe;
     private TextView mtoolbarTitle;
     // for recipe recommendation
     private int NUM_PAGES = 3;
@@ -130,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
         mBtnShop = findViewById(R.id.btnShop);
-        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+        mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
+        LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
@@ -150,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.btnShop:
                         intent = new Intent(MainActivity.this, ShopIngredientActivity.class);
                         break;
+
+                    case R.id.btnWriteRecipe:
+                        intent = new Intent(MainActivity.this, RecipeFormActivity.class);
+                        break;
                 }
                 startActivity(intent);
             }
@@ -158,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnChoiceIngredient.setOnClickListener(onClickListener);
         mBtnRecipeCategory.setOnClickListener(onClickListener);
         mBtnShop.setOnClickListener(onClickListener);
+        mBtnWriteRecipe.setOnClickListener(onClickListener);
 
         handler = new Handler(){
             public void handleMessage(android.os.Message msg) {

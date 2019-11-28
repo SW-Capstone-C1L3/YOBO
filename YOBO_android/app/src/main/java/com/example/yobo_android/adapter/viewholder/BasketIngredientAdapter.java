@@ -64,9 +64,9 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             });
             ingredient_name.setText(ingredientsBasketData.getIngredientName());
-            ingredient_price.setText(String.valueOf(ingredientsBasketData.getIngredientPrice()) + "원");
-            basket_qty.setText("개수: " +String.valueOf(ingredientsBasketData.getBasket_qty()));
-            tot_price.setText("총 금액: "+String.valueOf(ingredientsBasketData.getBasket_qty()*ingredientsBasketData.getIngredientPrice())+"원");       /***1개당 가격도 곱해야됨***/
+            ingredient_price.setText(String.valueOf(ingredientsBasketData.getIngredientPrice()) + "원/");
+            basket_qty.setText("개수 : " +String.valueOf(ingredientsBasketData.getBasket_qty()));
+            tot_price.setText("총 금액 : "+String.valueOf(ingredientsBasketData.getBasket_qty()*ingredientsBasketData.getIngredientPrice())+"원");       /***1개당 가격도 곱해야됨***/
             itemView.setOnClickListener(this);
         }
 
