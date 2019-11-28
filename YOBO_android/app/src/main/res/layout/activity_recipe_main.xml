@@ -68,7 +68,7 @@
                 android:background="@color/colorTransparent"
                 android:minWidth="0dp"
                 android:layout_marginRight="10dp"
-                android:text="COOK"
+                android:text="요리시작"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textStyle="bold"
