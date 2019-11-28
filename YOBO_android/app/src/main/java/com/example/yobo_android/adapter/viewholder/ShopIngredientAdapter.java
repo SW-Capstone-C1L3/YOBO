@@ -34,6 +34,8 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private ImageView product_image;
         private TextView product_name;
         private TextView product_price;
+        private TextView mCompanyName;
+
         private String product_unit;
         private String product_description;
         private String company_name;
@@ -43,6 +45,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             product_image = itemView.findViewById(R.id.ShopIngredientImage);
             product_name = itemView.findViewById(R.id.ShopIngredientName);
             product_price = itemView.findViewById(R.id.ShopIngredientPrice);
+            mCompanyName = itemView.findViewById(R.id.companyName);
         }
 
         void onBind(ShoppingIngredientData shoppingIngredientData, int position) {
@@ -53,6 +56,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             company_name = shoppingIngredientData.getCompany_name();
             product_name.setText(shoppingIngredientData.getProduct_name());
             product_price.setText(shoppingIngredientData.getProduct_price() + "원");
+            mCompanyName.setText("판매자 : " + shoppingIngredientData.getCompany_name());
             itemView.setOnClickListener(this);
         }
 

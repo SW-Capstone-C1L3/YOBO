@@ -47,7 +47,7 @@
             android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"
             android:scrollbars="none"
-            android:background="@color/colorDeepYellow"/>
+            android:background="@color/colorMain3"/>
 
     </androidx.cardview.widget.CardView>
 
