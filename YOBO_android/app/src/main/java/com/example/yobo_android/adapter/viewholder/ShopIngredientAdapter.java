@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.ShowSelectedIngredientInfoActivity;
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShoppingIngredientData;
-
 import java.util.ArrayList;
 
 public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -50,7 +48,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         void onBind(ShoppingIngredientData shoppingIngredientData, int position) {
             //product_image.setImageResource(Integer.parseInt(shoppingIngredientData.getProduct_image()));
-            sel_ingredient_Id = shoppingIngredientData.getSel_id();
+            sel_ingredient_Id = shoppingIngredientData.get_id();
             product_unit = shoppingIngredientData.getProduct_unit();
             product_description = shoppingIngredientData.getProduct_description();
             company_name = shoppingIngredientData.getCompany_name();
@@ -73,6 +71,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 intent.putExtra("Company_name",company_name);
                 intent.putExtra("Ingredient_price",product_price.getText().toString());
                 intent.putExtra("Ingredient_unit",product_unit);
+                Log.i("kkkkkk onclick ", sel_ingredient_Id);
                 context.startActivity(intent);
             }
         }
