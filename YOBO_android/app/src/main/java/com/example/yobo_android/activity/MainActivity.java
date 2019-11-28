@@ -157,7 +157,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        break;
 
                     case R.id.btnChoiceIngredient:
-                        intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
+                        if(u_id == null){
+                            showAlertDialog();
+                        }else{
+                            intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
+
+                        }
                         break;
 
                     case R.id.btnRecipeCategory:
@@ -390,5 +395,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Point size = new Point();
         display.getSize(size);
         return  size;
+    }
+
+    public void showAlertDialog(){
+        //TODO : 로그인 안됐을 때 경고창 - LJH
     }
 }
