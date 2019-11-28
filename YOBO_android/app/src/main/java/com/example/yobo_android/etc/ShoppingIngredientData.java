@@ -2,7 +2,7 @@ package com.example.yobo_android.etc;
 
 public class ShoppingIngredientData {
 
-    private String sel_id;      //document id
+    private String _id;      //document id
     private String company_name;
     private String product_category;
     private String product_description;
@@ -13,12 +13,13 @@ public class ShoppingIngredientData {
     private String product_unit;
     private String provided_company_id;
 
-    public String getSel_id() {
-        return sel_id;
+
+    public String get_id() {
+        return _id;
     }
 
-    public void setSel_id(String sel_id) {
-        this.sel_id = sel_id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public void setCompany_name(String company_name) {
