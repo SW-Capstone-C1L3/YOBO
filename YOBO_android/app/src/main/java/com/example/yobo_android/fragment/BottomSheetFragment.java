@@ -30,7 +30,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        String price = ((ShowSelectedIngredientInfoActivity)getActivity()).giveVal();
+        String price = ((ShowSelectedIngredientInfoActivity)getActivity()).getIngredientPrice() + "";
         //Set the custom view
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bottom_sheet, null);
         dialog.setContentView(view);
