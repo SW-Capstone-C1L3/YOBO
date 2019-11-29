@@ -97,6 +97,9 @@ public class RecipeFormActivity extends AppCompatActivity  {
     String selectedServing;
     String selectedDifficulty;
 
+    String userId;
+    Intent intent;
+
     int tempPosForSequenceForm;
     boolean flagCookingDescriptionImage;
 
@@ -107,6 +110,9 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
         Uri dummy = null;
         fileUris.add(dummy);
+
+        intent = getIntent();
+        userId = intent.getStringExtra("u_id");
 
         mEtRecipeName = findViewById(R.id.recipe_name);
         mEtCookingDescription = findViewById(R.id.cooking_description);
