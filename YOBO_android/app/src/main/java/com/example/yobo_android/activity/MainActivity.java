@@ -167,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    case R.id.btnRecipeRecommendation:
 //                        intent = new Intent(MainActivity.this, RecipeActivity.class);
 //                        break;
-
                     case R.id.btnChoiceIngredient:
                         if(u_id == null){
                             showAlertDialog();
@@ -394,12 +393,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(requestCode == REQUEST_NAVER){
-            u_id = data.getStringExtra("user_id");
-            nav_header_user_name.setText(data.getStringExtra("user_name"));
-            nav_header_user_email.setText(data.getStringExtra("user_email")+"@naver.com");
-            mBtnLoginInNavHeader.setText("로그아웃");
+            if(resultCode==RESULT_OK) {
+                u_id = data.getStringExtra("user_id");
+                nav_header_user_name.setText(data.getStringExtra("user_name"));
+                nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
+                mBtnLoginInNavHeader.setText("로그아웃");
+                Log.i("kkkkk main, u_id", u_id);
+            }
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            Log.i("kkkkk main, u_id",u_id);
         }
     }
     public Point getScreenSize(Activity activity) {
