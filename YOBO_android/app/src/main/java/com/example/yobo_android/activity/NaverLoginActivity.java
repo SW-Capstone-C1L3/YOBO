@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,9 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NaverLoginActivity  extends AppCompatActivity {
 
-
     private static final String TAG = "NaverLoginActivity";
     private static String UserEmail;
+    public static boolean flag = false;
     /**
      * client 정보를 넣어준다.
      */
@@ -56,7 +57,8 @@ public class NaverLoginActivity  extends AppCompatActivity {
     Button buttonRefresh;
     Button buttonOAuthLogout;
     Button getUserData;
-
+    Thread thread = null;
+    Handler handler = null;
     UserData userdata = new UserData();
 
     @Override
@@ -66,6 +68,31 @@ public class NaverLoginActivity  extends AppCompatActivity {
         mContext = this;
         initData();
         initView();
+
+        handler = new Handler(){
+            public void handleMessage(android.os.Message msg) {
+                if(flag) {
+                    getUserdata(mOauthAT.getText().toString());
+                    flag = false;
+                }
+            }
+        };
+        thread = new Thread(){
+            //run은 jvm이 쓰레드를 채택하면, 해당 쓰레드의 run메서드를 수행한다.
+            public void run() {
+                super.run();
+                while(true){
+                    try {
+                        Thread.sleep(500);
+                        handler.sendEmptyMessage(0);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        thread.start();
     }
 
     private void initData() {
@@ -205,6 +232,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                 mOauthExpires.setText(String.valueOf(expiresAt));
                 mOauthTokenType.setText(tokenType);
                 mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
+                flag = true;
             } else {
                 String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
                 String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
@@ -224,4 +252,5 @@ public class NaverLoginActivity  extends AppCompatActivity {
             updateView();
         }
     }
+
 }
