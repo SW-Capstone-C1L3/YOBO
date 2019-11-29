@@ -142,7 +142,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
                     final RecipeData recipe = new RecipeData(
                             category,cooking_descriptions, main_cooking_ingredients,
                             sub_cooking_ingredients,0.0,
-                            mEtRecipeName.getText().toString(),0,0,"LJH");
+                            mEtRecipeName.getText().toString(),selectedServing,selectedDifficulty,"LJH");
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

@@ -13,9 +13,9 @@ public class Recipe {
                   List<Cooking_ingredient> main_cooking_ingredients,
                   List<Cooking_ingredient> sub_cooking_ingredients,
                   Double rating,
-                  Integer difficulty,
+                  String difficulty,
                   String recipe_name,
-                  Integer serving,
+                  String serving,
                   String writer_id) {
         this.category = category;
         this.cooking_description = cooking_description;
@@ -28,8 +28,8 @@ public class Recipe {
         this.writer_id = writer_id;
     }
     public Recipe(List<String> category, List<Cooking_description> cooking_description,
-                  Integer difficulty, List<Cooking_ingredient> main_cooking_ingredients,
-                  Double rating, String recipe_name, Integer serving,
+                  String difficulty, List<Cooking_ingredient> main_cooking_ingredients,
+                  Double rating, String recipe_name, String serving,
                   List<Cooking_ingredient> sub_cooking_ingredients, String writer_id,String _id) {
         this.category = category;
         this.cooking_description = cooking_description;
@@ -51,7 +51,7 @@ public class Recipe {
     private List<Cooking_description> cooking_description = null;
     @SerializedName("difficulty")
     @Expose
-    private Integer difficulty;
+    private String difficulty;
     @SerializedName("main_cooking_ingredients")
     @Expose
     private List<Cooking_ingredient> main_cooking_ingredients = null;
@@ -63,7 +63,7 @@ public class Recipe {
     private String recipe_name;
     @SerializedName("serving")
     @Expose
-    private Integer serving;
+    private String serving;
     @SerializedName("sub_cooking_ingredients")
     @Expose
     private List<Cooking_ingredient> sub_cooking_ingredients = null;
@@ -93,11 +93,11 @@ public class Recipe {
         this.cooking_description = cooking_description;
     }
 
-    public Integer getDifficulty() {
+    public String getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Integer difficulty) {
+    public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -125,11 +125,11 @@ public class Recipe {
         this.recipe_name = recipe_name;
     }
 
-    public Integer getServing() {
+    public String getServing() {
         return serving;
     }
 
-    public void setServing(Integer serving) {
+    public void setServing(String serving) {
         this.serving = serving;
     }
 

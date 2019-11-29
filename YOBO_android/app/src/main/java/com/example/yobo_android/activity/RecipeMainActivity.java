@@ -115,8 +115,8 @@ public class RecipeMainActivity extends AppCompatActivity {
                     }
                     ((TextView)findViewById(R.id.recipeName)).setText(recipe.getRecipe_name());
 
-                    ((TextView)findViewById(R.id.difficulty2)).setText(recipe.getDifficulty()+"");
-                    ((TextView)findViewById(R.id.serving2)).setText(recipe.getServing()+"인분");
+                    ((TextView)findViewById(R.id.difficulty2)).setText(recipe.getDifficulty());
+                    ((TextView)findViewById(R.id.serving2)).setText(recipe.getServing());
                     ((TextView)findViewById(R.id.rating2)).setText(recipe.getRating()+"점");
                     rate = recipe.getRating();
                     ratingBar = findViewById(R.id.ratingStar);

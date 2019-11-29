@@ -1,6 +1,7 @@
 package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +35,18 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
             mIngredientName = itemView.findViewById(R.id.ingredientname2);
             mIngredientQty = itemView.findViewById(R.id.ingredientqty2);
-            mIngredientUnit = itemView.findViewById(R.id.ingredientqty2);
+            mIngredientUnit = itemView.findViewById(R.id.ingredientunit2);
         }
 
         void onBind(Cooking_ingredient ingredient) {
             mIngredientName.setText(ingredient.getIngredients_name());
-            mIngredientQty.setText(ingredient.getQty()+"");
-            mIngredientQty.setText(ingredient.getUnit());
+            if(Math.floor(ingredient.getQty()) == Integer.valueOf(ingredient.getQty().intValue())){
+                mIngredientQty.setText(Integer.valueOf(ingredient.getQty().intValue())+"");
+            }
+            else{
+                mIngredientQty.setText(ingredient.getQty()+"");
+            }
+            mIngredientUnit.setText(ingredient.getUnit());
         }
     }
 

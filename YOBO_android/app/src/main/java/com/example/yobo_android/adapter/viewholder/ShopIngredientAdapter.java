@@ -16,10 +16,16 @@ import com.example.yobo_android.R;
 import com.example.yobo_android.activity.ShowSelectedIngredientInfoActivity;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShoppingIngredientData;
+import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+
+    static final String ImageURL = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=";
 
     private static final int TYPE_ITEM = 1;
     // adapter에 들어갈 list 입니다.
@@ -49,8 +55,16 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         void onBind(ShoppingIngredientData shoppingIngredientData, int position) {
-            //product_image.setImageResource(Integer.parseInt(shoppingIngredientData.getProduct_image()));
-            sel_ingredient_Id = shoppingIngredientData.getSel_id();
+            String temp = shoppingIngredientData.getProduct_image();
+            temp = temp.replace("/", "%2F");
+            String sum = ImageURL + temp;
+            try {
+                URL url = new URL(sum);
+                Picasso.get().load(url.toString()).into(product_image);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            sel_ingredient_Id = shoppingIngredientData.get_id();
             product_unit = shoppingIngredientData.getProduct_unit();
             product_description = shoppingIngredientData.getProduct_description();
             company_name = shoppingIngredientData.getCompany_name();
@@ -65,14 +79,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             int pos = getAdapterPosition() ;
             if (pos != RecyclerView.NO_POSITION) { // 갱신하는 과정에서 뷰홀더가 참조하는 아이템이 어댑터에서 삭제되면 NO_POSITION 리턴
                 Intent intent = new Intent(context, ShowSelectedIngredientInfoActivity.class);
-                //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
                 intent.putExtra("Ingredient_id",sel_ingredient_Id);
-                intent.putExtra("Ingredient_image",product_image.getResources().toString());
-                intent.putExtra("Ingredient_name",product_name.getText().toString());
-                intent.putExtra("Ingredient_description",product_description);
-                intent.putExtra("Company_name",company_name);
-                intent.putExtra("Ingredient_price",product_price.getText().toString());
-                intent.putExtra("Ingredient_unit",product_unit);
                 context.startActivity(intent);
             }
         }

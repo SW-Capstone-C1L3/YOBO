@@ -53,7 +53,7 @@ public class RecipeActivity extends AppCompatActivity {
     SpeechRecognizer mRecognizer;
     ViewPager vpPager;
     String result;
-    int cnt=2;
+    int cnt = 0;
     private int i=0;
     private int j=0;
     private static String recipeId;

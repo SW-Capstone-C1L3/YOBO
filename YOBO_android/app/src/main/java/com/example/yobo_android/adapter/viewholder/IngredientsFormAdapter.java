@@ -47,7 +47,7 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
         if(item.getQty() == null)
             holder.mIngredientQuantityText.setText("");
         else
-            holder.mIngredientQuantityText.setText(item.getQty());
+            holder.mIngredientQuantityText.setText(item.getQty().toString());
         holder.mIngredientUnitText.setText(item.getUnit());
 
     }
@@ -121,7 +121,7 @@ public class IngredientsFormAdapter extends RecyclerView.Adapter<IngredientsForm
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             try {
-                mDataList.get(position).setQty(Integer.valueOf(s.toString().trim()));
+                mDataList.get(position).setQty(Double.valueOf(s.toString().trim()));
             }catch (NumberFormatException e){
                 Log.e("ERROR", e.toString());
                 mDataList.get(position).setQty(null);

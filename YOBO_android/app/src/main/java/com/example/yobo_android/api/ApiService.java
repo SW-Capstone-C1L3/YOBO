@@ -23,43 +23,25 @@ public interface ApiService {
 
     public static final String API_URL = "http://45.119.146.82:8081";
 
+    /*Login*/
+
+    @GET("users/naverlog")
+    Call<UserData> getUserData(@Query("at") String at);
+
+    /*Recipe*/
     @Multipart
     @POST("/yobo/recipe/createRecipe")
     Call<ResponseBody> uploadRecipe(@Part List<MultipartBody.Part> files,
                                       @Part("recipe") RecipeData recipe);
-    @FormUrlEncoded
-    @POST("/yobo/basket/insertBasket")
-    Call<ResponseBody> insertBasket(@FieldMap HashMap<String,Object> parameters);
-
-    @FormUrlEncoded
-    @POST("/yobo/basket/DeleteBasket")
-    Call<ResponseBody> DeleteBasket(@FieldMap HashMap<String,Object> parameters);
 
     @GET("/yobo/recipe/getRecipeList/")
     Call<List<Recipe>> getRecipeList(@Query("pageNum") int pageNum,
                                      @Query("pageSize") int pageSize);
 
-    @GET("/yobo/product/getProducteList/")
-    Call<List<ShoppingIngredientData>> getProductList(@Query("pageNum") int pageNum,
-                                     @Query("pageSize") int pageSize);
-
     @GET("yobo/recipe/search/")
     Call<List<Recipe>> search(@Query("recipeName") String recipeName,
-                                             @Query("pageNum") int pageNum,
-                                             @Query("pageSize") int pageSize);
-
-    @GET("yobo/product/search/")
-    Call<List<ShoppingIngredientData>> searchProduct(@Query("productName") String productName,
-                                              @Query("pageNum") int pageNum,
-                                              @Query("pageSize") int pageSize);
-
-    @GET("yobo/recipe/getRecipebyDid/")
-    Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
-
-    @GET("yobo/comments/getCommentsbyRId/")
-    Call<List<CommentData>> getCommentsbyRId(@Query("RId") String recipeId,
-                                       @Query("pageNum") int pageNum,
-                                       @Query("pageSize") int pageSize);
+                              @Query("pageNum") int pageNum,
+                              @Query("pageSize") int pageSize);
 
     @GET("yobo/recipe/getListbyCate/")
     Call<List<Recipe>> getListByCate(@Query("cate") String cate,
@@ -68,10 +50,41 @@ public interface ApiService {
 
     @GET("yobo/recipe/getByingredients")
     Call<List<Recipe>> getByingredients(@Query("ingredients") List<String> ingredients,
-                                     @Query("pageNum") int pageNum,
-                                     @Query("pageSize") int pageSize);
-    @GET("users/naverlog")
-    Call<UserData> getUserData(@Query("at") String at);
+                                        @Query("pageNum") int pageNum,
+                                        @Query("pageSize") int pageSize);
 
+    @GET("yobo/recipe/getRecipebyDid/")
+    Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
+
+    /*Market*/
+
+    @GET("yobo/product/search/")
+    Call<List<ShoppingIngredientData>> searchProduct(@Query("productName") String productName,
+                                                     @Query("pageNum") int pageNum,
+                                                     @Query("pageSize") int pageSize);
+
+    @GET("/yobo/product/getProducteList/")
+    Call<List<ShoppingIngredientData>> getProductList(@Query("pageNum") int pageNum,
+                                                      @Query("pageSize") int pageSize);
+
+    @GET("/yobo/product/searchbyDid/")
+    Call<ShoppingIngredientData> getProduct(@Query("Did") String productId);
+
+    /*Basket*/
+
+    @FormUrlEncoded
+    @POST("/yobo/basket/insertBasket")
+    Call<ResponseBody> insertBasket(@FieldMap HashMap<String,Object> parameters);
+
+    @FormUrlEncoded
+    @POST("/yobo/basket/DeleteBasket")
+    Call<ResponseBody> DeleteBasket(@FieldMap HashMap<String,Object> parameters);
+
+    /*Comment*/
+
+    @GET("yobo/comments/getCommentsbyRId/")
+    Call<List<CommentData>> getCommentsbyRId(@Query("RId") String recipeId,
+                                             @Query("pageNum") int pageNum,
+                                             @Query("pageSize") int pageSize);
 }
 
