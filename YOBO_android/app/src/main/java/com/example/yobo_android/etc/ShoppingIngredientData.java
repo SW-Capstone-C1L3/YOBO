@@ -1,18 +1,61 @@
 package com.example.yobo_android.etc;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ShoppingIngredientData {
+    public ShoppingIngredientData(String _id,
+                                  String company_name,
+                                  String product_category,
+                                  String product_description,
+                                  String product_image,
+                                  String product_name,
+                                  int product_price,
+                                  int product_qty,
+                                  String product_unit,
+                                  String provided_company_id) {
+        this._id = _id;
+        this.company_name = company_name;
+        this.product_category = product_category;
+        this.product_description = product_description;
+        this.product_image = product_image;
+        this.product_name = product_name;
+        this.product_price = product_price;
+        this.product_qty = product_qty;
+        this.product_unit = product_unit;
+        this.provided_company_id = provided_company_id;
+    }
 
+    @SerializedName("_id")
+    @Expose
     private String _id;      //document id
+    @SerializedName("company_name")
+    @Expose
     private String company_name;
+    @SerializedName("product_category")
+    @Expose
     private String product_category;
+    @SerializedName("product_description")
+    @Expose
     private String product_description;
+    @SerializedName("product_image")
+    @Expose
     private String product_image;
+    @SerializedName("product_name")
+    @Expose
     private String product_name;
+    @SerializedName("product_price")
+    @Expose
     private int product_price;
+    @SerializedName("product_qty")
+    @Expose
     private int product_qty;
+    @SerializedName("product_unit")
+    @Expose
     private String product_unit;
+    @SerializedName("provided_company_id")
+    @Expose
     private String provided_company_id;
-
 
     public String get_id() {
         return _id;

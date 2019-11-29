@@ -16,8 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:text="qty"
-        android:paddingRight="8dp"/>
+        android:text="qty"/>
     <TextView
         android:id="@+id/ingredientunit2"
         android:layout_width="wrap_content"

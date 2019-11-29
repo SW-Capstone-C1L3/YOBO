@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageButton mBtnOpen;
     // user Info in nav header
     private TextView nav_header_user_name;
-    private TextView nav_header_user_id;
+    private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
     private String u_id;
@@ -128,9 +128,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnLoginInNavHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
-                        NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
-                startActivityForResult(intent,REQUEST_NAVER);
+                if(mBtnLoginInNavHeader.getText().equals("로그인")) {
+                    Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
+                            NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
+                    startActivityForResult(intent, REQUEST_NAVER);
+                }
+                else if(mBtnLoginInNavHeader.getText().equals("로그아웃")){
+                    Log.i("kkkk22222","로그아웃 누름");
+                    NaverLoginActivity.mOAuthLoginInstance.logout((NaverLoginActivity)NaverLoginActivity.mContext);
+                    mBtnLoginInNavHeader.setText("로그인");
+                    nav_header_user_email.setText("이메일");
+                    nav_header_user_name.setText("없음");
+                    u_id=null;
+                }
             }
         });
 
@@ -139,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
         mBtnShop = findViewById(R.id.btnShop);
         mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
+        nav_header_user_name = header.findViewById(R.id.nav_header_user_name);
+        nav_header_user_email = header.findViewById(R.id.nav_header_user_email);
 //        Log.i("kkkkkkk",getScreenSize(this).x+"");
 //        lp.height = getScreenSize(this).x;
 //        lp2.height = getScreenSize(this).x;
@@ -330,10 +342,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return NUM_PAGES;
         }
     }
-    public void changeImage(int idx){
-        int nexIdx = (idx+1)%3;
-        mPager.setCurrentItem(nexIdx,true);
-    }
+
     public void permissionCheck() {
         if (Build.VERSION.SDK_INT >= 23) {
             ArrayList<String> arrayPermission = new ArrayList<>();
@@ -398,7 +407,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(requestCode == REQUEST_NAVER){
-            u_id = data.getStringExtra("result");
+            u_id = data.getStringExtra("user_id");
+            nav_header_user_name.setText(data.getStringExtra("user_name"));
+            nav_header_user_email.setText(data.getStringExtra("user_email")+"@naver.com");
+            mBtnLoginInNavHeader.setText("로그아웃");
+            mDrawerLayout.closeDrawer(GravityCompat.START);
             Log.i("kkkkk main, u_id",u_id);
         }
     }

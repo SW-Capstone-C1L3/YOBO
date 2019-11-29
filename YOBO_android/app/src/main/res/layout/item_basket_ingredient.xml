@@ -65,15 +65,15 @@
                             android:layout_height="wrap_content"
                             android:text="판매가/"
                             android:textColor="@android:color/black"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
                         <TextView
                             android:id="@+id/basket_ingredient_qty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="개수: "
+                            android:text="개수 : "
                             android:textColor="@android:color/black"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <TextView
@@ -83,7 +83,7 @@
                         android:layout_weight="1"
                         android:hint="판매가"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
