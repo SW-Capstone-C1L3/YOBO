@@ -72,7 +72,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 .client(okhttpClientBuilder.build())
                 .build();
         apiService = retrofit.create(ApiService.class);
-
         Call<List<ShoppingIngredientData>> call = null;
         if (query != null)
             call = apiService.searchProduct(query, 0, 10);
@@ -96,6 +95,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     else {
                         for (int i = 0; i < ingredientList.size(); i++) {
                             adapter.addItem(ingredientList.get(i), i);
+                            Log.i("kkkkkkkshopactk",ingredientList.get(i).getProduct_name());
                         }
                     }
                 }

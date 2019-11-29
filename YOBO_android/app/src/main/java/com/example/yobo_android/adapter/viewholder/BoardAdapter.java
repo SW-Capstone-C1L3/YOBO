@@ -65,7 +65,7 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             String sum = ImageURL + temp;
             try {
                 URL url = new URL(sum);
-            Picasso.get().load(url.toString()).into(recipeImage);
+                Picasso.get().load(url.toString()).into(recipeImage);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

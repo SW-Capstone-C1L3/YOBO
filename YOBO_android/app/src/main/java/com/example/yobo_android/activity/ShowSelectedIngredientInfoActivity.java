@@ -133,6 +133,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                 .build();
         apiService = retrofit.create(ApiService.class);
         userId = "5dc6e8de068a0d0928838088";
+        Log.i("kkkkkkkkk gotobasket",Ingredient_id);
         hashMap.put("Product_id", Ingredient_id);
         hashMap.put("qty",amount);
         hashMap.put("User_id",userId);

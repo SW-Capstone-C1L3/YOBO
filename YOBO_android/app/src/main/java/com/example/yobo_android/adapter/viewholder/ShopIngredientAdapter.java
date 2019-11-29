@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.ShowSelectedIngredientInfoActivity;
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.squareup.picasso.Picasso;
 

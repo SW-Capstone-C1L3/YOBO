@@ -128,6 +128,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(checkInput()){
+
                     category.add(mSpinnerCountry.getSelectedItem().toString());
                     category.add(mSpinnerCookingType.getSelectedItem().toString());
                     cooking_descriptions.add(new Cooking_description(
