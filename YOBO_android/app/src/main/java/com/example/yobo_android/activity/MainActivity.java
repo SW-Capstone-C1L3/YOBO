@@ -15,11 +15,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -151,18 +152,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
+                boolean dialogFlag = false;
+
                 switch(v.getId()){
 //                    case R.id.btnRecipeRecommendation:
 //                        intent = new Intent(MainActivity.this, RecipeActivity.class);
 //                        break;
 
                     case R.id.btnChoiceIngredient:
-                        if(u_id == null){
-                            showAlertDialog();
-                        }else{
-                            intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
-
-                        }
+                        intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
                         break;
 
                     case R.id.btnRecipeCategory:
@@ -174,10 +172,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.btnWriteRecipe:
-                        intent = new Intent(MainActivity.this, RecipeFormActivity.class);
+                        if(u_id == null){
+                            showLoginAlertDialog();
+                            dialogFlag = true;
+                        }else{
+                            intent = new Intent(MainActivity.this, RecipeFormActivity.class);
+                            intent.putExtra("u_id", u_id);
+                        }
                         break;
                 }
-                startActivity(intent);
+                if(!dialogFlag) startActivity(intent);
             }
         };
 //        mBtnRecipeRecommendation.setOnClickListener(onClickListener);
@@ -272,14 +276,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
+        boolean dialogFlag = false;
         Intent intent = new Intent();
+        // TODO : 로그인 확인 부분 꽤 겹치는데 나중에 한번에 수정함 -LJH
         if (id == R.id.nav_enroll_recipe) {
-            intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
+            if(u_id == null){
+                showLoginAlertDialog();
+                dialogFlag = true;
+            }else{
+                intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
+                intent.putExtra("u_id", u_id);
+            }
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
         }
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+
+        if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -397,7 +409,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return  size;
     }
 
-    public void showAlertDialog(){
-        //TODO : 로그인 안됐을 때 경고창 - LJH
+    public void showLoginAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_error_outline_24dp);
+        builder.setTitle("로그인 해주세요 :(");
+        builder.setMessage("로그인을 해야 레시피 등록이 가능합니다.");
+        builder.setPositiveButton("로그인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, NaverLoginActivity.class);
+                        startActivityForResult(intent,REQUEST_NAVER);
+                    }
+                });
+        builder.setNegativeButton("취소",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
     }
 }
