@@ -43,6 +43,11 @@ public interface ApiService {
                               @Query("pageNum") int pageNum,
                               @Query("pageSize") int pageSize);
 
+    @GET("/yobo/recipe/getListbyUid/")
+    Call<List<Recipe>> geListByUid(@Query("uid") String uid,
+                                   @Query("pageNum") int pageNum,
+                                   @Query("pageSize") int pageSize);
+
     @GET("yobo/recipe/getListbyCate/")
     Call<List<Recipe>> getListByCate(@Query("cate") String cate,
                                      @Query("pageNum") int pageNum,
@@ -86,5 +91,9 @@ public interface ApiService {
     Call<List<CommentData>> getCommentsbyRId(@Query("RId") String recipeId,
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
+    /* User */
+    @GET("yobo/user/getbyDid/")
+    Call<UserData> getbyDid(@Query("at") String at);
+
 }
 

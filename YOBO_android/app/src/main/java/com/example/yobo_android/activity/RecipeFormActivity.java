@@ -98,6 +98,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
     String selectedDifficulty;
 
     String userId;
+    String userName;
     Intent intent;
 
     int tempPosForSequenceForm;
@@ -113,6 +114,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
         intent = getIntent();
         userId = intent.getStringExtra("u_id");
+        userName = intent.getStringExtra("u_name");
 
         mEtRecipeName = findViewById(R.id.recipe_name);
         mEtCookingDescription = findViewById(R.id.cooking_description);
@@ -145,11 +147,10 @@ public class RecipeFormActivity extends AppCompatActivity  {
                                         "TEMP"));
                     }
 
-                    //TODO : DB 바뀌면 difficulty, serving, writer_id(유저 id) 부분 수정
                     final RecipeData recipe = new RecipeData(
                             category,cooking_descriptions, main_cooking_ingredients,
                             sub_cooking_ingredients,0.0,
-                            mEtRecipeName.getText().toString(),selectedServing,selectedDifficulty,"LJH");
+                            mEtRecipeName.getText().toString(),selectedServing,selectedDifficulty,userId,userName);
 
                     OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
                     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

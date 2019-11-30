@@ -11,7 +11,7 @@ public class RecipeData {
                       List<Cooking_ingredient> main_cooking_ingredients,
                       List<Cooking_ingredient> sub_cooking_ingredients,
                       Double rating, String recipe_name, String serving,
-                      String difficulty, String writer_id) {
+                      String difficulty, String writer_id, String writer_name) {
         this.category = category;
         this.cooking_description = cooking_description;
         this.difficulty = difficulty;
@@ -21,6 +21,7 @@ public class RecipeData {
         this.serving = serving;
         this.sub_cooking_ingredients = sub_cooking_ingredients;
         this.writer_id = writer_id;
+        this.writer_name = writer_name;
     }
 
     @SerializedName("category")
@@ -50,6 +51,9 @@ public class RecipeData {
     @SerializedName("writer_id")
     @Expose
     private String writer_id;
+    @SerializedName("writer_name")
+    @Expose
+    private String writer_name;
 
     public List<String> getCategory() {
         return category;
@@ -123,4 +127,7 @@ public class RecipeData {
         this.writer_id = writer_id;
     }
 
+    public String getWriter_name() { return writer_name; }
+
+    public void setWriter_name(String writer_name) { this.writer_name = writer_name; }
 }

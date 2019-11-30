@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
     private String u_id;
+    private String u_name;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
@@ -97,10 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtnShop.getLayoutParams();
-//        LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) mBtnWriteRecipe.getLayoutParams();
-//        LinearLayout.LayoutParams lp3 = (LinearLayout.LayoutParams) mBtnChoiceIngredient.getLayoutParams();
-//        LinearLayout.LayoutParams lp4 = (LinearLayout.LayoutParams) mBtnRecipeCategory.getLayoutParams();
+
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
 
         setSupportActionBar(toolbar);
@@ -151,15 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
         nav_header_user_name = header.findViewById(R.id.nav_header_user_name);
         nav_header_user_email = header.findViewById(R.id.nav_header_user_email);
-//        Log.i("kkkkkkk",getScreenSize(this).x+"");
-//        lp.height = getScreenSize(this).x;
-//        lp2.height = getScreenSize(this).x;
-//        lp3.height = getScreenSize(this).x;
-//        lp4.height = getScreenSize(this).x;
-//        mBtnShop.setLayoutParams(lp);
-//        mBtnWriteRecipe.setLayoutParams(lp2);
-//        mBtnChoiceIngredient.setLayoutParams(lp3);
-//        mBtnRecipeCategory.setLayoutParams(lp4);
+
         LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -190,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }else{
                             intent = new Intent(MainActivity.this, RecipeFormActivity.class);
                             intent.putExtra("u_id", u_id);
+                            intent.putExtra("u_name",u_name);
                         }
                         break;
                 }
@@ -296,8 +287,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showLoginAlertDialog();
                 dialogFlag = true;
             }else{
-                intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
+                intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
                 intent.putExtra("u_id", u_id);
+                intent.putExtra("u_name",u_name);
             }
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
@@ -408,7 +400,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(requestCode == REQUEST_NAVER){
             u_id = data.getStringExtra("user_id");
-            nav_header_user_name.setText(data.getStringExtra("user_name"));
+            u_name = data.getStringExtra("user_name");
+            nav_header_user_name.setText(u_name);
             nav_header_user_email.setText(data.getStringExtra("user_email")+"@naver.com");
             mBtnLoginInNavHeader.setText("로그아웃");
             mDrawerLayout.closeDrawer(GravityCompat.START);
