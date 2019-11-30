@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,7 +27,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NaverLoginActivity  extends AppCompatActivity {
-
 
     private static final String TAG = "NaverLoginActivity";
     private static String UserEmail;
@@ -56,7 +56,8 @@ public class NaverLoginActivity  extends AppCompatActivity {
     Button buttonRefresh;
     Button buttonOAuthLogout;
     Button getUserData;
-
+    Thread thread = null;
+    Handler handler = null;
     UserData userdata = new UserData();
 
     @Override
@@ -64,6 +65,8 @@ public class NaverLoginActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_naver_login);
         mContext = this;
+        thread = null;
+        handler = null;
         initData();
         initView();
     }
@@ -192,7 +195,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
     /**
      * startOAuthLoginActivity() 호출시 인자로 넘기거나, OAuthLoginButton 에 등록해주면 인증이 종료되는 걸 알 수 있다.
      */
-    static private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
+    private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         @Override
         public void run(boolean success) {
             if (success) {
@@ -205,6 +208,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                 mOauthExpires.setText(String.valueOf(expiresAt));
                 mOauthTokenType.setText(tokenType);
                 mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
+                getUserdata(mOauthAT.getText().toString());
             } else {
                 String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
                 String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
@@ -219,9 +223,9 @@ public class NaverLoginActivity  extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             return mOAuthLoginInstance.refreshAccessToken(mContext);
         }
-
         protected void onPostExecute(String res) {
             updateView();
         }
     }
+
 }

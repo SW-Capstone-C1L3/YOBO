@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    case R.id.btnRecipeRecommendation:
 //                        intent = new Intent(MainActivity.this, RecipeActivity.class);
 //                        break;
-
                     case R.id.btnChoiceIngredient:
                         intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
                         break;
@@ -405,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_header_user_email.setText(data.getStringExtra("user_email")+"@naver.com");
             mBtnLoginInNavHeader.setText("로그아웃");
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            Log.i("kkkkk main, u_id",u_id);
         }
     }
     public Point getScreenSize(Activity activity) {
