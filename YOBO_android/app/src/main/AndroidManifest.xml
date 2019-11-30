@@ -27,7 +27,7 @@
         <activity android:name=".activity.RecipeFormActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.CategorySearchActivity" />
-        <activity android:name=".activity.EnrollRecipeActivity" />
+        <activity android:name=".activity.MyRecipeListActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.ChoiceIngredientActivity" />
