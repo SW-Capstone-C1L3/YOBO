@@ -71,7 +71,7 @@ public class MyRecipeListActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.myRecipeListRecyclerView);
+        final RecyclerView recyclerView = findViewById(R.id.myRecipeListRecyclerView);
         RecyclerView.LayoutManager layoutManagerForMyRecipe = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManagerForMyRecipe);
         myRecipeListAdapter = new BoardAdapter();
@@ -107,6 +107,5 @@ public class MyRecipeListActivity extends AppCompatActivity {
             }
         });
     }
-
-
+    
 }

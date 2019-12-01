@@ -123,7 +123,7 @@ public class RecipeMainActivity extends AppCompatActivity {
 
                     ((TextView)findViewById(R.id.subdescription2)).setText(recipe.getCooking_description().get(0).getDescription());
 
-                    ((TextView)findViewById(R.id.writerid2)).setText("by " + recipe.getWriter_id());
+                    ((TextView)findViewById(R.id.writerid2)).setText("by " + recipe.getWriter_name());
                 }
 
                 @Override
