@@ -82,9 +82,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-    protected static String u_id;
-    private String u_name;
-    private String u_email;
+    public static String u_id;
+    public static String u_phone;
+    public static String u_name;
+    public static String u_email;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
@@ -313,7 +314,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
         }
-
+        else if(id==R.id.nav_setting){
+            intent = new Intent(MainActivity.this,SettingActivity.class);
+        }
+        else if(id==R.id.nav_changeInfo){
+            if(u_id==null){
+                showLoginAlertDialog();
+                dialogFlag = true;
+            }
+            else{
+                //내 회원정보 수정으로 변경
+            }
+        }
+        else if(id==R.id.nav_myShopLog){
+            //내 쇼핑정보 보기
+        }
         if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -422,6 +437,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 u_id = data.getStringExtra("user_id");
                 u_name = data.getStringExtra("user_name");
                 u_email = data.getStringExtra("user_email");
+                u_phone = data.getStringExtra("user_phone");
                 nav_header_user_name.setText(u_name);
                 nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
                 mBtnLoginInNavHeader.setText("로그아웃");
