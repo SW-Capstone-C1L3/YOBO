@@ -1,5 +1,6 @@
 package com.example.yobo_android.api;
 
+import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
@@ -74,6 +75,10 @@ public interface ApiService {
 
     @GET("/yobo/product/searchbyDid/")
     Call<ShoppingIngredientData> getProduct(@Query("Did") String productId);
+
+    @Multipart
+    @POST("/yobo/transaction/createtransaction")
+    Call<ResponseBody> createTransaction(@Part("transcationLog")BasketLogData basketLogData);
 
     /*Basket*/
 

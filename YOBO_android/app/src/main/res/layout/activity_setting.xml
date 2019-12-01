@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SettingActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_enroll_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageButton
+                android:id="@+id/menuImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_menu" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="YOBO"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+        </androidx.appcompat.widget.Toolbar>
+        <TextView
+            android:id="@+id/changeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원정보 변경"
+            android:textSize="30sp"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/myShopLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="내 쇼핑정보"
+            android:textSize="30sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+</LinearLayout>

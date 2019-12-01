@@ -102,7 +102,6 @@ public class RecipeMainActivity extends AppCompatActivity {
                     mMainIngredientAdapter.notifyDataSetChanged();
                     mSubIngredientAdapter.notifyDataSetChanged();
 
-
                     String temp = recipe.getCooking_description().get(0).getImage();
                     temp = temp.replace("/", "%2F");
                     String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
