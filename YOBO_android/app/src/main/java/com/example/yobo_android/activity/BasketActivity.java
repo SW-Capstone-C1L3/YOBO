@@ -70,7 +70,7 @@ public class BasketActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basket);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
-
+        Log.i("kkkk basket u_id",MainActivity.u_id);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -106,7 +106,8 @@ public class BasketActivity extends AppCompatActivity{
                 basketitem.setIngredientPrice(basket.getInt("product_price"));
                 basketitem.setBasket_qty(basket.getInt("qty"));
                 sum_all_price +=basket.getInt("qty")*basket.getInt("product_price");
-                basketitem.setUser_id("5dc6e8de068a0d0928838088");      /*****여기 전달받은 id로 바꿔야됨****/
+//                basketitem.setUser_id("5dc6e8de068a0d0928838088");      /*****여기 전달받은 id로 바꿔야됨****/
+                basketitem.setUser_id(MainActivity.u_id);
                 adapter.addItem(basketitem);
             }
             adapter.notifyDataSetChanged();
@@ -128,7 +129,8 @@ public class BasketActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+//        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+        user_id = MainActivity.u_id;
         hashMap.put("Product_id", str);
         hashMap.put("User_id",user_id);
         Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
@@ -219,8 +221,8 @@ public class BasketActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        //user_id = u_id;     ////
-        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+//        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+        user_id = MainActivity.u_id;
         hashMap.put("Product_id", p_id);
         hashMap.put("User_id",user_id);
         Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
@@ -243,7 +245,7 @@ public class BasketActivity extends AppCompatActivity{
                 //GET Request
                 /*************현재는 doc_id를 임의의 값으로 배정**********/
                 /*************나중에 바꿔야됨***************/
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/basket/getBasket?User_id=5dc6e8de068a0d0928838088");
+                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/basket/getBasket?User_id="+MainActivity.u_id);
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }

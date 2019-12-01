@@ -27,6 +27,12 @@ public class CategorySearchActivity extends AppCompatActivity {
     private LinearLayout mBtnWestern;
     private LinearLayout mBtnChinese;
     private LinearLayout mBtnJapanese;
+    private LinearLayout mBtnRice;
+    private LinearLayout mBtnFry;
+    private LinearLayout mBtnSoup;
+    private LinearLayout mBtnNoodle;
+    private LinearLayout mBtnMeat;
+    private LinearLayout mBtnDesert;
 
 
     @Override
@@ -38,7 +44,12 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnWestern = findViewById(R.id.btnWestern);
         mBtnChinese = findViewById(R.id.btnChinese);
         mBtnJapanese = findViewById(R.id.btnJapanese);
-
+        mBtnRice = findViewById(R.id.rice);
+        mBtnFry = findViewById(R.id.fry);
+        mBtnSoup = findViewById(R.id.soup);
+        mBtnNoodle = findViewById(R.id.noodle);
+        mBtnMeat = findViewById(R.id.meat);
+        mBtnDesert = findViewById(R.id.desert);
 
         LinearLayout.OnClickListener onClickListener = new TextView.OnClickListener(){
             @Override
@@ -70,6 +81,36 @@ public class CategorySearchActivity extends AppCompatActivity {
                         intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
                         intent.putExtra("category",category);
                         break;
+                    case R.id.rice:
+                        category="밥";
+                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
+                        break;
+                    case R.id.fry:
+                        category="튀김";
+                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
+                        break;
+                    case R.id.soup:
+                        category="국물";
+                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
+                        break;
+                    case R.id.noodle:
+                        category="면";
+                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
+                        break;
+                    case R.id.meat:
+                        category="고기";
+                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
+                        break;
+                    case R.id.desert:
+                        category="디저트";
+                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                        intent.putExtra("category",category);
+                        break;
                 }
                 startActivity(intent);
             }
@@ -78,5 +119,11 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnWestern.setOnClickListener(onClickListener);
         mBtnChinese.setOnClickListener(onClickListener);
         mBtnJapanese.setOnClickListener(onClickListener);
+        mBtnRice.setOnClickListener(onClickListener);
+        mBtnFry.setOnClickListener(onClickListener);
+        mBtnSoup.setOnClickListener(onClickListener);
+        mBtnNoodle.setOnClickListener(onClickListener);
+        mBtnMeat.setOnClickListener(onClickListener);
+        mBtnDesert.setOnClickListener(onClickListener);
     }
 }
