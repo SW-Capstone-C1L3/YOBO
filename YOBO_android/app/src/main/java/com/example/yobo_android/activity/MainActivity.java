@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-    private String u_id;
+    protected static String u_id;
     private String u_name;
     private String u_email;
     Thread thread = null;
@@ -229,14 +229,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         thread.start();
-        nav_header_user_name.setText(sf.getString("u_name",""));
+//        nav_header_user_name.setText(sf.getString("u_name",""));
         if(nav_header_user_name.getText().toString().equals("")){
 
         }
         else {
-            u_id =sf.getString("u_id","");
-            nav_header_user_email.setText(sf.getString("u_email","")+"@naver.com");
-            mBtnLoginInNavHeader.setText("로그아웃");
+//            u_id =sf.getString("u_id","");
+//            nav_header_user_email.setText(sf.getString("u_email","")+"@naver.com");
+//            mBtnLoginInNavHeader.setText("로그아웃");
         }
 
     }
@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mBtnLoginInNavHeader.setText("로그아웃");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
-
+                Log.i("kkkkkk main u_id", u_id);
                 //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태

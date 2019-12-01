@@ -132,7 +132,8 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        userId = "5dc6e8de068a0d0928838088";
+//        userId = "5dc6e8de068a0d0928838088";
+        userId = MainActivity.u_id;
         Log.i("kkkkkkkkk gotobasket",Ingredient_id);
         hashMap.put("Product_id", Ingredient_id);
         hashMap.put("qty",amount);
