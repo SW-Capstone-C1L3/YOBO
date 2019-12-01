@@ -38,6 +38,7 @@ public class MyRecipeListActivity extends AppCompatActivity {
     String userId;
     String userName;
     Intent intent;
+    private int REQUEST_TEST =1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class MyRecipeListActivity extends AppCompatActivity {
                 Intent intent = new Intent(MyRecipeListActivity.this, RecipeFormActivity.class);
                 intent.putExtra("u_id", userId);
                 intent.putExtra("u_name",userName);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_TEST);
             }
         });
 
@@ -108,5 +109,15 @@ public class MyRecipeListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TEST) {
+            if (resultCode == RESULT_OK) {
+                finish();
+                startActivity(getIntent());
+            }
+        }
+    }
 
 }

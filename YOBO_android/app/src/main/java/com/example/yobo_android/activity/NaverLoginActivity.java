@@ -2,6 +2,7 @@ package com.example.yobo_android.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -176,7 +177,18 @@ public class NaverLoginActivity  extends AppCompatActivity {
             }
         }
     }
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Activity가 종료되기 전에 저장한다.
+        //SharedPreferences를 sFile이름, 기본모드로 설정
+        SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
+        //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        mOAuthLoginInstance.logout(mContext);
+        editor.clear();
+        editor.commit();
+    }
     private void updateView() {
         mOauthAT.setText(mOAuthLoginInstance.getAccessToken(mContext));
         mOauthRT.setText(mOAuthLoginInstance.getRefreshToken(mContext));

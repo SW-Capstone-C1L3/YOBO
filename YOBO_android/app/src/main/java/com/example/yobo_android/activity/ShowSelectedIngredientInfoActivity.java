@@ -126,7 +126,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         return IngredientPrice;
     }
 
-    public void goToBasket(int amount){       //장바구니로 가기
+    public void goToBasket(int amount){       //장바구니에 담기
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiService.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
