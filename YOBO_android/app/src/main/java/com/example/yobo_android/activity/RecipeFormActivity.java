@@ -174,6 +174,8 @@ public class RecipeFormActivity extends AppCompatActivity  {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             Toast.makeText(RecipeFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            intent.putExtra("result", "some value");
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                         @Override

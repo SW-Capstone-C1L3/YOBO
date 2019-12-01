@@ -126,13 +126,14 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         return IngredientPrice;
     }
 
-    public void goToBasket(int amount){       //장바구니로 가기
+    public void goToBasket(int amount){       //장바구니에 담기
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiService.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        userId = "5dc6e8de068a0d0928838088";
+//        userId = "5dc6e8de068a0d0928838088";
+        userId = MainActivity.u_id;
         Log.i("kkkkkkkkk gotobasket",Ingredient_id);
         hashMap.put("Product_id", Ingredient_id);
         hashMap.put("qty",amount);
