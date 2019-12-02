@@ -222,6 +222,7 @@
                         android:focusableInTouchMode="true"
                         android:textColor="@color/colorBlack"
                         android:hint="코멘트를 달아보세요"
+                        android:lines="4"
                         android:background="@null"/>
                     <ImageButton
                         android:id="@+id/btnaddcomment"

@@ -63,11 +63,11 @@ public interface ApiService {
     @GET("yobo/recipe/getRecipebyDid/")
     Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
 
-    @Multipart
-    @POST("/yobo/recipe/createRecipe")
-    Call<ResponseBody> rate(@Part("Rid") String Rid,
-                            @Part("rate") Double rate,
-                            @Part("uid") String uid);
+
+    @POST("/yobo/recipe/rate")
+    Call<ResponseBody> rate(@Query("Rid") String Rid,
+                            @Query("rate") double rate,
+                            @Query("uid") String uid);
 
 
     /*Market*/

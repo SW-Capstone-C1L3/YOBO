@@ -188,8 +188,8 @@ public class RecipeMainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Comment comment = new Comment(
                         ((EditText)findViewById(R.id.contents)).getText().toString(),
-                        "asd",
-                        "asd",
+                        "userId",
+                        "userName",
                         recipeId
                 );
 
@@ -224,42 +224,43 @@ public class RecipeMainActivity extends AppCompatActivity {
 
                 final View layout = getLayoutInflater().inflate(R.layout.item_rating_dialog, null);
                 builder.setView(layout);
-                layout.findViewById(R.id.rate).setOnClickListener(new View.OnClickListener(){
+                final AlertDialog dialog = builder.create();
+
+                ((Button)layout.findViewById(R.id.rate)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        double rate = (double)((RatingBar)findViewById(R.id.score)).getRating();
-                        Log.i("ddddddd",((RatingBar)findViewById(R.id.score)).getRating()+"");
-//                        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-//                        HttpLoggingInterceptor logging4 = new HttpLoggingInterceptor();
-//                        logging4.setLevel(HttpLoggingInterceptor.Level.BODY);
-//                        okhttpClientBuilder.addInterceptor(logging4);
-//                        Retrofit retrofit4 = new Retrofit.Builder()
-//                                .baseUrl(ApiService.API_URL)
-//                                .addConverterFactory(GsonConverterFactory.create())
-//                                .client(okhttpClientBuilder.build())
-//                                .build();
-//                        ApiService apiService4 = retrofit4.create(ApiService.class);
-//
-//                        Call<ResponseBody> call4 = apiService4.rate(recipeId, rate, "asd");
-//                        call4.enqueue(new Callback<ResponseBody>() {
-//                            @Override
-//                            public void onResponse(Call<ResponseBody> call4, Response<ResponseBody> response4) {
-//                                Log.i("ddddd4","good");
-//                            }
-//                            @Override
-//                            public void onFailure(Call<ResponseBody> call4, Throwable t) {
-//                            }
-//                        });
+
+                        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                        HttpLoggingInterceptor logging4 = new HttpLoggingInterceptor();
+                        logging4.setLevel(HttpLoggingInterceptor.Level.BODY);
+                        okhttpClientBuilder.addInterceptor(logging4);
+                        Retrofit retrofit4 = new Retrofit.Builder()
+                                .baseUrl(ApiService.API_URL)
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .client(okhttpClientBuilder.build())
+                                .build();
+                        ApiService apiService4 = retrofit4.create(ApiService.class);
+
+                        Call<ResponseBody> call4 = apiService4.rate(recipeId, (double)((RatingBar)layout.findViewById(R.id.score)).getRating(), "userId");
+                        call4.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call4, Response<ResponseBody> response4) {
+                                dialog.dismiss();
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseBody> call4, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT);
+                            }
+                        });
 
                     }
                 });
-                layout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                ((Button)layout.findViewById(R.id.cancel)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        dialog.dismiss();
                     }
                 });
-
-                AlertDialog dialog = builder.create();
                 dialog.show();
             }
         });
