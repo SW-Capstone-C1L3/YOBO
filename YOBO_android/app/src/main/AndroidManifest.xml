@@ -32,9 +32,11 @@
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.ChoiceIngredientActivity" />
         <activity android:name=".activity.RecipeMainActivity" />
+        <activity android:name=".activity.ShowDetailedShopLogActivity"/>
         <activity android:name=".activity.RecipeActivity" />
         <activity android:name=".activity.NaverLoginActivity" />
         <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.ShowShopLogActivity"/>
         <activity android:name=".activity.ShowSelectedIngredientInfoActivity" />
         <activity android:name=".activity.ShopIngredientActivity" />
         <activity android:name=".activity.BasketActivity" />

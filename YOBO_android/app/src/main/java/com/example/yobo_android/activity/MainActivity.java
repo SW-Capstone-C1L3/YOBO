@@ -331,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.nav_myShopLog){
             //내 쇼핑정보 보기
+            intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
         }
         if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -447,6 +448,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
                 Log.i("kkkkkk main u_id", u_id);
+                Log.i("kkkkkk main u_phone",u_phone);
                 //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
