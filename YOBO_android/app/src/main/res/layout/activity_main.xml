@@ -17,7 +17,7 @@
             android:id="@+id/toolbar_enroll_recipe"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorWhite"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageButton
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:contentDescription="TODO"
-                android:src="@drawable/ic_menu" />
+                android:src="@drawable/ic_burger" />
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="YOBO"
-                android:textColor="@android:color/background_light"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -174,9 +174,13 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"/>
+        app:menu="@menu/activity_main_drawer"
+        app:paddingStart="@dimen/space16"
+        app:itemTextColor="@color/colorPrimary"
+        app:itemTextAppearance="@style/MenuItem"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

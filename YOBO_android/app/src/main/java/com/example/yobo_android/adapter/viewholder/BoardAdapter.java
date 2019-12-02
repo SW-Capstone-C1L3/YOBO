@@ -130,7 +130,6 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return TYPE_ITEM;
     }
 
-
     @Override
     public int getItemCount() {
         // RecyclerView의 총 개수 입니다.
