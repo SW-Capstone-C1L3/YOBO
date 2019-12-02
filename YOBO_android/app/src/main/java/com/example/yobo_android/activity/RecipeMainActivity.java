@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -186,82 +187,92 @@ public class RecipeMainActivity extends AppCompatActivity {
         ((ImageButton)findViewById(R.id.btnaddcomment)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Comment comment = new Comment(
-                        ((EditText)findViewById(R.id.contents)).getText().toString(),
-                        "userId",
-                        "userName",
-                        recipeId
-                );
+                if(MainActivity.u_id == null){
+                    showLoginAlertDialog();
+                }
+                else{
+                    Comment comment = new Comment(
+                            ((EditText)findViewById(R.id.contents)).getText().toString(),
+                            "userId",
+                            "userName",
+                            recipeId
+                    );
 
-                OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                HttpLoggingInterceptor logging3 = new HttpLoggingInterceptor();
-                logging3.setLevel(HttpLoggingInterceptor.Level.BODY);
-                okhttpClientBuilder.addInterceptor(logging3);
-                Retrofit retrofit3 = new Retrofit.Builder()
-                        .baseUrl(ApiService.API_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(okhttpClientBuilder.build())
-                        .build();
-                ApiService apiService3 = retrofit3.create(ApiService.class);
+                    OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                    HttpLoggingInterceptor logging3 = new HttpLoggingInterceptor();
+                    logging3.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    okhttpClientBuilder.addInterceptor(logging3);
+                    Retrofit retrofit3 = new Retrofit.Builder()
+                            .baseUrl(ApiService.API_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(okhttpClientBuilder.build())
+                            .build();
+                    ApiService apiService3 = retrofit3.create(ApiService.class);
 
-                Call<ResponseBody> call3 = apiService3.postComment(comment);
-                call3.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call3, Response<ResponseBody> response3) {
-                        finish();
-                        startActivity(getIntent());
-                    }
-                    @Override
-                    public void onFailure(Call<ResponseBody> call3, Throwable t) {
-                    }
-                });
+                    Call<ResponseBody> call3 = apiService3.postComment(comment);
+                    call3.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call3, Response<ResponseBody> response3) {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call3, Throwable t) {
+                        }
+                    });
+                }
             }
         });
         ((Button)findViewById(R.id.rating2)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeMainActivity.this);
+                if(MainActivity.u_id == null){
+                    showLoginAlertDialog();
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipeMainActivity.this);
 
-                final View layout = getLayoutInflater().inflate(R.layout.item_rating_dialog, null);
-                builder.setView(layout);
-                final AlertDialog dialog = builder.create();
+                    final View layout = getLayoutInflater().inflate(R.layout.item_rating_dialog, null);
+                    builder.setView(layout);
+                    final AlertDialog dialog = builder.create();
 
-                ((Button)layout.findViewById(R.id.rate)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    ((Button)layout.findViewById(R.id.rate)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                        HttpLoggingInterceptor logging4 = new HttpLoggingInterceptor();
-                        logging4.setLevel(HttpLoggingInterceptor.Level.BODY);
-                        okhttpClientBuilder.addInterceptor(logging4);
-                        Retrofit retrofit4 = new Retrofit.Builder()
-                                .baseUrl(ApiService.API_URL)
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .client(okhttpClientBuilder.build())
-                                .build();
-                        ApiService apiService4 = retrofit4.create(ApiService.class);
+                            OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                            HttpLoggingInterceptor logging4 = new HttpLoggingInterceptor();
+                            logging4.setLevel(HttpLoggingInterceptor.Level.BODY);
+                            okhttpClientBuilder.addInterceptor(logging4);
+                            Retrofit retrofit4 = new Retrofit.Builder()
+                                    .baseUrl(ApiService.API_URL)
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .client(okhttpClientBuilder.build())
+                                    .build();
+                            ApiService apiService4 = retrofit4.create(ApiService.class);
 
-                        Call<ResponseBody> call4 = apiService4.rate(recipeId, (double)((RatingBar)layout.findViewById(R.id.score)).getRating(), "userId");
-                        call4.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call4, Response<ResponseBody> response4) {
-                                dialog.dismiss();
-                            }
-                            @Override
-                            public void onFailure(Call<ResponseBody> call4, Throwable t) {
-                                Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT);
-                            }
-                        });
+                            Call<ResponseBody> call4 = apiService4.rate(recipeId, (double)((RatingBar)layout.findViewById(R.id.score)).getRating(),  MainActivity.u_id);
+                            call4.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call4, Response<ResponseBody> response4) {
+                                    dialog.dismiss();
+                                }
+                                @Override
+                                public void onFailure(Call<ResponseBody> call4, Throwable t) {
+                                    Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT);
+                                }
+                            });
 
-                    }
-                });
-                ((Button)layout.findViewById(R.id.cancel)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                        }
+                    });
+                    ((Button)layout.findViewById(R.id.cancel)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
             }
         });
     }
@@ -286,5 +297,17 @@ public class RecipeMainActivity extends AppCompatActivity {
         mMainIngredientsView.setAdapter(mMainIngredientAdapter);
         mSubIngredientsView.setAdapter(mSubIngredientAdapter);
         mCommentsView.setAdapter(commentAdapter);
+    }
+    public void showLoginAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_error_outline_24dp);
+        builder.setTitle("로그인 해주세요 :(");
+        builder.setMessage("로그인을 해야 가능합니다.");
+        builder.setNegativeButton("확인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
     }
 }

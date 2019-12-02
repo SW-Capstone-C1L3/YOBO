@@ -1,5 +1,6 @@
 package com.example.yobo_android.activity;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -64,7 +65,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    MenuItem mSearch;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int REQUEST_TEST =1000;
@@ -241,19 +241,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
         //search_menu.xml 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_action, menu);
-
-        Drawable drawable = menu.findItem(R.id.action_search).getIcon();
-        drawable = DrawableCompat.wrap(drawable);
-        menu.findItem(R.id.action_search).setIcon(drawable);
-
-        MenuItem mSearch = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) mSearch.getActionView();
+        final MenuItem mSearch = menu.findItem(R.id.action_search);
+        SearchView searchView = (android.widget.SearchView) mSearch.getActionView();
 
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
@@ -296,7 +291,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
-        return super.onCreateOptionsMenu(menu);
+//        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
