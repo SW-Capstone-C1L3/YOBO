@@ -103,17 +103,6 @@
                     android:transformPivotY="40dp"
                     android:isIndicator="true"
                     android:max="5"/>
-                <Button
-                    android:id="@+id/rating2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:layout_gravity="center"
-                    android:text="별점주기"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/colorTransparent"/>
                 <TextView
                     android:id="@+id/recipeName"
                     android:layout_width="match_parent"
@@ -194,12 +183,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="COMMENTS"
+                    android:paddingTop="15dp"
+                    android:text="REVIEWS"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
+                <Button
+                    android:id="@+id/rating2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:layout_gravity="center"
+                    android:text="Tap to Rate"
+                    android:textSize="10sp"
+                    android:background="@color/colorTransparent"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comments2"
                     android:layout_width="match_parent"

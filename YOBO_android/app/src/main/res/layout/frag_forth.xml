@@ -22,8 +22,8 @@
             <Button
                 android:id="@+id/btnOnOff2"
                 android:layout_width="100sp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/volume"/>
+                android:layout_height="100sp"
+                android:background="@drawable/speaker"/>
             <Button
                 android:id="@+id/btnSpeak2"
                 android:layout_width="100sp"
