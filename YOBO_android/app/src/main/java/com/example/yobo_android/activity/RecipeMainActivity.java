@@ -108,7 +108,6 @@ public class RecipeMainActivity extends AppCompatActivity {
                     mMainIngredientAdapter.notifyDataSetChanged();
                     mSubIngredientAdapter.notifyDataSetChanged();
 
-
                     String temp = recipe.getCooking_description().get(0).getImage();
                     temp = temp.replace("/", "%2F");
                     String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
@@ -128,7 +127,7 @@ public class RecipeMainActivity extends AppCompatActivity {
 
                     ((TextView)findViewById(R.id.subdescription2)).setText(recipe.getCooking_description().get(0).getDescription());
 
-                    ((TextView)findViewById(R.id.writerid2)).setText("by " + recipe.getWriter_id());
+                    ((TextView)findViewById(R.id.writerid2)).setText("by " + recipe.getWriter_name());
                 }
 
                 @Override

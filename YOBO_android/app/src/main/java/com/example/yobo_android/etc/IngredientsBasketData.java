@@ -8,6 +8,7 @@ public class IngredientsBasketData {
     private String ingredientName;
     private Integer ingredientPrice;
     private Integer basket_qty;
+    private String user_id;
 
     public String getUser_id() {
         return user_id;
@@ -17,7 +18,6 @@ public class IngredientsBasketData {
         this.user_id = user_id;
     }
 
-    private String user_id;
 
     public String getIngredientName() {
         return ingredientName;

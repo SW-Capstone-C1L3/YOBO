@@ -20,7 +20,9 @@ import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BasketIngredientAdapter;
 import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.api.RequestHttpURLConnection;
+import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.IngredientsBasketData;
+import com.example.yobo_android.etc.ProductData;
 import com.example.yobo_android.fragment.BottomSheetFragBasket;
 
 import org.json.JSONArray;
@@ -29,8 +31,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,6 +58,8 @@ import kr.co.bootpay.model.BootUser;
 
 public class BasketActivity extends AppCompatActivity{
     ArrayList<String> deleteList = new ArrayList<>();
+    ArrayList<Integer> quantity = new ArrayList<>();
+    ArrayList<ProductData> productDataList = new ArrayList<>();
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private BasketIngredientAdapter adapter;
@@ -70,7 +78,6 @@ public class BasketActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basket);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -90,23 +97,24 @@ public class BasketActivity extends AppCompatActivity{
     }
     public void jsonParser(String json) {
         try {
-            //바꿔야됨
             JSONObject temp = new JSONObject(json);
             JSONArray BasketIngredientList = temp.getJSONArray("basket");
             len = BasketIngredientList.length();
             Log.i("kkkkk size: ",String.valueOf(BasketIngredientList.length()));
-            for(int i=0; i<BasketIngredientList.length(); i++){
+            for (int i = 0; i < BasketIngredientList.length(); i++) {
                 IngredientsBasketData basketitem = new IngredientsBasketData();
                 JSONObject basket = BasketIngredientList.getJSONObject(i);
                 basketitem.setIngredientDescription(basket.getString("product_description"));
                 basketitem.setBasket_product_id(basket.getString("product_id"));
-                deleteList.add(basket.getString("product_id"));
+//                deleteList.add(basket.getString("product_id"));
                 basketitem.setIngredientImage(basket.getString("product_image"));
                 basketitem.setIngredientName(basket.getString("product_name"));
                 basketitem.setIngredientPrice(basket.getInt("product_price"));
                 basketitem.setBasket_qty(basket.getInt("qty"));
-                sum_all_price +=basket.getInt("qty")*basket.getInt("product_price");
-                basketitem.setUser_id("5dc6e8de068a0d0928838088");      /*****여기 전달받은 id로 바꿔야됨****/
+//                quantity.add(basket.getInt("qty"));
+                productDataList.add(new ProductData(basket.getString("product_id"),basket.getInt("qty")));
+                sum_all_price += basket.getInt("qty") * basket.getInt("product_price");
+                basketitem.setUser_id(MainActivity.u_id);
                 adapter.addItem(basketitem);
             }
             adapter.notifyDataSetChanged();
@@ -128,7 +136,7 @@ public class BasketActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+        user_id = MainActivity.u_id;
         hashMap.put("Product_id", str);
         hashMap.put("User_id",user_id);
         Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
@@ -142,11 +150,14 @@ public class BasketActivity extends AppCompatActivity{
                 Toast.makeText(BasketActivity.this,"실패",Toast.LENGTH_LONG).show();
             }
         });
+        productDataList.remove(deletePos);
+//        deleteList.remove(deletePos);
+//        quantity.remove(deletePos);
         adapter.removeItem(deletePos);
         sum_all_price-=cost;
     }
 
-    public void buy(Integer total, String destination){
+    public void buy(Integer total, final String destination){
         BootUser bootUser = new BootUser().setPhone("010-1234-5678");
         BootExtra bootExtra = new BootExtra().setQuotas(new int[] {0,2,3});
 
@@ -176,9 +187,35 @@ public class BasketActivity extends AppCompatActivity{
                     @Override
                     public void onDone(@Nullable String message) {
                         Log.d("done", message);
-                        for(int i=0;i<deleteList.size();i++)
-                            deleteAll(deleteList.get(i),user_id);
+                        for(int i=0;i<productDataList.size();i++)
+                            deleteAll(productDataList.get(i).getProduct_id(),user_id);
                         //destination 주소에다가 보내도록
+
+                        final BasketLogData basketLogData = new BasketLogData(productDataList,sum_all_price,"배송 준비중",MainActivity.u_id,destination,MainActivity.u_email,MainActivity.u_phone);
+                        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+                        okhttpClientBuilder.addInterceptor(logging);
+
+                        retrofit = new Retrofit.Builder()
+                                .baseUrl(ApiService.API_URL)
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .client(okhttpClientBuilder.build())
+                                .build();
+                        apiService = retrofit.create(ApiService.class);
+                        Call<ResponseBody> call = apiService.createTransaction(basketLogData);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Toast.makeText(BasketActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("ERROR", t.toString());
+                                Log.e("ERROR", call.toString());
+                            }
+                        });
+
                         startActivity(new Intent(BasketActivity.this,ShopIngredientActivity.class));
                         finish();
                     }
@@ -219,8 +256,7 @@ public class BasketActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        //user_id = u_id;     ////
-        user_id = "5dc6e8de068a0d0928838088";                   /****나중에 user_id 받아오는거로 수정해야함****/
+        user_id = MainActivity.u_id;
         hashMap.put("Product_id", p_id);
         hashMap.put("User_id",user_id);
         Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
@@ -243,7 +279,7 @@ public class BasketActivity extends AppCompatActivity{
                 //GET Request
                 /*************현재는 doc_id를 임의의 값으로 배정**********/
                 /*************나중에 바꿔야됨***************/
-                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/basket/getBasket?User_id=5dc6e8de068a0d0928838088");
+                return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/basket/getBasket?User_id="+MainActivity.u_id);
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }

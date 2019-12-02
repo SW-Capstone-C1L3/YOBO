@@ -5,30 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.api.ApiService;
-import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +100,6 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                    //Toast.makeText(BoardActivity.this, "Fail", Toast.LENGTH_SHORT).show();
                     Log.e("ERROR", call.toString());
                     Log.e("ERROR", t.toString());
                 }

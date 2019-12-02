@@ -16,7 +16,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -77,10 +82,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageButton mBtnOpen;
     // user Info in nav header
     private TextView nav_header_user_name;
-    private TextView nav_header_user_id;
+    private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-    private String u_id;
+    public static String u_id;
+    public static String u_phone;
+    public static String u_name;
+    public static String u_email;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
@@ -98,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sf = getSharedPreferences("sFile",MODE_PRIVATE);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
 
         setSupportActionBar(toolbar);
@@ -125,9 +135,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnLoginInNavHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
-                        NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
-                startActivityForResult(intent,REQUEST_NAVER);
+                if(mBtnLoginInNavHeader.getText().equals("로그인")) {
+                    Intent intent = new Intent(MainActivity.this, // 현재 화면의 제어권자
+                            NaverLoginActivity.class); // 다음 넘어갈 클래스 지정
+                    startActivityForResult(intent, REQUEST_NAVER);
+                }
+                else if(mBtnLoginInNavHeader.getText().equals("로그아웃")){
+                    Log.i("kkkk22222","로그아웃 누름");
+                    SharedPreferences pref = getSharedPreferences("sFile", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.clear();
+                    editor.commit();
+                    NaverLoginActivity.mOAuthLoginInstance.logout((NaverLoginActivity)NaverLoginActivity.mContext);
+
+                    mBtnLoginInNavHeader.setText("로그인");
+                    nav_header_user_email.setText("이메일");
+                    nav_header_user_name.setText("없음");
+                    u_id=null;
+                }
             }
         });
 
@@ -135,11 +160,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
         mBtnShop = findViewById(R.id.btnShop);
         mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
+        nav_header_user_name = header.findViewById(R.id.nav_header_user_name);
+        nav_header_user_email = header.findViewById(R.id.nav_header_user_email);
 
         LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
+                boolean dialogFlag = false;
+
                 switch(v.getId()){
                     case R.id.btnChoiceIngredient:
                         intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
@@ -154,10 +183,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.btnWriteRecipe:
-                        intent = new Intent(MainActivity.this, RecipeFormActivity.class);
+                        if(u_id == null){
+                            showLoginAlertDialog();
+                            dialogFlag = true;
+                        }else{
+                            intent = new Intent(MainActivity.this, RecipeFormActivity.class);
+                            intent.putExtra("u_id", u_id);
+                            intent.putExtra("u_name",u_name);
+                        }
                         break;
                 }
-                startActivity(intent);
+                if(!dialogFlag) startActivity(intent);
             }
         };
         mBtnChoiceIngredient.setOnClickListener(onClickListener);
@@ -182,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 super.run();
                 while(true){
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(4000);
                         handler.sendEmptyMessage(0);
                     } catch (InterruptedException e) {
                         // TODO Auto-generated catch block
@@ -192,6 +228,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         thread.start();
+//        nav_header_user_name.setText(sf.getString("u_name",""));
+        if(nav_header_user_name.getText().toString().equals("")){
+
+        }
+        else {
+//            u_id =sf.getString("u_id","");
+//            nav_header_user_email.setText(sf.getString("u_email","")+"@naver.com");
+//            mBtnLoginInNavHeader.setText("로그아웃");
+        }
+
     }
 
     @Override
@@ -256,14 +302,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
+        boolean dialogFlag = false;
         Intent intent = new Intent();
+        // TODO : 로그인 확인 부분 꽤 겹치는데 나중에 한번에 수정함 -LJH
         if (id == R.id.nav_enroll_recipe) {
-            intent = new Intent(MainActivity.this,EnrollRecipeActivity.class);
+            if(u_id == null){
+                showLoginAlertDialog();
+                dialogFlag = true;
+            }else{
+                intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
+                intent.putExtra("u_id", u_id);
+                intent.putExtra("u_name",u_name);
+            }
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
         }
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        else if(id==R.id.nav_setting){
+            intent = new Intent(MainActivity.this,SettingActivity.class);
+        }
+        else if(id==R.id.nav_changeInfo){
+            if(u_id==null){
+                showLoginAlertDialog();
+                dialogFlag = true;
+            }
+            else{
+                //내 회원정보 수정으로 변경
+            }
+        }
+        else if(id==R.id.nav_myShopLog){
+            //내 쇼핑정보 보기
+        }
+        if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -302,10 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return NUM_PAGES;
         }
     }
-    public void changeImage(int idx){
-        int nexIdx = (idx+1)%3;
-        mPager.setCurrentItem(nexIdx,true);
-    }
+
     public void permissionCheck() {
         if (Build.VERSION.SDK_INT >= 23) {
             ArrayList<String> arrayPermission = new ArrayList<>();
@@ -370,8 +436,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(requestCode == REQUEST_NAVER){
-            u_id = data.getStringExtra("result");
-            Log.i("kkkkk main, u_id",u_id);
+            if(resultCode==RESULT_OK) {
+                u_id = data.getStringExtra("user_id");
+                u_name = data.getStringExtra("user_name");
+                u_email = data.getStringExtra("user_email");
+                u_phone = data.getStringExtra("user_phone");
+                nav_header_user_name.setText(u_name);
+                nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
+                mBtnLoginInNavHeader.setText("로그아웃");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
+                Log.i("kkkkkk main u_id", u_id);
+                //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
+                editor.putString("u_name",u_name);
+                editor.putString("u_email",u_email);
+                editor.commit();
+            }
         }
     }
     public Point getScreenSize(Activity activity) {
@@ -381,7 +463,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return  size;
     }
 
-    public void showAlertDialog(){
-        //TODO : 로그인 안됐을 때 경고창 - LJH
+    public void showLoginAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_error_outline_24dp);
+        builder.setTitle("로그인 해주세요 :(");
+        builder.setMessage("로그인을 해야 레시피 등록이 가능합니다.");
+        builder.setPositiveButton("로그인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, NaverLoginActivity.class);
+                        startActivityForResult(intent,REQUEST_NAVER);
+                    }
+                });
+        builder.setNegativeButton("취소",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Activity가 종료되기 전에 저장한다.
+        //SharedPreferences를 sFile이름, 기본모드로 설정
+        SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
+
+        //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
+        editor.putString("u_name",u_name);
+        editor.putString("u_email",u_email);
+        editor.commit();
     }
 }

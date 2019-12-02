@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.activity.RecipeActivity;
 import com.example.yobo_android.activity.RecipeMainActivity;
 import com.example.yobo_android.etc.Recipe;
 import com.squareup.picasso.Picasso;
@@ -39,7 +38,7 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     // RecyclerView의 핵심인 ViewHolder 입니다.
     // 여기서 subView를 setting 해줍니다.
     // 즉 item view를 저장하는 뷰홀드 클래스
-    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         private String recipeId;
         private int recipeDescriptionNum;
@@ -74,9 +73,10 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             recipeDescriptionNum = recipe.getCooking_description().size();
             recipeName.setText(recipe.getRecipe_name());
             recipeSubContents.setText(recipe.getCooking_description().get(0).getDescription());
-            recipeWriter.setText(recipe.getWriter_id());
+            recipeWriter.setText(recipe.getWriter_name());
             recipeScore.setText(""+recipe.getRating());
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -92,6 +92,16 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 intent.putExtra("recipeId",recipeId);
                 context.startActivity(intent);
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int pos = getAdapterPosition() ;
+            if (pos != RecyclerView.NO_POSITION) {
+                //TODO : 로그인 아이디 가져오기
+                //if(listRecipe.get(pos).getWriter_id().equals())
+            }
+            return false;
         }
     }
 
@@ -113,7 +123,6 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.onBind(listRecipe.get(position), position);
-
     }
 
     @Override
@@ -126,6 +135,8 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         // RecyclerView의 총 개수 입니다.
         return listRecipe.size();
     }
+
+    public Recipe getItem(int position){ return listRecipe.get(position);};
 
     public void addItem(Recipe recipe, int position) {
         // 외부에서 item을 추가시킬 함수입니다.
