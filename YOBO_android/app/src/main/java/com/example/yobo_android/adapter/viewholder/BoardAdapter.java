@@ -1,7 +1,10 @@
 package com.example.yobo_android.adapter.viewholder;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.activity.MainActivity;
+import com.example.yobo_android.activity.NaverLoginActivity;
 import com.example.yobo_android.activity.RecipeMainActivity;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Recipe;
 import com.squareup.picasso.Picasso;
 
@@ -19,6 +25,11 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
 * BoardActivity에서 목록을 구성하는 item viewholder를 만들어주는 Adapter
@@ -98,8 +109,9 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public boolean onLongClick(View v) {
             int pos = getAdapterPosition() ;
             if (pos != RecyclerView.NO_POSITION) {
-                //TODO : 로그인 아이디 가져오기
-                //if(listRecipe.get(pos).getWriter_id().equals())
+                if(listRecipe.get(pos).getWriter_id().equals(MainActivity.u_id)){
+                    showDeleteAlertDialog(v,pos);
+                }
             }
             return false;
         }
@@ -144,4 +156,43 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         listRecipe.add(recipe);
         notifyItemChanged(position);
     }
+
+    private void showDeleteAlertDialog(View view, final int pos){
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getRootView().getContext());
+        builder.setIcon(R.drawable.ic_error_outline_24dp);
+        builder.setTitle("레시피 삭제");
+        builder.setMessage("레시피를 삭제 하시겠습니까?");
+        builder.setPositiveButton("삭제",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteInServer(listRecipe.get(pos).get_id());
+                        listRecipe.remove(pos);
+                        notifyDataSetChanged();
+                    }
+                });
+        builder.setNegativeButton("취소",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
+    }
+
+    private void deleteInServer(String Did){
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().deleteRecipeByDid(Did);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("SUCCESS", call.toString());
+                Log.i("SUCCESS",response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("ERROR",call.toString());
+                Log.e("ERROR", t.toString());
+            }
+        });
+    }
+
 }

@@ -9,6 +9,8 @@ import com.example.yobo_android.etc.UserData;
 import java.util.List;
 import okhttp3.MultipartBody;
 import java.util.HashMap;
+
+import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -60,6 +62,9 @@ public interface ApiService {
 
     @GET("yobo/recipe/getRecipebyDid/")
     Call<Recipe> getReicpebyDid(@Query("Did") String recipeId);
+
+    @DELETE("/yobo/recipe/DeleteDid/")
+    Call<ResponseBody> deleteRecipeByDid(@Query("Did") String Did);
 
     /*Market*/
 
