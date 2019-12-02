@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-    protected static String u_id;
+    public static String u_id;
     private String u_name;
     private String u_email;
     Thread thread = null;
