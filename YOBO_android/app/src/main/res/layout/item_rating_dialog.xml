@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
     android:gravity="center">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="별점주기"
-        android:textSize="18sp"/>
+        android:padding="10dp"
+        android:text="레시피가 도움이 되셨나요?"
+        android:textSize="16sp"/>
     <RatingBar
         android:id="@+id/score"
         android:layout_width="wrap_content"
@@ -23,12 +26,16 @@
             android:id="@+id/rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="확인"/>
+            android:background="@color/colorTransparent"
+            android:text="확인"
+            android:textColor="@color/colorPrimary"/>
         <Button
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="취소"/>
+            android:background="@color/colorTransparent"
+            android:text="취소"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 
