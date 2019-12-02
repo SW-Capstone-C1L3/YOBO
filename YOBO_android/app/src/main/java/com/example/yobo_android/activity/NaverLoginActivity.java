@@ -164,6 +164,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                         intent.putExtra("user_id", userdata.get_id());
                         intent.putExtra("user_email", userdata.getUser_id());
                         intent.putExtra("user_name", userdata.getUser_name());
+                        intent.putExtra("user_phone",userdata.getUser_phone_num());
                         setResult(RESULT_OK, intent);
                         finish();
                     }

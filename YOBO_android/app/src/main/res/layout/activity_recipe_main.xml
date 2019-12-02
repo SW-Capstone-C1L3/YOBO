@@ -103,6 +103,17 @@
                     android:transformPivotY="40dp"
                     android:isIndicator="true"
                     android:max="5"/>
+                <Button
+                    android:id="@+id/rating2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:layout_gravity="center"
+                    android:text="별점주기"
+                    android:textSize="10sp"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@color/colorTransparent"/>
                 <TextView
                     android:id="@+id/recipeName"
                     android:layout_width="match_parent"
@@ -133,13 +144,6 @@
                         android:layout_weight="1"
                         android:layout_margin="10dp"
                         android:text="2인분"/>
-                    <TextView
-                        android:id="@+id/rating2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_margin="10dp"
-                        android:text="4.5점"/>
                 </LinearLayout>
 
                 <TextView
@@ -164,7 +168,7 @@
                     android:padding="15dp"
                     android:text="주재료"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
@@ -178,7 +182,7 @@
                     android:padding="15dp"
                     android:text="부재료"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
@@ -191,11 +195,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:text="COMMENT"
+                    android:text="COMMENTS"
                     android:textAlignment="center"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_margin="10dp"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comments2"
@@ -203,13 +206,34 @@
                     android:layout_height="wrap_content">
 
                 </androidx.recyclerview.widget.RecyclerView>
-                <Button
-                    android:id="@+id/morecomment"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorTransparent"
-                    android:text="More+"
-                    android:textAlignment="center"/>
+                    android:background="#f4f4f4"
+                    android:padding="16dp">
+                    <EditText
+                        android:id="@+id/contents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/btnaddcomment"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:textColor="@color/colorBlack"
+                        android:hint="코멘트를 달아보세요"
+                        android:lines="4"
+                        android:background="@null"/>
+                    <ImageButton
+                        android:id="@+id/btnaddcomment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:background="@drawable/ic_comment_red"
+                        />
+                </RelativeLayout>
             </LinearLayout>
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>

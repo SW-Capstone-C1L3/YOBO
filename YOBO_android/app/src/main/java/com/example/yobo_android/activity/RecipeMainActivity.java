@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,11 +13,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -27,6 +31,7 @@ import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.CommentAdapter;
 import com.example.yobo_android.adapter.viewholder.IngredientsAdapter;
 import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Cooking_description;
 import com.example.yobo_android.etc.Cooking_ingredient;
@@ -39,6 +44,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class RecipeMainActivity extends AppCompatActivity {
 
@@ -102,7 +108,6 @@ public class RecipeMainActivity extends AppCompatActivity {
                     mMainIngredientAdapter.notifyDataSetChanged();
                     mSubIngredientAdapter.notifyDataSetChanged();
 
-
                     String temp = recipe.getCooking_description().get(0).getImage();
                     temp = temp.replace("/", "%2F");
                     String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
@@ -116,7 +121,6 @@ public class RecipeMainActivity extends AppCompatActivity {
 
                     ((TextView)findViewById(R.id.difficulty2)).setText(recipe.getDifficulty());
                     ((TextView)findViewById(R.id.serving2)).setText(recipe.getServing());
-                    ((TextView)findViewById(R.id.rating2)).setText(recipe.getRating()+"점");
                     rate = recipe.getRating();
                     ratingBar = findViewById(R.id.ratingStar);
                     ratingBar.setRating((float)rate);
@@ -177,6 +181,87 @@ public class RecipeMainActivity extends AppCompatActivity {
                 intent.putExtra("recipeId",recipeId);
                 intent.putExtra("recipeDescriptionNum",descriptionNum);
                 startActivity(intent);
+            }
+        });
+        ((ImageButton)findViewById(R.id.btnaddcomment)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment comment = new Comment(
+                        ((EditText)findViewById(R.id.contents)).getText().toString(),
+                        "userId",
+                        "userName",
+                        recipeId
+                );
+
+                OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                HttpLoggingInterceptor logging3 = new HttpLoggingInterceptor();
+                logging3.setLevel(HttpLoggingInterceptor.Level.BODY);
+                okhttpClientBuilder.addInterceptor(logging3);
+                Retrofit retrofit3 = new Retrofit.Builder()
+                        .baseUrl(ApiService.API_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(okhttpClientBuilder.build())
+                        .build();
+                ApiService apiService3 = retrofit3.create(ApiService.class);
+
+                Call<ResponseBody> call3 = apiService3.postComment(comment);
+                call3.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call3, Response<ResponseBody> response3) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call3, Throwable t) {
+                    }
+                });
+            }
+        });
+        ((Button)findViewById(R.id.rating2)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RecipeMainActivity.this);
+
+                final View layout = getLayoutInflater().inflate(R.layout.item_rating_dialog, null);
+                builder.setView(layout);
+                final AlertDialog dialog = builder.create();
+
+                ((Button)layout.findViewById(R.id.rate)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                        HttpLoggingInterceptor logging4 = new HttpLoggingInterceptor();
+                        logging4.setLevel(HttpLoggingInterceptor.Level.BODY);
+                        okhttpClientBuilder.addInterceptor(logging4);
+                        Retrofit retrofit4 = new Retrofit.Builder()
+                                .baseUrl(ApiService.API_URL)
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .client(okhttpClientBuilder.build())
+                                .build();
+                        ApiService apiService4 = retrofit4.create(ApiService.class);
+
+                        Call<ResponseBody> call4 = apiService4.rate(recipeId, (double)((RatingBar)layout.findViewById(R.id.score)).getRating(), "userId");
+                        call4.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call4, Response<ResponseBody> response4) {
+                                dialog.dismiss();
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseBody> call4, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT);
+                            }
+                        });
+
+                    }
+                });
+                ((Button)layout.findViewById(R.id.cancel)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
     }

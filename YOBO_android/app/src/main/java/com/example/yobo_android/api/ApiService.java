@@ -1,5 +1,7 @@
 package com.example.yobo_android.api;
 
+import com.example.yobo_android.etc.Comment;
+import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.RecipeData;
@@ -31,6 +33,7 @@ public interface ApiService {
     Call<UserData> getUserData(@Query("at") String at);
 
     /*Recipe*/
+
     @Multipart
     @POST("/yobo/recipe/createRecipe")
     Call<ResponseBody> uploadRecipe(@Part List<MultipartBody.Part> files,
@@ -66,6 +69,11 @@ public interface ApiService {
     @DELETE("/yobo/recipe/DeleteDid/")
     Call<ResponseBody> deleteRecipeByDid(@Query("Did") String Did);
 
+    @POST("/yobo/recipe/rate")
+    Call<ResponseBody> rate(@Query("Rid") String Rid,
+                            @Query("rate") double rate,
+                            @Query("uid") String uid);
+
     /*Market*/
 
     @GET("yobo/product/search/")
@@ -79,6 +87,10 @@ public interface ApiService {
 
     @GET("/yobo/product/searchbyDid/")
     Call<ShoppingIngredientData> getProduct(@Query("Did") String productId);
+
+    @Multipart
+    @POST("/yobo/transaction/createtransaction")
+    Call<ResponseBody> createTransaction(@Part("transcationLog")BasketLogData basketLogData);
 
     /*Basket*/
 
@@ -96,7 +108,12 @@ public interface ApiService {
     Call<List<CommentData>> getCommentsbyRId(@Query("RId") String recipeId,
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
-    /* User */
+
+    @Multipart
+    @POST("/yobo/comments/createcomments")
+    Call<ResponseBody> postComment(@Part("comments") Comment comments);
+
+  /* User */
     @GET("yobo/user/getbyDid/")
     Call<UserData> getbyDid(@Query("at") String at);
 

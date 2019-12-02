@@ -45,6 +45,7 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+
         if (getIntent().getStringExtra("query") != null) {
             query = getIntent().getStringExtra("query");
         }
