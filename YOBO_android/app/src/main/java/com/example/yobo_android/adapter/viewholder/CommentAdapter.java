@@ -32,8 +32,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private String user_id;
         private String comment_id;
-        private String temp;
-        private String temp2;
+        private String YYMMDD;
+        private String HHMMSS;
         private TextView comment_writer;
         private TextView comment_timestamp;
         private TextView comment_content;
@@ -46,24 +46,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void onBind(CommentData commentData, int position) {
-            Log.i("kkkk onBind ",commentData+"");
-            Log.i("kkkk onBind ",commentData.getU_id()+"");
-            temp = commentData.getTs();
-            Log.i("kkkkkk",temp);
-            String[] splitText = temp.split("T");
+
+            YYMMDD = commentData.getTimestamp();
+            String[] splitText = YYMMDD.split("T");
             for(int i=0;i<splitText.length;i++) {
-                Log.i("kkkkkk test split", splitText[i]);
                 if(i==0)
-                    temp=splitText[i];
-                if(i==1)
-                    temp2 = splitText[i];
+                    YYMMDD=splitText[i];
+//                if(i==1)
+//                    HHMMSS = splitText[i];
             }
-            temp2 = temp2.substring(0,8);
-            temp = temp + " " + temp2;
-            user_id = commentData.getU_id();
-            comment_id = commentData.getComment_id();
-            comment_writer.setText(commentData.getU_name());
-            comment_timestamp.setText(temp);
+//            HHMMSS = HHMMSS.substring(0,8);
+//            YYMMDD = YYMMDD + " " + HHMMSS;
+
+            user_id = commentData.getUser_id();
+            comment_id = commentData.get_id();
+            comment_writer.setText(commentData.getUser_name());
+            comment_timestamp.setText(YYMMDD);
             comment_content.setText(commentData.getComments());
             itemView.setOnClickListener(this);
         }

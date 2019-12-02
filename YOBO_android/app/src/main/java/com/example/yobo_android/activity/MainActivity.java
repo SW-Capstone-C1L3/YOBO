@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -96,10 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtnShop.getLayoutParams();
-//        LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) mBtnWriteRecipe.getLayoutParams();
-//        LinearLayout.LayoutParams lp3 = (LinearLayout.LayoutParams) mBtnChoiceIngredient.getLayoutParams();
-//        LinearLayout.LayoutParams lp4 = (LinearLayout.LayoutParams) mBtnRecipeCategory.getLayoutParams();
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
 
         setSupportActionBar(toolbar);
@@ -133,36 +131,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-//        mBtnRecipeRecommendation = findViewById(R.id.btnRecipeRecommendation);
         mBtnChoiceIngredient = findViewById(R.id.btnChoiceIngredient);
         mBtnRecipeCategory = findViewById(R.id.btnRecipeCategory);
         mBtnShop = findViewById(R.id.btnShop);
         mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
-//        Log.i("kkkkkkk",getScreenSize(this).x+"");
-//        lp.height = getScreenSize(this).x;
-//        lp2.height = getScreenSize(this).x;
-//        lp3.height = getScreenSize(this).x;
-//        lp4.height = getScreenSize(this).x;
-//        mBtnShop.setLayoutParams(lp);
-//        mBtnWriteRecipe.setLayoutParams(lp2);
-//        mBtnChoiceIngredient.setLayoutParams(lp3);
-//        mBtnRecipeCategory.setLayoutParams(lp4);
+
         LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent();
                 switch(v.getId()){
-//                    case R.id.btnRecipeRecommendation:
-//                        intent = new Intent(MainActivity.this, RecipeActivity.class);
-//                        break;
-
                     case R.id.btnChoiceIngredient:
-                        if(u_id == null){
-                            showAlertDialog();
-                        }else{
-                            intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
-
-                        }
+                        intent = new Intent(MainActivity.this, ChoiceIngredientActivity.class);
                         break;
 
                     case R.id.btnRecipeCategory:
@@ -180,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         };
-//        mBtnRecipeRecommendation.setOnClickListener(onClickListener);
         mBtnChoiceIngredient.setOnClickListener(onClickListener);
         mBtnRecipeCategory.setOnClickListener(onClickListener);
         mBtnShop.setOnClickListener(onClickListener);
@@ -222,8 +201,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //search_menu.xml 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_action, menu);
-        final MenuItem mSearch = menu.findItem(R.id.action_search);
-        SearchView searchView = (android.widget.SearchView) mSearch.getActionView();
+
+        Drawable drawable = menu.findItem(R.id.action_search).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        menu.findItem(R.id.action_search).setIcon(drawable);
+
+        MenuItem mSearch = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) mSearch.getActionView();
 
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
@@ -247,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sv.setQueryHint("레시피 검색");
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-//          //검색버튼을 눌렀을 경우
+            //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //TextView text = (TextView) findViewById(R.id.txtresult);

@@ -3,22 +3,7 @@ package com.example.yobo_android.etc;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Timestamp;
-
-public class CommentData {
-
-    public CommentData(String _id, String comments, String user_id, String user_name, String timestamp, String recipe_id) {
-        this._id = _id;
-        this.comments = comments;
-        this.user_id = user_id;
-        this.user_name = user_name;
-        this.timestamp = timestamp;
-        this.recipe_id = recipe_id;
-    }
-
-    @SerializedName("_id")
-    @Expose
-    private String _id;
+public class Comment {
     @SerializedName("comments")
     @Expose
     private String comments;
@@ -28,21 +13,9 @@ public class CommentData {
     @SerializedName("user_name")
     @Expose
     private String user_name;
-    @SerializedName("timestamp")
-    @Expose
-    private String timestamp;
     @SerializedName("recipe_id")
     @Expose
     private String recipe_id;
-
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 
     public String getComments() {
         return comments;
@@ -68,14 +41,6 @@ public class CommentData {
         this.user_name = user_name;
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getRecipe_id() {
         return recipe_id;
     }
@@ -83,4 +48,12 @@ public class CommentData {
     public void setRecipe_id(String recipe_id) {
         this.recipe_id = recipe_id;
     }
+
+    public Comment(String comments, String user_id, String user_name, String recipe_id) {
+        this.comments = comments;
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.recipe_id = recipe_id;
+    }
+
 }
