@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     case R.id.btnWriteRecipe:
                         if(u_id == null){
-                            showLoginAlertDialog();
+                            showLoginAlertDialog(0);
                             dialogFlag = true;
                         }else{
                             intent = new Intent(MainActivity.this, RecipeFormActivity.class);
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // TODO : 로그인 확인 부분 꽤 겹치는데 나중에 한번에 수정함 -LJH
         if (id == R.id.nav_enroll_recipe) {
             if(u_id == null){
-                showLoginAlertDialog();
+                showLoginAlertDialog(0);
                 dialogFlag = true;
             }else{
                 intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
@@ -317,12 +317,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
         }
+        else if(id==R.id.nav_commented_recipe){
+            if(u_id == null){
+                showLoginAlertDialog(3);
+                dialogFlag = true;
+            }else{
+                intent = new Intent(MainActivity.this,CommentActivity.class);
+                intent.putExtra("comments",u_id);
+            }
+        }
         else if(id==R.id.nav_setting){
             intent = new Intent(MainActivity.this,SettingActivity.class);
         }
         else if(id==R.id.nav_changeInfo){
             if(u_id==null){
-                showLoginAlertDialog();
+                showLoginAlertDialog(1);
                 dialogFlag = true;
             }
             else{
@@ -331,7 +340,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.nav_myShopLog){
             //내 쇼핑정보 보기
-            intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
+            if(u_id == null) {
+                showLoginAlertDialog(2);
+                dialogFlag = true;
+            }
+            else
+                intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
         }
         if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -465,11 +479,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return  size;
     }
 
-    public void showLoginAlertDialog(){
+    public void showLoginAlertDialog(int flag){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_error_outline_24dp);
         builder.setTitle("로그인 해주세요 :(");
-        builder.setMessage("로그인을 해야 레시피 등록이 가능합니다.");
+        if(flag==0)
+            builder.setMessage("로그인을 해야 레시피 등록이 가능합니다.");
+        else if(flag==1)
+            builder.setMessage("로그인을 해야 개인정보 수정이 가능합니다.");
+        else if(flag==2)
+            builder.setMessage("로그인을 해야 내 쇼핑정보를 볼 수 있습니다.");
+        else if(flag==3)
+            builder.setMessage("로그인을 해야 댓글 단 레시피를 볼 수 있습니다");
         builder.setPositiveButton("로그인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

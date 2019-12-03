@@ -7,18 +7,20 @@ import java.sql.Timestamp;
 
 public class CommentData {
 
-    public CommentData(String _id, String comments, String user_id, String user_name, String timestamp, String recipe_id) {
+    public CommentData(String _id, String comments, String user_id, String user_name, String timestamp, String recipe_id, String recipe_name) {
         this._id = _id;
         this.comments = comments;
         this.user_id = user_id;
         this.user_name = user_name;
         this.timestamp = timestamp;
         this.recipe_id = recipe_id;
+        this.recipe_name = recipe_name;
     }
 
     @SerializedName("_id")
     @Expose
     private String _id;
+
     @SerializedName("comments")
     @Expose
     private String comments;
@@ -34,7 +36,9 @@ public class CommentData {
     @SerializedName("recipe_id")
     @Expose
     private String recipe_id;
-
+    @SerializedName("recipe_name")
+    @Expose
+    private String recipe_name;
 
     public String get_id() {
         return _id;
@@ -42,6 +46,14 @@ public class CommentData {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getRecipe_name() {
+        return recipe_name;
+    }
+
+    public void setRecipe_name(String recipe_name) {
+        this.recipe_name = recipe_name;
     }
 
     public String getComments() {

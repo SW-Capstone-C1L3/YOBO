@@ -2,6 +2,7 @@ package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.OkHttpClient;
@@ -52,6 +53,7 @@ public class RecipeMainActivity extends AppCompatActivity {
     Retrofit retrofit;
 
     String recipeId;
+    String recipeName;
     int descriptionNum;
     private double rate;
     private RatingBar ratingBar;
@@ -70,6 +72,7 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
+        recipeName = getIntent().getStringExtra("recipeName");
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -183,14 +186,16 @@ public class RecipeMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Log.i("TEST 444",MainActivity.u_id +"  "+MainActivity.u_name);
         ((ImageButton)findViewById(R.id.btnaddcomment)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Comment comment = new Comment(
                         ((EditText)findViewById(R.id.contents)).getText().toString(),
-                        "userId",
-                        "userName",
-                        recipeId
+                        MainActivity.u_id,
+                        MainActivity.u_name,
+                        recipeId,
+                        recipeName
                 );
 
                 OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();

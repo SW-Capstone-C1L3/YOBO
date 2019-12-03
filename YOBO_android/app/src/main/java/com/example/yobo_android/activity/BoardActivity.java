@@ -10,7 +10,9 @@ import android.util.Log;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
+import com.example.yobo_android.adapter.viewholder.CommentByUserAdapter;
 import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -33,10 +35,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BoardActivity extends AppCompatActivity {
 
     List<Recipe> recipeList = new ArrayList<>();
+
     Retrofit retrofit;
     ApiService apiService;
 
     private BoardAdapter adapter;
+
     private String query = null;
     private String category;
     private List<String> ingredients;
@@ -56,6 +60,7 @@ public class BoardActivity extends AppCompatActivity {
             ingredients = getIntent().getStringArrayListExtra("ingredients");
         }
 
+
         recyclerViewInit();
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -67,17 +72,17 @@ public class BoardActivity extends AppCompatActivity {
                 .client(okhttpClientBuilder.build())
                 .build();
         apiService = retrofit.create(ApiService.class);
-
         Call<List<Recipe>> call = null;
+
         if (query != null)
             call = apiService.search(query, 0, 10);
         else if(category != null){
                 call = apiService.getListByCate(category, 0, 10);
         } else if(ingredients != null){
             call = apiService.getByingredients(ingredients, 0, 10);
-        } else
+        }
+        else
             call = apiService.getRecipeList(0,10);
-
         if (call != null) {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
@@ -109,12 +114,9 @@ public class BoardActivity extends AppCompatActivity {
 
     private void recyclerViewInit() {
         RecyclerView recyclerView = findViewById(R.id.recyclerBoardView);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
         adapter = new BoardAdapter();
         recyclerView.setAdapter(adapter);
     }
-    
 }
