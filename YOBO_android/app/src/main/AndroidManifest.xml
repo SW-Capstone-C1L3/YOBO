@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.BoardActivity"></activity>
+        <activity android:name=".activity.ModifyMyInfoActivity"></activity>
+        <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.TestActivity" />
         <activity
@@ -24,8 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RecipeFormActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.RecipeFormActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.CategorySearchActivity" />
         <activity android:name=".activity.MyRecipeListActivity" />
         <activity android:name=".activity.SettingActivity" />
@@ -39,13 +41,13 @@
         <activity android:name=".activity.ShopIngredientActivity" />
         <activity android:name=".activity.BasketActivity" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

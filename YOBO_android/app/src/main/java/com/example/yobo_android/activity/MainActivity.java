@@ -41,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -247,14 +248,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //search_menu.xml 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_action, menu);
-        final MenuItem mSearch = menu.findItem(R.id.action_search);
-        SearchView searchView = (android.widget.SearchView) mSearch.getActionView();
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("hhhhhhhhhhhhhhhh","title gone");
                 mtoolbarTitle.setVisibility(View.GONE);
             }
         });
@@ -262,15 +262,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                Log.i("hhhhhhhhhhhhhhhh","title visible");
                 mtoolbarTitle.setVisibility(View.VISIBLE);
                 return false;
             }
         });
 
-        SearchView sv = (SearchView) mSearch.getActionView();
-        sv.setQueryHint("레시피 검색");
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setQueryHint("레시피 검색");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             //검색버튼을 눌렀을 경우
             @Override
@@ -316,13 +314,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id==R.id.nav_setting){
             intent = new Intent(MainActivity.this,SettingActivity.class);
         }
-        else if(id==R.id.nav_changeInfo){
+        else if(id==R.id.nav_modifyMyInfo){
             if(u_id==null){
                 showLoginAlertDialog();
                 dialogFlag = true;
             }
             else{
                 //내 회원정보 수정으로 변경
+                intent = new Intent(MainActivity.this, ModifyMyInfoActivity.class);
             }
         }
         else if(id==R.id.nav_myShopLog){
