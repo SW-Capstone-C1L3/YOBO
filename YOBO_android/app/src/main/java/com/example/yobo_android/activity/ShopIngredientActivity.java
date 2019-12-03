@@ -1,6 +1,8 @@
 package com.example.yobo_android.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -111,9 +113,14 @@ public class ShopIngredientActivity extends AppCompatActivity {
         mbtnGoToBakset.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapter.notifyItemChanged(0);
-                Intent intent = new Intent(ShopIngredientActivity.this, BasketActivity.class);
-                startActivity(intent);
+                if(MainActivity.u_id == null){
+                    showLoginAlertDialog();
+                }
+                else {
+                    adapter.notifyItemChanged(0);
+                    Intent intent = new Intent(ShopIngredientActivity.this, BasketActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         setSupportActionBar(toolbar);
@@ -212,6 +219,20 @@ public class ShopIngredientActivity extends AppCompatActivity {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        return  size;
+        return size;
+    }
+
+
+    public void showLoginAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_error_outline_24dp);
+        builder.setTitle("로그인 해주세요 :(");
+        builder.setMessage("로그인을 해야 가능합니다.");
+        builder.setNegativeButton("확인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
     }
 }

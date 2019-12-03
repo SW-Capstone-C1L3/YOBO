@@ -103,17 +103,6 @@
                     android:transformPivotY="40dp"
                     android:isIndicator="true"
                     android:max="5"/>
-                <Button
-                    android:id="@+id/rating2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:layout_gravity="center"
-                    android:text="별점주기"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/colorTransparent"/>
                 <TextView
                     android:id="@+id/recipeName"
                     android:layout_width="match_parent"
@@ -162,6 +151,42 @@
                     android:textAlignment="center"
                     android:textColor="@color/colorLightGray"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/addshortcut2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="24dp"
+                        android:paddingLeft="24dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Bookmark"
+                        android:textSize="10sp"
+                        android:background="@color/colorTransparent"/>
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="8dp"
+                        android:background="@color/colorPink"/>
+
+                    <Button
+                        android:id="@+id/rating2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="24dp"
+                        android:paddingLeft="24dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Rate"
+                        android:textSize="10sp"
+                        android:background="@color/colorTransparent"/>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -194,8 +219,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="COMMENTS"
+                    android:paddingTop="15dp"
+                    android:text="REVIEWS"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold"

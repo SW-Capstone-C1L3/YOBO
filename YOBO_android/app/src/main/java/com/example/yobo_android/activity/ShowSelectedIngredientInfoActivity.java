@@ -1,5 +1,7 @@
 package com.example.yobo_android.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -116,8 +118,13 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         mBuy.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomSheetFragment fragment = new BottomSheetFragment();
-                fragment.show(getSupportFragmentManager(), "TAG");
+                if(MainActivity.u_id == null){
+                    showLoginAlertDialog();
+                }
+                else {
+                    BottomSheetFragment fragment = new BottomSheetFragment();
+                    fragment.show(getSupportFragmentManager(), "TAG");
+                }
             }
         });
     }
@@ -200,5 +207,17 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+    public void showLoginAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_error_outline_24dp);
+        builder.setTitle("로그인 해주세요 :(");
+        builder.setMessage("로그인을 해야 가능합니다.");
+        builder.setNegativeButton("확인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
     }
 }

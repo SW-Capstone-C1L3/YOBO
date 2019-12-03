@@ -128,5 +128,8 @@ public interface ApiService {
     @GET("yobo/user/getbyDid/")
     Call<UserData> getbyDid(@Query("at") String at);
 
+    @POST("/yobo/recipe/addShortCut")
+    Call<ResponseBody> addShortCut(@Query("Rid") String recipeId,
+                                   @Query("Uid") String userId);
 }
 

@@ -369,11 +369,3 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
-
-
-
-<!--<View-->
-<!--android:layout_width="fill_parent"-->
-<!--android:layout_height="1dp"-->
-<!--android:layout_weight="1"-->
-<!--android:background="@color/colorLightGray" />-->
