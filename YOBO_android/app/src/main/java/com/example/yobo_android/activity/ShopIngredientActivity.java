@@ -126,10 +126,8 @@ public class ShopIngredientActivity extends AppCompatActivity {
 
     private void recyclerViewInit() {
         RecyclerView recyclerView = findViewById(R.id.recyclerShopIngredientView);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
         adapter = new ShopIngredientAdapter();
         recyclerView.setAdapter(adapter);
     }

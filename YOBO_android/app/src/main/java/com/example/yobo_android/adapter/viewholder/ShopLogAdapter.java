@@ -12,19 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.activity.BasketActivity;
-import com.example.yobo_android.activity.MainActivity;
-import com.example.yobo_android.activity.RecipeMainActivity;
 import com.example.yobo_android.activity.ShowDetailedShopLogActivity;
-import com.example.yobo_android.etc.IngredientsBasketData;
 import com.example.yobo_android.etc.ProductData;
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShopLogData;
-import com.squareup.picasso.Picasso;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,16 +84,16 @@ public class ShopLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
         RecyclerView.ViewHolder holder;
-        View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shop_log, parent, false);
-        holder = new ShopLogAdapter.ItemViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shop_log, parent, false);
+        holder = new ItemViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.i("TEST333",position+"");
         // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
-        ShopLogAdapter.ItemViewHolder itemViewHolder = (ShopLogAdapter.ItemViewHolder) holder;
+        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         Log.i("TEST113","onBind");
         itemViewHolder.onBind(listLog.get(position), position); // if add header, listRecipe.get(position - 1)
     }
@@ -121,6 +111,5 @@ public class ShopLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // 외부에서 item을 추가시킬 함수입니다.
         listLog.add(shopLogData);
         notifyItemChanged(position);
-        Log.i("TEST112","addItem");
     }
 }

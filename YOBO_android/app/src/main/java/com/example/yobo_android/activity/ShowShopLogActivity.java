@@ -1,24 +1,17 @@
 package com.example.yobo_android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.yobo_android.R;
-import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.adapter.viewholder.ShopLogAdapter;
 import com.example.yobo_android.api.ApiService;
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.ShopLogData;
-import com.example.yobo_android.etc.ShoppingIngredientData;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -63,8 +56,8 @@ public class ShowShopLogActivity extends AppCompatActivity {
                     Log.i("TEST", response.toString());
                     LogList = response.body();
                     for (int i = 0; i < LogList.size(); i++) {
-                        Log.i("TEST111",i+"");
-                        adapter.addItem(LogList.get(i), i);
+                        adapter.addItem(LogList.get(i),i);
+//                        Log.i("TEST1112",LogList.get(i).get_id());
                     }
                 }
                 @Override
@@ -77,10 +70,8 @@ public class ShowShopLogActivity extends AppCompatActivity {
         }
 
     }
-
     private void recyclerViewInit() {
         RecyclerView recyclerView = findViewById(R.id.recyclerLogView);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ShopLogAdapter();
