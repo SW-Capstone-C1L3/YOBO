@@ -275,6 +275,43 @@ public class RecipeMainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ((Button)findViewById(R.id.addshortcut2)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MainActivity.u_id == null){
+                    showLoginAlertDialog();
+                }
+                else{
+                    OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+                    HttpLoggingInterceptor logging5 = new HttpLoggingInterceptor();
+                    logging5.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    okhttpClientBuilder.addInterceptor(logging5);
+                    Retrofit retrofit5 = new Retrofit.Builder()
+                            .baseUrl(ApiService.API_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(okhttpClientBuilder.build())
+                            .build();
+                    ApiService apiService5 = retrofit5.create(ApiService.class);
+
+                    Log.i("ddddd",MainActivity.u_id);
+                    Call<ResponseBody> call5 = apiService5.addShortCut(recipeId, MainActivity.u_id);
+                    call5.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call5, Response<ResponseBody> response5) {
+//                            if(true)
+                                Toast.makeText(getApplicationContext(),"관심있는 레시피 추가",Toast.LENGTH_SHORT).show();
+//                            else
+//                                Toast.makeText(getApplicationContext(),"관심있는 레시피 삭제",Toast.LENGTH_SHORT);
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call5, Throwable t) {
+                            Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void recyclerViewInit() {
