@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
+    public static String d_id;
     public static String u_id;
     public static String u_phone;
     public static String u_name;
@@ -304,9 +305,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showLoginAlertDialog();
                 dialogFlag = true;
             }else{
-                intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
                 intent.putExtra("u_id", u_id);
                 intent.putExtra("u_name",u_name);
+                intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
             }
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
@@ -315,18 +316,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent = new Intent(MainActivity.this,SettingActivity.class);
         }
         else if(id==R.id.nav_modifyMyInfo){
-            if(u_id==null){
+            if(u_id == null){
                 showLoginAlertDialog();
                 dialogFlag = true;
             }
             else{
                 //내 회원정보 수정으로 변경
+                intent.putExtra("u_id", u_id);
+                Log.i("ddd",u_id+"zzz");
                 intent = new Intent(MainActivity.this, ModifyMyInfoActivity.class);
             }
         }
         else if(id==R.id.nav_myShopLog){
             //내 쇼핑정보 보기
         }
+
         if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
