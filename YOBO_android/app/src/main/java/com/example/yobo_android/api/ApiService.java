@@ -115,6 +115,11 @@ public interface ApiService {
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
 
+    @GET("yobo/comments/getCommentsbyUId/")
+    Call<List<CommentData>> getCommentsbyUId(@Query("UId") String UId,
+                                        @Query("pageNum") int pageNum,
+                                        @Query("pageSize") int pageSize);
+
     @Multipart
     @POST("/yobo/comments/createcomments")
     Call<ResponseBody> postComment(@Part("comments") Comment comments);

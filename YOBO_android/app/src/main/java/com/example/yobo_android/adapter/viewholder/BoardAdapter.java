@@ -100,6 +100,7 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, RecipeMainActivity.class);
                 //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
                 intent.putExtra("recipeId",recipeId);
+                intent.putExtra("recipeName",recipeName.getText().toString());
                 context.startActivity(intent);
             }
         }
