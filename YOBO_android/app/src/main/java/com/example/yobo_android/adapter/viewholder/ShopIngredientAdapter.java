@@ -70,6 +70,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             product_name.setText(shoppingIngredientData.getProduct_name());
             product_price.setText(shoppingIngredientData.getProduct_price() + "원");
             mCompanyName.setText("판매자 : " + shoppingIngredientData.getCompany_name());
+            Log.i("TEST222",product_name.getText().toString());
             itemView.setOnClickListener(this);
         }
 

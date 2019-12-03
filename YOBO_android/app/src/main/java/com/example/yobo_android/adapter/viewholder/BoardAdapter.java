@@ -61,7 +61,6 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ItemViewHolder(View itemView) {
             super(itemView);
-
             recipeName = itemView.findViewById(R.id.recipeName);
             recipeSubContents = itemView.findViewById(R.id.recipeSubContents);
             recipeWriter = itemView.findViewById(R.id.recipeWriter);
@@ -121,11 +120,9 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         this.context = parent.getContext();
         RecyclerView.ViewHolder holder;
         View view;
-
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
         holder = new ItemViewHolder(view);
         return holder;

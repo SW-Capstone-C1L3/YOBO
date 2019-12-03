@@ -20,7 +20,7 @@ public class UserData {
     private Integer user_age;
     @SerializedName("user_phone_num")
     @Expose
-    private Integer user_phone_num;
+    private String user_phone_num;
     @SerializedName("interest_category")
     @Expose
     private List<String> interest_category = null;
@@ -69,11 +69,11 @@ public class UserData {
         this.user_age = user_age;
     }
 
-    public Integer getUser_phone_num() {
+    public String getUser_phone_num() {
         return user_phone_num;
     }
 
-    public void setUser_phone_num(Integer user_phone_num) {
+    public void setUser_phone_num(String user_phone_num) {
         this.user_phone_num = user_phone_num;
     }
 

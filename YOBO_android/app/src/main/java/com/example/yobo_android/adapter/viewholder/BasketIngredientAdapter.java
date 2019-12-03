@@ -28,9 +28,7 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<IngredientsBasketData> listBasketIngredient = new ArrayList<>();
     private Context context;
     private String basket_product_Id;
-    // RecyclerView의 핵심인 ViewHolder 입니다.
-    // 여기서 subView를 setting 해줍니다.
-    // 즉 item view를 저장하는 뷰홀드 클래스
+
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private String user_id;
         private String ingredientDescription;
