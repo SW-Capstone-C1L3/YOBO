@@ -89,7 +89,7 @@ public class MyRecipeListActivity extends AppCompatActivity {
                 .build();
         apiService = retrofit.create(ApiService.class);
 
-        Call<List<Recipe>> call = apiService.geListByUid(userId, 0, 10);
+        Call<List<Recipe>> call = apiService.geListByUid(MainActivity.u_id, 0, 10);
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
