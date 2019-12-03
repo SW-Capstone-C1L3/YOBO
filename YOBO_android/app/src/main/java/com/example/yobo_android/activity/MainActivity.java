@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id==R.id.nav_modifyMyInfo){
             if(u_id == null){
-                showLoginAlertDialog();
+                showLoginAlertDialog(1);
                 dialogFlag = true;
             }
             else{
