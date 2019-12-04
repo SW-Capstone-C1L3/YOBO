@@ -10,7 +10,7 @@
             android:title="내가 등록한 레시피" />
         <item
             android:id="@+id/nav_scrap_recipe"
-            android:title="스크랩한 레시피" />
+            android:title="관심있는 레시피" />
         <item
             android:id="@+id/nav_commented_recipe"
             android:title="댓글단 레시피" />

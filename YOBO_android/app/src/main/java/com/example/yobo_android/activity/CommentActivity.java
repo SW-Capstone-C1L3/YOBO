@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.adapter.viewholder.CommentAdapter;
-import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
 

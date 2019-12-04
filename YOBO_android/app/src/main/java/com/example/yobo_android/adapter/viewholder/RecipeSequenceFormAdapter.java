@@ -1,5 +1,6 @@
 package com.example.yobo_android.adapter.viewholder;
 
+import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,14 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.etc.RecipeSequenceFormData;
+import com.example.yobo_android.etc.Cooking_description;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequenceFormAdapter.ViewHolder> {
-    public List<RecipeSequenceFormData> mDataList = null;
+    public List<Cooking_description> mDataList = null;
 
-    public RecipeSequenceFormAdapter(List<RecipeSequenceFormData> mDataList) {
+    public RecipeSequenceFormAdapter(List<Cooking_description> mDataList) {
         this.mDataList = mDataList;
     }
 
@@ -74,11 +76,15 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        RecipeSequenceFormData item = mDataList.get(position);
-        //holder.mRecipeSequenceFormImage.setImageResource(item.getRecipeSequenceFormImageId());
+        Cooking_description item = mDataList.get(position);
         holder.editTextListenerForRecipeSeqForm.updatePosition(holder.getAdapterPosition());
-        holder.mRecipeSequenceFormImage.setImageBitmap(item.getRecipeSequenceFormImageId());
-        holder.mRecipeSequenceFormText.setText(item.getRecipeSequenceFormDescription());
+        holder.mRecipeSequenceFormText.setText(item.getDescription());
+        if(item.getImage() != null){
+            Uri uri = Uri.parse(item.getImage());
+            Picasso.get().load(uri).into(holder.mRecipeSequenceFormImage);
+        }else{
+            holder.mRecipeSequenceFormImage.setImageBitmap(null);
+        }
 
     }
 
@@ -101,7 +107,7 @@ public class RecipeSequenceFormAdapter extends RecyclerView.Adapter<RecipeSequen
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mDataList.get(position).setRecipeSequenceFormDescription(s.toString());
+            mDataList.get(position).setDescription(s.toString());
         }
 
         @Override

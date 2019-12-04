@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.MainActivity;
-import com.example.yobo_android.activity.NaverLoginActivity;
 import com.example.yobo_android.activity.RecipeMainActivity;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Recipe;
@@ -79,7 +80,6 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
             recipeId = recipe.get_id();
             recipeDescriptionNum = recipe.getCooking_description().size();
             recipeName.setText(recipe.getRecipe_name());
@@ -164,8 +164,8 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         builder.setPositiveButton("삭제",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteInServer(listRecipe.get(pos).get_id());
-                        listRecipe.remove(pos);
+                            deleteInServer(listRecipe.get(pos).get_id());
+                            listRecipe.remove(pos);
                         notifyDataSetChanged();
                     }
                 });

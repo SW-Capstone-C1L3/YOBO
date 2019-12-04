@@ -33,11 +33,8 @@ import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
-import com.example.yobo_android.activity.RecipeMainActivity;
 import com.example.yobo_android.api.ApiService;
-import com.example.yobo_android.api.RequestHttpURLConnection;
 import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.RecipeOrder;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;

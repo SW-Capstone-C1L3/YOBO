@@ -275,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         SearchView sv = (SearchView) mSearch.getActionView();
         sv.setQueryHint("레시피 검색");
+
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             //검색버튼을 눌렀을 경우

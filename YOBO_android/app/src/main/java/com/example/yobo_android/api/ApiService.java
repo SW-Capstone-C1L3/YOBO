@@ -4,7 +4,6 @@ import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.RecipeData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.etc.UserData;
 
@@ -37,7 +36,12 @@ public interface ApiService {
     @Multipart
     @POST("/yobo/recipe/createRecipe")
     Call<ResponseBody> uploadRecipe(@Part List<MultipartBody.Part> files,
-                                      @Part("recipe") RecipeData recipe);
+                                      @Part("recipe") Recipe recipe);
+
+    @Multipart
+    @POST("/yobo/recipe/updateRecipe")
+    Call<ResponseBody> updateRecipe(@Part List<MultipartBody.Part> files,
+                                    @Part("recipe") Recipe recipe);
 
     @GET("/yobo/recipe/getRecipeList/")
     Call<List<Recipe>> getRecipeList(@Query("pageNum") int pageNum,
