@@ -215,7 +215,6 @@ public class BasketActivity extends AppCompatActivity{
                                 Log.e("ERROR", call.toString());
                             }
                         });
-
                         startActivity(new Intent(BasketActivity.this,ShopIngredientActivity.class));
                         finish();
                     }

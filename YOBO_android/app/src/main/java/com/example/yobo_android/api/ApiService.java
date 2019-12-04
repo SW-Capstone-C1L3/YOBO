@@ -4,6 +4,7 @@ import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.ShopLogData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.etc.UserData;
 
@@ -96,6 +97,11 @@ public interface ApiService {
     @POST("/yobo/transaction/createtransaction")
     Call<ResponseBody> createTransaction(@Part("transcationLog")BasketLogData basketLogData);
 
+    @GET("/yobo/transaction/getByDid")
+    Call<List<ShopLogData>> getLogData(@Query("Did") String Did,
+                                       @Query("pageNum") int pageNum,
+                                       @Query("pageSize") int pageSize);
+
     /*Basket*/
 
     @FormUrlEncoded
@@ -113,13 +119,21 @@ public interface ApiService {
                                              @Query("pageNum") int pageNum,
                                              @Query("pageSize") int pageSize);
 
+    @GET("yobo/comments/getCommentsbyUId/")
+    Call<List<CommentData>> getCommentsbyUId(@Query("UId") String UId,
+                                        @Query("pageNum") int pageNum,
+                                        @Query("pageSize") int pageSize);
+
     @Multipart
     @POST("/yobo/comments/createcomments")
     Call<ResponseBody> postComment(@Part("comments") Comment comments);
 
   /* User */
     @GET("yobo/user/getbyDid/")
-    Call<UserData> getbyDid(@Query("at") String at);
+    Call<UserData> getbyDid(@Query("Did") String Did);
 
+    @POST("/yobo/recipe/addShortCut")
+    Call<ResponseBody> addShortCut(@Query("Rid") String recipeId,
+                                   @Query("Uid") String userId);
 }
 

@@ -4,6 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Comment {
+    public Comment(String comments, String user_id, String user_name, String recipe_id, String recipe_name) {
+        this.comments = comments;
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.recipe_id = recipe_id;
+        this.recipe_name = recipe_name;
+    }
+
     @SerializedName("comments")
     @Expose
     private String comments;
@@ -16,6 +24,9 @@ public class Comment {
     @SerializedName("recipe_id")
     @Expose
     private String recipe_id;
+    @SerializedName("recipe_name")
+    @Expose
+    private String recipe_name;
 
     public String getComments() {
         return comments;
@@ -49,11 +60,11 @@ public class Comment {
         this.recipe_id = recipe_id;
     }
 
-    public Comment(String comments, String user_id, String user_name, String recipe_id) {
-        this.comments = comments;
-        this.user_id = user_id;
-        this.user_name = user_name;
-        this.recipe_id = recipe_id;
+    public String getRecipe_name() {
+        return recipe_name;
     }
 
+    public void setRecipe_name(String recipe_name) {
+        this.recipe_name = recipe_name;
+    }
 }

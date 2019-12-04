@@ -1,5 +1,6 @@
 package com.example.yobo_android.activity;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -40,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -64,7 +66,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    MenuItem mSearch;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int REQUEST_TEST =1000;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
+    public static String d_id;
     public static String u_id;
     public static String u_phone;
     public static String u_name;
@@ -184,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     case R.id.btnWriteRecipe:
                         if(u_id == null){
-                            showLoginAlertDialog();
+                            showLoginAlertDialog(0);
                             dialogFlag = true;
                         }else{
                             intent = new Intent(MainActivity.this, RecipeFormActivity.class);
@@ -241,25 +243,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
         //search_menu.xml 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_action, menu);
-
-        Drawable drawable = menu.findItem(R.id.action_search).getIcon();
-        drawable = DrawableCompat.wrap(drawable);
-        menu.findItem(R.id.action_search).setIcon(drawable);
-
-        MenuItem mSearch = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) mSearch.getActionView();
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("hhhhhhhhhhhhhhhh","title gone");
                 mtoolbarTitle.setVisibility(View.GONE);
             }
         });
@@ -267,16 +263,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                Log.i("hhhhhhhhhhhhhhhh","title visible");
                 mtoolbarTitle.setVisibility(View.VISIBLE);
                 return false;
             }
         });
 
-        SearchView sv = (SearchView) mSearch.getActionView();
-        sv.setQueryHint("레시피 검색");
 
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setQueryHint("레시피 검색");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             //검색버튼을 눌렀을 경우
             @Override
@@ -297,7 +291,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
-        return super.onCreateOptionsMenu(menu);
+//        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -308,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // TODO : 로그인 확인 부분 꽤 겹치는데 나중에 한번에 수정함 -LJH
         if (id == R.id.nav_enroll_recipe) {
             if(u_id == null){
-                showLoginAlertDialog();
+                showLoginAlertDialog(0);
                 dialogFlag = true;
             }else{
                 intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
@@ -318,21 +313,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
         }
+        else if(id==R.id.nav_commented_recipe){
+            if(u_id == null){
+                showLoginAlertDialog(3);
+                dialogFlag = true;
+            }else{
+                intent = new Intent(MainActivity.this,CommentActivity.class);
+                intent.putExtra("comments",u_id);
+            }
+        }
         else if(id==R.id.nav_setting){
             intent = new Intent(MainActivity.this,SettingActivity.class);
         }
-        else if(id==R.id.nav_changeInfo){
-            if(u_id==null){
-                showLoginAlertDialog();
+        else if(id==R.id.nav_modifyMyInfo){
+            if(u_id == null){
+                showLoginAlertDialog(1);
                 dialogFlag = true;
             }
             else{
                 //내 회원정보 수정으로 변경
+                intent = new Intent(MainActivity.this, ModifyMyInfoActivity.class);
             }
         }
         else if(id==R.id.nav_myShopLog){
             //내 쇼핑정보 보기
+            if(u_id == null) {
+                showLoginAlertDialog(2);
+                dialogFlag = true;
+            }
+            else
+                intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
         }
+
         if(!dialogFlag) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -448,6 +460,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
                 Log.i("kkkkkk main u_id", u_id);
+                Log.i("kkkkkk main u_phone",u_phone);
                 //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
@@ -464,11 +477,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return  size;
     }
 
-    public void showLoginAlertDialog(){
+    public void showLoginAlertDialog(int flag){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_error_outline_24dp);
         builder.setTitle("로그인 해주세요 :(");
-        builder.setMessage("로그인을 해야 레시피 등록이 가능합니다.");
+        if(flag==0)
+            builder.setMessage("로그인을 해야 레시피 등록이 가능합니다.");
+        else if(flag==1)
+            builder.setMessage("로그인을 해야 개인정보 수정이 가능합니다.");
+        else if(flag==2)
+            builder.setMessage("로그인을 해야 내 쇼핑정보를 볼 수 있습니다.");
+        else if(flag==3)
+            builder.setMessage("로그인을 해야 댓글 단 레시피를 볼 수 있습니다");
         builder.setPositiveButton("로그인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
