@@ -18,7 +18,6 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,12 +29,10 @@ import android.widget.Toast;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.IngredientsFormAdapter;
 import com.example.yobo_android.adapter.viewholder.RecipeSequenceFormAdapter;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Cooking_description;
 import com.example.yobo_android.etc.Cooking_ingredient;
 import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.RecipeData;
-import com.example.yobo_android.etc.RecipeSequenceFormData;
 import com.google.android.material.snackbar.Snackbar;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
@@ -49,31 +46,27 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeFormActivity extends AppCompatActivity  {
 
-    private static final int PICK_FROM_ALBUM = 1000;
-    private static final int PICK_FROM_ALBUM2 = 2000;
+    public static final int PICK_FROM_ALBUM = 1000;
+    public static final int PICK_FROM_ALBUM2 = 2000;
+    public static final int NEW_RECIPE = 3000;
+    public static final int MODIFY_MY_RECIPE = 4000;
 
-    Retrofit retrofit;
-    ApiService apiService;
     List<Uri> fileUris = new ArrayList<>();
 
-    List<RecipeSequenceFormData> mRecipeSequenceFormDataList = new ArrayList<>();
-
-    List<String> category = new ArrayList<>();
+    List<Cooking_description> mRecipeSequenceFormDataList = new ArrayList<>();
     List<Cooking_description> cooking_descriptions = new ArrayList<>();
     List<Cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
     List<Cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
+    List<String> category = new ArrayList<>();
+    boolean[] checkChanged = new boolean[20];
 
     IngredientsFormAdapter mainIngredientsAdapter;
     IngredientsFormAdapter subIngredientsAdapter;
@@ -99,8 +92,11 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
     String userId;
     String userName;
+    String recipeId;
+    Double rating;
     Intent intent;
 
+    int typeOfWrite;
     int tempPosForSequenceForm;
     boolean flagCookingDescriptionImage;
 
@@ -109,12 +105,14 @@ public class RecipeFormActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_form);
 
-        Uri dummy = null;
-        fileUris.add(dummy);
+        Uri dummyForCheck = null;
+        fileUris.add(dummyForCheck);
 
         intent = getIntent();
-        userId = intent.getStringExtra("u_id");
-        userName = intent.getStringExtra("u_name");
+        userId = MainActivity.u_id;
+        userName = MainActivity.u_name;
+        recipeId = intent.getStringExtra("recipeId");
+        typeOfWrite = intent.getIntExtra("type",NEW_RECIPE);
 
         mEtRecipeName = findViewById(R.id.recipe_name);
         mEtCookingDescription = findViewById(R.id.cooking_description);
@@ -135,55 +133,87 @@ public class RecipeFormActivity extends AppCompatActivity  {
         mBtnWriteRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInput()){
-
+                if(checkInput()) {
                     category.add(mSpinnerCountry.getSelectedItem().toString());
                     category.add(mSpinnerCookingType.getSelectedItem().toString());
-                    cooking_descriptions.add(new Cooking_description(
-                            mEtCookingDescription.getText().toString(), "TEMP"));
-                    for (int i = 0; i < mRecipeSequenceFormDataList.size(); i++) {
-                        cooking_descriptions.add(new Cooking_description(
-                                        mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormDescription(),
-                                        "TEMP"));
-                    }
-
-                    final RecipeData recipe = new RecipeData(
-                            category,cooking_descriptions, main_cooking_ingredients,
-                            sub_cooking_ingredients,0.0,
-                            mEtRecipeName.getText().toString(),selectedServing,selectedDifficulty,userId,userName);
-
-                    OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-                    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-                    okhttpClientBuilder.addInterceptor(logging);
-
-                    retrofit = new Retrofit.Builder()
-                            .baseUrl(ApiService.API_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(okhttpClientBuilder.build())
-                            .build();
-
-                    apiService = retrofit.create(ApiService.class);
-
                     List<MultipartBody.Part> parts = new ArrayList<>();
-                    for(int i=0 ; i<fileUris.size(); i++){
-                        parts.add(prepareFileParts("image",fileUris.get(i)));
+                    for (int i = 0; i < fileUris.size(); i++)
+                        parts.add(prepareFileParts("image", fileUris.get(i)));
+
+                    if (typeOfWrite == NEW_RECIPE) {
+                        cooking_descriptions.add(new Cooking_description(
+                                mEtCookingDescription.getText().toString(), "TEMP"));
+                        for (int i = 0; i < mRecipeSequenceFormDataList.size(); i++) {
+                            cooking_descriptions.add(new Cooking_description(
+                                    mRecipeSequenceFormDataList.get(i).getDescription(),
+                                    "TEMP"));
+                        }
+
+                        final Recipe recipe = new Recipe(
+                                category, cooking_descriptions, main_cooking_ingredients,
+                                sub_cooking_ingredients, 0.0, selectedDifficulty,
+                                mEtRecipeName.getText().toString(), selectedServing, userId, userName);
+
+                        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().uploadRecipe(parts, recipe);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Toast.makeText(RecipeFormActivity.this, "레시피 등록 완료 :)", Toast.LENGTH_SHORT).show();
+                                intent.putExtra("result", "some value");
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("ERROR", t.toString());
+                                Log.e("ERROR", call.toString());
+                            }
+                        });
                     }
-                    Call<ResponseBody> call = apiService.uploadRecipe(parts,recipe);
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Toast.makeText(RecipeFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            intent.putExtra("result", "some value");
-                            setResult(RESULT_OK, intent);
-                            finish();
+                    else if(typeOfWrite == MODIFY_MY_RECIPE){
+                        if(checkChanged[0])
+                            cooking_descriptions.add(0,new Cooking_description(
+                                    mEtCookingDescription.getText().toString(), "change"));
+                        else
+                            cooking_descriptions.add(0,new Cooking_description(
+                                    mEtCookingDescription.getText().toString(), "exit"));
+
+                        for (int i = 0; i < mRecipeSequenceFormDataList.size(); i++) {
+                            if(checkChanged[i+1])
+                                cooking_descriptions.add(new Cooking_description(
+                                        mRecipeSequenceFormDataList.get(i).getDescription(),
+                                        "change"));
+                            else
+                                cooking_descriptions.add(new Cooking_description(
+                                        mRecipeSequenceFormDataList.get(i).getDescription(),
+                                        "exit"));
                         }
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Log.e("ERROR", t.toString());
-                            Log.e("ERROR", call.toString());
-                        }
-                    });
+
+                        final Recipe recipe = new Recipe(
+                                category, cooking_descriptions, main_cooking_ingredients,
+                                sub_cooking_ingredients, rating, selectedDifficulty,
+                                mEtRecipeName.getText().toString(), selectedServing, userId, userName,recipeId);
+
+                        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().updateRecipe(parts, recipe);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Toast.makeText(RecipeFormActivity.this, "레시피 수정 완료 :)", Toast.LENGTH_SHORT).show();
+
+                                //TODO : 이 부분 작동이 안돼서 수정해야함. (갱신이 바로 안 됨)
+                                intent.putExtra("result", "some value");
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("ERROR", t.toString());
+                                Log.e("ERROR", call.toString());
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -200,6 +230,58 @@ public class RecipeFormActivity extends AppCompatActivity  {
         setRecyclerViews();
         setAddBtnForRecyclerViews();
         setSpinners();
+
+        if(typeOfWrite == MODIFY_MY_RECIPE){
+            fileUris.remove(0);
+            Call<Recipe> modifyCall = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
+            modifyCall.enqueue(new Callback<Recipe>() {
+                @Override
+                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                    Recipe recipe = response.body();
+                    rating = recipe.getRating();
+                    mEtRecipeName.setText(recipe.getRecipe_name());
+                    mEtCookingDescription.setText(recipe.getCooking_description().get(0).getDescription());
+                    mSpinnerCountry.setSelection(getSpinnerIndex(mSpinnerCountry,recipe.getCategory().get(0)));
+                    mSpinnerCookingType.setSelection(getSpinnerIndex(mSpinnerCookingType,recipe.getCategory().get(1)));
+                    mSpinnerServing.setSelection(getSpinnerIndex(mSpinnerServing,recipe.getServing()));
+                    mSpinnerDifficulty.setSelection(getSpinnerIndex(mSpinnerDifficulty,recipe.getDifficulty()));
+
+                    main_cooking_ingredients.remove(0);
+                    for (int i = 0; i < recipe.getMain_cooking_ingredients().size(); i++) {
+                        main_cooking_ingredients.add(recipe.getMain_cooking_ingredients().get(i));
+                        mainIngredientsAdapter.notifyItemChanged(i);
+                    }
+                    sub_cooking_ingredients.remove(0);
+                    for (int i = 0; i < recipe.getSub_cooking_ingredients().size(); i++) {
+                        sub_cooking_ingredients.add(recipe.getSub_cooking_ingredients().get(i));
+                        subIngredientsAdapter.notifyItemChanged(i);
+                    }
+
+                    mRecipeSequenceFormDataList.remove(0);
+                    recipeSequenceFormAdapter.notifyDataSetChanged();
+                    for (int i = 0; i < recipe.getCooking_description().size(); i++) {
+                        String temp = recipe.getCooking_description().get(i).getImage();
+                        temp = temp.replace("/", "%2F");
+                        String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                        Uri uri = Uri.parse(sum);
+                        if(i == 0 ){
+                            Picasso.get().load(uri).into(mImageCookingDescription);
+                            flagCookingDescriptionImage = true;
+                        }else{
+                            mRecipeSequenceFormDataList.add(new Cooking_description(
+                                    recipe.getCooking_description().get(i).getDescription(),uri.toString())
+                            );
+                            recipeSequenceFormAdapter.notifyItemChanged(i);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Recipe> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     private void setRecyclerViews() {
@@ -224,8 +306,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         recipeSequenceFormRecyclerView.setLayoutManager(layoutManagerForRecipeSequenceForm);
 
         for(int i=0;i<1;i++)
-            mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null,null));
-
+            mRecipeSequenceFormDataList.add(new Cooking_description(null,null));
         recipeSequenceFormAdapter = new RecipeSequenceFormAdapter(mRecipeSequenceFormDataList);
         recipeSequenceFormAdapter.setOnItemClickListener(new RecipeSequenceFormAdapter.OnItemClickListener() {
             @Override
@@ -261,10 +342,10 @@ public class RecipeFormActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(mRecipeSequenceFormDataList.get(mRecipeSequenceFormDataList.size()-1).
-                        getRecipeSequenceFormImageId() == null ) {
+                        getImage() == null ) {
                     showSnackBar("레시피 순서의 사진을 등록해주세요 :(");
                 }else{
-                    mRecipeSequenceFormDataList.add(new RecipeSequenceFormData(null, null));
+                    mRecipeSequenceFormDataList.add(new Cooking_description(null, null));
                     recipeSequenceFormAdapter.notifyItemChanged(mRecipeSequenceFormDataList.size()-1);
                 }
             }
@@ -335,20 +416,22 @@ public class RecipeFormActivity extends AppCompatActivity  {
             }
 
             if(requestCode == PICK_FROM_ALBUM){
-                fileUris.remove(0);
-                fileUris.add(0,imageUri);
+                if(typeOfWrite == MODIFY_MY_RECIPE){
+                    checkChanged[0] = true;
+                    fileUris.add(0,imageUri);
+                }else{
+                    fileUris.set(0,imageUri);
+                }
                 Picasso.get().load(imageUri).into(mImageCookingDescription);
                 flagCookingDescriptionImage = true;
 
             }else if(requestCode == PICK_FROM_ALBUM2){
-                try {
-                    fileUris.add(imageUri);
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
-                    mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setRecipeSequenceFormImageId(bitmap);
-                    recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                if(typeOfWrite == MODIFY_MY_RECIPE)
+                    checkChanged[tempPosForSequenceForm+1] = true;
+                fileUris.add(imageUri);
+                mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setImage(imageUri.toString());
+                recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
+
             }
         }
     }
@@ -438,19 +521,30 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
     public boolean recipeSequenceCheck(){
         for(int i=0; i<mRecipeSequenceFormDataList.size(); i++){
-            if(mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormDescription().equals("")
-            || mRecipeSequenceFormDataList.get(i).getRecipeSequenceFormImageId() == null){
+            if(mRecipeSequenceFormDataList.get(i).getDescription().equals("")
+            || mRecipeSequenceFormDataList.get(i).getImage() == null){
                 return true;
             }
         }
         return false;
     }
 
+    private int getSpinnerIndex(Spinner spinner, String myString){
+        int index = 0;
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).equals(myString)){
+                index = i;
+                return index;
+            }
+        }
+        return index;
+    }
+
     @NonNull
     private MultipartBody.Part prepareFileParts(String partName, Uri fileUri){
         File file = FileUtils.getFile(this,fileUri);
         RequestBody requestFile =
-                RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+                RequestBody.create(file,MediaType.parse(getContentResolver().getType(fileUri)));
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
     }
 

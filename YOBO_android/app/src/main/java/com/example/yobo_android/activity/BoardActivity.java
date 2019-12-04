@@ -82,7 +82,6 @@ public class BoardActivity extends AppCompatActivity {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                    //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     recipeList = response.body();

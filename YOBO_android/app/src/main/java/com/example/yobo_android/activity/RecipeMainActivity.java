@@ -14,7 +14,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,10 +32,8 @@ import com.example.yobo_android.adapter.viewholder.IngredientsAdapter;
 import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.CommentData;
-import com.example.yobo_android.etc.Cooking_description;
 import com.example.yobo_android.etc.Cooking_ingredient;
 import com.example.yobo_android.etc.Recipe;
-import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
@@ -44,18 +41,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RecipeMainActivity extends AppCompatActivity {
+
+    public static final int REQUEST_MODIFY = 100;
 
     ApiService apiService;
     Retrofit retrofit;
 
+    String recipeWriterId;
     String recipeId;
     int descriptionNum;
     private double rate;
     private RatingBar ratingBar;
     ImageButton back;
+    Button mBtnModify;
     Recipe recipe;
     List<Cooking_ingredient> main_cooking_ingredients;
     List<Cooking_ingredient> sub_cooking_ingredients;
@@ -75,6 +75,7 @@ public class RecipeMainActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
         CollapsingToolbarLayout mCollapseToolBar = findViewById(R.id.collapsingtoolbar);
         recyclerViewInit();
+        mBtnModify = findViewById(R.id.recipeModifyButton);
 
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -90,6 +91,7 @@ public class RecipeMainActivity extends AppCompatActivity {
         Call<List<CommentData>> call2 = null;
         call = apiService.getReicpebyDid(recipeId);
         call2 = apiService.getCommentsbyRId(recipeId,0,10);
+
         if(call != null) {
             call.enqueue(new Callback<Recipe>() {
                 @Override
@@ -98,13 +100,14 @@ public class RecipeMainActivity extends AppCompatActivity {
                     main_cooking_ingredients = recipe.getMain_cooking_ingredients();
                     sub_cooking_ingredients = recipe.getSub_cooking_ingredients();
                     descriptionNum = recipe.getCooking_description().size();
+                    recipeWriterId = recipe.getWriter_id();
+                    if(!recipeWriterId.equals(MainActivity.u_id)) mBtnModify.setVisibility(View.GONE);
 
-                    for (int i = 0; i < main_cooking_ingredients.size(); i++) {
+                    for (int i = 0; i < main_cooking_ingredients.size(); i++)
                         mMainIngredientAdapter.addItem(main_cooking_ingredients.get(i));
-                    }
-                    for (int i = 0; i < sub_cooking_ingredients.size(); i++) {
+                    for (int i = 0; i < sub_cooking_ingredients.size(); i++)
                         mSubIngredientAdapter.addItem(sub_cooking_ingredients.get(i));
-                    }
+
                     mMainIngredientAdapter.notifyDataSetChanged();
                     mSubIngredientAdapter.notifyDataSetChanged();
 
@@ -118,15 +121,12 @@ public class RecipeMainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     ((TextView)findViewById(R.id.recipeName)).setText(recipe.getRecipe_name());
-
                     ((TextView)findViewById(R.id.difficulty2)).setText(recipe.getDifficulty());
                     ((TextView)findViewById(R.id.serving2)).setText(recipe.getServing());
                     rate = recipe.getRating();
                     ratingBar = findViewById(R.id.ratingStar);
                     ratingBar.setRating((float)rate);
-
                     ((TextView)findViewById(R.id.subdescription2)).setText(recipe.getCooking_description().get(0).getDescription());
-
                     ((TextView)findViewById(R.id.writerid2)).setText("by " + recipe.getWriter_name());
                 }
 
@@ -141,7 +141,6 @@ public class RecipeMainActivity extends AppCompatActivity {
             call2.enqueue(new Callback<List<CommentData>>() {
                 @Override
                 public void onResponse(Call<List<CommentData>> call2, Response<List<CommentData>> response2) {
-                    //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     Log.i("TEST", call2.toString());
                     Log.i("TEST", response2.toString());
                     commentDataList = response2.body();
@@ -183,6 +182,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         ((ImageButton)findViewById(R.id.btnaddcomment)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -264,6 +264,16 @@ public class RecipeMainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        mBtnModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeMainActivity.this,RecipeFormActivity.class);
+                intent.putExtra("type", RecipeFormActivity.MODIFY_MY_RECIPE);
+                intent.putExtra("recipeId",recipeId);
+                startActivityForResult(intent,REQUEST_MODIFY);
+            }
+        });
     }
 
     private void recyclerViewInit() {
@@ -286,5 +296,16 @@ public class RecipeMainActivity extends AppCompatActivity {
         mMainIngredientsView.setAdapter(mMainIngredientAdapter);
         mSubIngredientsView.setAdapter(mSubIngredientAdapter);
         mCommentsView.setAdapter(commentAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_MODIFY) {
+            if (resultCode == RESULT_OK) {
+                finish();
+                startActivity(getIntent());
+            }
+        }
     }
 }

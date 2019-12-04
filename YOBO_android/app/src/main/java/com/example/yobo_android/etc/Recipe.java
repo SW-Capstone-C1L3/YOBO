@@ -29,11 +29,17 @@ public class Recipe {
         this.writer_id = writer_id;
         this.writer_name = writer_name;
     }
-    public Recipe(List<String> category, List<Cooking_description> cooking_description,
-                  String difficulty, List<Cooking_ingredient> main_cooking_ingredients,
-                  Double rating, String recipe_name, String serving,
+    public Recipe(List<String> category,
+                  List<Cooking_description> cooking_description,
+                  List<Cooking_ingredient> main_cooking_ingredients,
                   List<Cooking_ingredient> sub_cooking_ingredients,
-                  String writer_id,String writer_name,String _id) {
+                  Double rating,
+                  String difficulty,
+                  String recipe_name,
+                  String serving,
+                  String writer_id,
+                  String writer_name,
+                  String _id) {
         this.category = category;
         this.cooking_description = cooking_description;
         this.difficulty = difficulty;
@@ -80,9 +86,6 @@ public class Recipe {
     @SerializedName("_id")
     @Expose
     private String _id;
-
-    private int DescriptionNum;
-
 
     public List<String> getCategory() {
         return category;
