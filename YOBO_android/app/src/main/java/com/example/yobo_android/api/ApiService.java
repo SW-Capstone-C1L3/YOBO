@@ -126,7 +126,7 @@ public interface ApiService {
 
   /* User */
     @GET("yobo/user/getbyDid/")
-    Call<UserData> getbyDid(@Query("at") String at);
+    Call<UserData> getbyDid(@Query("Did") String Did);
 
     @POST("/yobo/recipe/addShortCut")
     Call<ResponseBody> addShortCut(@Query("Rid") String recipeId,

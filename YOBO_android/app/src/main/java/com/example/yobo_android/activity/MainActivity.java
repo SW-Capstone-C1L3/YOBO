@@ -305,9 +305,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showLoginAlertDialog(0);
                 dialogFlag = true;
             }else{
+                intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
                 intent.putExtra("u_id", u_id);
                 intent.putExtra("u_name",u_name);
-                intent = new Intent(MainActivity.this, MyRecipeListActivity.class);
             }
         }else if(id == R.id.nav_scrap_recipe){
             intent = new Intent(MainActivity.this,BoardActivity.class);
@@ -331,8 +331,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else{
                 //내 회원정보 수정으로 변경
-                intent.putExtra("u_id", u_id);
-                Log.i("ddd",u_id+"zzz");
                 intent = new Intent(MainActivity.this, ModifyMyInfoActivity.class);
             }
         }
