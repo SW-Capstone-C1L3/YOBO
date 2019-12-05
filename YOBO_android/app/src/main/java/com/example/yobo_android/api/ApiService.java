@@ -132,6 +132,15 @@ public interface ApiService {
     @GET("yobo/user/getbyDid/")
     Call<UserData> getbyDid(@Query("Did") String Did);
 
+    @Multipart
+    @POST("/yobo/recipe/updateUser")
+    Call<ResponseBody> updateUserWithImage(@Part("change") MultipartBody.Part image, // with changed image
+                                   @Part("user") UserData userData);
+    @Multipart
+    @POST("/yobo/recipe/updateUser")
+    Call<ResponseBody> updateUserWithoutImage(@Part("exit") MultipartBody.Part image, // no changed image
+                                   @Part("user") UserData userData);
+
     @POST("/yobo/recipe/addShortCut")
     Call<ResponseBody> addShortCut(@Query("Rid") String recipeId,
                                    @Query("Uid") String userId);
