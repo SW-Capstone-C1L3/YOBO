@@ -200,8 +200,6 @@ public class RecipeFormActivity extends AppCompatActivity  {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 Toast.makeText(RecipeFormActivity.this, "레시피 수정 완료 :)", Toast.LENGTH_SHORT).show();
-
-                                //TODO : 이 부분 작동이 안돼서 수정해야함. (갱신이 바로 안 됨)
                                 intent.putExtra("result", "some value");
                                 setResult(RESULT_OK, intent);
                                 finish();
