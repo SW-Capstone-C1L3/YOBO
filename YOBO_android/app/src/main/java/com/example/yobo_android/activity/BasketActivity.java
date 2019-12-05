@@ -111,8 +111,9 @@ public class BasketActivity extends AppCompatActivity{
                 basketitem.setIngredientName(basket.getString("product_name"));
                 basketitem.setIngredientPrice(basket.getInt("product_price"));
                 basketitem.setBasket_qty(basket.getInt("qty"));
+                basketitem.setProvided_company_id(basket.getString("company_id"));
 //                quantity.add(basket.getInt("qty"));
-                productDataList.add(new ProductData(basket.getString("product_id"),basket.getInt("qty")));
+                productDataList.add(new ProductData(basket.getString("product_id"),basket.getInt("qty"),basket.getString("company_id"),basket.getInt("product_price"),basket.getString("product_name")));
                 sum_all_price += basket.getInt("qty") * basket.getInt("product_price");
                 basketitem.setUser_id(MainActivity.u_id);
                 adapter.addItem(basketitem);
@@ -215,7 +216,6 @@ public class BasketActivity extends AppCompatActivity{
                                 Log.e("ERROR", call.toString());
                             }
                         });
-                        startActivity(new Intent(BasketActivity.this,ShopIngredientActivity.class));
                         finish();
                     }
                 })
