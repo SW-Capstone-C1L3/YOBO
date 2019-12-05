@@ -9,6 +9,9 @@ public class UserData {
     @SerializedName("_id")
     @Expose
     private String _id;
+    @SerializedName("image")
+    @Expose
+    private String image;
     @SerializedName("user_id")
     @Expose
     private String user_id;
@@ -43,6 +46,15 @@ public class UserData {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getUser_id() {
