@@ -97,8 +97,8 @@ public interface ApiService {
     @POST("/yobo/transaction/createtransaction")
     Call<ResponseBody> createTransaction(@Part("transcationLog")BasketLogData basketLogData);
 
-    @GET("/yobo/transaction/getByDid")
-    Call<List<ShopLogData>> getLogData(@Query("Did") String Did,
+    @GET("/yobo/transaction/getByUid")
+    Call<List<ShopLogData>> getLogData(@Query("Uid") String Uid,
                                        @Query("pageNum") int pageNum,
                                        @Query("pageSize") int pageSize);
 

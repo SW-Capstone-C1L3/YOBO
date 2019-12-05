@@ -61,7 +61,7 @@ public class ShopLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             user_phone_num = shopLogData.getUser_phone_num();
             productData = shopLogData.getProducts();
             //제목에 관한 setting도 해줘야함
-            title.setText(_id);
+            title.setText(shopLogData.getProducts().get(0).getProduct_name() + " 외 "+shopLogData.getProducts().size()+"종");
             ts.setText(String.valueOf(total_price));
             itemView.setOnClickListener(this);
             Log.i("TEST222",_id);

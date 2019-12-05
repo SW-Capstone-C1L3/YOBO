@@ -20,6 +20,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//TODO: ShowDetailedShopLogActvitiy포함해서 바뀐 형태의 DB로부터 정보를 잘 받아오는지 확인해야함 -CW
+
+
 public class ShowShopLogActivity extends AppCompatActivity {
 
     List<ShopLogData> LogList = new ArrayList<>();
@@ -36,14 +39,12 @@ public class ShowShopLogActivity extends AppCompatActivity {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         okhttpClientBuilder.addInterceptor(logging);
-        /*****************수정필요*****************/
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiService.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okhttpClientBuilder.build())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        /*******************여까지********************/
         Call<List<ShopLogData>> call = null;
         call = apiService.getLogData(MainActivity.u_id, 0, 10);
 
@@ -68,7 +69,6 @@ public class ShowShopLogActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
     private void recyclerViewInit() {
         RecyclerView recyclerView = findViewById(R.id.recyclerLogView);

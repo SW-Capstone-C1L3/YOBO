@@ -9,6 +9,15 @@ public class IngredientsBasketData {
     private Integer ingredientPrice;
     private Integer basket_qty;
     private String user_id;
+    private String provided_company_id;
+
+    public String getProvided_company_id() {
+        return provided_company_id;
+    }
+
+    public void setProvided_company_id(String provided_company_id) {
+        this.provided_company_id = provided_company_id;
+    }
 
     public String getUser_id() {
         return user_id;

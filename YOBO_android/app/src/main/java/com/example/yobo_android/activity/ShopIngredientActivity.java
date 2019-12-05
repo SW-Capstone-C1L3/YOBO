@@ -52,6 +52,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
     MenuItem mSearch;
 
     private int REQUEST_TEST =1000;
+    private int REQUEST_SHOP =2000;
     Retrofit retrofit;
     ApiService apiService;
     List<ShoppingIngredientData> ingredientList = new ArrayList<>();
@@ -119,7 +120,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 else {
                     adapter.notifyItemChanged(0);
                     Intent intent = new Intent(ShopIngredientActivity.this, BasketActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,REQUEST_SHOP);
                 }
             }
         });
@@ -213,6 +214,9 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 make.setActionTextColor(Color.RED);
                 make.show();
             }
+        }
+        if(requestCode==REQUEST_SHOP){
+
         }
     }
     public Point getScreenSize(Activity activity) {

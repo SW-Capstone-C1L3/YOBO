@@ -56,6 +56,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     private TextView mIngredientDescription;
     private Button mBuy;
     private String Ingredient_id;
+    private String Company_id;
     private int IngredientPrice;
     private final String Tag = "abcde";
     @Override
@@ -68,7 +69,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         Ingredient_id = intent.getStringExtra("Ingredient_id");
-
         mIngredientImage = findViewById(R.id.ingredient_Image);
         mIngredientName = findViewById(R.id.textView_ingredient_name);
         mIngredientPrice = findViewById(R.id.textView_ingredient_price);
@@ -103,7 +103,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                     mIngredientPrice.setText(product.getProduct_price() + "/" + product.getProduct_qty() + "" + product.getProduct_unit());
                     mCompanyName.setText(product.getCompany_name());
                     mIngredientDescription.setText(product.getProduct_description());
-
+                    Company_id = product.getProvided_company_id();
                     IngredientPrice = product.getProduct_price();
                     }
 

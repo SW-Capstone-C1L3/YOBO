@@ -44,6 +44,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private String product_unit;
         private String product_description;
         private String company_name;
+        private String company_id;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -63,6 +64,7 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+            company_id = shoppingIngredientData.getProvided_company_id();
             sel_ingredient_Id = shoppingIngredientData.get_id();
             product_unit = shoppingIngredientData.getProduct_unit();
             product_description = shoppingIngredientData.getProduct_description();
