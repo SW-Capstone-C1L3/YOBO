@@ -45,7 +45,8 @@ import java.util.List;
 
 public class RecipeMainActivity extends AppCompatActivity {
 
-    public static final int REQUEST_MODIFY = 100;
+    public static final int REQUEST_MODIFY1 = 100;
+    public static final int REQUEST_MODIFY2 = 200;
 
     ApiService apiService;
     Retrofit retrofit;
@@ -323,7 +324,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(RecipeMainActivity.this,RecipeFormActivity.class);
                 intent.putExtra("type", RecipeFormActivity.MODIFY_MY_RECIPE);
                 intent.putExtra("recipeId",recipeId);
-                startActivityForResult(intent,REQUEST_MODIFY);
+                startActivityForResult(intent,REQUEST_MODIFY2);
             }
         });
     }
@@ -366,11 +367,19 @@ public class RecipeMainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_MODIFY) {
+        if (requestCode == REQUEST_MODIFY2) {
             if (resultCode == RESULT_OK) {
+                Log.i("TEST", "REQ3333");
+                Intent intent = new Intent();
+                intent.putExtra("result", "some value");
+                setResult(RESULT_OK, intent);
                 finish();
-                startActivity(getIntent());
             }
         }
+    }
+    @Override
+    public void onBackPressed(){
+        setResult(RESULT_OK, getIntent());
+        super.onBackPressed();
     }
 }

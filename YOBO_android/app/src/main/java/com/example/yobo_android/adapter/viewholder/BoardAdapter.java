@@ -1,11 +1,10 @@
 package com.example.yobo_android.adapter.viewholder;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,14 +93,12 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             int pos = getAdapterPosition() ;
             if (pos != RecyclerView.NO_POSITION) { // 갱신하는 과정에서 뷰홀더가 참조하는 아이템이 어댑터에서 삭제되면 NO_POSITION 리턴
 
-                //getAdapterPosition();
-//                Intent intent = new Intent(context, RecipeActivity.class);
-
                 Intent intent = new Intent(context, RecipeMainActivity.class);
                 //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
                 intent.putExtra("recipeId",recipeId);
                 intent.putExtra("recipeName",recipeName.getText().toString());
-                context.startActivity(intent);
+                //context.startActivity(intent);
+                ((Activity)context).startActivityForResult(intent,RecipeMainActivity.REQUEST_MODIFY1);
             }
         }
 
