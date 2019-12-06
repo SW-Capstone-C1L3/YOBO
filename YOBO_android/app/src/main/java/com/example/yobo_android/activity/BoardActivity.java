@@ -108,7 +108,6 @@ public class BoardActivity extends AppCompatActivity {
                 if(recipeList.size()==0){
                     recyclerView.setVisibility(View.GONE);
                     mLayoutEmptyNotify.setVisibility(View.VISIBLE);
-
                 }
                 else {
                     recyclerView.setVisibility(View.VISIBLE);
