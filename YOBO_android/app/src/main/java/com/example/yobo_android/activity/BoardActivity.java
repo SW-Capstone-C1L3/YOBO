@@ -39,9 +39,9 @@ public class BoardActivity extends AppCompatActivity {
     private ImageButton mBtnBack;
     private TextView mToolbarTitle;
     private SearchView mSearchView;
-
     private RecyclerView recyclerView;
     private BoardAdapter adapter;
+
     private String query = null;
     private String category;
     private List<String> ingredients;
@@ -108,6 +108,7 @@ public class BoardActivity extends AppCompatActivity {
                 if(recipeList.size()==0){
                     recyclerView.setVisibility(View.GONE);
                     mLayoutEmptyNotify.setVisibility(View.VISIBLE);
+
                 }
                 else {
                     recyclerView.setVisibility(View.VISIBLE);

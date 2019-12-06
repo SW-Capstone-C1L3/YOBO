@@ -6,15 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class ShopLogData {
+public class SelectedBasketLogData {
 
-    public ShopLogData(String _id, List<ProductData> products, Integer total_price,
-                       String transaction_status, String user_Did,
-                       String user_address, String user_id,
-                       String user_phone_num, String company_id,
-                       String invoice_company, String invoice_number,
-                       String timestamp) {
-        this._id = _id;
+    public SelectedBasketLogData(List<ProductData> products, Integer total_price,
+                                 String transaction_status, String user_Did,
+                                 String user_address, String user_id,
+                                 String user_phone_num, String invoice_number,
+                                 String invoice_company, String company_id,
+                                 Timestamp timestamp, String _id) {
         this.products = products;
         this.total_price = total_price;
         this.transaction_status = transaction_status;
@@ -22,15 +21,13 @@ public class ShopLogData {
         this.user_address = user_address;
         this.user_id = user_id;
         this.user_phone_num = user_phone_num;
-        this.company_id = company_id;
-        this.invoice_company = invoice_company;
         this.invoice_number = invoice_number;
+        this.invoice_company = invoice_company;
+        this.company_id = company_id;
         this.timestamp = timestamp;
+        this._id = _id;
     }
 
-    @SerializedName("_id")
-    @Expose
-    private String _id;
     @SerializedName("products")
     @Expose
     private List<ProductData> products = null;
@@ -52,26 +49,21 @@ public class ShopLogData {
     @SerializedName("user_phone_num")
     @Expose
     private String user_phone_num;
-    @SerializedName("company_id")
-    @Expose
-    private String company_id;
-    @SerializedName("invoice_company")
-    @Expose
-    private String invoice_company;
     @SerializedName("invoice_number")
     @Expose
     private String invoice_number;
+    @SerializedName("invoice_company")
+    @Expose
+    private String invoice_company;
+    @SerializedName("company_id")
+    @Expose
+    private String company_id;
     @SerializedName("timestamp")
     @Expose
-    private String timestamp;
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
+    private Timestamp timestamp;
+    @SerializedName("_id")
+    @Expose
+    private String _id;
 
     public List<ProductData> getProducts() {
         return products;
@@ -129,12 +121,12 @@ public class ShopLogData {
         this.user_phone_num = user_phone_num;
     }
 
-    public String getCompany_id() {
-        return company_id;
+    public String getInvoice_number() {
+        return invoice_number;
     }
 
-    public void setCompany_id(String company_id) {
-        this.company_id = company_id;
+    public void setInvoice_number(String invoice_number) {
+        this.invoice_number = invoice_number;
     }
 
     public String getInvoice_company() {
@@ -145,19 +137,27 @@ public class ShopLogData {
         this.invoice_company = invoice_company;
     }
 
-    public String getInvoice_number() {
-        return invoice_number;
+    public String getCompany_id() {
+        return company_id;
     }
 
-    public void setInvoice_number(String invoice_number) {
-        this.invoice_number = invoice_number;
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

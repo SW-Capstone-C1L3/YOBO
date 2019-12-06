@@ -16,14 +16,14 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
+
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -40,17 +40,29 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.etc.UserData;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /*
 * 레시피 목록을 보여주는 BoardActivity
@@ -86,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String u_phone;
     public static String u_name;
     public static String u_email;
+    private ImageView mUserPicture;
+    UserData userData;
+    Uri userPicture = null;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
@@ -148,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mBtnLoginInNavHeader.setText("로그인");
                     nav_header_user_email.setText("이메일");
                     nav_header_user_name.setText("없음");
+                    mUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.user));
                     u_id=null;
                 }
             }
@@ -159,7 +175,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnWriteRecipe = findViewById(R.id.btnWriteRecipe);
         nav_header_user_name = header.findViewById(R.id.nav_header_user_name);
         nav_header_user_email = header.findViewById(R.id.nav_header_user_email);
-
+        mUserPicture = header.findViewById(R.id.userPicture);
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                if (v.equals(mUserPicture)) {
+                    Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
+        mUserPicture.setOnClickListener(clickListener);
         LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -225,27 +250,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         thread.start();
-//        nav_header_user_name.setText(sf.getString("u_name",""));
-        if(nav_header_user_name.getText().toString().equals("")){
-
+    }
+    //사용자의 얼굴을 가져오는 작업
+    public void setImage(){
+        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okhttpClientBuilder.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okhttpClientBuilder.build())
+                .build();
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<UserData> call = apiService.getbyDid(MainActivity.u_id);
+        if (call != null) {
+            call.enqueue(new Callback<UserData>() {
+                @Override
+                public void onResponse(Call<UserData> call, Response<UserData> response) {
+                    userData = response.body();
+                    if(userData.getImage() != null){
+                        String temp =  userData.getImage();
+                        temp = temp.replace("/", "%2F");
+                        String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                        Uri uri = Uri.parse(sum);
+                        Picasso.get().load(uri).fit().centerInside().error(R.drawable.user).into(mUserPicture);
+                    }
+                }
+                @Override
+                public void onFailure(Call<UserData> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
-        else {
-//            u_id =sf.getString("u_id","");
-//            nav_header_user_email.setText(sf.getString("u_email","")+"@naver.com");
-//            mBtnLoginInNavHeader.setText("로그아웃");
-        }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
-        //search_menu.xml 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_action, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("레시피 검색");
 
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
@@ -263,8 +310,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-        searchView.setQueryHint("레시피 검색");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             //검색버튼을 눌렀을 경우
@@ -275,6 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(getApplication(),BoardActivity.class);
                 intent.putExtra("query",query);
                 startActivityForResult(intent,REQUEST_TEST);
+                searchView.clearFocus();
                 return true;
             }
 
@@ -286,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+        searchView.clearFocus();
 //        return super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -324,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else{
                 //내 회원정보 수정으로 변경
-                intent = new Intent(MainActivity.this, ModifyMyInfoActivity.class);
+                intent = new Intent(MainActivity.this, MyPageActivity.class);
             }
         }
         else if(id==R.id.nav_myShopLog){
@@ -451,14 +498,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mBtnLoginInNavHeader.setText("로그아웃");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
-                Log.i("kkkkkk main u_id", u_id);
-                Log.i("kkkkkk main u_phone",u_phone);
                 //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
                 editor.putString("u_name",u_name);
                 editor.putString("u_email",u_email);
                 editor.commit();
+
+                setImage();     //사용자 얼굴 설정
             }
         }
     }

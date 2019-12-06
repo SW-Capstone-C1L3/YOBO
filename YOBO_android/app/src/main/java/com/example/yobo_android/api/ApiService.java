@@ -4,6 +4,7 @@ import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.SelectedBasketLogData;
 import com.example.yobo_android.etc.ShopLogData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.etc.UserData;
@@ -97,11 +98,15 @@ public interface ApiService {
     @POST("/yobo/transaction/createtransaction")
     Call<ResponseBody> createTransaction(@Part("transcationLog")BasketLogData basketLogData);
 
-    @GET("/yobo/transaction/getByDid")
-    Call<List<ShopLogData>> getLogData(@Query("Did") String Did,
+    @GET("/yobo/transaction/getByUid")
+    Call<List<ShopLogData>> getLogData(@Query("Uid") String Uid,
                                        @Query("pageNum") int pageNum,
                                        @Query("pageSize") int pageSize);
 
+    @GET("/yobo/transaction/getByDid")
+    Call<List<SelectedBasketLogData>> getSelectedLogData(@Query("Did") String Did,
+                                                         @Query("pageNum") int pageNum,
+                                                         @Query("pageSize") int pageSize);
     /*Basket*/
 
     @FormUrlEncoded
@@ -134,11 +139,7 @@ public interface ApiService {
 
     @Multipart
     @POST("/yobo/recipe/updateUser")
-    Call<ResponseBody> updateUserWithImage(@Part("change") MultipartBody.Part image, // with changed image
-                                   @Part("user") UserData userData);
-    @Multipart
-    @POST("/yobo/recipe/updateUser")
-    Call<ResponseBody> updateUserWithoutImage(@Part("exit") MultipartBody.Part image, // no changed image
+    Call<ResponseBody> updateUser(@Part MultipartBody.Part image,
                                    @Part("user") UserData userData);
 
     @POST("/yobo/recipe/addShortCut")

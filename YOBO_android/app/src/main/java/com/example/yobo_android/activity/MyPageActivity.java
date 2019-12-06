@@ -17,15 +17,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,7 +38,6 @@ import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.api.ApiService;
-import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.UserData;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
@@ -42,17 +45,20 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ModifyMyInfoActivity extends AppCompatActivity {
+import static android.media.ExifInterface.ORIENTATION_NORMAL;
+import static android.media.ExifInterface.TAG_ORIENTATION;
+
+public class MyPageActivity extends AppCompatActivity {
 
     private static final int PICK_FROM_ALBUM = 1000;
-    private static final int PICK_FROM_ALBUM2 = 2000;
 
     UserData userData;
-    Uri userPicture;
+    Uri userPicture = null;
     ArrayList<String> userAddress = new ArrayList<>();
     ArrayList<String> userInterestCategory = new ArrayList<>();
 
@@ -60,9 +66,7 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
     EditText mEditUserName;
     EditText mEditUserAddress1;
     EditText mEditUserAddress2;
-    Spinner mUserFavorite1;
-    Spinner mUserFavorite2;
-    Spinner mUserFavorite3;
+    ArrayList<Spinner> mUserFavorites = new ArrayList<>();
 
     Button btnModify;
     Button btnCancel;
@@ -70,15 +74,16 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_my_info);
+        setContentView(R.layout.activity_my_page);
 
+        Log.i("ddd1",userPicture+"");
         mEdieUserPicture = findViewById(R.id.edif_userPicture);
         mEditUserName = findViewById(R.id.edit_userName);
         mEditUserAddress1 = findViewById(R.id.edit_userAddress1);
         mEditUserAddress2 = findViewById(R.id.edit_userAddress2);
-        mUserFavorite1 = findViewById(R.id.userFavorite1);
-        mUserFavorite2 = findViewById(R.id.userFavorite2);
-        mUserFavorite3 = findViewById(R.id.userFavorite3);
+        mUserFavorites.add((Spinner)findViewById(R.id.userFavorite1));
+        mUserFavorites.add((Spinner)findViewById(R.id.userFavorite2));
+        mUserFavorites.add((Spinner)findViewById(R.id.userFavorite3));
         btnModify = findViewById(R.id.btnModify);
         btnCancel = findViewById(R.id.btnCancel);
 
@@ -101,12 +106,16 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
                     mEditUserName.setText(userData.getUser_name());
                     mEditUserAddress1.setText(userData.getUser_address().get(0));
                     mEditUserAddress2.setText(userData.getUser_address().get(1));
-                    if(userData.getInterest_category().size() > 0)
-                        mUserFavorite1.setSelection(getSpinnerIndex(mUserFavorite1, userData.getInterest_category().get(0)));
-                    if(userData.getInterest_category().size() > 1)
-                        mUserFavorite2.setSelection(getSpinnerIndex(mUserFavorite2, userData.getInterest_category().get(1)));
-                    if(userData.getInterest_category().size() > 2)
-                        mUserFavorite3.setSelection(getSpinnerIndex(mUserFavorite3, userData.getInterest_category().get(2)));
+                    for(int i=0; i< userData.getInterest_category().size(); i++)
+                        mUserFavorites.get(i).setSelection(getSpinnerIndex(mUserFavorites.get(i), userData.getInterest_category().get(i)));
+
+                    if(userData.getImage() != null){
+                        String temp =  userData.getImage();
+                        temp = temp.replace("/", "%2F");
+                        String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                        Uri uri = Uri.parse(sum);
+                        Picasso.get().load(uri).fit().centerInside().error(R.drawable.user).into(mEdieUserPicture);
+                    }
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
@@ -129,9 +138,8 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
                 userAddress.add(mEditUserAddress1.getText().toString());
                 userAddress.add(mEditUserAddress2.getText().toString());
 
-                userInterestCategory.add(mUserFavorite1.getSelectedItem().toString());
-                userInterestCategory.add(mUserFavorite2.getSelectedItem().toString());
-                userInterestCategory.add(mUserFavorite3.getSelectedItem().toString());
+                for(int i=0; i< mUserFavorites.size(); i++)
+                    userInterestCategory.add(mUserFavorites.get(i).getSelectedItem().toString());
 
                 userData.setUser_name(mEditUserName.getText().toString());
                 userData.setUser_address(userAddress);
@@ -147,26 +155,30 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
                         .client(okhttpClientBuilder2.build())
                         .build();
                 ApiService apiService2 = retrofit2.create(ApiService.class);
+
+                MultipartBody.Part imagePart = null;
                 Call<ResponseBody> call2 = null;
 
-                if(userPicture == null){ // image 수정 X
-                    call2 = apiService2.updateUserWithoutImage(null, userData);
+                if(userPicture == null){
+                    userData.setImage("exit");
+                    call2 = apiService2.updateUser(null,userData);
                 }
-                else { // image 수정
-                    MultipartBody.Part image  = prepareFileParts("image", userPicture);
-                    call2 = apiService2.updateUserWithImage(image, userData);
+                else{
+                    imagePart = prepareFileParts("image",userPicture);
+                    userData.setImage("change");
+                    call2 = apiService2.updateUser(imagePart, userData);
                 }
 
                 if (call2 != null) {
                     call2.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
-                            Toast.makeText(ModifyMyInfoActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyPageActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                         @Override
                         public void onFailure(Call<ResponseBody> call2, Throwable t) {
-                            Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -176,7 +188,7 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ModifyMyInfoActivity.super.onBackPressed();
+                MyPageActivity.super.onBackPressed();
             }
         });
     }
@@ -259,6 +271,13 @@ public class ModifyMyInfoActivity extends AppCompatActivity {
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(),
                 inImage, "ResizeImage", null);
         return Uri.parse(path);
+    }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 
     @Override
