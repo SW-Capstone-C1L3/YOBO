@@ -134,11 +134,7 @@ public interface ApiService {
 
     @Multipart
     @POST("/yobo/recipe/updateUser")
-    Call<ResponseBody> updateUserWithImage(@Part("change") MultipartBody.Part image, // with changed image
-                                   @Part("user") UserData userData);
-    @Multipart
-    @POST("/yobo/recipe/updateUser")
-    Call<ResponseBody> updateUserWithoutImage(@Part("exit") MultipartBody.Part image, // no changed image
+    Call<ResponseBody> updateUser(@Part MultipartBody.Part image,
                                    @Part("user") UserData userData);
 
     @POST("/yobo/recipe/addShortCut")

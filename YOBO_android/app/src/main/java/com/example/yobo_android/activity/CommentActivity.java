@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CommentActivity extends AppCompatActivity {
-    private CommentByUserAdapter adapter_comment;
+    private CommentByUserAdapter commentAdapter;
     private String comments;
     List<CommentData> commentList = new ArrayList<>();
     Retrofit retrofit;
@@ -69,7 +69,7 @@ public class CommentActivity extends AppCompatActivity {
                     }
                     else {
                         for (int i = 0; i < commentList.size(); i++) {
-                            adapter_comment.addItem(commentList.get(i), i);
+                            commentAdapter.addItem(commentList.get(i), i);
                         }
                     }
                 }
@@ -86,7 +86,7 @@ public class CommentActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerCommentView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter_comment = new CommentByUserAdapter();
-        recyclerView.setAdapter(adapter_comment);
+        commentAdapter = new CommentByUserAdapter();
+        recyclerView.setAdapter(commentAdapter);
     }
 }

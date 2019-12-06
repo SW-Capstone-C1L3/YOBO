@@ -18,11 +18,6 @@ import com.example.yobo_android.R;
 
 public class CategorySearchActivity extends AppCompatActivity {
 
-//    private TextView mBtnKorean;
-//    private TextView mBtnWestern;
-//    private TextView mBtnChinese;
-//    private TextView mBtnJapanese;
-
     private LinearLayout mBtnKorean;
     private LinearLayout mBtnWestern;
     private LinearLayout mBtnChinese;
@@ -33,7 +28,6 @@ public class CategorySearchActivity extends AppCompatActivity {
     private LinearLayout mBtnNoodle;
     private LinearLayout mBtnMeat;
     private LinearLayout mBtnDesert;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,64 +48,42 @@ public class CategorySearchActivity extends AppCompatActivity {
         LinearLayout.OnClickListener onClickListener = new TextView.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent();
-                String category;
+                Intent intent;
+                String category = "";
                 switch (v.getId()){
                     case R.id.btnKorean:
-                        // category keyword와 같이
                         category = "한식";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.btnWestern:
-                        // category keyword와 같이
                         category="양식";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.btnChinese:
-                        // category keyword와 같이
                         category="중식";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.btnJapanese:
-                        // category keyword와 같이
                         category="일식";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.rice:
                         category="밥";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.fry:
                         category="튀김";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.soup:
                         category="국물";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.noodle:
                         category="면";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.meat:
                         category="고기";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                     case R.id.desert:
                         category="디저트";
-                        intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
-                        intent.putExtra("category",category);
                         break;
                 }
+                intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
+                intent.putExtra("category",category);
                 startActivity(intent);
             }
         };
