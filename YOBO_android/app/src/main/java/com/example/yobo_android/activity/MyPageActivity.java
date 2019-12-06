@@ -23,7 +23,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -43,6 +45,7 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -290,32 +293,8 @@ public class MyPageActivity extends AppCompatActivity {
             }
 
             if(requestCode == PICK_FROM_ALBUM){
-                float rotation = 0;
                 userPicture = imageUri;
-                try {
-                    ExifInterface exifInterface = new ExifInterface(userPicture.toString());
-                    int orientation = exifInterface.getAttributeInt(TAG_ORIENTATION, ORIENTATION_NORMAL);
-                    Log.i("ddd4",orientation+": orientation");
-                    switch (orientation){
-                        case ExifInterface.ORIENTATION_ROTATE_90: {
-                            rotation = -90f;
-                            break;
-                        }
-                        case ExifInterface.ORIENTATION_ROTATE_180: {
-                            rotation = -180f;
-                            break;
-                        }
-                        case ExifInterface.ORIENTATION_ROTATE_270: {
-                            rotation = 90f;
-                            break;
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-                Picasso.get().load(imageUri).rotate(rotation).into(mEdieUserPicture);
+                Picasso.get().load(imageUri).into(mEdieUserPicture);
             }
         }
     }
