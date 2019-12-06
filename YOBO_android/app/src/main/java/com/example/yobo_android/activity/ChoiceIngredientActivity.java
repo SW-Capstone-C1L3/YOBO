@@ -42,8 +42,8 @@ import java.util.Arrays;
 */
 
 public class ChoiceIngredientActivity extends AppCompatActivity {
-    GridView srcGrid;
-    GridView destGrid;
+    GridView mSrcGrid;
+    GridView mDestGrid;
 
     ArrayList<IngredientData> srcIngredient
             = new ArrayList<>(Arrays.asList(
@@ -64,7 +64,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             new IngredientData("파",R.drawable.ingre_greenonion),
             new IngredientData("양파",R.drawable.ingre_onion)
             ));
-
     ArrayList<IngredientData> destIngredient = new ArrayList<>();
 
     GridAdapter srcAdapter = new GridAdapter(this, srcIngredient);
@@ -75,13 +74,13 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_ingredient);
 
-        srcGrid = findViewById(R.id.srcIngredient);
-        srcGrid.setOnDragListener(new MyDragListener());
-        srcGrid.setAdapter(srcAdapter);
+        mSrcGrid = findViewById(R.id.srcIngredient);
+        mSrcGrid.setOnDragListener(new MyDragListener());
+        mSrcGrid.setAdapter(srcAdapter);
 
-        destGrid = findViewById(R.id.destIngredient);
-        destGrid.setOnDragListener(new MyDragListener());
-        destGrid.setAdapter(destAdapter);
+        mDestGrid = findViewById(R.id.destIngredient);
+        mDestGrid.setOnDragListener(new MyDragListener());
+        mDestGrid.setAdapter(destAdapter);
 
         findViewById(R.id.btnSearch).setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -171,11 +170,11 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
 
                     IngredientData selectedIngredient = ((GridItem)view).getData();
                     if(preView != curView){
-                        if(v.getId() == destGrid.getId()){
+                        if(v.getId() == mDestGrid.getId()){
                             srcIngredient.remove(selectedIngredient);
                             destIngredient.add(selectedIngredient);
                         }
-                        else if(v.getId() == srcGrid.getId()){
+                        else if(v.getId() == mSrcGrid.getId()){
                             destIngredient.remove(selectedIngredient);
                             srcIngredient.add(selectedIngredient);
                         }

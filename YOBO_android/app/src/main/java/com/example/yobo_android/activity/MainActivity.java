@@ -1,12 +1,10 @@
 package com.example.yobo_android.activity;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -18,16 +16,12 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -41,7 +35,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -245,13 +238,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
-        //search_menu.xml 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_action, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-//        searchItem.set
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("레시피 검색");
+
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -268,8 +260,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-        searchView.setQueryHint("레시피 검색");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             //검색버튼을 눌렀을 경우
@@ -280,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(getApplication(),BoardActivity.class);
                 intent.putExtra("query",query);
                 startActivityForResult(intent,REQUEST_TEST);
+                searchView.clearFocus();
                 return true;
             }
 
@@ -291,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+        searchView.clearFocus();
 //        return super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -332,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else{
                 //내 회원정보 수정으로 변경
-                intent = new Intent(MainActivity.this, ModifyMyInfoActivity.class);
+                intent = new Intent(MainActivity.this, MyPageActivity.class);
             }
         }
         else if(id==R.id.nav_myShopLog){

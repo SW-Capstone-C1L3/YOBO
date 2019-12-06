@@ -1,6 +1,7 @@
 package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.activity.ShopIngredientActivity;
 import com.example.yobo_android.etc.Cooking_ingredient;
 
 import java.util.ArrayList;
@@ -15,16 +17,12 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ItemViewHolder>{
+public class IngredientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    // adapter에 들어갈 list 입니다.
     private ArrayList<Cooking_ingredient> mListIngredient = new ArrayList<>();
     private Context mContext;
 
-    // RecyclerView의 핵심인 ViewHolder 입니다.
-    // 여기서 subView를 setting 해줍니다.
-    // 즉 item view를 저장하는 뷰홀드 클래스
-    class ItemViewHolder extends RecyclerView.ViewHolder {
+    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mIngredientName;
         private TextView mIngredientQty;
@@ -38,45 +36,50 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             mIngredientUnit = itemView.findViewById(R.id.ingredientunit2);
         }
 
-        void onBind(Cooking_ingredient ingredient) {
+        void onBind(Cooking_ingredient ingredient, int position) {
             mIngredientName.setText(ingredient.getIngredients_name());
-            if(Math.floor(ingredient.getQty()) == Integer.valueOf(ingredient.getQty().intValue())){
+            if(Math.floor(ingredient.getQty()) == Integer.valueOf(ingredient.getQty().intValue())) // integer
                 mIngredientQty.setText(Integer.valueOf(ingredient.getQty().intValue())+"");
-            }
-            else{
-                mIngredientQty.setText(ingredient.getQty()+"");
-            }
+            else
+                mIngredientQty.setText(ingredient.getQty()+""); // float
             mIngredientUnit.setText(ingredient.getUnit());
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(getAdapterPosition() != RecyclerView.NO_POSITION){
+                Intent intent = new Intent(mContext, ShopIngredientActivity.class);
+                intent.putExtra("query", mIngredientName.getText().toString());
+                mContext.startActivity(intent);
+            }
         }
     }
 
-    // item view를 위한 viewHolder 객체 생성 및 return
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.mContext = parent.getContext();
         RecyclerView.ViewHolder holder;
         View view;
-
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
-
-        return new ItemViewHolder(view);
+        holder = new ItemViewHolder(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        holder.onBind(mListIngredient.get(position));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+        itemViewHolder.onBind(mListIngredient.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        // RecyclerView의 총 개수 입니다.
         return mListIngredient.size();
     }
 
     public void addItem(Cooking_ingredient ingredient) {
-        // 외부에서 item을 추가시킬 함수입니다.
         mListIngredient.add(ingredient);
     }
 }
