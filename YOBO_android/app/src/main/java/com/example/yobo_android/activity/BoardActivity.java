@@ -39,7 +39,7 @@ public class BoardActivity extends AppCompatActivity {
     Retrofit retrofit;
     ApiService apiService;
 
-    private BoardAdapter adapter;
+    private BoardAdapter boardAdapter;
 
     private String query = null;
     private String category;
@@ -98,7 +98,7 @@ public class BoardActivity extends AppCompatActivity {
                     }
                     else {
                         for (int i = 0; i < recipeList.size(); i++) {
-                            adapter.addItem(recipeList.get(i), i);
+                            boardAdapter.addItem(recipeList.get(i), i);
                         }
                     }
                 }
@@ -115,7 +115,7 @@ public class BoardActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerBoardView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new BoardAdapter();
-        recyclerView.setAdapter(adapter);
+        boardAdapter = new BoardAdapter();
+        recyclerView.setAdapter(boardAdapter);
     }
 }
