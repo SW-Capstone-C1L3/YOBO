@@ -242,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.toolbar_action, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-
         searchView.setQueryHint("레시피 검색");
 
         // Detect SearchView icon clicks

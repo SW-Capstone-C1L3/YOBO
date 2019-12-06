@@ -4,6 +4,7 @@ import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.etc.SelectedBasketLogData;
 import com.example.yobo_android.etc.ShopLogData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.etc.UserData;
@@ -102,6 +103,10 @@ public interface ApiService {
                                        @Query("pageNum") int pageNum,
                                        @Query("pageSize") int pageSize);
 
+    @GET("/yobo/transaction/getByDid")
+    Call<List<SelectedBasketLogData>> getSelectedLogData(@Query("Did") String Did,
+                                                         @Query("pageNum") int pageNum,
+                                                         @Query("pageSize") int pageSize);
     /*Basket*/
 
     @FormUrlEncoded

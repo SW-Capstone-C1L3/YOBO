@@ -27,32 +27,52 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView
-                            android:id="@+id/BuyLog"
+                            android:id="@+id/item_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="구매 물품"
                             android:textSize="16sp"
+                            android:hint="물품 이름"
                             android:textStyle="bold" />
                         <TextView
-                            android:id="@+id/buyDate"
+                            android:id="@+id/transition_status"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:hint="구매날짜"
+                            android:hint="배송진행 상태"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/tot_price"
-                        android:layout_width="wrap_content"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="금액"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/item_qty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="수량"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:id="@+id/item_total_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="left"
+                            android:gravity="right"
+                            android:hint="가격"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
