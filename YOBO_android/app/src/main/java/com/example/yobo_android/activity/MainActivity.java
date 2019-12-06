@@ -119,10 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SharedPreferences sf = getSharedPreferences("sFile",MODE_PRIVATE);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         permissionCheck();
@@ -130,12 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mPager = (ViewPager) findViewById(R.id.pagerMain);
         pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
-
         mBtnOpen = findViewById(R.id.menuImageButton);
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,12 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 else if(mBtnLoginInNavHeader.getText().equals("로그아웃")){
                     Log.i("kkkk22222","로그아웃 누름");
-                    SharedPreferences pref = getSharedPreferences("sFile", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.clear();
-                    editor.commit();
                     NaverLoginActivity.mOAuthLoginInstance.logout((NaverLoginActivity)NaverLoginActivity.mContext);
-
                     mBtnLoginInNavHeader.setText("로그인");
                     nav_header_user_email.setText("이메일");
                     nav_header_user_name.setText("없음");
@@ -298,7 +288,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("레시피 검색");
-
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -314,9 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -328,7 +315,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 searchView.clearFocus();
                 return true;
             }
-
             //텍스트가 바뀔때마다 호출
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -338,7 +324,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         searchView.clearFocus();
-//        return super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -501,13 +486,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
                 mBtnLoginInNavHeader.setText("로그아웃");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
-                //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
-                editor.putString("u_name",u_name);
-                editor.putString("u_email",u_email);
-                editor.commit();
                 setImage();     //사용자 얼굴 설정
             }
         }
@@ -550,20 +528,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
         builder.show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Activity가 종료되기 전에 저장한다.
-        //SharedPreferences를 sFile이름, 기본모드로 설정
-        SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
-
-        //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
-        editor.putString("u_name",u_name);
-        editor.putString("u_email",u_email);
-        editor.commit();
     }
 }
