@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView mNavigationView;
     private int REQUEST_TEST =1000;
     private int REQUEST_NAVER=2000;
+    private int REQUEST_IMAGE_CHANGE=3000;
 //    private Button mBtnRecipeRecommendation;
     private LinearLayout mBtnChoiceIngredient;
     private LinearLayout mBtnRecipeCategory;
@@ -179,8 +180,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View.OnClickListener clickListener = new View.OnClickListener() {
             public void onClick(View v) {
                 if (v.equals(mUserPicture)) {
-                    Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
-                    startActivity(intent);
+                    if(u_id!=null) {
+                        Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+                        startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
+                    }
+                    else
+                        showLoginAlertDialog(4);
                 }
             }
         };
@@ -396,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -504,9 +508,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 editor.putString("u_name",u_name);
                 editor.putString("u_email",u_email);
                 editor.commit();
-
                 setImage();     //사용자 얼굴 설정
             }
+        }
+        else if(requestCode==REQUEST_IMAGE_CHANGE){
+            if(resultCode==RESULT_OK && data.getStringExtra("result").equals("change"))
+                setImage();
         }
     }
     public Point getScreenSize(Activity activity) {
@@ -528,6 +535,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.setMessage("로그인을 해야 내 쇼핑정보를 볼 수 있습니다.");
         else if(flag==3)
             builder.setMessage("로그인을 해야 댓글 단 레시피를 볼 수 있습니다");
+        else if(flag==4)
+            builder.setMessage("로그인을 해야 회원정보 수정화면으로 갈 수 있습니다");
         builder.setPositiveButton("로그인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
