@@ -38,6 +38,8 @@ import com.example.yobo_android.etc.Recipe;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -299,18 +301,17 @@ public class RecipeMainActivity extends AppCompatActivity {
                             .build();
                     ApiService apiService5 = retrofit5.create(ApiService.class);
 
-                    Log.i("ddddd",MainActivity.u_id);
-                    Call<ResponseBody> call5 = apiService5.addShortCut(recipeId, MainActivity.u_id);
-                    call5.enqueue(new Callback<ResponseBody>() {
+                    Call<Integer> call5 = apiService5.addShortCut(recipeId, MainActivity.u_id);
+                    call5.enqueue(new Callback<Integer>() {
                         @Override
-                        public void onResponse(Call<ResponseBody> call5, Response<ResponseBody> response5) {
-//                            if(true)
+                        public void onResponse(Call<Integer> call5, Response<Integer> response5) {
+                            if(response5.body() == 1)
                                 Toast.makeText(getApplicationContext(),"관심있는 레시피 추가",Toast.LENGTH_SHORT).show();
-//                            else
-//                                Toast.makeText(getApplicationContext(),"관심있는 레시피 삭제",Toast.LENGTH_SHORT);
+                            else
+                                Toast.makeText(getApplicationContext(),"관심있는 레시피 삭제",Toast.LENGTH_SHORT).show();
                         }
                         @Override
-                        public void onFailure(Call<ResponseBody> call5, Throwable t) {
+                        public void onFailure(Call<Integer> call5, Throwable t) {
                             Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT).show();
                         }
                     });

@@ -1,5 +1,6 @@
 package com.example.yobo_android.etc;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -38,7 +39,7 @@ public class UserData {
     private List<String> user_address = null;
     @SerializedName("recipe_shotcut")
     @Expose
-    private List<String> recipe_shotcut = null;
+    private ArrayList<String> recipe_shotcut = null;
 
     public String get_id() {
         return _id;
@@ -121,11 +122,11 @@ public class UserData {
         this.user_address = user_address;
     }
 
-    public List<String> getRecipe_shotcut() {
+    public ArrayList<String> getRecipe_shotcut() {
         return recipe_shotcut;
     }
 
-    public void setRecipe_shotcut(List<String> recipe_shotcut) {
+    public void setRecipe_shotcut(ArrayList<String> recipe_shotcut) {
         this.recipe_shotcut = recipe_shotcut;
     }
 

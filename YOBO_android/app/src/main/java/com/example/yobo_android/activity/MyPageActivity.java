@@ -78,7 +78,6 @@ public class MyPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
 
-        Log.i("ddd1",userPicture+"");
         mEdieUserPicture = findViewById(R.id.edif_userPicture);
         mEditUserName = findViewById(R.id.edit_userName);
         mEditUserAddress1 = findViewById(R.id.edit_userAddress1);
