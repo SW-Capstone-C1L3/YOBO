@@ -151,6 +151,11 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyItemChanged(position);
     }
 
+    public void deleteItem(int position){
+        listRecipe.remove(position);
+        notifyItemChanged(position);
+    }
+
     private void showDeleteAlertDialog(View view, final int pos){
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getRootView().getContext());
         builder.setIcon(R.drawable.ic_error_outline_24dp);
