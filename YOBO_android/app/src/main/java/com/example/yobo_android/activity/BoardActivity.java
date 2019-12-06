@@ -103,6 +103,8 @@ public class BoardActivity extends AppCompatActivity {
             mSearchView.setVisibility(View.GONE);
             call = RetrofitClient.getInstance().getApiService().getByingredients(ingredients, 0, 10);
         }
+        else if(shotcut)
+            call = RetrofitClient.getInstance().getApiService().getByshortcut(MainActivity.u_id,0,10);
         else{
             mSearchView.setVisibility(View.GONE);
             call = RetrofitClient.getInstance().getApiService().getRecipeList(0,10);
