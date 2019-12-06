@@ -19,6 +19,7 @@
             android:id="@+id/userPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:src="@drawable/user"/>
@@ -43,19 +44,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/nav_header_subtitle" />
             </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
             <Button
                 android:id="@+id/loginButtonInNavHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:text="로그인"
                 android:textColor="@color/colorWhite"
                 android:background="@android:color/transparent"
-                android:layout_gravity="left"
-                android:gravity="center"/>
+                android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
