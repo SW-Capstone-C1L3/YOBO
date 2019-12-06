@@ -46,7 +46,7 @@
         <activity android:name=".activity.ShowDetailedShopLogActivity"/>
         <activity android:name=".activity.RecipeActivity" />
         <activity android:name=".activity.NaverLoginActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.ShowShopLogActivity"/>
         <activity android:name=".activity.ShowSelectedIngredientInfoActivity" />
         <activity android:name=".activity.ShopIngredientActivity" />

@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.toolbar_action, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
+//        searchItem.set
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
