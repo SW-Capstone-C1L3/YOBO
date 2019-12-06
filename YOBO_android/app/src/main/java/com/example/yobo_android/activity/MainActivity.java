@@ -59,27 +59,31 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
     private int REQUEST_TEST =1000;
     private int REQUEST_NAVER=2000;
+
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+
 //    private Button mBtnRecipeRecommendation;
     private LinearLayout mBtnChoiceIngredient;
     private LinearLayout mBtnRecipeCategory;
     private LinearLayout mBtnShop;
     private LinearLayout mBtnWriteRecipe;
     private TextView mtoolbarTitle;
+
     // for recipe recommendation
     private int NUM_PAGES = 3;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
+
     // user Info in nav header
     private TextView nav_header_user_name;
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-    public static String d_id;
+
     public static String u_id;
     public static String u_phone;
     public static String u_name;
@@ -304,7 +308,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.putExtra("u_name",u_name);
             }
         }else if(id == R.id.nav_scrap_recipe){
-            intent = new Intent(MainActivity.this,BoardActivity.class);
+            if(u_id == null){
+                showLoginAlertDialog(0);
+                dialogFlag = true;
+            }else{
+                intent = new Intent(MainActivity.this,BoardActivity.class);
+                intent.putExtra("shotcut", true);
+            }
         }
         else if(id==R.id.nav_commented_recipe){
             if(u_id == null){
@@ -447,6 +457,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 u_name = data.getStringExtra("user_name");
                 u_email = data.getStringExtra("user_email");
                 u_phone = data.getStringExtra("user_phone");
+
                 nav_header_user_name.setText(u_name);
                 nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
                 mBtnLoginInNavHeader.setText("로그아웃");

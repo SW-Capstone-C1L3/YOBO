@@ -58,6 +58,11 @@ public interface ApiService {
                                    @Query("pageNum") int pageNum,
                                    @Query("pageSize") int pageSize);
 
+    @GET("/yobo/recipe/getByshortcut/")
+    Call<List<Recipe>> getByshortcut(@Query("uid") String uid,
+                                   @Query("pageNum") int pageNum,
+                                   @Query("pageSize") int pageSize);
+
     @GET("yobo/recipe/getListbyCate/")
     Call<List<Recipe>> getListByCate(@Query("cate") String cate,
                                      @Query("pageNum") int pageNum,
@@ -138,7 +143,7 @@ public interface ApiService {
                                    @Part("user") UserData userData);
 
     @POST("/yobo/recipe/addShortCut")
-    Call<ResponseBody> addShortCut(@Query("Rid") String recipeId,
-                                   @Query("Uid") String userId);
+    Call<Integer> addShortCut(@Query("Rid") String recipeId,
+                              @Query("Uid") String userId);
 }
 

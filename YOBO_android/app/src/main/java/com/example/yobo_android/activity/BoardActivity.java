@@ -1,6 +1,8 @@
 package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BoardActivity extends AppCompatActivity {
 
-    List<Recipe> recipeList = new ArrayList<>();
+    List<Recipe> recipeList;
 
     Retrofit retrofit;
     ApiService apiService;
@@ -44,12 +46,17 @@ public class BoardActivity extends AppCompatActivity {
     private String query = null;
     private String category;
     private List<String> ingredients;
+    private boolean shotcut = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (getIntent().getStringExtra("query") != null) {
             query = getIntent().getStringExtra("query");
         }
@@ -59,8 +66,11 @@ public class BoardActivity extends AppCompatActivity {
         if (getIntent().getStringArrayListExtra("ingredients") != null) {
             ingredients = getIntent().getStringArrayListExtra("ingredients");
         }
+        if (getIntent().getBooleanExtra("shotcut",shotcut)) {
+            shotcut = getIntent().getBooleanExtra("shotcut",shotcut);
+        }
 
-
+        recipeList = new ArrayList<>();
         recyclerViewInit();
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -76,13 +86,15 @@ public class BoardActivity extends AppCompatActivity {
 
         if (query != null)
             call = apiService.search(query, 0, 10);
-        else if(category != null){
-                call = apiService.getListByCate(category, 0, 10);
-        } else if(ingredients != null){
+        else if(category != null)
+            call = apiService.getListByCate(category, 0, 10);
+        else if(ingredients != null)
             call = apiService.getByingredients(ingredients, 0, 10);
-        }
+        else if(shotcut)
+            call = apiService.getByshortcut(MainActivity.u_id,0,10);
         else
             call = apiService.getRecipeList(0,10);
+
         if (call != null) {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
