@@ -2,6 +2,8 @@ package com.example.yobo_android.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +27,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShowShopLogActivity extends AppCompatActivity {
 
+    private LinearLayout mLayoutEmptyNotify;
+    private RecyclerView recyclerView;
     List<ShopLogData> LogList = new ArrayList<>();
     Retrofit retrofit;
     ApiService apiService;
@@ -56,9 +60,15 @@ public class ShowShopLogActivity extends AppCompatActivity {
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     LogList = response.body();
-                    for (int i = 0; i < LogList.size(); i++) {
-                        adapter.addItem(LogList.get(i),i);
+                    if(LogList.isEmpty()){
+                        recyclerView.setVisibility(View.GONE);
+                        mLayoutEmptyNotify.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        for (int i = 0; i < LogList.size(); i++) {
+                            adapter.addItem(LogList.get(i), i);
 //                        Log.i("TEST1112",LogList.get(i).get_id());
+                        }
                     }
                 }
                 @Override
@@ -71,7 +81,10 @@ public class ShowShopLogActivity extends AppCompatActivity {
         }
     }
     private void recyclerViewInit() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerLogView);
+        mLayoutEmptyNotify = findViewById(R.id.emptyNotifyLayout);
+        mLayoutEmptyNotify.setVisibility(View.GONE);
+
+        recyclerView = findViewById(R.id.recyclerLogView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ShopLogAdapter();
