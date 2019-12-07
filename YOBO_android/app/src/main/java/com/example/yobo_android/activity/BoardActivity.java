@@ -59,9 +59,7 @@ public class BoardActivity extends AppCompatActivity {
         mBtnBack = findViewById(R.id.arrow_back_ImageButton);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                finish();
-            }
+            public void onClick(View v) { finish(); }
         });
         mSearchView = findViewById(R.id.toolbar_search);
         searchViewSetting();

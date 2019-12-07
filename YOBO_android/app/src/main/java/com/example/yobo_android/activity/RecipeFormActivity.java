@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -405,9 +408,21 @@ public class RecipeFormActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(pictureSelected(resultCode,data)){
-            Uri imageUri = null;
+            Uri imageUri = data.getData();
+            ExifInterface oldExif = null;
+            String exifOrientation;
+            int degree = 0;
+            try {
+                oldExif = new ExifInterface(getRealPathFromUri(getApplicationContext(),imageUri));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            exifOrientation = oldExif.getAttribute(ExifInterface.TAG_ORIENTATION);
+            if (exifOrientation != null) degree = getOrientation(Integer.parseInt(exifOrientation));
+
             try {
                 Bitmap resize = getBitmapFromUri(data.getData());
+                resize = RotateBitmap(resize, degree);
                 imageUri = getImageUri(getApplicationContext(), resize);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -557,14 +572,14 @@ public class RecipeFormActivity extends AppCompatActivity  {
 
         // ex) 4096 * 3800
         int width = opts.outWidth;
-        int height=opts.outHeight;
+        int height = opts.outHeight;
 
         float sampleRatio = getSampleRatio(width, height);
 
         opts.inJustDecodeBounds=false;
         opts.inSampleSize=(int)sampleRatio;
 
-        Bitmap resizedBitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor, null, opts);
+        Bitmap resizedBitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, opts);
         Log.d("Resizing", "Resized Width / Height" + resizedBitmap.getWidth() + "/" + resizedBitmap.getHeight());
         parcelFileDescriptor.close();
         return resizedBitmap;
@@ -601,6 +616,51 @@ public class RecipeFormActivity extends AppCompatActivity  {
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(),
                 inImage, "ResizeImage", null);
         return Uri.parse(path);
+    }
+
+    public static String getRealPathFromUri(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    public int getOrientation(int orientation){
+        int degree;
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                degree = 0;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                degree = 90;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                degree = 180;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                degree = 270;
+                break;
+            case ExifInterface.ORIENTATION_UNDEFINED:
+                degree = 0;
+                break;
+            default:
+                degree = 90;
+        }
+        return degree;
     }
 
 }
