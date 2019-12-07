@@ -1,155 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
-    android:background="#207725">
+    android:background="@color/colorPrimary">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/loginLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_marginTop="@dimen/space56"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:background="#207725">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical" >
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="AT" />
-                <TextView
-                    android:id="@+id/oauth_access_token"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textIsSelectable="true"
-                    android:text="AT" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="RT" />
-                <TextView
-                    android:id="@+id/oauth_refresh_token"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="AT" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="expires" />
-                <TextView
-                    android:id="@+id/oauth_expires"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="-1" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="type" />
-                <TextView
-                    android:id="@+id/oauth_type"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="bearer?" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="현재상태" />
-                <TextView
-                    android:id="@+id/oauth_state"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="state?" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
-            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-                android:id="@+id/buttonOAuthLoginImg"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonOAuth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Log_in" />
-        <Button
-            android:id="@+id/buttonOAuthLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Log_out" />
-        <Button
-            android:id="@+id/buttonRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="refresh_token" />
-
-        <Button
-            android:id="@+id/getUserdata"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="getUserdata" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1" >
-            <TextView
-                android:id="@+id/api_result_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:text="getUserdata"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
-
+        android:layout_below="@+id/loginLogo"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+            android:id="@+id/buttonOAuthLoginImg"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:focusable="true"-->
+<!--        android:focusableInTouchMode="true"-->
+<!--        android:background="#207725">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical" >-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal" >-->
+<!--                <TextView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="AT" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/oauth_access_token"-->
+<!--                    android:layout_width="0dip"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textIsSelectable="true"-->
+<!--                    android:text="AT" />-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal" >-->
+<!--                <TextView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="RT" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/oauth_refresh_token"-->
+<!--                    android:layout_width="0dip"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="AT" />-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal" >-->
+<!--                <TextView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="expires" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/oauth_expires"-->
+<!--                    android:layout_width="0dip"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="-1" />-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal" >-->
+<!--                <TextView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="type" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/oauth_type"-->
+<!--                    android:layout_width="0dip"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="bearer?" />-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal" >-->
+<!--                <TextView-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="현재상태" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/oauth_state"-->
+<!--                    android:layout_width="0dip"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="state?" />-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
+
+
+<!--        <Button-->
+<!--            android:id="@+id/buttonOAuth"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Log_in" />-->
+<!--        <Button-->
+<!--            android:id="@+id/buttonOAuthLogout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Log_out" />-->
+<!--        <Button-->
+<!--            android:id="@+id/buttonRefresh"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="refresh_token" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/getUserdata"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="getUserdata" />-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="0dip"-->
+<!--            android:layout_weight="1" >-->
+<!--            <TextView-->
+<!--                android:id="@+id/api_result_text"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:text="getUserdata"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
+<!--        </LinearLayout>-->
+
+<!--    </LinearLayout>-->
+<!--</ScrollView>-->

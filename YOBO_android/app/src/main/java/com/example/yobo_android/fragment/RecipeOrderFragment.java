@@ -100,7 +100,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         // Retrofit2 때문에 final로, 그래서 다른 함수에서 재활용이 안되네
         mCurImage = view.findViewById(R.id.curimage);
         mCurDescription = view.findViewById(R.id.curdescription);
-
+        mCurDescription.setHint("1");
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -129,6 +129,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                         e.printStackTrace();
                     }
                     mCurDescription.setText(recipe.getCooking_description().get(position).getDescription());
+                    ((RecipeActivity)getActivity()).addDescription(mCurDescription.getText().toString());
                 }
                 @Override
                 public void onFailure(Call<Recipe> call, Throwable t) {
@@ -177,7 +178,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             handler = new Handler(){
                 public void handleMessage(android.os.Message msg) {
                     if(flag==1) {
-//                        Speech();
+                        Speech();
                         flag=0;
                     }
                 }
@@ -209,6 +210,15 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     public void Speech() {
         Log.i("aaaaaaaa","Speech3");
         String text = mCurDescription.getText().toString().trim();
+        tts.setPitch((float) 1.0);      // 음량
+        tts.setSpeechRate((float) 1.5); // 재생속도
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"ababa");
+        while(tts.isSpeaking());
+        ((RecipeActivity)getActivity()).start();
+    }
+
+    public void Speech(String str){
+        String text = str;
         tts.setPitch((float) 1.0);      // 음량
         tts.setSpeechRate((float) 1.5); // 재생속도
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"ababa");

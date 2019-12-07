@@ -73,27 +73,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
     private int REQUEST_TEST =1000;
     private int REQUEST_NAVER=2000;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private int REQUEST_IMAGE_CHANGE=3000;
 //    private Button mBtnRecipeRecommendation;
     private LinearLayout mBtnChoiceIngredient;
     private LinearLayout mBtnRecipeCategory;
     private LinearLayout mBtnShop;
     private LinearLayout mBtnWriteRecipe;
     private TextView mtoolbarTitle;
+
     // for recipe recommendation
     private int NUM_PAGES = 3;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
+
     // user Info in nav header
     private TextView nav_header_user_name;
     private TextView nav_header_user_email;
     private Integer num=0;
     private Button mBtnLoginInNavHeader;
-    public static String d_id;
+
     public static String u_id;
     public static String u_phone;
     public static String u_name;
@@ -118,10 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SharedPreferences sf = getSharedPreferences("sFile",MODE_PRIVATE);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         permissionCheck();
@@ -129,12 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mPager = (ViewPager) findViewById(R.id.pagerMain);
         pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
-
         mBtnOpen = findViewById(R.id.menuImageButton);
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,15 +152,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 else if(mBtnLoginInNavHeader.getText().equals("로그아웃")){
                     Log.i("kkkk22222","로그아웃 누름");
-                    SharedPreferences pref = getSharedPreferences("sFile", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.clear();
-                    editor.commit();
                     NaverLoginActivity.mOAuthLoginInstance.logout((NaverLoginActivity)NaverLoginActivity.mContext);
-
                     mBtnLoginInNavHeader.setText("로그인");
-                    nav_header_user_email.setText("이메일");
-                    nav_header_user_name.setText("없음");
+                    mBtnLoginInNavHeader.setGravity(Gravity.CENTER_HORIZONTAL);
+                    nav_header_user_email.setText("");
+                    nav_header_user_name.setText("");
                     mUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.user));
                     u_id=null;
                 }
@@ -179,8 +173,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View.OnClickListener clickListener = new View.OnClickListener() {
             public void onClick(View v) {
                 if (v.equals(mUserPicture)) {
-                    Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
-                    startActivity(intent);
+                    if(u_id!=null) {
+                        Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+                        startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
+                    }
+                    else
+                        showLoginAlertDialog(4);
                 }
             }
         };
@@ -293,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("레시피 검색");
-
         // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -309,9 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -323,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 searchView.clearFocus();
                 return true;
             }
-
             //텍스트가 바뀔때마다 호출
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -333,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         searchView.clearFocus();
-//        return super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -353,7 +346,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.putExtra("u_name",u_name);
             }
         }else if(id == R.id.nav_scrap_recipe){
-            intent = new Intent(MainActivity.this,BoardActivity.class);
+            if(u_id == null){
+                showLoginAlertDialog(0);
+                dialogFlag = true;
+            }else{
+                intent = new Intent(MainActivity.this,BoardActivity.class);
+                intent.putExtra("shotcut", true);
+            }
         }
         else if(id==R.id.nav_commented_recipe){
             if(u_id == null){
@@ -372,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else{
                 //내 회원정보 수정으로 변경
                 intent = new Intent(MainActivity.this, MyPageActivity.class);
+                startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
             }
         }
         else if(id==R.id.nav_myShopLog){
@@ -383,8 +383,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else
                 intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
         }
-
-        if(!dialogFlag) startActivity(intent);
+        // 수정 필요(프사 바꿀때 실시간으로 업뎃하기 위해서는 MyPageActivity를 startActivityForResult(intent,REQUEST_IMAGE_CHANGE);로 시작해야함
+        if(!dialogFlag && id != R.id.nav_modifyMyInfo) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -396,7 +396,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -493,20 +492,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 u_name = data.getStringExtra("user_name");
                 u_email = data.getStringExtra("user_email");
                 u_phone = data.getStringExtra("user_phone");
+
                 nav_header_user_name.setText(u_name);
                 nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
                 mBtnLoginInNavHeader.setText("로그아웃");
+                mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
-                //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
-                editor.putString("u_name",u_name);
-                editor.putString("u_email",u_email);
-                editor.commit();
-
                 setImage();     //사용자 얼굴 설정
             }
+        }
+        else if(requestCode==REQUEST_IMAGE_CHANGE){
+            if(resultCode==RESULT_OK && data.getBooleanExtra("myImageChange",false))
+                setImage();
         }
     }
     public Point getScreenSize(Activity activity) {
@@ -528,6 +525,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.setMessage("로그인을 해야 내 쇼핑정보를 볼 수 있습니다.");
         else if(flag==3)
             builder.setMessage("로그인을 해야 댓글 단 레시피를 볼 수 있습니다");
+        else if(flag==4)
+            builder.setMessage("로그인을 해야 회원정보 수정화면으로 갈 수 있습니다");
         builder.setPositiveButton("로그인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -541,20 +540,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
         builder.show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Activity가 종료되기 전에 저장한다.
-        //SharedPreferences를 sFile이름, 기본모드로 설정
-        SharedPreferences sharedPreferences = getSharedPreferences("sFile",MODE_PRIVATE);
-
-        //저장을 하기위해 editor를 이용하여 값을 저장시켜준다.
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("u_id",u_id); // key, value를 이용하여 저장하는 형태
-        editor.putString("u_name",u_name);
-        editor.putString("u_email",u_email);
-        editor.commit();
     }
 }

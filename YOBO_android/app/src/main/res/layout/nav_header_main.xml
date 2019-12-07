@@ -18,15 +18,17 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userPicture"
-            android:layout_width="100dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:src="@drawable/user" />
+            android:src="@drawable/user"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -36,27 +38,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/nav_header_vertical_spacing"
-                    android:text="@string/nav_header_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 <TextView
                     android:id="@+id/nav_header_user_email"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nav_header_subtitle" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
             <Button
                 android:id="@+id/loginButtonInNavHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:text="로그인"
                 android:textColor="@color/colorWhite"
                 android:background="@android:color/transparent"
-                android:layout_gravity="left"
-                android:gravity="center"/>
+                android:gravity="center_horizontal"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

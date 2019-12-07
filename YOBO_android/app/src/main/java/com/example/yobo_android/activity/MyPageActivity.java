@@ -3,6 +3,8 @@ package com.example.yobo_android.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -67,7 +69,8 @@ public class MyPageActivity extends AppCompatActivity {
     EditText mEditUserAddress1;
     EditText mEditUserAddress2;
     ArrayList<Spinner> mUserFavorites = new ArrayList<>();
-
+    Boolean flagImageChange = false;
+    String flagInfo;
     Button btnModify;
     Button btnCancel;
 
@@ -76,7 +79,6 @@ public class MyPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
 
-        Log.i("ddd1",userPicture+"");
         mEdieUserPicture = findViewById(R.id.edif_userPicture);
         mEditUserName = findViewById(R.id.edit_userName);
         mEditUserAddress1 = findViewById(R.id.edit_userAddress1);
@@ -174,7 +176,15 @@ public class MyPageActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
                             Toast.makeText(MyPageActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            finish();
+
+                            if (flagImageChange) {
+                                Intent intent = new Intent();
+                                intent.putExtra("myImageChange", true);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                            else
+                                finish();
                         }
                         @Override
                         public void onFailure(Call<ResponseBody> call2, Throwable t) {
@@ -182,6 +192,7 @@ public class MyPageActivity extends AppCompatActivity {
                         }
                     });
                 }
+
             }
         });
 
@@ -295,6 +306,7 @@ public class MyPageActivity extends AppCompatActivity {
             if(requestCode == PICK_FROM_ALBUM){
                 userPicture = imageUri;
                 Picasso.get().load(imageUri).into(mEdieUserPicture);
+                flagImageChange = true;
             }
         }
     }

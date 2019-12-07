@@ -1,6 +1,8 @@
 package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +35,7 @@ import retrofit2.Response;
 
 public class BoardActivity extends AppCompatActivity {
 
-    List<Recipe> recipeList = new ArrayList<>();
+    List<Recipe> recipeList;
 
     private LinearLayout mLayoutEmptyNotify;
     private ImageButton mBtnBack;
@@ -45,13 +47,19 @@ public class BoardActivity extends AppCompatActivity {
     private String query = null;
     private String category;
     private List<String> ingredients;
+    private boolean shotcut = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar_board);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+      Toolbar toolbar = findViewById(R.id.toolbar_board);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -63,6 +71,7 @@ public class BoardActivity extends AppCompatActivity {
         });
         mSearchView = findViewById(R.id.toolbar_search);
         searchViewSetting();
+        
         recyclerViewInit();
 
         if (getIntent().getStringExtra("query") != null) {
@@ -74,6 +83,13 @@ public class BoardActivity extends AppCompatActivity {
         if (getIntent().getStringArrayListExtra("ingredients") != null) {
             ingredients = getIntent().getStringArrayListExtra("ingredients");
         }
+        if (getIntent().getBooleanExtra("shotcut",shotcut)) {
+            shotcut = getIntent().getBooleanExtra("shotcut",shotcut);
+        }
+
+        recipeList = new ArrayList<>();
+        recyclerViewInit();
+        
         Call<List<Recipe>> call = null;
 
         if (query != null)
@@ -85,6 +101,8 @@ public class BoardActivity extends AppCompatActivity {
             mSearchView.setVisibility(View.GONE);
             call = RetrofitClient.getInstance().getApiService().getByingredients(ingredients, 0, 10);
         }
+        else if(shotcut)
+            call = RetrofitClient.getInstance().getApiService().getByshortcut(MainActivity.u_id,0,10);
         else{
             mSearchView.setVisibility(View.GONE);
             call = RetrofitClient.getInstance().getApiService().getRecipeList(0,10);
@@ -106,7 +124,6 @@ public class BoardActivity extends AppCompatActivity {
                 if(recipeList.size()==0){
                     recyclerView.setVisibility(View.GONE);
                     mLayoutEmptyNotify.setVisibility(View.VISIBLE);
-
                 }
                 else {
                     recyclerView.setVisibility(View.VISIBLE);
