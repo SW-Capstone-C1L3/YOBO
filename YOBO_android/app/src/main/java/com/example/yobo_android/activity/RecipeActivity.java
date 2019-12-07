@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar;
 import me.relex.circleindicator.CircleIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
 * 레시피 Activity
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
     FragmentPagerAdapter adapterViewPager;
-
+    private List<String> descriptionlist = new ArrayList<>();
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private static ArrayList<String> description;
@@ -223,14 +224,21 @@ public class RecipeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
             Log.i("aaaaaaaa",result);
             if(result.equals("다음")) {
-                //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
-                mRecognizer.stopListening();
-                selectIndex(++cnt);
+                if(cnt!=recipeDescriptionNum) {
+                    //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
+                    mRecognizer.stopListening();
+                    selectIndex(++cnt);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
+                    //넘어갈 다음 페이지가 존재하지 않음 -> 처리안함
+                }
             }
             else if(result.equals("다시")){
-                adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-                vpPager.setAdapter(adapterViewPager);
                 selectIndex(cnt);
+                RecipeOrderFragment tf = (RecipeOrderFragment) getSupportFragmentManager().findFragmentById(R.id.vpPager);
+                tf.Speech(descriptionlist.get(cnt));
+//                adapterViewPager.notifyDataSetChanged();
             }
         }
 
@@ -241,30 +249,7 @@ public class RecipeActivity extends AppCompatActivity {
         public void onEvent(int eventType, Bundle params) {}
     };
 
-    public void checkInput(String str) {
-        String snackBarMessage = null;
-        if (snackBarMessage==null) {
-            if(str.equals("like")) {
-                if (i == 1)
-                    snackBarMessage = "즐겨찾기가 등록되었습니다";
-                else if (i == 0)
-                    snackBarMessage = "즐겨찾기가 해제되었습니다";
-            }
-            else if(str.equals("alert")){
-                if(j==1)
-                    snackBarMessage = "신고가 접수되었습니다";
-                else if(j==0)
-                    snackBarMessage = "신고가 취소되었습니다";
-            }
-            Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
-                    snackBarMessage, Snackbar.LENGTH_LONG);
-            make.setAction("확인", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                }
-            });
-            make.setActionTextColor(Color.RED);
-            make.show();
-        }
+    public void addDescription(String str){
+        descriptionlist.add(str);
     }
 }
