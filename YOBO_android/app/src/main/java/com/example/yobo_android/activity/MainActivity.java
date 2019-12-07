@@ -154,8 +154,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.i("kkkk22222","로그아웃 누름");
                     NaverLoginActivity.mOAuthLoginInstance.logout((NaverLoginActivity)NaverLoginActivity.mContext);
                     mBtnLoginInNavHeader.setText("로그인");
-                    nav_header_user_email.setText("이메일");
-                    nav_header_user_name.setText("없음");
+                    mBtnLoginInNavHeader.setGravity(Gravity.CENTER_HORIZONTAL);
+                    nav_header_user_email.setText("");
+                    nav_header_user_name.setText("");
                     mUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.user));
                     u_id=null;
                 }
@@ -495,6 +496,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nav_header_user_name.setText(u_name);
                 nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
                 mBtnLoginInNavHeader.setText("로그아웃");
+                mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 setImage();     //사용자 얼굴 설정
             }
