@@ -370,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else{
                 //내 회원정보 수정으로 변경
                 intent = new Intent(MainActivity.this, MyPageActivity.class);
+                startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
             }
         }
         else if(id==R.id.nav_myShopLog){
@@ -381,8 +382,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else
                 intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
         }
-
-        if(!dialogFlag) startActivity(intent);
+        // 수정 필요(프사 바꿀때 실시간으로 업뎃하기 위해서는 MyPageActivity를 startActivityForResult(intent,REQUEST_IMAGE_CHANGE);로 시작해야함
+        if(!dialogFlag && id != R.id.nav_modifyMyInfo) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -499,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(requestCode==REQUEST_IMAGE_CHANGE){
-            if(resultCode==RESULT_OK && data.getStringExtra("result").equals("change"))
+            if(resultCode==RESULT_OK && data.getBooleanExtra("myImageChange",false))
                 setImage();
         }
     }
