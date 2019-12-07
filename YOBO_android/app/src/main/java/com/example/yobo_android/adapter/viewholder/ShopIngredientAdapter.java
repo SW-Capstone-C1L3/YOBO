@@ -23,9 +23,7 @@ import java.util.ArrayList;
 
 public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-
     static final String ImageURL = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=";
-
     private static final int TYPE_ITEM = 1;
     // adapter에 들어갈 list 입니다.
     private ArrayList<ShoppingIngredientData> listShopIngredient = new ArrayList<>();

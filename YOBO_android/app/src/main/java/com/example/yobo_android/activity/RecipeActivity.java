@@ -43,7 +43,6 @@ public class RecipeActivity extends AppCompatActivity {
     private List<String> descriptionlist = new ArrayList<>();
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
-    private static ArrayList<String> description;
 
     private static final String TAG2 ="MyTag2";
     private static final String TAG ="MyTag";
@@ -230,7 +229,7 @@ public class RecipeActivity extends AppCompatActivity {
                     selectIndex(++cnt);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                     //넘어갈 다음 페이지가 존재하지 않음 -> 처리안함
                 }
             }

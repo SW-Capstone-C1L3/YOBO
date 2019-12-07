@@ -16,13 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.BasketActivity;
 import com.example.yobo_android.etc.IngredientsBasketData;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
+    static final String ImageURL = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=";
     private static final int TYPE_ITEM = 1;
     // adapter에 들어갈 list 입니다.
     private ArrayList<IngredientsBasketData> listBasketIngredient = new ArrayList<>();
@@ -50,7 +54,15 @@ public class BasketIngredientAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         void onBind(IngredientsBasketData ingredientsBasketData, int position) {
-            //ingredient_image.setImageResource(Integer.parseInt(ingredientsBasketData.getIngredientImage()));
+            String temp = ingredientsBasketData.getIngredientImage();
+            temp = temp.replace("/", "%2F");
+            String sum = ImageURL + temp;
+            try {
+                URL url = new URL(sum);
+                Picasso.get().load(url.toString()).into(ingredient_image);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             basket_product_Id = ingredientsBasketData.getBasket_product_id();
             btnDelete.setOnClickListener(new View.OnClickListener(){
                 @Override

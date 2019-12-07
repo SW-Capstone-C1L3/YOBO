@@ -30,7 +30,7 @@ public class ShowDetailedShopLogActivity extends AppCompatActivity {
     private String doc_id;
     Retrofit retrofit;
     ApiService apiService;
-    List<SelectedBasketLogData> LogList = new ArrayList<>();
+    SelectedBasketLogData LogData;
     List<ProductData> productList = new ArrayList<>();
     private SelectedShopLogAdapter adapter;
 
@@ -53,25 +53,25 @@ public class ShowDetailedShopLogActivity extends AppCompatActivity {
                 .client(okhttpClientBuilder.build())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        Call<List<SelectedBasketLogData>> call = null;
+        Call<SelectedBasketLogData> call = null;
         call = apiService.getSelectedLogData(doc_id, 0, 10);
 
         if (call != null) {
-            call.enqueue(new Callback<List<SelectedBasketLogData>>() {
+            call.enqueue(new Callback<SelectedBasketLogData>() {
                 @Override
-                public void onResponse(Call<List<SelectedBasketLogData>> call, Response<List<SelectedBasketLogData>> response) {
+                public void onResponse(Call<SelectedBasketLogData> call, Response<SelectedBasketLogData> response) {
                     //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
-                    LogList = response.body();
-                    for (int i = 0; i < LogList.get(0).getProducts().size(); i++) {
-                        productList.add(LogList.get(0).getProducts().get(i));
-                        adapter.addItem(LogList.get(0).getProducts().get(i),i,LogList.get(0).getTransaction_status());
+                    LogData = response.body();
+                    for (int i = 0; i < LogData.getProducts().size(); i++) {
+                        productList.add(LogData.getProducts().get(i));
+                        adapter.addItem(LogData.getProducts().get(i),i,LogData.getTransaction_status());
 //                        Log.i("TEST1112",LogList.get(i).get_id());
                     }
                 }
                 @Override
-                public void onFailure(Call<List<SelectedBasketLogData>> call, Throwable t) {
+                public void onFailure(Call<SelectedBasketLogData> call, Throwable t) {
                     //Toast.makeText(BoardActivity.this, "Fail", Toast.LENGTH_SHORT).show();
                     Log.e("ERROR", call.toString());
                     Log.e("ERROR", t.toString());
