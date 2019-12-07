@@ -44,22 +44,23 @@ public class NaverLoginActivity  extends AppCompatActivity {
     /**
      * UI 요소들
      */
-    private TextView mApiResultText;
-    private static TextView mOauthAT;
-    private static TextView mOauthRT;
-    private static TextView mOauthExpires;
-    private static TextView mOauthTokenType;
-    private static TextView mOAuthState;
-    private static TextView userDataText;
+//    private TextView mApiResultText;
+//    private static TextView mOauthAT;
+//    private static TextView mOauthRT;
+//    private static TextView mOauthExpires;
+//    private static TextView mOauthTokenType;
+//    private static TextView mOAuthState;
+//    private static TextView userDataText;
     View View;
     private OAuthLoginButton mOAuthLoginButton;
-    Button  buttonOAuth;
-    Button buttonRefresh;
-    Button buttonOAuthLogout;
-    Button getUserData;
+//    Button  buttonOAuth;
+//    Button buttonRefresh;
+//    Button buttonOAuthLogout;
+//    Button getUserData;
     Thread thread = null;
     Handler handler = null;
     UserData userdata = new UserData();
+    String mOauthAT;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,67 +81,67 @@ public class NaverLoginActivity  extends AppCompatActivity {
          * 2015년 8월 이전에 등록하고 앱 정보 갱신을 안한 경우 기존에 설정해준 callback intent url 을 넣어줘야 로그인하는데 문제가 안생긴다.
          * 2015년 8월 이후에 등록했거나 그 뒤에 앱 정보 갱신을 하면서 package name 을 넣어준 경우 callback intent url 을 생략해도 된다.
          */
-        //mOAuthLoginInstance.init(mContext, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME, OAUTH_callback_intent_url);
+//        mOAuthLoginInstance.init(mContext, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME, OAUTH_callback_intent_url);
     }
 
     protected void initView() {
-        mApiResultText = (TextView) findViewById(R.id.api_result_text);
+//        mApiResultText = (TextView) findViewById(R.id.api_result_text);
         View =this.findViewById(android.R.id.content);
-        buttonOAuth=View.findViewById(R.id.buttonOAuth);
-        buttonRefresh=View.findViewById(R.id.buttonRefresh);
-        buttonOAuthLogout=View.findViewById(R.id.buttonOAuthLogout);
-        getUserData=View.findViewById(R.id.getUserdata);
-        Button.OnClickListener onClickListener = new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.buttonOAuth: {
-                        mOAuthLoginInstance.startOauthLoginActivity(NaverLoginActivity.this, mOAuthLoginHandler);
-                        break;
-                    }
-                    case R.id.buttonRefresh: {
-                        new RefreshTokenTask().execute();
-                        break;
-                    }
-                    case R.id.buttonOAuthLogout: {
-                        mOAuthLoginInstance.logout(mContext);
-                        updateView();
-                        break;
-                    }
-                    case R.id.getUserdata:{
-                        getUserdata(mOauthAT.getText().toString());
-                        Log.i("Logrd",userdata.toString());
-                        updateView();
-                        break;
-                    }
-                    default:
-                        break;
-                }
-            }
-        };
-        mOauthAT = (TextView) findViewById(R.id.oauth_access_token);
-        mOauthRT = (TextView) findViewById(R.id.oauth_refresh_token);
-        mOauthExpires = (TextView) findViewById(R.id.oauth_expires);
-        mOauthTokenType = (TextView) findViewById(R.id.oauth_type);
-        mOAuthState = (TextView) findViewById(R.id.oauth_state);
-        userDataText=(TextView)findViewById(R.id.api_result_text);
+//        buttonOAuth=View.findViewById(R.id.buttonOAuth);
+//        buttonRefresh=View.findViewById(R.id.buttonRefresh);
+//        buttonOAuthLogout=View.findViewById(R.id.buttonOAuthLogout);
+//        getUserData=View.findViewById(R.id.getUserdata);
+//        Button.OnClickListener onClickListener = new Button.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()) {
+//                    case R.id.buttonOAuth: {
+//                        mOAuthLoginInstance.startOauthLoginActivity(NaverLoginActivity.this, mOAuthLoginHandler);
+//                        break;
+//                    }
+//                    case R.id.buttonRefresh: {
+//                        new RefreshTokenTask().execute();
+//                        break;
+//                    }
+//                    case R.id.buttonOAuthLogout: {
+//                        mOAuthLoginInstance.logout(mContext);
+//                        updateView();
+//                        break;
+//                    }
+//                    case R.id.getUserdata:{
+//                        getUserdata(mOauthAT.getText().toString());
+//                        Log.i("Logrd",userdata.toString());
+//                        updateView();
+//                        break;
+//                    }
+//                    default:
+//                        break;
+//                }
+//            }
+//        };
+//        mOauthAT = (TextView) findViewById(R.id.oauth_access_token);
+//        mOauthRT = (TextView) findViewById(R.id.oauth_refresh_token);
+//        mOauthExpires = (TextView) findViewById(R.id.oauth_expires);
+//        mOauthTokenType = (TextView) findViewById(R.id.oauth_type);
+//        mOAuthState = (TextView) findViewById(R.id.oauth_state);
+//        userDataText=(TextView)findViewById(R.id.api_result_text);
         mOAuthLoginButton = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
         mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
-        buttonOAuth.setOnClickListener(onClickListener);
-        buttonRefresh.setOnClickListener(onClickListener);
-        buttonOAuthLogout.setOnClickListener(onClickListener);
-        getUserData.setOnClickListener(onClickListener);
-        updateView();
+//        buttonOAuth.setOnClickListener(onClickListener);
+//        buttonRefresh.setOnClickListener(onClickListener);
+//        buttonOAuthLogout.setOnClickListener(onClickListener);
+//        getUserData.setOnClickListener(onClickListener);
+//        updateView();
     }
 
     public void getUserdata(String at){
         Retrofit retrofit;
         ApiService apiService;
-        if(mOAuthState.getText().equals("NEED_LOGIN")){
-            //아무런 처리해주지 않음
-        }
-        else {
-            this.setTitle("OAuthLoginSample Ver." + OAuthLogin.getVersion());
+//        if(mOAuthState.getText().equals("NEED_LOGIN")){
+//            아무런 처리해주지 않음
+//        }
+//        else {
+//            this.setTitle("OAuthLoginSample Ver." + OAuthLogin.getVersion());
             OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -167,6 +168,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                         intent.putExtra("user_name", userdata.getUser_name());
                         intent.putExtra("user_phone",userdata.getUser_phone_num());
                         setResult(RESULT_OK, intent);
+                        Log.i("ddd4","login finish");
                         finish();
                     }
                     @Override
@@ -177,7 +179,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                     }
                 });
             }
-        }
+//        }
     }
     @Override
     protected void onStop() {
@@ -192,12 +194,13 @@ public class NaverLoginActivity  extends AppCompatActivity {
         editor.commit();
     }
     private void updateView() {
-        mOauthAT.setText(mOAuthLoginInstance.getAccessToken(mContext));
-        mOauthRT.setText(mOAuthLoginInstance.getRefreshToken(mContext));
-        mOauthExpires.setText(String.valueOf(mOAuthLoginInstance.getExpiresAt(mContext)));
-        mOauthTokenType.setText(mOAuthLoginInstance.getTokenType(mContext));
-        mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
-        userDataText.setText(userdata.getUser_email());
+        mOauthAT = mOAuthLoginInstance.getAccessToken(mContext);
+//        mOauthAT.setText(mOAuthLoginInstance.getAccessToken(mContext));
+//        mOauthRT.setText(mOAuthLoginInstance.getRefreshToken(mContext));
+//        mOauthExpires.setText(String.valueOf(mOAuthLoginInstance.getExpiresAt(mContext)));
+//        mOauthTokenType.setText(mOAuthLoginInstance.getTokenType(mContext));
+//        mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
+//        userDataText.setText(userdata.getUser_email());
     }
 
     @Override
@@ -217,12 +220,13 @@ public class NaverLoginActivity  extends AppCompatActivity {
                 String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
-                mOauthAT.setText(accessToken);
-                mOauthRT.setText(refreshToken);
-                mOauthExpires.setText(String.valueOf(expiresAt));
-                mOauthTokenType.setText(tokenType);
-                mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
-                getUserdata(mOauthAT.getText().toString());
+                mOauthAT = accessToken;
+//                mOauthAT.setText(accessToken);
+//                mOauthRT.setText(refreshToken);
+//                mOauthExpires.setText(String.valueOf(expiresAt));
+//                mOauthTokenType.setText(tokenType);
+//                mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
+                getUserdata(mOauthAT);
             } else {
                 String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
                 String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
