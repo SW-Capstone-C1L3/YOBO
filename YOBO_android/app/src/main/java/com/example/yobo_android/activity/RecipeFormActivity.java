@@ -57,8 +57,8 @@ import retrofit2.Response;
 
 public class RecipeFormActivity extends AppCompatActivity  {
 
-    public static final int PICK_FROM_ALBUM = 1000;
-    public static final int PICK_FROM_ALBUM2 = 2000;
+    public static final int PICK_FOR_MAIN_IMAGE = 1000;
+    public static final int PICK_FOR_SUB_IMAGE = 2000;
     public static final int NEW_RECIPE = 3000;
     public static final int MODIFY_MY_RECIPE = 4000;
 
@@ -69,7 +69,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
     List<Cooking_ingredient> main_cooking_ingredients = new ArrayList<>();
     List<Cooking_ingredient> sub_cooking_ingredients = new ArrayList<>();
     List<String> category = new ArrayList<>();
-    boolean[] checkChanged = new boolean[20];
+    boolean[] checkChanged = new boolean[30];
 
     IngredientsFormAdapter mainIngredientsAdapter;
     IngredientsFormAdapter subIngredientsAdapter;
@@ -225,7 +225,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 // 사진 요청
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,PICK_FROM_ALBUM);
+                startActivityForResult(intent, PICK_FOR_MAIN_IMAGE);
             }
         });
         setRecyclerViews();
@@ -315,7 +315,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
                 tempPosForSequenceForm = pos;
                 Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.putExtra("sequencePosition", pos);
-                startActivityForResult(intent,PICK_FROM_ALBUM2);
+                startActivityForResult(intent, PICK_FOR_SUB_IMAGE);
             }
         });
         recipeSequenceFormRecyclerView.setAdapter(recipeSequenceFormAdapter);
@@ -428,7 +428,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
                 e.printStackTrace();
             }
 
-            if(requestCode == PICK_FROM_ALBUM){
+            if(requestCode == PICK_FOR_MAIN_IMAGE){
                 if(typeOfWrite == MODIFY_MY_RECIPE){
                     checkChanged[0] = true;
                     fileUris.add(0,imageUri);
@@ -438,10 +438,13 @@ public class RecipeFormActivity extends AppCompatActivity  {
                 Picasso.get().load(imageUri).into(mImageCookingDescription);
                 flagCookingDescriptionImage = true;
 
-            }else if(requestCode == PICK_FROM_ALBUM2){
-                if(typeOfWrite == MODIFY_MY_RECIPE)
-                    checkChanged[tempPosForSequenceForm+1] = true;
-                fileUris.add(imageUri);
+            }else if(requestCode == PICK_FOR_SUB_IMAGE){
+                if(typeOfWrite == MODIFY_MY_RECIPE) checkChanged[tempPosForSequenceForm+1] = true;
+                if(fileUris.size() >= mRecipeSequenceFormDataList.size()+1){
+                    fileUris.set(tempPosForSequenceForm+1, imageUri);
+                }else{
+                    fileUris.add(imageUri);
+                }
                 mRecipeSequenceFormDataList.get(tempPosForSequenceForm).setImage(imageUri.toString());
                 recipeSequenceFormAdapter.notifyItemChanged(tempPosForSequenceForm);
 
