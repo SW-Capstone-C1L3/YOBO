@@ -109,7 +109,7 @@ public interface ApiService {
                                        @Query("pageSize") int pageSize);
 
     @GET("/yobo/transaction/getByDid")
-    Call<List<SelectedBasketLogData>> getSelectedLogData(@Query("Did") String Did,
+    Call<SelectedBasketLogData> getSelectedLogData(@Query("Did") String Did,
                                                          @Query("pageNum") int pageNum,
                                                          @Query("pageSize") int pageSize);
     /*Basket*/
