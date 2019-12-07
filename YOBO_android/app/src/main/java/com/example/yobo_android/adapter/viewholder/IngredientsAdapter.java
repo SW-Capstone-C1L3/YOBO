@@ -38,10 +38,10 @@ public class IngredientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onBind(Cooking_ingredient ingredient, int position) {
             mIngredientName.setText(ingredient.getIngredients_name());
-            if(Math.floor(ingredient.getQty()) == Integer.valueOf(ingredient.getQty().intValue())) // integer
-                mIngredientQty.setText(Integer.valueOf(ingredient.getQty().intValue())+"");
+            if(Math.floor(ingredient.getQty()) == ingredient.getQty()) // integer
+                mIngredientQty.setText(Integer.valueOf(ingredient.getQty().intValue()).toString());
             else
-                mIngredientQty.setText(ingredient.getQty()+""); // float
+                mIngredientQty.setText(ingredient.getQty().toString()); // float
             mIngredientUnit.setText(ingredient.getUnit());
 
             itemView.setOnClickListener(this);

@@ -4,24 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center">
-    <TextView
-        android:id="@+id/ingredientname2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="20dp"
-        android:textSize="18dp"
-        android:text="name"/>
-    <TextView
-        android:id="@+id/ingredientqty2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="qty"/>
-    <TextView
-        android:id="@+id/ingredientunit2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="unit"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/ingredientname2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ingredientSpace"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:textSize="18dp"
+            android:text="name"/>
+        <View
+            android:id="@+id/ingredientSpace"
+            android:layout_width="20dp"
+            android:layout_height="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/ingredientqty2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ingredientSpace"
+            android:paddingTop="2dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:text="qty"
+            android:textSize="18dp" />
+        <TextView
+            android:id="@+id/ingredientunit2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ingredientqty2"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:textSize="18dp"
+            android:text="unit"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
