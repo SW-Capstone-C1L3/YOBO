@@ -16,5 +16,32 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"/>
     </ScrollView>
-
+    <LinearLayout
+        android:id="@+id/emptyNotifyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:visibility="invisible">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_question_mark" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="작성한 댓글이 없습니다."
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimaryDark"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

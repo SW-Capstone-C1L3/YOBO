@@ -3,6 +3,8 @@ package com.example.yobo_android.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CommentActivity extends AppCompatActivity {
     private CommentByUserAdapter commentAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayout mLayoutEmptyNotify;
     private String comments;
     List<CommentData> commentList = new ArrayList<>();
     Retrofit retrofit;
@@ -62,10 +66,9 @@ public class CommentActivity extends AppCompatActivity {
                     Log.i("TEST", response.toString());
                     commentList = response.body();
                     if(commentList.size()==0){
-                        Intent intent = new Intent();
-                        intent.putExtra("result", "some value");
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        //여기에 작업
+                        recyclerView.setVisibility(View.GONE);
+                        mLayoutEmptyNotify.setVisibility(View.VISIBLE);
                     }
                     else {
                         for (int i = 0; i < commentList.size(); i++) {
@@ -83,7 +86,10 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void recyclerViewInit() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerCommentView);
+        mLayoutEmptyNotify = findViewById(R.id.emptyNotifyLayout);
+        mLayoutEmptyNotify.setVisibility(View.GONE);
+
+        recyclerView = findViewById(R.id.recyclerCommentView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentAdapter = new CommentByUserAdapter();
