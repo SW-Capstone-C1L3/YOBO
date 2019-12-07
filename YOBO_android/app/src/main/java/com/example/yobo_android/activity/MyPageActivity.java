@@ -69,7 +69,8 @@ public class MyPageActivity extends AppCompatActivity {
     EditText mEditUserAddress1;
     EditText mEditUserAddress2;
     ArrayList<Spinner> mUserFavorites = new ArrayList<>();
-    String flag;
+    Boolean flagImageChange = false;
+    String flagInfo;
     Button btnModify;
     Button btnCancel;
 
@@ -175,9 +176,10 @@ public class MyPageActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
                             Toast.makeText(MyPageActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            if (flag.equals("change")) {
+
+                            if (flagImageChange) {
                                 Intent intent = new Intent();
-                                intent.putExtra("result", flag);
+                                intent.putExtra("myImageChange", true);
                                 setResult(RESULT_OK, intent);
                                 finish();
                             }
@@ -304,7 +306,7 @@ public class MyPageActivity extends AppCompatActivity {
             if(requestCode == PICK_FROM_ALBUM){
                 userPicture = imageUri;
                 Picasso.get().load(imageUri).into(mEdieUserPicture);
-                flag="change";
+                flagImageChange = true;
             }
         }
     }
