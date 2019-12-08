@@ -42,7 +42,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.UserData;
@@ -272,18 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //사용자의 취향에 따라 레시피를 가져오는 역할(대문에 게시용)
     public void getRecommendImage(){
-
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call<List<Recipe>> call = apiService.getRecommendRecipe(favorite_list);
+        Call<List<Recipe>> call = RetrofitClient.getInstance().getApiService().getRecommendRecipe(favorite_list);
         if (call != null) {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
