@@ -78,8 +78,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     ingredientList = response.body();
-                    Log.i("TEST222",query);
-                    Log.i("TEST222",ingredientList.size() +"");
                     if(ingredientList.isEmpty()){
                         Log.i("TEST222",query);
 //                        recyclerView.setVisibility(View.GONE);
