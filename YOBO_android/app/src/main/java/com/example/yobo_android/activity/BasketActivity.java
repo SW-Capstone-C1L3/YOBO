@@ -138,8 +138,6 @@ public class BasketActivity extends AppCompatActivity{
             }
         });
         productDataList.remove(deletePos);
-//        deleteList.remove(deletePos);
-//        quantity.remove(deletePos);
         adapter.removeItem(deletePos);
         sum_all_price-=cost;
     }

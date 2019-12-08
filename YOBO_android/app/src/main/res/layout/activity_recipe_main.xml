@@ -125,7 +125,7 @@
                     android:layout_gravity="center"
                     android:text="요리이름"
                     android:textAlignment="center"
-                    android:textSize="22sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
 
@@ -155,6 +155,8 @@
                     android:layout_height="wrap_content"
                     android:padding="20dp"
                     android:text="간단설명"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorBlack"
                     android:textAlignment="center"/>
                 <TextView
                     android:id="@+id/writerid2"
@@ -168,10 +170,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
+                    android:padding="25dp"
                     android:text="주재료"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
@@ -182,10 +184,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="부재료"
+                    android:padding="25dp"
+                    android:text="추가 재료"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
@@ -197,10 +199,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
+                    android:paddingTop="25dp"
                     android:text="리뷰"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
                 <LinearLayout
@@ -219,12 +221,12 @@
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:text="레시피 저장"
-                        android:textSize="10sp"
+                        android:textSize="15sp"
                         android:background="@color/colorTransparent"/>
 
                     <View
                         android:layout_width="1.5dp"
-                        android:layout_height="8dp"
+                        android:layout_height="15dp"
                         android:background="@color/colorPink"/>
 
                     <Button
@@ -237,7 +239,7 @@
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:text="레시피 평가"
-                        android:textSize="10sp"
+                        android:textSize="15sp"
                         android:background="@color/colorTransparent"/>
                 </LinearLayout>
 

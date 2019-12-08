@@ -3,6 +3,7 @@ package com.example.yobo_android.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,14 +23,24 @@ import retrofit2.Response;
 
 public class ShowShopLogActivity extends AppCompatActivity {
 
+    List<ShopLogData> LogList = new ArrayList<>();
     private LinearLayout mLayoutEmptyNotify;
     private RecyclerView recyclerView;
-    List<ShopLogData> LogList = new ArrayList<>();
     private ShopLogAdapter adapter;
+    private ImageButton mBtnBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_shop_log);
+
+        mBtnBack = findViewById(R.id.arrow_back_ImageButton);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         recyclerViewInit();
         Call<List<ShopLogData>> call = null;

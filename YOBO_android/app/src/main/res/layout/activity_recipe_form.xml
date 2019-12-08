@@ -111,7 +111,7 @@
 
             <TextView
                 android:id="@+id/textView12"
-                android:text="부재료 정보"
+                android:text="추가 재료 정보"
                 style="@style/RecipeFormTextViewStyle"/>
 
             <androidx.recyclerview.widget.RecyclerView
