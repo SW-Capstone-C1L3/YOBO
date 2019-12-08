@@ -46,7 +46,7 @@ public class RecipeMainActivity extends AppCompatActivity {
 
     String recipeWriterId;
     String recipeId;
-    String recipeName;
+//    String recipeName;
     int descriptionNum;
     private double rate;
     private RatingBar ratingBar;
@@ -66,7 +66,7 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
-        recipeName = getIntent().getStringExtra("recipeName");
+//        recipeName = getIntent().getStringExtra("recipeName");
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -185,7 +185,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                         MainActivity.u_id,
                         MainActivity.u_name,
                         recipeId,
-                        recipeName
+                        ((TextView)findViewById(R.id.recipeName)).getText().toString()
                 );
 
                     Call<ResponseBody> call3 = RetrofitClient.getInstance().getApiService().postComment(comment);
