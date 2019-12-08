@@ -17,6 +17,9 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +37,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
 
     public static OAuthLogin mOAuthLoginInstance;
     public static Context mContext;
-
+    private ArrayList<String> tmp = new ArrayList<>();
     /**
      * UI 요소들
      */
@@ -149,6 +152,9 @@ public class NaverLoginActivity  extends AppCompatActivity {
                         intent.putExtra("user_email", userdata.getUser_id());
                         intent.putExtra("user_name", userdata.getUser_name());
                         intent.putExtra("user_phone",userdata.getUser_phone_num());
+                        for(int i=0;i<userdata.getInterest_category().size();i++)
+                            tmp.add(userdata.getInterest_category().get(i));
+                        intent.putStringArrayListExtra("interest_category",tmp);
                         setResult(RESULT_OK, intent);
                         Log.i("ddd4","login finish");
                         finish();
