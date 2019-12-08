@@ -174,7 +174,10 @@ public class RecipeMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(MainActivity.u_id == null){
-                    showLoginAlertDialog();
+                    showLoginAlertDialog("login");
+                }
+                else if(((EditText)findViewById(R.id.contents)).getText().toString().equals("")){
+                    showLoginAlertDialog("noContents");
                 }
                 else{
                     Comment comment = new Comment(
@@ -203,7 +206,7 @@ public class RecipeMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(MainActivity.u_id == null){
-                    showLoginAlertDialog();
+                    showLoginAlertDialog("login");
                 }
                 else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(RecipeMainActivity.this);
@@ -247,7 +250,7 @@ public class RecipeMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(MainActivity.u_id == null){
-                    showLoginAlertDialog();
+                    showLoginAlertDialog("login");
                 }
                 else{
                     Call<Integer> call5 = RetrofitClient.getInstance().getApiService().addShortCut(recipeId, MainActivity.u_id);
@@ -301,11 +304,19 @@ public class RecipeMainActivity extends AppCompatActivity {
         mCommentsView.setAdapter(commentAdapter);
     }
 
-    public void showLoginAlertDialog(){
+    public void showLoginAlertDialog(String reason){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_error_outline_24dp);
-        builder.setTitle("로그인 해주세요 :(");
-        builder.setMessage("로그인을 해야 가능합니다.");
+        switch (reason){
+            case "login":
+                builder.setTitle("로그인 해주세요 :(");
+                builder.setMessage("로그인을 해야 가능합니다.");
+                break;
+            case "noContents":
+                builder.setTitle("내용을 작성 해주세요 :(");
+                builder.setMessage("내용을 입력하셔야 가능합니다.");
+                break;
+        }
         builder.setNegativeButton("확인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
