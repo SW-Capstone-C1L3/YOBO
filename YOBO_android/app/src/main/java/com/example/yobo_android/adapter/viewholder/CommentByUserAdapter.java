@@ -6,15 +6,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.activity.MainActivity;
 import com.example.yobo_android.activity.RecipeMainActivity;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.CommentData;
+import com.example.yobo_android.etc.Recipe;
+import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class CommentByUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -32,21 +43,21 @@ public class CommentByUserAdapter extends RecyclerView.Adapter<RecyclerView.View
         private String YYMMDD;
         private String HHMMSS;
         private String recipe_id;
-        private TextView recipe_name;
-        private TextView comment_recipe;
+        private ImageView comment_recipe_image;
+        private TextView comment_recipe_name;
         private TextView comment_timestamp;
         private TextView comment_content;
 
 
         ItemViewHolder(View itemView) {
             super(itemView);
-            comment_recipe = itemView.findViewById(R.id.RecipeName);
+            comment_recipe_image = itemView.findViewById(R.id.myCommentRecipeImage);
+            comment_recipe_name = itemView.findViewById(R.id.RecipeName);
             comment_timestamp = itemView.findViewById(R.id.commentTimestamp);
             comment_content = itemView.findViewById(R.id.comment_info);
         }
 
         void onBind(CommentData commentData, int position) {
-
             YYMMDD = commentData.getTimestamp();
             String[] splitText = YYMMDD.split("T");
             for(int i=0;i<splitText.length;i++) {
@@ -56,10 +67,31 @@ public class CommentByUserAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             user_id = commentData.getUser_id();
             comment_id = commentData.get_id();
-            comment_recipe.setText(commentData.getRecipe_name());             /*****여기 수정해야됨****/
+            comment_recipe_name.setText(commentData.getRecipe_name());             /*****여기 수정해야됨****/
             comment_timestamp.setText(YYMMDD);
             comment_content.setText(commentData.getComments());
             recipe_id = commentData.getRecipe_id();
+            Call<Recipe> call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipe_id);
+            if(call != null) {
+                call.enqueue(new Callback<Recipe>() {
+                    @Override
+                    public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                        String temp = response.body().getCooking_description().get(0).getImage();
+                        temp = temp.replace("/", "%2F");
+                        String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                        try {
+                            URL url = new URL(sum);
+                            Picasso.get().load(url.toString()).into(comment_recipe_image);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Recipe> call, Throwable t) {
+                        Toast.makeText(context, "Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
             itemView.setOnClickListener(this);
         }
 
@@ -69,6 +101,7 @@ public class CommentByUserAdapter extends RecyclerView.Adapter<RecyclerView.View
             Intent intent = new Intent(context, RecipeMainActivity.class);
             //doc Id를 넘기고 recipeActivity에서 이걸로 레시피 정보를 서버에 요청
             intent.putExtra("recipeId",recipe_id);
+//            intent.putExtra("recipeName",comment_recipe_name.getText().toString());
             intent.putExtra("fromComment","re");
             context.startActivity(intent);
         }

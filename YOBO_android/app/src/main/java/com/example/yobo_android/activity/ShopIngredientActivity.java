@@ -79,7 +79,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     Log.i("TEST", response.toString());
                     ingredientList = response.body();
                     if(ingredientList.isEmpty()){
-                        Log.i("TEST222",query);
 //                        recyclerView.setVisibility(View.GONE);
                         mLayoutEmptyNotify.setVisibility(View.VISIBLE);
 //                        mbtnGoToBakset.setVisibility(View.GONE);

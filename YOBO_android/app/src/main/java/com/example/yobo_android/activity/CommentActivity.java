@@ -33,6 +33,11 @@ public class CommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if(getIntent().getStringExtra("comments")!=null)
             comments = getIntent().getStringExtra("comments");
         recyclerViewInit();

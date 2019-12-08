@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
+    private ArrayList<String> favorite = new ArrayList<>();
+    private ArrayList<String> recommendedRecipeIds = new ArrayList<>();
 
     // user Info in nav header
     private TextView nav_header_user_name;
@@ -112,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             window.setStatusBarColor(Color.TRANSPARENT);
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

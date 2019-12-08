@@ -21,22 +21,11 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:layout_weight="3">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="레시피"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorBlack"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="내용"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorBlack" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/myCommentRecipeImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:background="@color/colorWhite"/>
 
             </LinearLayout>
             <LinearLayout

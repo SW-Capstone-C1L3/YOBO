@@ -46,7 +46,7 @@ public class RecipeMainActivity extends AppCompatActivity {
 
     String recipeWriterId;
     String recipeId;
-    String recipeName;
+//    String recipeName;
     int descriptionNum;
     private double rate;
     private RatingBar ratingBar;
@@ -66,7 +66,7 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
-        recipeName = getIntent().getStringExtra("recipeName");
+//        recipeName = getIntent().getStringExtra("recipeName");
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -74,10 +74,8 @@ public class RecipeMainActivity extends AppCompatActivity {
         recyclerViewInit();
         mBtnModify = findViewById(R.id.recipeModifyButton);
 
-        Call<Recipe> call = null;
-        Call<List<CommentData>> call2 = null;
-        call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
-        call2 = RetrofitClient.getInstance().getApiService().getCommentsbyRId(recipeId,0,10);
+        Call<Recipe> call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
+        Call<List<CommentData>> call2 = RetrofitClient.getInstance().getApiService().getCommentsbyRId(recipeId,0,10);
 
         if(call != null) {
             call.enqueue(new Callback<Recipe>() {
@@ -185,7 +183,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                         MainActivity.u_id,
                         MainActivity.u_name,
                         recipeId,
-                        recipeName
+                        ((TextView)findViewById(R.id.recipeName)).getText().toString()
                 );
 
                     Call<ResponseBody> call3 = RetrofitClient.getInstance().getApiService().postComment(comment);

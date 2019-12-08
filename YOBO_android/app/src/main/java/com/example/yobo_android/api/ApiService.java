@@ -9,6 +9,7 @@ import com.example.yobo_android.etc.ShopLogData;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.etc.UserData;
 
+import java.util.ArrayList;
 import java.util.List;
 import okhttp3.MultipartBody;
 import java.util.HashMap;
@@ -34,6 +35,10 @@ public interface ApiService {
     Call<UserData> getUserData(@Query("at") String at);
 
     /*Recipe*/
+
+    @GET("yobo/recipe/getByrecommend")
+    Call<List<Recipe>> getRecommendedRecipe(@Query("favorite") ArrayList<String> favorite);
+
 
     @Multipart
     @POST("/yobo/recipe/createRecipe")
