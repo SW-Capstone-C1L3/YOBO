@@ -9,23 +9,17 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.UserData;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NaverLoginActivity  extends AppCompatActivity {
 
@@ -135,24 +129,12 @@ public class NaverLoginActivity  extends AppCompatActivity {
     }
 
     public void getUserdata(String at){
-        Retrofit retrofit;
-        ApiService apiService;
 //        if(mOAuthState.getText().equals("NEED_LOGIN")){
 //            아무런 처리해주지 않음
 //        }
 //        else {
 //            this.setTitle("OAuthLoginSample Ver." + OAuthLogin.getVersion());
-            OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            okhttpClientBuilder.addInterceptor(logging);
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(ApiService.API_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okhttpClientBuilder.build())
-                    .build();
-            apiService = retrofit.create(ApiService.class);
-            Call<UserData> call = apiService.getUserData(at);
+            Call<UserData> call = RetrofitClient.getInstance().getApiService().getUserData(at);
             if (call != null) {
                 call.enqueue(new Callback<UserData>() {
                     @Override

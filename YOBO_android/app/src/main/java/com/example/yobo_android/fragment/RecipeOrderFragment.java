@@ -8,13 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.os.Handler;
 import android.speech.RecognitionListener;
@@ -33,7 +29,7 @@ import android.widget.TextView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Recipe;
 import com.squareup.picasso.Picasso;
 
@@ -52,9 +48,6 @@ import java.util.Locale;
 public class RecipeOrderFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener{
     private String recipeId;
     private int position;
-
-    ApiService apiService;
-    Retrofit retrofit;
 
     Recipe recipe;
     ImageView mCurImage;
@@ -101,18 +94,9 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         mCurImage = view.findViewById(R.id.curimage);
         mCurDescription = view.findViewById(R.id.curdescription);
         mCurDescription.setHint("1");
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        apiService = retrofit.create(ApiService.class);
+
         Call<Recipe> call = null;
-        call = apiService.getReicpebyDid(recipeId);
+        call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
         if(call != null) {
             call.enqueue(new Callback<Recipe>() {
                 @Override

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.ApiService;
-import com.example.yobo_android.etc.IngredientData;
-import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.fragment.BottomSheetFragment;
 import com.squareup.picasso.Picasso;
@@ -34,16 +31,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Query;
-
 
 public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
 
     HashMap<String,Object> hashMap = new HashMap<>();
-    Retrofit retrofit;
-    ApiService apiService;
     ShoppingIngredientData product;
 
     private String userId;
@@ -60,6 +51,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     private int IngredientPrice;
     private String flag="";
     private final String Tag = "abcde";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +73,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiService = retrofit.create(ApiService.class);
-        Call<ShoppingIngredientData> call = apiService.getProduct(Ingredient_id);
+        Call<ShoppingIngredientData> call = RetrofitClient.getInstance().getApiService().getProduct(Ingredient_id);
         if(call != null) {
             call.enqueue(new Callback<ShoppingIngredientData>() {
                 @Override
@@ -141,18 +128,13 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     }
 
     public void goToBasket(int amount){       //장바구니에 담기
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiService = retrofit.create(ApiService.class);
 //        userId = "5dc6e8de068a0d0928838088";
         userId = MainActivity.u_id;
         Log.i("kkkkkkkkk gotobasket",Ingredient_id);
         hashMap.put("Product_id", Ingredient_id);
         hashMap.put("qty",amount);
         hashMap.put("User_id",userId);
-        Call<ResponseBody> call = apiService.insertBasket(hashMap);
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().insertBasket(hashMap);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
