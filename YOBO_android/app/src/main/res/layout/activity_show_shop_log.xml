@@ -33,13 +33,11 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerLogView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
-
         <LinearLayout
             android:id="@+id/emptyNotifyLayout"
             android:layout_width="match_parent"
