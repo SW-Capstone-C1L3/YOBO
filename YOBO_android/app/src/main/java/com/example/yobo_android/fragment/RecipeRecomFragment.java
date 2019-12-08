@@ -45,7 +45,7 @@ public class RecipeRecomFragment extends Fragment {
         description = getArguments().getString("description");
         position = getArguments().getInt("position");
         Uri uri = Uri.parse(imageSrc);
-        imv = rootView.findViewById(R.id.imageView4);
+        imv = rootView.findViewById(R.id.recommendedRecipeImage);
 
 
         Picasso.get().load(uri).into(imv);

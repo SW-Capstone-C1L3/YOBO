@@ -28,6 +28,8 @@ public class CategorySearchActivity extends AppCompatActivity {
     private LinearLayout mBtnNoodle;
     private LinearLayout mBtnMeat;
     private LinearLayout mBtnDesert;
+    private LinearLayout mBtnRoast;
+    private LinearLayout mBtnEtc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnNoodle = findViewById(R.id.noodle);
         mBtnMeat = findViewById(R.id.meat);
         mBtnDesert = findViewById(R.id.desert);
+        mBtnRoast = findViewById(R.id.roast);
+        mBtnEtc = findViewById(R.id.etc);
 
         LinearLayout.OnClickListener onClickListener = new TextView.OnClickListener(){
             @Override
@@ -81,6 +85,12 @@ public class CategorySearchActivity extends AppCompatActivity {
                     case R.id.desert:
                         category="디저트";
                         break;
+                    case R.id.roast:
+                        category="구이";
+                        break;
+                    case R.id.etc:
+                        category = "기타";
+                        break;
                 }
                 intent = new Intent(CategorySearchActivity.this, BoardActivity.class);
                 intent.putExtra("category",category);
@@ -97,5 +107,7 @@ public class CategorySearchActivity extends AppCompatActivity {
         mBtnNoodle.setOnClickListener(onClickListener);
         mBtnMeat.setOnClickListener(onClickListener);
         mBtnDesert.setOnClickListener(onClickListener);
+        mBtnRoast.setOnClickListener(onClickListener);
+        mBtnEtc.setOnClickListener(onClickListener);
     }
 }
