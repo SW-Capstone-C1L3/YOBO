@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.etc.Recipe;
 import com.example.yobo_android.etc.UserData;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -55,6 +56,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -108,7 +110,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Handler handler = null;
     int p=0;	//페이지번호
     int v=1;
-
+    private ArrayList<String> favorite_list = new ArrayList<>();
+    private List<Recipe> recipe = new ArrayList<>();
+    private List<String> recipe_id = new ArrayList<>();
+    private List<String> fav_imageList = new ArrayList<>();
+    private List<String> recipe_name = new ArrayList<>();
+    private List<String> description = new ArrayList<>();
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -125,14 +132,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         permissionCheck();
-
+        favorite_list.add("");
+        getRecommendImage();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mPager = (ViewPager) findViewById(R.id.pagerMain);
-        pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(pagerAdapter);
+
         mBtnOpen = findViewById(R.id.menuImageButton);
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,6 +290,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //사용자의 취향에 따라 레시피를 가져오는 역할(대문에 게시용)
+    public void getRecommendImage(){
+
+        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okhttpClientBuilder.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiService.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okhttpClientBuilder.build())
+                .build();
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<List<Recipe>> call = apiService.getRecommendRecipe(favorite_list);
+        if (call != null) {
+            call.enqueue(new Callback<List<Recipe>>() {
+                @Override
+                public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                    recipe = response.body();
+                    recipe_name = new ArrayList<>();
+                    description = new ArrayList<>();
+                    for(int i=0;i<recipe.size();i++){
+                        recipe_id.add(recipe.get(i).get_id());
+                        recipe_name.add(recipe.get(i).getRecipe_name());
+                        description.add(recipe.get(i).getCooking_description().get(0).getDescription());
+                        String temp =  recipe.get(i).getCooking_description().get(0).getImage();
+                        Log.i("TEST main image: ",temp);
+                        temp = temp.replace("/", "%2F");
+                        String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                        fav_imageList.add(sum);
+                    }
+                    Log.i("TEST main 555","main의 get 다시 호출됨");
+                    pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
+                    mPager.setAdapter(pagerAdapter);
+                }
+                @Override
+                public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -402,21 +452,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @Override
         public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    return RecipeRecomFragment.newInstance("0");
-                case 1:
-                    return RecipeRecomFragment.newInstance("1");
-                case 2:
-                    return RecipeRecomFragment.newInstance("2");
-                default:
-                    return RecipeRecomFragment.newInstance("0");
-            }
+            return RecipeRecomFragment.newInstance(fav_imageList.get(position),recipe_name.get(position),description.get(position),position);
         }
-
         @Override
         public int getCount() {
             return NUM_PAGES;
@@ -488,17 +527,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(requestCode == REQUEST_NAVER){
             if(resultCode==RESULT_OK) {
+                favorite_list = new ArrayList<>();
                 u_id = data.getStringExtra("user_id");
                 u_name = data.getStringExtra("user_name");
                 u_email = data.getStringExtra("user_email");
                 u_phone = data.getStringExtra("user_phone");
-
+                favorite_list = data.getStringArrayListExtra("interest_category");
                 nav_header_user_name.setText(u_name);
                 nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
                 mBtnLoginInNavHeader.setText("로그아웃");
                 mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 setImage();     //사용자 얼굴 설정
+                Log.i("TEST main fav_list : ",favorite_list.toString());
+                fav_imageList = new ArrayList<>();
+                getRecommendImage();            //사용자 취향에 따라 가져오기
             }
         }
         else if(requestCode==REQUEST_IMAGE_CHANGE){

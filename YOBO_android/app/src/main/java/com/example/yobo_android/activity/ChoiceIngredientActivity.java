@@ -62,7 +62,23 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             new IngredientData("라면",R.drawable.ingre_ranoodle),
             new IngredientData("김치",R.drawable.ingre_kimchi),
             new IngredientData("파",R.drawable.ingre_greenonion),
-            new IngredientData("양파",R.drawable.ingre_onion)
+            new IngredientData("양파",R.drawable.ingre_onion),
+            new IngredientData("콩",R.drawable.ingre_bean),
+            new IngredientData("배추",R.drawable.ingre_cabbage),
+            new IngredientData("치즈",R.drawable.ingre_cheese),
+            new IngredientData("밀가루",R.drawable.ingre_flour),
+            new IngredientData("양고기",R.drawable.ingre_lamb),
+            new IngredientData("우유",R.drawable.ingre_milk),
+            new IngredientData("파프리카",R.drawable.ingre_paprika),
+            new IngredientData("감자",R.drawable.ingre_potato),
+            new IngredientData("호박",R.drawable.ingre_pumpkin),
+            new IngredientData("고추",R.drawable.ingre_red_pepper),
+            new IngredientData("쌀",R.drawable.ingre_rice),
+            new IngredientData("소세지",R.drawable.ingre_sausage),
+            new IngredientData("미역",R.drawable.ingre_seaweed2),
+            new IngredientData("오징어",R.drawable.ingre_squid),
+            new IngredientData("고구마",R.drawable.ingre_sweet_potato),
+            new IngredientData("토마토",R.drawable.ingre_tomato)
             ));
     ArrayList<IngredientData> destIngredient = new ArrayList<>();
 
