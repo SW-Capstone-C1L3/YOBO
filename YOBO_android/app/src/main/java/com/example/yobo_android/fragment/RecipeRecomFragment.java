@@ -19,12 +19,12 @@ import com.example.yobo_android.activity.MainActivity;
 public class RecipeRecomFragment extends Fragment {
     private static String ARG_IMAGE_SRC;
 
-    String imageSrc;
+    private int position;
 
-    public static RecipeRecomFragment newInstance(String imageSrc) {
+    public static RecipeRecomFragment newInstance(int position) {
         RecipeRecomFragment fragment = new RecipeRecomFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_IMAGE_SRC, imageSrc);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,16 +33,15 @@ public class RecipeRecomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_recipe_recom, container, false);
-        imageSrc = getArguments().getString(ARG_IMAGE_SRC);
-        switch (imageSrc){
-            case "0":
-                ((ImageView)rootView.findViewById(R.id.imageView4)).setBackgroundResource(R.drawable.recom1);
+        switch (position){
+            case 0:
+                ((ImageView)rootView.findViewById(R.id.recommendedRecipeImage)).setBackgroundResource(R.drawable.recom1);
                 break;
-            case "1":
-                ((ImageView)rootView.findViewById(R.id.imageView4)).setBackgroundResource(R.drawable.recom2);
+            case 1:
+                ((ImageView)rootView.findViewById(R.id.recommendedRecipeImage)).setBackgroundResource(R.drawable.recom2);
                 break;
-            case "2":
-                ((ImageView)rootView.findViewById(R.id.imageView4)).setBackgroundResource(R.drawable.recom3);
+            case 2:
+                ((ImageView)rootView.findViewById(R.id.recommendedRecipeImage)).setBackgroundResource(R.drawable.recom3);
                 break;
         }
         return rootView;

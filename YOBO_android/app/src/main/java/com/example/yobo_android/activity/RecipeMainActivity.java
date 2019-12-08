@@ -74,10 +74,8 @@ public class RecipeMainActivity extends AppCompatActivity {
         recyclerViewInit();
         mBtnModify = findViewById(R.id.recipeModifyButton);
 
-        Call<Recipe> call = null;
-        Call<List<CommentData>> call2 = null;
-        call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
-        call2 = RetrofitClient.getInstance().getApiService().getCommentsbyRId(recipeId,0,10);
+        Call<Recipe> call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
+        Call<List<CommentData>> call2 = RetrofitClient.getInstance().getApiService().getCommentsbyRId(recipeId,0,10);
 
         if(call != null) {
             call.enqueue(new Callback<Recipe>() {

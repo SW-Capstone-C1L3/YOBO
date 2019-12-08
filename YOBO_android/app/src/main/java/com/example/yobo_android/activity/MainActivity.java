@@ -46,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
+import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.UserData;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
+    private ArrayList<String> favorite = new ArrayList<>();
+    private ArrayList<String> recommendedRecipeIds = new ArrayList<>();
 
     // user Info in nav header
     private TextView nav_header_user_name;
@@ -111,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             window.setStatusBarColor(Color.TRANSPARENT);
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -390,16 +392,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    return RecipeRecomFragment.newInstance("0");
-                case 1:
-                    return RecipeRecomFragment.newInstance("1");
-                case 2:
-                    return RecipeRecomFragment.newInstance("2");
-                default:
-                    return RecipeRecomFragment.newInstance("0");
-            }
+            return RecipeRecomFragment.newInstance(position);
         }
 
         @Override
