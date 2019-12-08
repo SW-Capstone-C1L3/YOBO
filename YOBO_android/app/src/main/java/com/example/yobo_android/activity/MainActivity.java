@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }else if(id == R.id.nav_scrap_recipe){
             if(u_id == null){
-                showLoginAlertDialog(0);
+                showLoginAlertDialog(5);
                 dialogFlag = true;
             }else{
                 intent = new Intent(MainActivity.this,BoardActivity.class);
@@ -527,6 +527,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.setMessage("로그인을 해야 댓글 단 레시피를 볼 수 있습니다");
         else if(flag==4)
             builder.setMessage("로그인을 해야 회원정보 수정화면으로 갈 수 있습니다");
+        else if(flag==5)
+            builder.setMessage("로그인을 해야 즐겨찾기 등록한 레시피를 볼 수 있습니다");
         builder.setPositiveButton("로그인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
