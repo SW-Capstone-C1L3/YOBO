@@ -75,8 +75,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<ShoppingIngredientData>> call, Response<List<ShoppingIngredientData>> response) {
                     //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    Log.i("TEST", call.toString());
-                    Log.i("TEST", response.toString());
                     ingredientList = response.body();
                     if(ingredientList.isEmpty()){
 //                        recyclerView.setVisibility(View.GONE);

@@ -471,7 +471,7 @@ public class RecipeFormActivity extends AppCompatActivity  {
         }else if(mainIngredientsCheck()){
             snackBarMessage = "주재료 정보를 모두 입력해주세요 :(";
         }else if(subIngredientsCheck()){
-            snackBarMessage = "부재료 정보를 모두 입력해주세요 :(";
+            snackBarMessage = "추가 재료 정보를 모두 입력해주세요 :(";
         }else if(ingredientsQtyCheck()){
             snackBarMessage = "재료 양은 숫자로 입력해주세요 :(";
         }else if(recipeSequenceCheck()){

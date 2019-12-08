@@ -10,6 +10,7 @@
         <item>면</item>
         <item>국물</item>
         <item>튀김</item>
+        <item>구이</item>
         <item>고기류</item>
         <item>디저트</item>
     </string-array>
@@ -29,6 +30,7 @@
         <item>면</item>
         <item>국물</item>
         <item>튀김</item>
+        <item>구이</item>
         <item>고기류</item>
         <item>디저트</item>
         <item>기타</item>
