@@ -23,13 +23,13 @@ public class RetrofitClient {
                 .build();
     }
 
-    Retrofit retrofit = new Retrofit.Builder()
+    private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiService.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(createDefaultOkHttpClient())
             .build();
 
-    ApiService apiService = retrofit.create(ApiService.class);
+    private ApiService apiService = retrofit.create(ApiService.class);
 
     public ApiService getApiService(){
         return apiService;
