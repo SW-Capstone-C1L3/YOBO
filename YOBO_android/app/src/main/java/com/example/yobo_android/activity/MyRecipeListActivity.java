@@ -13,26 +13,19 @@ import android.widget.ImageButton;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class MyRecipeListActivity extends AppCompatActivity {
 
     List<Recipe> myRecipeList = new ArrayList<>();
-    Retrofit retrofit;
-    ApiService apiService;
 
     BoardAdapter myRecipeListAdapter;
     String userId;
@@ -78,18 +71,7 @@ public class MyRecipeListActivity extends AppCompatActivity {
         myRecipeListAdapter = new BoardAdapter();
         recyclerView.setAdapter(myRecipeListAdapter);
 
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        apiService = retrofit.create(ApiService.class);
-
-        Call<List<Recipe>> call = apiService.geListByUid(MainActivity.u_id, 0, 10);
+        Call<List<Recipe>> call = RetrofitClient.getInstance().getApiService().geListByUid(MainActivity.u_id, 0, 10);
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {

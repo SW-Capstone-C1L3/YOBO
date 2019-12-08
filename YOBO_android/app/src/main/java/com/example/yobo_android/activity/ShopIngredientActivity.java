@@ -26,21 +26,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.ShopIngredientAdapter;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 //장보기 눌렀을때 뜨는 화면
 public class ShopIngredientActivity extends AppCompatActivity {
@@ -57,9 +52,8 @@ public class ShopIngredientActivity extends AppCompatActivity {
 
     private int REQUEST_TEST =1000;
     private int REQUEST_SHOP =2000;
-    Retrofit retrofit;
-    ApiService apiService;
     List<ShoppingIngredientData> ingredientList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,22 +64,11 @@ public class ShopIngredientActivity extends AppCompatActivity {
             query = getIntent().getStringExtra("query");
         }
         recyclerViewInit();
-
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        apiService = retrofit.create(ApiService.class);
         Call<List<ShoppingIngredientData>> call = null;
         if (query != null)
-            call = apiService.searchProduct(query, 0, 10);
+            call = RetrofitClient.getInstance().getApiService().searchProduct(query, 0, 10);
         else
-            call = apiService.getProductList(0,10);
+            call = RetrofitClient.getInstance().getApiService().getProductList(0,10);
 
         if (call != null) {
             call.enqueue(new Callback<List<ShoppingIngredientData>>() {
@@ -111,7 +94,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<List<ShoppingIngredientData>> call, Throwable t) {
-                    //Toast.makeText(BoardActivity.this, "Fail", Toast.LENGTH_SHORT).show();
                     Log.e("ERROR", call.toString());
                     Log.e("ERROR", t.toString());
                 }

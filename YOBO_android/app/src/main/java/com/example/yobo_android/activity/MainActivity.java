@@ -12,21 +12,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
-
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
@@ -45,26 +41,20 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.Recipe;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.UserData;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /*
 * 레시피 목록을 보여주는 BoardActivity
@@ -258,17 +248,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     //사용자의 얼굴을 가져오는 작업
     public void setImage(){
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call<UserData> call = apiService.getbyDid(MainActivity.u_id);
+        Call<UserData> call = RetrofitClient.getInstance().getApiService().getbyDid(MainActivity.u_id);
         if (call != null) {
             call.enqueue(new Callback<UserData>() {
                 @Override
@@ -385,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = menuItem.getItemId();
         boolean dialogFlag = false;
         Intent intent = new Intent();
-        // TODO : 로그인 확인 부분 꽤 겹치는데 나중에 한번에 수정함 -LJH
+
         if (id == R.id.nav_enroll_recipe) {
             if(u_id == null){
                 showLoginAlertDialog(0);

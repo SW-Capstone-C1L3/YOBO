@@ -1,6 +1,7 @@
 package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.BasketActivity;
+import com.example.yobo_android.activity.MainActivity;
+import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.IngredientsBasketData;
+import com.example.yobo_android.etc.UserData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -33,13 +46,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private String user_id;
         private String comment_id;
         private String YYMMDD;
-        private String HHMMSS;
+        private ImageView mCommentUserImage;
         private TextView comment_writer;
         private TextView comment_timestamp;
         private TextView comment_content;
 
         ItemViewHolder(View itemView) {
             super(itemView);
+            mCommentUserImage = itemView.findViewById(R.id.commentUserImage);
             comment_writer = itemView.findViewById(R.id.Comment_writer_name);
             comment_timestamp = itemView.findViewById(R.id.comment_timestamp);
             comment_content = itemView.findViewById(R.id.Comment_content);
@@ -52,13 +66,38 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             for(int i=0;i<splitText.length;i++) {
                 if(i==0)
                     YYMMDD=splitText[i];
-//                if(i==1)
-//                    HHMMSS = splitText[i];
             }
-//            HHMMSS = HHMMSS.substring(0,8);
-//            YYMMDD = YYMMDD + " " + HHMMSS;
 
             user_id = commentData.getUser_id();
+            OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            okhttpClientBuilder.addInterceptor(logging);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(ApiService.API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(okhttpClientBuilder.build())
+                    .build();
+            ApiService apiService = retrofit.create(ApiService.class);
+            Call<UserData> call = apiService.getbyDid(user_id);
+            if (call != null) {
+                call.enqueue(new Callback<UserData>() {
+                    @Override
+                    public void onResponse(Call<UserData> call, Response<UserData> response) {
+                        if(response.body().getImage() != null){
+                            String temp =  response.body().getImage();
+                            temp = temp.replace("/", "%2F");
+                            String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
+                            Uri uri = Uri.parse(sum);
+                            Picasso.get().load(uri).fit().centerInside().error(R.drawable.user).into(mCommentUserImage);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<UserData> call, Throwable t) {
+                        Toast.makeText(context,"asd",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
             comment_id = commentData.get_id();
             comment_writer.setText(commentData.getUser_name());
             comment_timestamp.setText(YYMMDD);

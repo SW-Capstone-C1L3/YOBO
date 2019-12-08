@@ -3,19 +3,14 @@ package com.example.yobo_android.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +18,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,7 +33,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.UserData;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.squareup.picasso.Picasso;
@@ -89,17 +83,7 @@ public class MyPageActivity extends AppCompatActivity {
         btnModify = findViewById(R.id.btnModify);
         btnCancel = findViewById(R.id.btnCancel);
 
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        Call<UserData> call = apiService.getbyDid(MainActivity.u_id);
+        Call<UserData> call = RetrofitClient.getInstance().getApiService().getbyDid(MainActivity.u_id);
         if (call != null) {
             call.enqueue(new Callback<UserData>() {
                 @Override
@@ -147,28 +131,17 @@ public class MyPageActivity extends AppCompatActivity {
                 userData.setUser_address(userAddress);
                 userData.setInterest_category(userInterestCategory);
 
-                OkHttpClient.Builder okhttpClientBuilder2 = new OkHttpClient.Builder();
-                HttpLoggingInterceptor logging2 = new HttpLoggingInterceptor();
-                logging2.setLevel(HttpLoggingInterceptor.Level.BODY);
-                okhttpClientBuilder2.addInterceptor(logging2);
-                Retrofit retrofit2 = new Retrofit.Builder()
-                        .baseUrl(ApiService.API_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(okhttpClientBuilder2.build())
-                        .build();
-                ApiService apiService2 = retrofit2.create(ApiService.class);
-
                 MultipartBody.Part imagePart = null;
                 Call<ResponseBody> call2 = null;
 
                 if(userPicture == null){
                     userData.setImage("exit");
-                    call2 = apiService2.updateUser(null,userData);
+                    call2 = RetrofitClient.getInstance().getApiService().updateUser(null,userData);
                 }
                 else{
                     imagePart = prepareFileParts("image",userPicture);
                     userData.setImage("change");
-                    call2 = apiService2.updateUser(imagePart, userData);
+                    call2 = RetrofitClient.getInstance().getApiService().updateUser(imagePart, userData);
                 }
 
                 if (call2 != null) {
@@ -219,7 +192,7 @@ public class MyPageActivity extends AppCompatActivity {
     private MultipartBody.Part prepareFileParts(String partName, Uri fileUri){
         File file = FileUtils.getFile(this,fileUri);
         RequestBody requestFile =
-                RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+                RequestBody.create(file, MediaType.parse(getContentResolver().getType(fileUri)));
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
     }
 

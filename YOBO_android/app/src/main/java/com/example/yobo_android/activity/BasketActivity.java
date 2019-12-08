@@ -1,6 +1,5 @@
 package com.example.yobo_android.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BasketIngredientAdapter;
-import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.api.RequestHttpURLConnection;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.IngredientsBasketData;
 import com.example.yobo_android.etc.ProductData;
@@ -31,17 +30,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import kr.co.bootpay.Bootpay;
 import kr.co.bootpay.BootpayAnalytics;
 import kr.co.bootpay.enums.Method;
@@ -69,9 +62,6 @@ public class BasketActivity extends AppCompatActivity{
     Integer deletePos=0;
     Integer len;
     private int stuck = 1;
-
-    Retrofit retrofit;
-    ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,15 +122,11 @@ public class BasketActivity extends AppCompatActivity{
         final String ing_name = name;
         HashMap<String,Object> hashMap = new HashMap<>();
         deletePos = num;
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiService = retrofit.create(ApiService.class);
+
         user_id = MainActivity.u_id;
         hashMap.put("Product_id", str);
         hashMap.put("User_id",user_id);
-        Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().DeleteBasket(hashMap);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -193,18 +179,8 @@ public class BasketActivity extends AppCompatActivity{
                         //destination 주소에다가 보내도록
 
                         final BasketLogData basketLogData = new BasketLogData(productDataList,sum_all_price,"배송 준비중",MainActivity.u_id,destination,MainActivity.u_email,MainActivity.u_phone);
-                        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-                        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-                        okhttpClientBuilder.addInterceptor(logging);
 
-                        retrofit = new Retrofit.Builder()
-                                .baseUrl(ApiService.API_URL)
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .client(okhttpClientBuilder.build())
-                                .build();
-                        apiService = retrofit.create(ApiService.class);
-                        Call<ResponseBody> call = apiService.createTransaction(basketLogData);
+                        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().createTransaction(basketLogData);
                         call.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -250,15 +226,11 @@ public class BasketActivity extends AppCompatActivity{
 
     public void deleteAll(String p_id, String u_id){
         HashMap<String,Object> hashMap = new HashMap<>();
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiService = retrofit.create(ApiService.class);
+
         user_id = MainActivity.u_id;
         hashMap.put("Product_id", p_id);
         hashMap.put("User_id",user_id);
-        Call<ResponseBody> call = apiService.DeleteBasket(hashMap);
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().DeleteBasket(hashMap);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

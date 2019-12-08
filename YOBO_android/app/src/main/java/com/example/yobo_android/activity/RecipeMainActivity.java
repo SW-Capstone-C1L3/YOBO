@@ -4,14 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,15 +26,13 @@ import android.widget.Toast;
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.CommentAdapter;
 import com.example.yobo_android.adapter.viewholder.IngredientsAdapter;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Comment;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.Cooking_ingredient;
 import com.example.yobo_android.etc.Recipe;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,9 +43,6 @@ public class RecipeMainActivity extends AppCompatActivity {
 
     public static final int REQUEST_MODIFY1 = 100;
     public static final int REQUEST_MODIFY2 = 200;
-
-    ApiService apiService;
-    Retrofit retrofit;
 
     String recipeWriterId;
     String recipeId;
@@ -83,20 +74,10 @@ public class RecipeMainActivity extends AppCompatActivity {
         recyclerViewInit();
         mBtnModify = findViewById(R.id.recipeModifyButton);
 
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okhttpClientBuilder.addInterceptor(logging);
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiService.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClientBuilder.build())
-                .build();
-        apiService = retrofit.create(ApiService.class);
         Call<Recipe> call = null;
         Call<List<CommentData>> call2 = null;
-        call = apiService.getReicpebyDid(recipeId);
-        call2 = apiService.getCommentsbyRId(recipeId,0,10);
+        call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
+        call2 = RetrofitClient.getInstance().getApiService().getCommentsbyRId(recipeId,0,10);
 
         if(call != null) {
             call.enqueue(new Callback<Recipe>() {
@@ -165,7 +146,6 @@ public class RecipeMainActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<List<CommentData>> call2, Throwable t) {
-                    //Toast.makeText(BoardActivity.this, "Fail", Toast.LENGTH_SHORT).show();
                     Log.e("ERROR", call2.toString());
                     Log.e("ERROR", t.toString());
                 }
@@ -194,7 +174,10 @@ public class RecipeMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(MainActivity.u_id == null){
-                    showLoginAlertDialog();
+                    showLoginAlertDialog("login");
+                }
+                else if(((EditText)findViewById(R.id.contents)).getText().toString().equals("")){
+                    showLoginAlertDialog("noContents");
                 }
                 else{
                     Comment comment = new Comment(
@@ -205,18 +188,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                         recipeName
                 );
 
-                    OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                    HttpLoggingInterceptor logging3 = new HttpLoggingInterceptor();
-                    logging3.setLevel(HttpLoggingInterceptor.Level.BODY);
-                    okhttpClientBuilder.addInterceptor(logging3);
-                    Retrofit retrofit3 = new Retrofit.Builder()
-                            .baseUrl(ApiService.API_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(okhttpClientBuilder.build())
-                            .build();
-                    ApiService apiService3 = retrofit3.create(ApiService.class);
-
-                    Call<ResponseBody> call3 = apiService3.postComment(comment);
+                    Call<ResponseBody> call3 = RetrofitClient.getInstance().getApiService().postComment(comment);
                     call3.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call3, Response<ResponseBody> response3) {
@@ -234,7 +206,7 @@ public class RecipeMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(MainActivity.u_id == null){
-                    showLoginAlertDialog();
+                    showLoginAlertDialog("login");
                 }
                 else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(RecipeMainActivity.this);
@@ -247,18 +219,9 @@ public class RecipeMainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                            HttpLoggingInterceptor logging4 = new HttpLoggingInterceptor();
-                            logging4.setLevel(HttpLoggingInterceptor.Level.BODY);
-                            okhttpClientBuilder.addInterceptor(logging4);
-                            Retrofit retrofit4 = new Retrofit.Builder()
-                                    .baseUrl(ApiService.API_URL)
-                                    .addConverterFactory(GsonConverterFactory.create())
-                                    .client(okhttpClientBuilder.build())
-                                    .build();
-                            ApiService apiService4 = retrofit4.create(ApiService.class);
-
-                            Call<ResponseBody> call4 = apiService4.rate(recipeId, (double)((RatingBar)layout.findViewById(R.id.score)).getRating(),  MainActivity.u_id);
+                            Call<ResponseBody> call4 = RetrofitClient.getInstance()
+                                    .getApiService()
+                                    .rate(recipeId, (double)((RatingBar)layout.findViewById(R.id.score)).getRating(),  MainActivity.u_id);
                             call4.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call4, Response<ResponseBody> response4) {
@@ -266,7 +229,7 @@ public class RecipeMainActivity extends AppCompatActivity {
                                 }
                                 @Override
                                 public void onFailure(Call<ResponseBody> call4, Throwable t) {
-                                    Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT);
+                                    Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -287,21 +250,10 @@ public class RecipeMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(MainActivity.u_id == null){
-                    showLoginAlertDialog();
+                    showLoginAlertDialog("login");
                 }
                 else{
-                    OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-                    HttpLoggingInterceptor logging5 = new HttpLoggingInterceptor();
-                    logging5.setLevel(HttpLoggingInterceptor.Level.BODY);
-                    okhttpClientBuilder.addInterceptor(logging5);
-                    Retrofit retrofit5 = new Retrofit.Builder()
-                            .baseUrl(ApiService.API_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(okhttpClientBuilder.build())
-                            .build();
-                    ApiService apiService5 = retrofit5.create(ApiService.class);
-
-                    Call<Integer> call5 = apiService5.addShortCut(recipeId, MainActivity.u_id);
+                    Call<Integer> call5 = RetrofitClient.getInstance().getApiService().addShortCut(recipeId, MainActivity.u_id);
                     call5.enqueue(new Callback<Integer>() {
                         @Override
                         public void onResponse(Call<Integer> call5, Response<Integer> response5) {
@@ -352,11 +304,19 @@ public class RecipeMainActivity extends AppCompatActivity {
         mCommentsView.setAdapter(commentAdapter);
     }
 
-    public void showLoginAlertDialog(){
+    public void showLoginAlertDialog(String reason){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_error_outline_24dp);
-        builder.setTitle("로그인 해주세요 :(");
-        builder.setMessage("로그인을 해야 가능합니다.");
+        switch (reason){
+            case "login":
+                builder.setTitle("로그인 해주세요 :(");
+                builder.setMessage("로그인을 해야 가능합니다.");
+                break;
+            case "noContents":
+                builder.setTitle("내용을 작성 해주세요 :(");
+                builder.setMessage("내용을 입력하셔야 가능합니다.");
+                break;
+        }
         builder.setNegativeButton("확인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
