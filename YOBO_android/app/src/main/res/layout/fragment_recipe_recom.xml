@@ -11,4 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/recommendedRecipeDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/recommendedRecipeName"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:shadowColor="@color/colorBlack"
+        android:shadowRadius="1"/>
+    <TextView
+        android:id="@+id/recommendedRecipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:shadowColor="@color/colorBlack"
+        android:shadowRadius="1"/>
 </RelativeLayout>

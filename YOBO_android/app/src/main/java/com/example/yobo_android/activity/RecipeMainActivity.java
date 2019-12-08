@@ -66,7 +66,6 @@ public class RecipeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_main);
 
         recipeId = getIntent().getStringExtra("recipeId");
-//        recipeName = getIntent().getStringExtra("recipeName");
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);

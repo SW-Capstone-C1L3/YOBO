@@ -78,11 +78,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // for recipe recommendation
     private int NUM_PAGES = 3;
-    private ViewPager mPager;
+    private ViewPager   mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
-    private ArrayList<String> favorite = new ArrayList<>();
-    private ArrayList<String> recommendedRecipeIds = new ArrayList<>();
+    private ArrayList<String> favorite_list = new ArrayList<>();
+    private List<Recipe> recipe = new ArrayList<>();
+    private List<String> recipe_id = new ArrayList<>();
+    private List<String> fav_imageList = new ArrayList<>();
+    private List<String> recipe_name = new ArrayList<>();
+    private List<String> description = new ArrayList<>();
 
     // user Info in nav header
     private TextView nav_header_user_name;
@@ -101,12 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Handler handler = null;
     int p=0;	//페이지번호
     int v=1;
-    private ArrayList<String> favorite_list = new ArrayList<>();
-    private List<Recipe> recipe = new ArrayList<>();
-    private List<String> recipe_id = new ArrayList<>();
-    private List<String> fav_imageList = new ArrayList<>();
-    private List<String> recipe_name = new ArrayList<>();
-    private List<String> description = new ArrayList<>();
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         mtoolbarTitle = findViewById(R.id.toolbar_title);
-        mPager = (ViewPager) findViewById(R.id.pagerMain);
+        mPager = findViewById(R.id.pagerMain);
 
         mBtnOpen = findViewById(R.id.menuImageButton);
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
@@ -423,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         @Override
         public Fragment getItem(int position) {
-            return RecipeRecomFragment.newInstance(fav_imageList.get(position),recipe_name.get(position),description.get(position),position);
+            return RecipeRecomFragment.newInstance(recipe_id.get(position), fav_imageList.get(position),recipe_name.get(position),description.get(position),position);
         }
         @Override
         public int getCount() {
