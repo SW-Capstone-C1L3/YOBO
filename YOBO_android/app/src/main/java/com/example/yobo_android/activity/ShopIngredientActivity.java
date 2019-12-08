@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,10 +41,13 @@ import retrofit2.Response;
 public class ShopIngredientActivity extends AppCompatActivity {
     private ArrayList<String> image_list = new ArrayList<>();
     private ShopIngredientAdapter adapter;
+    private LinearLayout mLayoutEmptyNotify;
+    private LinearLayout mLayoutNonEmptyNotify;
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private Button mbtnGoToBakset;
     private String query = null;
+    private RecyclerView recyclerView;
     MenuItem mSearch;
 
     private int REQUEST_TEST =1000;
@@ -59,7 +63,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("query") != null) {
             query = getIntent().getStringExtra("query");
         }
-
+        recyclerViewInit();
         Call<List<ShoppingIngredientData>> call = null;
         if (query != null)
             call = RetrofitClient.getInstance().getApiService().searchProduct(query, 0, 10);
@@ -74,11 +78,14 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     ingredientList = response.body();
-                    if(ingredientList.size()==0){
-                        Intent intent = new Intent();
-                        intent.putExtra("result", "some value");
-                        setResult(RESULT_OK, intent);
-                        finish();
+                    Log.i("TEST222",query);
+                    Log.i("TEST222",ingredientList.size() +"");
+                    if(ingredientList.isEmpty()){
+                        Log.i("TEST222",query);
+//                        recyclerView.setVisibility(View.GONE);
+                        mLayoutEmptyNotify.setVisibility(View.VISIBLE);
+//                        mbtnGoToBakset.setVisibility(View.GONE);
+                        mLayoutNonEmptyNotify.setVisibility(View.GONE);
                     }
                     else {
                         for (int i = 0; i < ingredientList.size(); i++) {
@@ -113,11 +120,15 @@ public class ShopIngredientActivity extends AppCompatActivity {
 
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
-        recyclerViewInit();
+
     }
 
     private void recyclerViewInit() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerShopIngredientView);
+        mLayoutEmptyNotify = findViewById(R.id.emptyNotifyLayout);
+        mLayoutEmptyNotify.setVisibility(View.GONE);
+
+        mLayoutNonEmptyNotify = findViewById(R.id.nonEmptyLayout);
+        recyclerView = findViewById(R.id.recyclerShopIngredientView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ShopIngredientAdapter();
@@ -162,7 +173,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
                 //text.setText(query + "를 검색합니다.");
                 Intent intent = new Intent(getApplication(),ShopIngredientActivity.class);
                 intent.putExtra("query",query);
-                startActivityForResult(intent,REQUEST_TEST);
+                startActivity(intent);
                 return true;
             }
 
@@ -176,41 +187,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
-    //검색 일치 항목이 존재하지 않는 경우 상단에 snackbar가 뜨도록 설정하는 함수
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_TEST) {
-            if (resultCode == RESULT_OK) {
-                String snackBarMessage;
-                snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
-                Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
-                        snackBarMessage, Snackbar.LENGTH_LONG);
-                View view = make.getView();
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
-                params.gravity = Gravity.TOP;
-                params.width = getScreenSize(this).x;
-                make.setAction("확인", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-                make.setActionTextColor(Color.RED);
-                make.show();
-            }
-        }
-        if(requestCode==REQUEST_SHOP){
-
-        }
-    }
-    public Point getScreenSize(Activity activity) {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
-
     public void showLoginAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_error_outline_24dp);
