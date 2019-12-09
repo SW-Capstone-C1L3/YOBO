@@ -156,7 +156,6 @@ public class NaverLoginActivity  extends AppCompatActivity {
                             tmp.add(userdata.getInterest_category().get(i));
                         intent.putStringArrayListExtra("interest_category",tmp);
                         setResult(RESULT_OK, intent);
-                        Log.i("ddd4","login finish");
                         finish();
                     }
                     @Override

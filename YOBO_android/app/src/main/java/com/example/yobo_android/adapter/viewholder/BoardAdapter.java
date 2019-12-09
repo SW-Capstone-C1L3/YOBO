@@ -83,7 +83,7 @@ public class  BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             recipeName.setText(recipe.getRecipe_name());
             recipeSubContents.setText(recipe.getCooking_description().get(0).getDescription());
             recipeWriter.setText(recipe.getWriter_name());
-            recipeScore.setText(""+recipe.getRating());
+            recipeScore.setText(""+Math.round(recipe.getRating()*10)/10.0);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

@@ -16,6 +16,7 @@ import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.CommentData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,6 +55,7 @@ public class CommentActivity extends AppCompatActivity {
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     commentList = response.body();
+                    Collections.reverse(commentList);
                     if(commentList.size()==0){
                         //여기에 작업
                         recyclerView.setVisibility(View.GONE);
@@ -77,9 +79,10 @@ public class CommentActivity extends AppCompatActivity {
     private void recyclerViewInit() {
         mLayoutEmptyNotify = findViewById(R.id.emptyNotifyLayout);
         mLayoutEmptyNotify.setVisibility(View.GONE);
-
         recyclerView = findViewById(R.id.recyclerCommentView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setReverseLayout(true);
+//        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentAdapter = new CommentByUserAdapter();
         recyclerView.setAdapter(commentAdapter);
