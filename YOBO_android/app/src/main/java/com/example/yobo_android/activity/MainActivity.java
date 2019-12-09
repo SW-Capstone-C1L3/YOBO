@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.btnWriteRecipe:
-                        if(u_id ==null){
+                        if(u_id  == null){
                             showLoginAlertDialog(0);
                             dialogFlag = true;
                         }else{
