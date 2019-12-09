@@ -6,9 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BasketLogData {
-    public BasketLogData(List<ProductData> products, Integer total_price,
-                         String transaction_status, String user_Did, String user_address,
-                         String user_id, String user_phone_num) {
+    public BasketLogData(List<ProductData> products, Integer total_price, String transaction_status, String user_Did, String user_address, String user_id, String user_phone_num, String user_name) {
         this.products = products;
         this.total_price = total_price;
         this.transaction_status = transaction_status;
@@ -16,6 +14,7 @@ public class BasketLogData {
         this.user_address = user_address;
         this.user_id = user_id;
         this.user_phone_num = user_phone_num;
+        this.user_name = user_name;
     }
 
     @SerializedName("products")
@@ -39,6 +38,9 @@ public class BasketLogData {
     @SerializedName("user_phone_num")
     @Expose
     private String user_phone_num;
+    @SerializedName("user_name")
+    @Expose
+    private String user_name;
 
     public List<ProductData> getProducts() {
         return products;
@@ -94,5 +96,13 @@ public class BasketLogData {
 
     public void setUser_phone_num(String user_phone_num) {
         this.user_phone_num = user_phone_num;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }
