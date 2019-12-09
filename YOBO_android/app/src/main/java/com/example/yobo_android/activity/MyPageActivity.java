@@ -99,7 +99,7 @@ public class MyPageActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),t.toString(),Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -144,9 +144,7 @@ public class MyPageActivity extends AppCompatActivity {
                         public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
                             Toast.makeText(MyPageActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent();
-                            if (flagImageChange) {
-                                intent.putExtra("myImageChange", true);
-                            }
+                            intent.putExtra("myInfoChange", true);
                             intent.putStringArrayListExtra("category",userInterestCategory);
                             setResult(RESULT_OK, intent);
                             finish();
@@ -319,7 +317,6 @@ public class MyPageActivity extends AppCompatActivity {
             if(requestCode == PICK_FROM_ALBUM){
                 userPicture = imageUri;
                 Picasso.get().load(imageUri).into(mEdieUserPicture);
-                flagImageChange = true;
             }
         }
     }

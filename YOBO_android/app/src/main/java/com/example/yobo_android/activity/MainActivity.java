@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivityForResult(intent, REQUEST_NAVER);
                 }
                 else if(mBtnLoginInNavHeader.getText().equals("로그아웃")){
-                    Log.i("kkkk22222","로그아웃 누름");
                     NaverLoginActivity.mOAuthLoginInstance.logout((NaverLoginActivity)NaverLoginActivity.mContext);
                     mBtnLoginInNavHeader.setText("로그인");
                     mBtnLoginInNavHeader.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -248,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         thread.start();
     }
     //사용자의 얼굴을 가져오는 작업
-    public void setImage(){
+    public void setMyInfo(){
         Call<UserData> call = RetrofitClient.getInstance().getApiService().getbyDid(MainActivity.u_id);
         if (call != null) {
             call.enqueue(new Callback<UserData>() {
@@ -262,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Uri uri = Uri.parse(sum);
                         Picasso.get().load(uri).fit().centerInside().error(R.drawable.user).into(mUserPicture);
                     }
+                    nav_header_user_name.setText(userData.getUser_name());
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
@@ -289,12 +289,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         recipe_name.add(recipe.get(i).getRecipe_name());
                         description.add(recipe.get(i).getCooking_description().get(0).getDescription());
                         String temp =  recipe.get(i).getCooking_description().get(0).getImage();
-                        Log.i("TEST main image: ",temp);
                         temp = temp.replace("/", "%2F");
                         String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
                         fav_imageList.add(sum);
                     }
-                    Log.i("TEST main 555",recipe_id.toString());
                     pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
                     mPager.setAdapter(pagerAdapter);
                 }
@@ -511,23 +509,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mBtnLoginInNavHeader.setText("로그아웃");
                 mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setImage();     //사용자 얼굴 설정
-                Log.i("TEST main fav_list : ",favorite_list.toString());
+                setMyInfo();     //사용자 얼굴 설정
                 fav_imageList = new ArrayList<>();
                 getRecommendImage();            //사용자 취향에 따라 가져오기
             }
         }
         else if(requestCode==REQUEST_IMAGE_CHANGE){
             if(resultCode==RESULT_OK){
-                Log.i("TEST 222 main, modify","여기 들어옴");
                 if(data.getStringArrayListExtra("category")!=null){
                     favorite_list.clear();
                     favorite_list = data.getStringArrayListExtra("category");
                 }
-                if(data.getBooleanExtra("myImageChange",false)) {
-                    setImage();
+                if(data.getBooleanExtra("myInfoChange",false)) {
+                    setMyInfo();
                 }
-                Log.i("TEST 222 modify, cate: ",favorite_list.toString());
                 getRecommendImage();
             }
         }

@@ -143,10 +143,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UserData> call, Response<UserData> response) {
                         Toast.makeText(NaverLoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        Log.i("TEST", call.toString());
-                        Log.i("TEST", response.toString());
                         userdata = response.body();
-                        Log.i("kkkkk naverLogin pnum",userdata.getUser_phone_num());
                         Intent intent = new Intent();
                         intent.putExtra("user_id", userdata.get_id());
                         intent.putExtra("user_email", userdata.getUser_id());
