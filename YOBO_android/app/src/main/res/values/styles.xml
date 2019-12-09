@@ -81,7 +81,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="searchView" >
+    <style name="searchViewWhite" >
         <item name="android:textColorHint">@android:color/white</item>
         <item name="android:editTextColor">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
