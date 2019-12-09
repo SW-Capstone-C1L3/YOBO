@@ -176,7 +176,7 @@ public class BasketActivity extends AppCompatActivity{
                             deleteAll(productDataList.get(i).getProduct_id(),user_id);
                         //destination 주소에다가 보내도록
 
-                        final BasketLogData basketLogData = new BasketLogData(productDataList,sum_all_price,"배송 준비중",MainActivity.u_id,destination,MainActivity.u_email,MainActivity.u_phone);
+                        final BasketLogData basketLogData = new BasketLogData(productDataList,sum_all_price,"배송 준비중",MainActivity.u_id,destination,MainActivity.u_email,MainActivity.u_phone,MainActivity.u_name);
 
                         Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().createTransaction(basketLogData);
                         call.enqueue(new Callback<ResponseBody>() {
