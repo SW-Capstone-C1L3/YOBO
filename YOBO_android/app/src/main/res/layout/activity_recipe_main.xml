@@ -139,14 +139,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_margin="10dp"
-                        android:text="어려움"/>
+                        android:text="어려움"
+                        android:fontFamily="@font/nanumsquareroundr"/>
                     <TextView
                         android:id="@+id/serving2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_margin="10dp"
-                        android:text="2인분"/>
+                        android:text="2인분"
+                        android:fontFamily="@font/nanumsquareroundr"/>
                 </LinearLayout>
 
                 <TextView

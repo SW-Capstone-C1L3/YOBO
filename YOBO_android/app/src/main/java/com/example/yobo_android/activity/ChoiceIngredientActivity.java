@@ -39,7 +39,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             new IngredientData("닭고기",R.drawable.ingre_chicken),
             new IngredientData("소고기",R.drawable.ingre_beef),
             new IngredientData("계란",R.drawable.ingre_egg),
-            new IngredientData("생선",R.drawable.ingre_fish),
+            new IngredientData("고등어",R.drawable.ingre_fish),
             new IngredientData("새우",R.drawable.ingre_shrimp),
             new IngredientData("낙지",R.drawable.ingre_octopus1), // 낙지
             new IngredientData("문어",R.drawable.ingre_octopus2), // 문어

@@ -35,11 +35,6 @@ public interface ApiService {
     Call<UserData> getUserData(@Query("at") String at);
 
     /*Recipe*/
-
-    @GET("yobo/recipe/getByrecommend")
-    Call<List<Recipe>> getRecommendedRecipe(@Query("favorite") ArrayList<String> favorite);
-
-
     @Multipart
     @POST("/yobo/recipe/createRecipe")
     Call<ResponseBody> uploadRecipe(@Part List<MultipartBody.Part> files,

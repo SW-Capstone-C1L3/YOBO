@@ -90,7 +90,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                     }
 
                     mIngredientName.setText(product.getProduct_name());
-                    mIngredientPrice.setText(product.getProduct_price() + "/" + product.getProduct_qty() + "" + product.getProduct_unit());
+                    mIngredientPrice.setText(product.getProduct_price() + "원/" + product.getProduct_qty() + "" + product.getProduct_unit());
                     mCompanyName.setText(product.getCompany_name());
                     mIngredientDescription.setText(product.getProduct_description());
                     Company_id = product.getProvided_company_id();
