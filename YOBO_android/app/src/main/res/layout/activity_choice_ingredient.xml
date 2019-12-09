@@ -24,12 +24,25 @@
             android:scrollbars="none"
             android:background="@color/colorWhite"/>
     </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:src="@drawable/cyclearrow"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/refreshButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@id/noticeTextView"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/cyclearrow"/>
+        <TextView
+            android:id="@+id/noticeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="재료를 길게 눌러 아래로 넣어주세요"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nanumsquareroundb"/>
+    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -47,7 +60,7 @@
             android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"
             android:scrollbars="none"
-            android:background="@color/colorMain3"/>
+            android:background="@drawable/grid_view_boarder" />
 
     </androidx.cardview.widget.CardView>
 
@@ -58,6 +71,7 @@
         android:text="선택완료"
         android:textSize="14sp"
         android:textColor="@android:color/secondary_text_light"
+        android:fontFamily="@font/nanumsquareroundb"
         android:background="@color/colorWhite"/>
 </LinearLayout>
 

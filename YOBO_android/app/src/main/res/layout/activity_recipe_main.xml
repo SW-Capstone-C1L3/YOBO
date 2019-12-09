@@ -126,7 +126,7 @@
                     android:text="요리이름"
                     android:textAlignment="center"
                     android:textSize="25sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/nanumsquareroundb"
                     android:textColor="@color/colorBlack"/>
 
                 <LinearLayout
@@ -157,6 +157,7 @@
                     android:text="간단설명"
                     android:textSize="17sp"
                     android:textColor="@color/colorBlack"
+                    android:fontFamily="@font/nanumsquareroundb"
                     android:textAlignment="center"/>
                 <TextView
                     android:id="@+id/writerid2"
@@ -174,7 +175,7 @@
                     android:text="주재료"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/nanumsquareroundb"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mainingredients2"
@@ -188,7 +189,7 @@
                     android:text="추가 재료"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/nanumsquareroundb"
                     android:textColor="@color/colorBlack"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/subingredients2"
@@ -203,7 +204,7 @@
                     android:text="리뷰"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/nanumsquareroundb"
                     android:textColor="@color/colorBlack"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -222,6 +223,7 @@
                         android:minHeight="0dp"
                         android:text="레시피 저장"
                         android:textSize="15sp"
+                        android:fontFamily="@font/nanumsquareroundb"
                         android:background="@color/colorTransparent"/>
 
                     <View
@@ -240,6 +242,7 @@
                         android:minHeight="0dp"
                         android:text="레시피 평가"
                         android:textSize="15sp"
+                        android:fontFamily="@font/nanumsquareroundb"
                         android:background="@color/colorTransparent"/>
                 </LinearLayout>
 
