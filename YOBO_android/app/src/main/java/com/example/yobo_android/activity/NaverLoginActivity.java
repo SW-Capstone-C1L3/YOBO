@@ -18,6 +18,8 @@ import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -37,7 +39,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
 
     public static OAuthLogin mOAuthLoginInstance;
     public static Context mContext;
-    private ArrayList<String> tmp = new ArrayList<>();
+    private ArrayList<String> tmp;
     /**
      * UI 요소들
      */
@@ -149,8 +151,13 @@ public class NaverLoginActivity  extends AppCompatActivity {
                         intent.putExtra("user_email", userdata.getUser_id());
                         intent.putExtra("user_name", userdata.getUser_name());
                         intent.putExtra("user_phone",userdata.getUser_phone_num());
-                        for(int i=0;i<userdata.getInterest_category().size();i++)
-                            tmp.add(userdata.getInterest_category().get(i));
+                        tmp = new ArrayList<>();
+                        for(int i=0;i<userdata.getInterest_category().size();i++){
+                            if(!userdata.getInterest_category().get(i).equals("미선택"))
+                                tmp.add(userdata.getInterest_category().get(i));
+                            else
+                                tmp.add("");
+                        }
                         intent.putStringArrayListExtra("interest_category",tmp);
                         setResult(RESULT_OK, intent);
                         finish();
