@@ -66,9 +66,9 @@ public class ShopIngredientActivity extends AppCompatActivity {
         recyclerViewInit();
         Call<List<ShoppingIngredientData>> call = null;
         if (query != null)
-            call = RetrofitClient.getInstance().getApiService().searchProduct(query, 0, 10);
+            call = RetrofitClient.getInstance().getApiService().searchProduct(query, 0, 20);
         else
-            call = RetrofitClient.getInstance().getApiService().getProductList(0,10);
+            call = RetrofitClient.getInstance().getApiService().getProductList(0,20);
 
         if (call != null) {
             call.enqueue(new Callback<List<ShoppingIngredientData>>() {
@@ -85,7 +85,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     else {
                         for (int i = 0; i < ingredientList.size(); i++) {
                             adapter.addItem(ingredientList.get(i), i);
-                            Log.i("kkkkkkkshopactk",ingredientList.get(i).getProduct_name());
                         }
                     }
                 }

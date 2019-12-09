@@ -143,15 +143,13 @@ public class MyPageActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call2, Response<ResponseBody> response) {
                             Toast.makeText(MyPageActivity.this, "Success", Toast.LENGTH_SHORT).show();
-
+                            Intent intent = new Intent();
                             if (flagImageChange) {
-                                Intent intent = new Intent();
                                 intent.putExtra("myImageChange", true);
-                                setResult(RESULT_OK, intent);
-                                finish();
                             }
-                            else
-                                finish();
+                            intent.putStringArrayListExtra("category",userInterestCategory);
+                            setResult(RESULT_OK, intent);
+                            finish();
                         }
                         @Override
                         public void onFailure(Call<ResponseBody> call2, Throwable t) {
@@ -162,7 +160,6 @@ public class MyPageActivity extends AppCompatActivity {
 
             }
         });
-
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -319,7 +316,6 @@ public class MyPageActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             if(requestCode == PICK_FROM_ALBUM){
                 userPicture = imageUri;
                 Picasso.get().load(imageUri).into(mEdieUserPicture);

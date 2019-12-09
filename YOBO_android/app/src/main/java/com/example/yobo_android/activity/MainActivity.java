@@ -78,11 +78,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // for recipe recommendation
     private int NUM_PAGES = 3;
-    private ViewPager mPager;
+    private ViewPager   mPager;
     private PagerAdapter pagerAdapter;
     private ImageButton mBtnOpen;
-    private ArrayList<String> favorite = new ArrayList<>();
-    private ArrayList<String> recommendedRecipeIds = new ArrayList<>();
+    private ArrayList<String> favorite_list = new ArrayList<>();
+    private List<Recipe> recipe = new ArrayList<>();
+    private List<String> recipe_id = new ArrayList<>();
+    private List<String> fav_imageList = new ArrayList<>();
+    private List<String> recipe_name = new ArrayList<>();
+    private List<String> description = new ArrayList<>();
 
     // user Info in nav header
     private TextView nav_header_user_name;
@@ -101,12 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Handler handler = null;
     int p=0;	//페이지번호
     int v=1;
-    private ArrayList<String> favorite_list = new ArrayList<>();
-    private List<Recipe> recipe = new ArrayList<>();
-    private List<String> recipe_id = new ArrayList<>();
-    private List<String> fav_imageList = new ArrayList<>();
-    private List<String> recipe_name = new ArrayList<>();
-    private List<String> description = new ArrayList<>();
     public void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -122,13 +120,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         permissionCheck();
-        favorite_list.add("");
-        getRecommendImage();
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         mtoolbarTitle = findViewById(R.id.toolbar_title);
-        mPager = (ViewPager) findViewById(R.id.pagerMain);
+        mPager = findViewById(R.id.pagerMain);
 
         mBtnOpen = findViewById(R.id.menuImageButton);
         mBtnOpen.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnShop.setOnClickListener(onClickListener);
         mBtnWriteRecipe.setOnClickListener(onClickListener);
 
+        favorite_list.add("");
+        getRecommendImage();
+
         handler = new Handler(){
             public void handleMessage(android.os.Message msg) {
                 if(p==0)
@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 p=(p+1)%3;
             }
         };
+
         thread = new Thread(){
             //run은 jvm이 쓰레드를 채택하면, 해당 쓰레드의 run메서드를 수행한다.
             public void run() {
@@ -264,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -280,7 +281,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     recipe = response.body();
                     recipe_name = new ArrayList<>();
                     description = new ArrayList<>();
-                    for(int i=0;i<recipe.size();i++){
+                    recipe_id = new ArrayList<>();
+                    fav_imageList = new ArrayList<>();
+
+                  for(int i=0;i<recipe.size();i++){
                         recipe_id.add(recipe.get(i).get_id());
                         recipe_name.add(recipe.get(i).getRecipe_name());
                         description.add(recipe.get(i).getCooking_description().get(0).getDescription());
@@ -290,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
                         fav_imageList.add(sum);
                     }
-                    Log.i("TEST main 555","main의 get 다시 호출됨");
+                    Log.i("TEST main 555",recipe_id.toString());
                     pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
                     mPager.setAdapter(pagerAdapter);
                 }
@@ -423,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         @Override
         public Fragment getItem(int position) {
-            return RecipeRecomFragment.newInstance(fav_imageList.get(position),recipe_name.get(position),description.get(position),position);
+            return RecipeRecomFragment.newInstance(recipe_id.get(position), fav_imageList.get(position),recipe_name.get(position),description.get(position),position);
         }
         @Override
         public int getCount() {
@@ -514,8 +518,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(requestCode==REQUEST_IMAGE_CHANGE){
-            if(resultCode==RESULT_OK && data.getBooleanExtra("myImageChange",false))
-                setImage();
+            if(resultCode==RESULT_OK){
+                Log.i("TEST 222 main, modify","여기 들어옴");
+                if(data.getStringArrayListExtra("category")!=null){
+                    favorite_list.clear();
+                    favorite_list = data.getStringArrayListExtra("category");
+                }
+                if(data.getBooleanExtra("myImageChange",false)) {
+                    setImage();
+                }
+                Log.i("TEST 222 modify, cate: ",favorite_list.toString());
+                getRecommendImage();
+            }
         }
     }
     public Point getScreenSize(Activity activity) {

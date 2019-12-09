@@ -27,13 +27,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageButton
-            android:id="@+id/refreshButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_toLeftOf="@id/noticeTextView"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/cyclearrow"/>
+
         <TextView
             android:id="@+id/noticeTextView"
             android:layout_width="wrap_content"
