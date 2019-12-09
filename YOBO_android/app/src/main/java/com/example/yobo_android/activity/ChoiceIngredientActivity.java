@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,8 @@ import java.util.Arrays;
 */
 
 public class ChoiceIngredientActivity extends AppCompatActivity {
+
+    private Vibrator vibrator;
     GridView mSrcGrid;
     GridView mDestGrid;
 
@@ -76,6 +80,8 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_ingredient);
+
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         mSrcGrid = findViewById(R.id.srcIngredient);
         mSrcGrid.setOnDragListener(new MyDragListener());
@@ -155,6 +161,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             int action = event.getAction();
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
+                    vibrator.vibrate(VibrationEffect.createOneShot(100,5));
                     break;
 
                 case DragEvent.ACTION_DRAG_ENTERED:
