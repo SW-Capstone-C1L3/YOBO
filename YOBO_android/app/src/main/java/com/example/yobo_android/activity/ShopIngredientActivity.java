@@ -77,9 +77,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     ingredientList = response.body();
                     if(ingredientList.isEmpty()){
-//                        recyclerView.setVisibility(View.GONE);
                         mLayoutEmptyNotify.setVisibility(View.VISIBLE);
-//                        mbtnGoToBakset.setVisibility(View.GONE);
                         mLayoutNonEmptyNotify.setVisibility(View.GONE);
                     }
                     else {
