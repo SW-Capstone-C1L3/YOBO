@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.btnWriteRecipe:
-                        if(u_id == null){
+                        if(u_id .equals(null)){
                             showLoginAlertDialog(0);
                             dialogFlag = true;
                         }else{
@@ -564,5 +564,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
         builder.show();
+    }
+
+    @Override
+    public void onResume() {
+        if(u_id!=null) {
+            nav_header_user_name.setText(u_name);
+            nav_header_user_email.setText(u_email + "@naver.com");
+            mBtnLoginInNavHeader.setText("로그아웃");
+            mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
+            setImage();     //사용자 얼굴 설정
+            getRecommendImage();            //사용자 취향에 따라 가져오기
+        }
+        super.onResume();
     }
 }

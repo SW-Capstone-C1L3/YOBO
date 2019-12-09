@@ -77,15 +77,12 @@ public class ShopIngredientActivity extends AppCompatActivity {
                     //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     ingredientList = response.body();
                     if(ingredientList.isEmpty()){
-//                        recyclerView.setVisibility(View.GONE);
                         mLayoutEmptyNotify.setVisibility(View.VISIBLE);
-//                        mbtnGoToBakset.setVisibility(View.GONE);
                         mLayoutNonEmptyNotify.setVisibility(View.GONE);
                     }
                     else {
                         for (int i = 0; i < ingredientList.size(); i++) {
                             adapter.addItem(ingredientList.get(i), i);
-                            Log.i("kkkkkkkshopactk",ingredientList.get(i).getProduct_name());
                         }
                     }
                 }
