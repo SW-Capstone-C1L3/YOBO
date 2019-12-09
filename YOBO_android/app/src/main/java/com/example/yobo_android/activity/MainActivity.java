@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -278,6 +278,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     recipe = response.body();
                     recipe_name = new ArrayList<>();
                     description = new ArrayList<>();
+                    recipe_id = new ArrayList<>();
+                    fav_imageList = new ArrayList<>();
                     for(int i=0;i<recipe.size();i++){
                         recipe_id.add(recipe.get(i).get_id());
                         recipe_name.add(recipe.get(i).getRecipe_name());
@@ -288,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
                         fav_imageList.add(sum);
                     }
-                    Log.i("TEST main 555","main의 get 다시 호출됨");
+                    Log.i("TEST main 555",recipe_id.toString());
                     pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
                     mPager.setAdapter(pagerAdapter);
                 }
@@ -512,8 +514,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(requestCode==REQUEST_IMAGE_CHANGE){
-            if(resultCode==RESULT_OK && data.getBooleanExtra("myImageChange",false))
-                setImage();
+            if(resultCode==RESULT_OK){
+                Log.i("TEST 222 main, modify","여기 들어옴");
+                if(data.getStringArrayListExtra("category")!=null){
+                    favorite_list.clear();
+                    favorite_list = data.getStringArrayListExtra("category");
+                }
+                if(data.getBooleanExtra("myImageChange",false)) {
+                    setImage();
+                }
+                Log.i("TEST 222 modify, cate: ",favorite_list.toString());
+                getRecommendImage();
+            }
         }
     }
     public Point getScreenSize(Activity activity) {
