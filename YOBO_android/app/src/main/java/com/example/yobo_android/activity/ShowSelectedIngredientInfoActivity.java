@@ -5,9 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -128,7 +125,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     }
 
     public void goToBasket(int amount){       //장바구니에 담기
-//        userId = "5dc6e8de068a0d0928838088";
         userId = MainActivity.u_id;
         Log.i("kkkkkkkkk gotobasket",Ingredient_id);
         hashMap.put("Product_id", Ingredient_id);
@@ -147,53 +143,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
             }
         });
         finish();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        //search_menu.xml 등록
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_action, menu);
-        final MenuItem mSearch = menu.findItem(R.id.action_search);
-        SearchView searchView = (android.widget.SearchView) mSearch.getActionView();
-
-        // Detect SearchView icon clicks
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mtoolbarTitle.setVisibility(View.GONE);
-            }
-        });
-        // Detect SearchView close
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                mtoolbarTitle.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
-        SearchView sv = (SearchView) mSearch.getActionView();
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //
-            //검색버튼을 눌렀을 경우
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //TextView text = (TextView) findViewById(R.id.txtresult);
-                //text.setText(query + "를 검색합니다.");
-                return true;
-            }
-
-            //텍스트가 바뀔때마다 호출
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //TextView text = (TextView) findViewById(R.id.txtsearch);
-                //text.setText("검색식 : " + newText);
-                return true;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
     }
     public void showLoginAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
