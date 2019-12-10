@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -52,7 +53,7 @@ import kr.co.bootpay.model.BootUser;
 public class BasketActivity extends AppCompatActivity{
     ArrayList<String> deleteList = new ArrayList<>();
     ArrayList<Integer> quantity = new ArrayList<>();
-    ArrayList<ProductData> productDataList = new ArrayList<>();
+    List<ProductData> productDataList = new ArrayList<>();
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private BasketIngredientAdapter adapter;
@@ -137,9 +138,10 @@ public class BasketActivity extends AppCompatActivity{
                 Toast.makeText(BasketActivity.this,"실패",Toast.LENGTH_LONG).show();
             }
         });
-        productDataList.remove(deletePos);
+        productDataList.remove(productDataList.get(deletePos));
         adapter.removeItem(deletePos);
         sum_all_price-=cost;
+        Log.i("TEST basket delete후",productDataList.toString());
     }
 
     public void buy(Integer total, final String destination){
