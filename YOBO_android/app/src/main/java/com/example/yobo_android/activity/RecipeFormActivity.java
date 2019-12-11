@@ -21,6 +21,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -457,7 +458,9 @@ public class RecipeFormActivity extends AppCompatActivity  {
     }
 
     public boolean checkInput(){
-        //TODO : 키보드 열려있으면 내리는 이벤트 나중에 추가하면 좋을듯!
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText())
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),0);
 
         boolean flag = true;
         String snackBarMessage = null;
@@ -573,7 +576,6 @@ public class RecipeFormActivity extends AppCompatActivity  {
         //세부 정보 말고 크기 정보만 갖고 온다
         opts.inJustDecodeBounds = true;
 
-        // ex) 4096 * 3800
         int width = opts.outWidth;
         int height = opts.outHeight;
 
@@ -596,14 +598,12 @@ public class RecipeFormActivity extends AppCompatActivity  {
         float ratio;
 
         if(width > height){
-            //Landscape
             if(width > targetWidth)
                 ratio = (float)width / (float)targetWidth;
             else
                 ratio = 1f;
         }
         else{
-            //Portrait
             if(height > targetHeight)
                 ratio=(float)height/(float)targetHeight;
             else

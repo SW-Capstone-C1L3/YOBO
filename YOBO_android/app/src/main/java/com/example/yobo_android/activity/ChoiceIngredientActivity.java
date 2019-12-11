@@ -95,7 +95,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 if(destIngredient.size() == 0){
-                    Toast.makeText(getApplicationContext(),"재료를 한가지 이상 선택해요",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"재료를 한 가지 이상 선택해주세요",Toast.LENGTH_LONG).show();
                 }
                 else{
                     Intent intent = new Intent(getApplication(),BoardActivity.class);
@@ -171,7 +171,6 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP:
-                    // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
                     ViewGroup owner = (ViewGroup) view.getParent();
 
