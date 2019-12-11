@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.RecipeFormActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_recipe_form"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <ImageButton
+            android:id="@+id/arrow_back2_ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back_24dp" />
+
+        <TextView
+            android:id="@+id/toolbar_title_recipe_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="레시피 등록"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/done_ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15sp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_done_24dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:text="레시피 제목"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <EditText
+                android:id="@+id/recipe_name"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:paddingLeft="10sp"
+                android:gravity="center_vertical"
+                android:hint="나만의 레시피 이름을 지어보세요!"
+                android:textSize="15sp"
+                android:background="@null"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:text="레시피 대표 사진"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <ImageView
+                android:id="@+id/cooking_description_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_camera"/>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:text="레시피 간단 설명"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <EditText
+                android:id="@+id/cooking_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10sp"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:hint="레시피에 대한 간단 설명을 해주세요!"
+                android:textSize="15sp"
+                android:background="@null"/>
+
+            <TextView
+                android:id="@+id/textView11"
+                android:text="주재료 정보"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mainIngredientFormRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/mainIngredientFormAddButton"
+                style="@style/RecipeFormAddButtonStyle"/>
+
+            <TextView
+                android:id="@+id/textView12"
+                android:text="추가 재료 정보"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/subIngredientFormRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/subIngredientFormAddButton"
+                style="@style/RecipeFormAddButtonStyle"/>
+
+            <TextView
+                android:id="@+id/textView13"
+                android:text="레시피 순서"
+                style="@style/RecipeFormTextViewStyle"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipeSequenceFormRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/recipeSequenceFormAddButton"
+                style="@style/RecipeFormAddButtonStyle"/>
+
+            <TextView
+                android:id="@+id/textView14"
+                android:text="카테고리 설정"
+                style="@style/RecipeFormTextViewStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/spinnerCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerCountry"/>
+                <View style="@style/ListDividerVertical"/>
+                <Spinner
+                    android:id="@+id/spinnerCookingType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerCookingType"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textView15"
+                android:text="기타"
+                style="@style/RecipeFormTextViewStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/spinnerServing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerServing"/>
+                <View style="@style/ListDividerVertical"/>
+                <Spinner
+                    android:id="@+id/spinnerDifficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/spinnerDifficulty"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

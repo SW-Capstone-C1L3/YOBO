@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".fragment.RecipeOrderFragment">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/curimage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_margin="16dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnOnOff"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/speaker" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true">
+                    <Button
+                        android:id="@+id/btnStart"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/start_speaking" />
+                    <Button
+                        android:id="@+id/btnStop"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_toRightOf="@+id/btnStart"
+                        android:background="@drawable/stop_speaking"/>
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btnSST"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/microphone" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/curdescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_weight="1"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:text="조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 조리법 설명 " />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

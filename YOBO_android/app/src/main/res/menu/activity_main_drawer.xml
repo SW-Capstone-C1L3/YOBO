@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_enroll_recipe"
+            android:title="내가 등록한 레시피" />
+        <item
+            android:id="@+id/nav_scrap_recipe"
+            android:title="관심있는 레시피" />
+        <item
+            android:id="@+id/nav_commented_recipe"
+            android:title="댓글단 레시피" />
+        <item
+            android:id="@+id/nav_modifyMyInfo"
+            android:title="회원정보 변경"/>
+        <item
+            android:id="@+id/nav_myShopLog"
+            android:title="내 쇼핑정보"/>
+    </group>
+</menu>
