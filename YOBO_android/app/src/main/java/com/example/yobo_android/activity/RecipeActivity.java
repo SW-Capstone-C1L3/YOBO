@@ -119,7 +119,8 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     public void selectIndex(int nexIdx){
-        vpPager.setCurrentItem(nexIdx,true);
+//        vpPager.setCurrentItem(nexIdx,true);
+        vpPager.setCurrentItem(vpPager.getCurrentItem()+1,true);
     }
 
     public void start(){

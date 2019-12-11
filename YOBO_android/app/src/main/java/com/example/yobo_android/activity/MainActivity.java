@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String u_email;
     private ImageView mUserPicture;
     UserData userData;
-    Uri userPicture = null;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
