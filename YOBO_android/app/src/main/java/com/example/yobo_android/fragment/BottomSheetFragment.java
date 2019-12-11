@@ -31,7 +31,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
         String price = ((ShowSelectedIngredientInfoActivity)getActivity()).getIngredientPrice() + "";
-        //Set the custom view
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bottom_sheet, null);
         dialog.setContentView(view);
         mOnePrice = view.findViewById(R.id.one_price);
@@ -62,8 +61,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                         mTotalPrice.setText(String.valueOf(amount*one_price));
                         break;
                     case R.id.btnPurchase:
-                        //장바구니 DB에 올리는 작업
-                        Log.i("jjjjjjjjjjjjjjjjj","장바구니에 담기 클릭");
                         if(amount>0) {
                             ((ShowSelectedIngredientInfoActivity) getActivity()).goToBasket(amount);
                         }
@@ -77,44 +74,5 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         mbtnMinus.setOnClickListener(onClickListener);
         mbtnPlus.setOnClickListener(onClickListener);
         mbtnPurchase.setOnClickListener(onClickListener);
-
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
-        CoordinatorLayout.Behavior behavior = params.getBehavior();
-
-        if (behavior != null && behavior instanceof BottomSheetBehavior) {
-            ((BottomSheetBehavior) behavior).setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    String state = "";
-                    switch (newState) {
-                        case BottomSheetBehavior.STATE_DRAGGING: {
-                            state = "DRAGGING";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_SETTLING: {
-                            state = "SETTLING";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_EXPANDED: {
-                            state = "EXPANDED";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_COLLAPSED: {
-                            state = "COLLAPSED";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_HIDDEN: {
-                            dismiss();
-                            state = "HIDDEN";
-                            break;
-                        }
-                    }
-                    //Toast.makeText(getContext(), "Bottom Sheet State Changed to: " + state, Toast.LENGTH_SHORT).show();
-                }
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                }
-            });
-        }
     }
 }

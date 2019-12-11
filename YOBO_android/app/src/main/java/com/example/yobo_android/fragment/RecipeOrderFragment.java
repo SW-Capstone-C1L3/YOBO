@@ -1,45 +1,29 @@
 package com.example.yobo_android.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import android.os.Handler;
-import android.speech.RecognitionListener;
-import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TextView;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.RecipeActivity;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Recipe;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Locale;
 /*
  * RecipeActivity에 띄워지는 fragment
@@ -58,9 +42,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private Button btnStart;
     private TextToSpeech tts;
     private static final int MY_DATA_CHECK =1234;
-    /////////이 밑으로 부터 추가
-    private static final String TAG2 ="MyTag2";
-    private static final String TAG ="MyTag";
     Thread thread = null;
     Handler handler = null;
     private  int flag = 0;
@@ -83,15 +64,11 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             position = getArguments().getInt("position");
         }
     }
-  
-    // Inflate the view for the fragment based on layout XML
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
-
-        Log.i("ddd3","in view2");
-        // Retrofit2 때문에 final로, 그래서 다른 함수에서 재활용이 안되네
         mCurImage = view.findViewById(R.id.curimage);
         mCurDescription = view.findViewById(R.id.curdescription);
         mCurDescription.setHint("1");
@@ -118,9 +95,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                 }
                 @Override
                 public void onFailure(Call<Recipe> call, Throwable t) {
-                    //Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-                    Log.i("ERROR", t.toString());
-                    Log.i("ERROR", call.toString());
+
                 }
             });
         }
@@ -133,7 +108,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                 ((RecipeActivity)getActivity()).start();
             }
         });
-
         btnStart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -141,7 +115,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                 Speech();
             }
         });
-
         tts = new TextToSpeech(getActivity(), this);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -157,15 +130,10 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         startActivityForResult(checkIntent,MY_DATA_CHECK);
         return view;
     }
-    public void onViewCreated (View view,
-                        Bundle savedInstanceState){
-        Log.i("cccccccccc","RecipeOrderFrag onViewCreated called");
-    }
-    // Store instance variables based on arguments passed
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser){
         if(isVisibleToUser && RecipeActivity.startTTS){
-            Log.i("ccccccccccc","현재 3frag가 보여짐");
             flag = 1;
             handler = new Handler(){
                 public void handleMessage(android.os.Message msg) {
@@ -191,9 +159,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             };
             thread.start();
         }
-        else{
-            Log.i("ccccccccccc","현재 3frag가 보여지지 않음");
-        }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -201,9 +166,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Speech() {
         if(RecipeActivity.startTTS) {
-            Log.i("aaaaaaaa", "Speech3");
             String text = mCurDescription.getText().toString().trim();
-            Log.i("TEST Frag text: ", text);
             tts.setPitch((float) 1.0);      // 음량
             tts.setSpeechRate((float) 1.5); // 재생속도
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ababa");
@@ -223,7 +186,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onInit(int status) {
-        Log.i("cccccccccccc","onInit3");
         if (status == TextToSpeech.SUCCESS) {
             // 작업 성공
             int language = tts.setLanguage(Locale.KOREAN);  // 언어 설정
@@ -259,6 +221,4 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         }
         super.onDestroy();
     }
-
-
 }

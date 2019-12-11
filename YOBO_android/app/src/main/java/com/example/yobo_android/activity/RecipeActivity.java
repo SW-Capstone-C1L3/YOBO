@@ -4,11 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,19 +15,12 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.yobo_android.R;
-
 import com.example.yobo_android.fragment.RecipeOrderFragment;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import me.relex.circleindicator.CircleIndicator;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,24 +78,20 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        //        private static int NUM_ITEMS = 10;
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
-        // Returns total number of pages
         @Override
         public int getCount() {
             return recipeDescriptionNum;
         }
 
-        // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
             return RecipeOrderFragment.newInstance(recipeId, position + 1);
         }
 
-        // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             return "Page " + position;
@@ -132,18 +119,15 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     public void selectIndex(int nexIdx){
-        Log.i("cccccccccccccccc","selectItem 입장");
         vpPager.setCurrentItem(nexIdx,true);
     }
 
     public void start(){
-        Log.i("cccccccccccccccc", "start");
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(RecipeActivity.this);
         mRecognizer.setRecognitionListener(listener);
         mRecognizer.startListening(intent);
-        Log.i(TAG, "음성인식 시작");
     }
-    ///********************************여기서부터 추가
+
     private RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
@@ -151,27 +135,19 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBeginningOfSpeech() {
-            Log.i(TAG2,"onBeginningOfSpeech");
+        public void onBeginningOfSpeech(){
         }
 
         @Override
         public void onRmsChanged(float rmsdB) {
-            float f = rmsdB*100;
-            if(f>900) {
-                String str = Float.toString(rmsdB * 100);
-                Log.i(TAG, str);
-            }
         }
 
         @Override
         public void onBufferReceived(byte[] buffer) {
-            Log.i(TAG2,"onBufferReceived");
         }
 
         @Override
         public void onEndOfSpeech() {
-            Log.i(TAG2,"onBufferReceived");
         }
 
         @Override
@@ -208,29 +184,23 @@ public class RecipeActivity extends AppCompatActivity {
                     message = "알 수 없는 오류임";
                     break;
             }
-            //Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message,Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onResults(Bundle results) {
-            // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줍니다.
             ArrayList<String> matches =
                     results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             result="";
-            for(int i = 0; i < matches.size() ; i++){
-                //textView.setText(matches.get(i));
+            for(int i = 0; i < matches.size() ; i++)
                 result+=matches.get(i);
-            }
+
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-            Log.i("aaaaaaaa",result);
             if(result.equals("다음")) {
                 if(cnt!=recipeDescriptionNum) {
-                    //Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                     mRecognizer.stopListening();
                     selectIndex(++cnt);
                 }
                 else {
-//                    Toast.makeText(getApplicationContext(), "다음을 입력받았습니다." , Toast.LENGTH_SHORT).show();
                     //넘어갈 다음 페이지가 존재하지 않음 -> 처리안함
                 }
             }
@@ -238,7 +208,6 @@ public class RecipeActivity extends AppCompatActivity {
                 selectIndex(cnt);
                 RecipeOrderFragment tf = (RecipeOrderFragment) getSupportFragmentManager().findFragmentById(R.id.vpPager);
                 tf.Speech(descriptionlist.get(cnt));
-//                adapterViewPager.notifyDataSetChanged();
             }
         }
 

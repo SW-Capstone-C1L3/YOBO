@@ -8,7 +8,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.CommentAdapter;
 import com.example.yobo_android.adapter.viewholder.IngredientsAdapter;
@@ -33,7 +31,6 @@ import com.example.yobo_android.etc.Cooking_ingredient;
 import com.example.yobo_android.etc.Recipe;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,7 +43,6 @@ public class RecipeMainActivity extends AppCompatActivity {
 
     String recipeWriterId;
     String recipeId;
-//    String recipeName;
     int descriptionNum;
     private double rate;
     private RatingBar ratingBar;
@@ -68,7 +64,6 @@ public class RecipeMainActivity extends AppCompatActivity {
         recipeId = getIntent().getStringExtra("recipeId");
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
         CollapsingToolbarLayout mCollapseToolBar = findViewById(R.id.collapsingtoolbar);
         recyclerViewInit();
         mBtnModify = findViewById(R.id.recipeModifyButton);
@@ -129,22 +124,15 @@ public class RecipeMainActivity extends AppCompatActivity {
                     Log.i("TEST", response2.toString());
                     commentDataList = response2.body();
                     if(commentDataList.size()==0){
-//                        Intent intent = new Intent();
-//                        intent.putExtra("result", "some value");
-//                        setResult(RESULT_OK, intent);
-//                        finish();
                     }
                     else {
                         for (int i = 0; i < commentDataList.size(); i++) {
                             commentAdapter.addItem(commentDataList.get(i), i);
                         }
-                        Log.i("kkkkkkk",commentDataList.size()+"");
                     }
                 }
                 @Override
                 public void onFailure(Call<List<CommentData>> call2, Throwable t) {
-                    Log.e("ERROR", call2.toString());
-                    Log.e("ERROR", t.toString());
                 }
             });
         }
@@ -166,7 +154,6 @@ public class RecipeMainActivity extends AppCompatActivity {
             }
         });
 
-        Log.i("TEST 444",MainActivity.u_id +"  "+MainActivity.u_name);
         ((ImageButton)findViewById(R.id.btnaddcomment)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -291,7 +278,6 @@ public class RecipeMainActivity extends AppCompatActivity {
         LinearLayoutManager mLinearLayoutManagerComment = new LinearLayoutManager(this);
         mCommentsView.setLayoutManager(mLinearLayoutManagerComment);
 
-
         mMainIngredientAdapter = new IngredientsAdapter();
         mSubIngredientAdapter = new IngredientsAdapter();
         commentAdapter = new CommentAdapter();
@@ -327,7 +313,6 @@ public class RecipeMainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_MODIFY2) {
             if (resultCode == RESULT_OK) {
-                Log.i("TEST", "REQ3333");
                 Intent intent = new Intent();
                 intent.putExtra("result", "some value");
                 setResult(RESULT_OK, intent);

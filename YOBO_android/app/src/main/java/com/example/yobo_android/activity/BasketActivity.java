@@ -9,13 +9,11 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BasketIngredientAdapter;
 import com.example.yobo_android.api.RequestHttpURLConnection;
@@ -24,15 +22,12 @@ import com.example.yobo_android.etc.BasketLogData;
 import com.example.yobo_android.etc.IngredientsBasketData;
 import com.example.yobo_android.etc.ProductData;
 import com.example.yobo_android.fragment.BottomSheetFragBasket;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,13 +101,11 @@ public class BasketActivity extends AppCompatActivity{
                 JSONObject basket = BasketIngredientList.getJSONObject(i);
                 basketitem.setIngredientDescription(basket.getString("product_description"));
                 basketitem.setBasket_product_id(basket.getString("product_id"));
-//                deleteList.add(basket.getString("product_id"));
                 basketitem.setIngredientImage(basket.getString("product_image"));
                 basketitem.setIngredientName(basket.getString("product_name"));
                 basketitem.setIngredientPrice(basket.getInt("product_price"));
                 basketitem.setBasket_qty(basket.getInt("qty"));
                 basketitem.setProvided_company_id(basket.getString("company_id"));
-//                quantity.add(basket.getInt("qty"));
                 productDataList.add(new ProductData(basket.getString("product_id"),basket.getInt("qty"),basket.getString("company_id"),basket.getInt("product_price"),basket.getString("product_name")));
                 sum_all_price += basket.getInt("qty") * basket.getInt("product_price");
                 basketitem.setUser_id(MainActivity.u_id);
@@ -132,7 +125,6 @@ public class BasketActivity extends AppCompatActivity{
         final String ing_name = name;
         HashMap<String,Object> hashMap = new HashMap<>();
         deletePos = num;
-
         user_id = MainActivity.u_id;
         hashMap.put("Product_id", str);
         hashMap.put("User_id",user_id);
@@ -150,7 +142,6 @@ public class BasketActivity extends AppCompatActivity{
         productDataList.remove(productDataList.get(deletePos));
         adapter.removeItem(deletePos);
         sum_all_price-=cost;
-        Log.i("TEST basket delete후",productDataList.toString());
     }
 
     public void buy(Integer total, final String destination){
@@ -165,7 +156,6 @@ public class BasketActivity extends AppCompatActivity{
                 .setBootUser(bootUser)
                 .setBootExtra(bootExtra)
                 .setUX(UX.PG_DIALOG)
-//                .setUserPhone("010-1234-5678") // 구매자 전화번호
                 .setName("재료") // 결제할 상품명
                 .setOrderId("1234") // 결제 고유번호expire_month
                 .setPrice(total) // 결제할 금액
@@ -176,19 +166,14 @@ public class BasketActivity extends AppCompatActivity{
                     public void onConfirm(@Nullable String message) {
                         if (0 < stuck) Bootpay.confirm(message); // 재고가 있을 경우.
                         else Bootpay.removePaymentWindow(); // 재고가 없어 중간에 결제창을 닫고 싶을 경우
-                        Log.d("confirm", message);
                     }
                 })
                 .onDone(new DoneListener() { // 결제완료시 호출, 아이템 지급 등 데이터 동기화 로직을 수행합니다
                     @Override
                     public void onDone(@Nullable String message) {
-                        Log.d("done", message);
                         for(int i=0;i<productDataList.size();i++)
                             deleteAll(productDataList.get(i).getProduct_id(),user_id);
-                        //destination 주소에다가 보내도록
-
                         final BasketLogData basketLogData = new BasketLogData(productDataList,sum_all_price,"배송 준비중",MainActivity.u_id,destination,MainActivity.u_email,MainActivity.u_phone,MainActivity.u_name);
-
                         Call<ResponseBody> call = RetrofitClient.getInstance().getApiService().createTransaction(basketLogData);
                         call.enqueue(new Callback<ResponseBody>() {
                             @Override
@@ -197,8 +182,6 @@ public class BasketActivity extends AppCompatActivity{
                             }
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Log.e("ERROR", t.toString());
-                                Log.e("ERROR", call.toString());
                             }
                         });
                         finish();
@@ -243,7 +226,6 @@ public class BasketActivity extends AppCompatActivity{
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //Toast.makeText(BasketActivity.this,ing_name+" 삭제되었습니다",Toast.LENGTH_LONG).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -256,9 +238,6 @@ public class BasketActivity extends AppCompatActivity{
         @Override
         protected String doInBackground(String... strings) {
             try {
-                //GET Request
-                /*************현재는 doc_id를 임의의 값으로 배정**********/
-                /*************나중에 바꿔야됨***************/
                 return RequestHttpURLConnection.sendGet("http://45.119.146.82:8081/yobo/basket/getBasket?User_id="+MainActivity.u_id);
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
