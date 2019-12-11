@@ -50,7 +50,6 @@ public class ShowShopLogActivity extends AppCompatActivity {
             call.enqueue(new Callback<List<ShopLogData>>() {
                 @Override
                 public void onResponse(Call<List<ShopLogData>> call, Response<List<ShopLogData>> response) {
-                    //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     LogList = response.body();
@@ -61,7 +60,6 @@ public class ShowShopLogActivity extends AppCompatActivity {
                     else {
                         for (int i = 0; i < LogList.size(); i++) {
                             adapter.addItem(LogList.get(i), i);
-//                        Log.i("TEST1112",LogList.get(i).get_id());
                         }
                     }
                 }

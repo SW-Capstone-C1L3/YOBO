@@ -329,8 +329,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //TextView text = (TextView) findViewById(R.id.txtresult);
-                //text.setText(query + "를 검색합니다.");
                 Intent intent = new Intent(getApplication(),BoardActivity.class);
                 intent.putExtra("query",query);
                 startActivityForResult(intent,REQUEST_TEST);
@@ -340,8 +338,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //텍스트가 바뀔때마다 호출
             @Override
             public boolean onQueryTextChange(String newText) {
-                //TextView text = (TextView) findViewById(R.id.txtsearch);
-                //text.setText("검색식 : " + newText);
                 return true;
             }
         });
