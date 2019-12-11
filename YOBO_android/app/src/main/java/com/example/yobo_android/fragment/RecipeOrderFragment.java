@@ -54,7 +54,8 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     TextView mCurDescription;
 
     private Button btn;
-    private Button speak;
+    private Button sst;
+    private Button btnStart;
     private TextToSpeech tts;
     private static final int MY_DATA_CHECK =1234;
     /////////이 밑으로 부터 추가
@@ -123,15 +124,24 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
                 }
             });
         }
-
+        btnStart = view.findViewById(R.id.btnStart);
         btn =(Button)view.findViewById(R.id.btnOnOff);
-        speak=view.findViewById(R.id.btnSpeak);
-        speak.setOnClickListener(new View.OnClickListener(){
+        sst=view.findViewById(R.id.btnSST);
+        sst.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 ((RecipeActivity)getActivity()).start();
             }
         });
+
+        btnStart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                RecipeActivity.startTTS = true;
+                Speech();
+            }
+        });
+
         tts = new TextToSpeech(getActivity(), this);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -145,8 +155,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent,MY_DATA_CHECK);
-        Log.i("ccccccccccc","recipeorder onCreateView");
-
         return view;
     }
     public void onViewCreated (View view,
@@ -156,7 +164,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     // Store instance variables based on arguments passed
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser){
-        if(isVisibleToUser){
+        if(isVisibleToUser && RecipeActivity.startTTS){
             Log.i("ccccccccccc","현재 3frag가 보여짐");
             flag = 1;
             handler = new Handler(){
@@ -192,13 +200,16 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     // 글자 읽어주기
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Speech() {
-        Log.i("aaaaaaaa","Speech3");
-        String text = mCurDescription.getText().toString().trim();
-        tts.setPitch((float) 1.0);      // 음량
-        tts.setSpeechRate((float) 1.5); // 재생속도
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,"ababa");
-        while(tts.isSpeaking());
-        ((RecipeActivity)getActivity()).start();
+        if(RecipeActivity.startTTS) {
+            Log.i("aaaaaaaa", "Speech3");
+            String text = mCurDescription.getText().toString().trim();
+            Log.i("TEST Frag text: ", text);
+            tts.setPitch((float) 1.0);      // 음량
+            tts.setSpeechRate((float) 1.5); // 재생속도
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ababa");
+            while (tts.isSpeaking()) ;
+            ((RecipeActivity) getActivity()).start();
+        }
     }
 
     public void Speech(String str){
@@ -232,7 +243,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     }
     @Override
     public void onClick(View view) {
-        Log.i("aaaaaaa","onClick");
         switch (view.getId()) {
             case R.id.btnOnOff:
                 Speech();
@@ -243,7 +253,6 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     }
     @Override
     public void onDestroy() {
-        Log.i("aaaaaaa","onDestroy");
         if (tts != null) {
             tts.stop();
             tts.shutdown();
