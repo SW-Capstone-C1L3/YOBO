@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private int REQUEST_TEST =1000;
     private int REQUEST_NAVER=2000;
+    private int REQUEST_MYINFO=3000;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private int REQUEST_IMAGE_CHANGE=3000;
     private LinearLayout mBtnChoiceIngredient;
     private LinearLayout mBtnRecipeCategory;
     private LinearLayout mBtnShop;
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     nav_header_user_email.setText("");
                     nav_header_user_name.setText("");
                     mUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.user));
-                    u_id=null;
+                    u_id = null;
                 }
             }
         });
@@ -148,19 +148,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_header_user_name = header.findViewById(R.id.nav_header_user_name);
         nav_header_user_email = header.findViewById(R.id.nav_header_user_email);
         mUserPicture = header.findViewById(R.id.userPicture);
-        View.OnClickListener clickListener = new View.OnClickListener() {
+        mUserPicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (v.equals(mUserPicture)) {
-                    if(u_id!=null) {
-                        Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
-                        startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
-                    }
-                    else
-                        showLoginAlertDialog(4);
+                if(u_id!=null) {
+                    Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+                    startActivityForResult(intent,REQUEST_MYINFO);
                 }
+                else
+                    showLoginAlertDialog(4);
             }
-        };
-        mUserPicture.setOnClickListener(clickListener);
+        });
         LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -200,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBtnWriteRecipe.setOnClickListener(onClickListener);
 
         favorite_list.add("");
-        getRecommendImage();
+        getRecommendedRecipes();
 
         handler = new Handler(){
             public void handleMessage(android.os.Message msg) {
@@ -230,22 +227,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         thread.start();
     }
-    //사용자의 얼굴을 가져오는 작업
+
+    // 사용자 정보 setting
     public void setMyInfo(){
-        Call<UserData> call = RetrofitClient.getInstance().getApiService().getbyDid(MainActivity.u_id);
+        Call<UserData> call = RetrofitClient.getInstance().getApiService().getbyDid(u_id);
         if (call != null) {
             call.enqueue(new Callback<UserData>() {
                 @Override
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     userData = response.body();
                     if(userData.getImage() != null){
-                        String temp =  userData.getImage();
+                        String temp = userData.getImage();
                         temp = temp.replace("/", "%2F");
                         String sum = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=" + temp;
                         Uri uri = Uri.parse(sum);
                         Picasso.get().load(uri).fit().centerInside().error(R.drawable.user).into(mUserPicture);
                     }
+                    favorite_list = userData.getInterest_category();
                     nav_header_user_name.setText(userData.getUser_name());
+                    nav_header_user_email.setText(userData.getUser_id() +"@naver.com");
+                    getRecommendedRecipes();
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
@@ -255,8 +256,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //사용자의 취향에 따라 레시피를 가져오는 역할(대문에 게시용)
-    public void getRecommendImage(){
-        Call<List<Recipe>> call = RetrofitClient.getInstance().getApiService().getRecommendRecipe(favorite_list);
+    public void getRecommendedRecipes(){
+        Call<List<Recipe>> call = RetrofitClient.getInstance().getApiService().getRecommendedRecipe(favorite_list);
         if (call != null) {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
@@ -278,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     pagerAdapter = new MainActivity.ScreenSlidePagerAdapter(getSupportFragmentManager());
                     mPager.setAdapter(pagerAdapter);
+                    pagerAdapter.notifyDataSetChanged();
                 }
                 @Override
                 public void onFailure(Call<List<Recipe>> call, Throwable t) {
@@ -365,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else{
                 intent = new Intent(MainActivity.this, MyPageActivity.class);
-                startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
+                startActivityForResult(intent,REQUEST_MYINFO);
             }
         }
         else if(id==R.id.nav_myShopLog){
@@ -451,32 +453,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(requestCode == REQUEST_NAVER){
             if(resultCode==RESULT_OK) {
-                favorite_list = new ArrayList<>();
                 u_id = data.getStringExtra("user_id");
-                u_name = data.getStringExtra("user_name");
-                u_email = data.getStringExtra("user_email");
-                u_phone = data.getStringExtra("user_phone");
-                favorite_list = data.getStringArrayListExtra("interest_category");
-                nav_header_user_name.setText(u_name);
-                nav_header_user_email.setText(data.getStringExtra("user_email") + "@naver.com");
+                setMyInfo();
                 mBtnLoginInNavHeader.setText("로그아웃");
                 mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setMyInfo();     //사용자 얼굴 설정
-                fav_imageList = new ArrayList<>();
-                getRecommendImage();            //사용자 취향에 따라 가져오기
             }
         }
-        else if(requestCode==REQUEST_IMAGE_CHANGE){
+        else if(requestCode==REQUEST_MYINFO){
             if(resultCode==RESULT_OK){
-                if(data.getStringArrayListExtra("category")!=null){
-                    favorite_list.clear();
-                    favorite_list = data.getStringArrayListExtra("category");
-                }
-                if(data.getBooleanExtra("myInfoChange",false)) {
-                    setMyInfo();
-                }
-                getRecommendImage();
+                setMyInfo();
             }
         }
     }
@@ -510,18 +496,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
         builder.show();
-    }
-
-    @Override
-    public void onResume() {
-        if(u_id!=null) {
-            nav_header_user_name.setText(u_name);
-            nav_header_user_email.setText(u_email + "@naver.com");
-            mBtnLoginInNavHeader.setText("로그아웃");
-            mBtnLoginInNavHeader.setGravity(Gravity.RIGHT);
-            setMyInfo();     //사용자 얼굴 설정
-            getRecommendImage();            //사용자 취향에 따라 가져오기
-        }
-        super.onResume();
     }
 }
