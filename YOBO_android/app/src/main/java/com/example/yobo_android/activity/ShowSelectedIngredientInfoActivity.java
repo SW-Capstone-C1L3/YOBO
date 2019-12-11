@@ -4,14 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.yobo_android.R;
@@ -19,11 +18,9 @@ import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.example.yobo_android.fragment.BottomSheetFragment;
 import com.squareup.picasso.Picasso;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,12 +39,12 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     private TextView mIngredientPrice;
     private TextView mCompanyName;
     private TextView mIngredientDescription;
+    private ImageButton mBtnBack;
     private Button mBuy;
     private String Ingredient_id;
     private String Company_id;
     private int IngredientPrice;
     private String flag="";
-    private final String Tag = "abcde";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +53,14 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mBtnBack = findViewById(R.id.arrow_back_ImageButton);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         Ingredient_id = intent.getStringExtra("Ingredient_id");
@@ -66,7 +71,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         mIngredientPrice = findViewById(R.id.textView_ingredient_price);
         mIngredientDescription = findViewById(R.id.textView_ingredient_description);
         mCompanyName = findViewById(R.id.textView_company_name);
-
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
 
@@ -85,7 +89,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
-
                     mIngredientName.setText(product.getProduct_name());
                     mIngredientPrice.setText(product.getProduct_price() + "원/" + product.getProduct_qty() + "" + product.getProduct_unit());
                     mCompanyName.setText(product.getCompany_name());
@@ -93,10 +96,8 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
                     Company_id = product.getProvided_company_id();
                     IngredientPrice = product.getProduct_price();
                     }
-
                 @Override
                 public void onFailure(Call<ShoppingIngredientData> call, Throwable t) {
-                    Toast.makeText(ShowSelectedIngredientInfoActivity.this, "Fail", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -124,9 +125,8 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         return IngredientPrice;
     }
 
-    public void goToBasket(int amount){       //장바구니에 담기
+    public void goToBasket(int amount){
         userId = MainActivity.u_id;
-        Log.i("kkkkkkkkk gotobasket",Ingredient_id);
         hashMap.put("Product_id", Ingredient_id);
         hashMap.put("qty",amount);
         hashMap.put("User_id",userId);
@@ -136,7 +136,6 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Toast.makeText(ShowSelectedIngredientInfoActivity.this,"장바구니에 담았습니다",Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(ShowSelectedIngredientInfoActivity.this,"장바구니에 담기 실패",Toast.LENGTH_LONG).show();

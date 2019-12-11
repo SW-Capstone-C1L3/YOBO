@@ -14,12 +14,13 @@ import com.example.yobo_android.adapter.viewholder.ShopLogAdapter;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.ShopLogData;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
-//TODO: ShowDetailedShopLogActvitiy포함해서 바뀐 형태의 DB로부터 정보를 잘 받아오는지 확인해야함 -CW
 
 public class ShowShopLogActivity extends AppCompatActivity {
 
@@ -50,7 +51,6 @@ public class ShowShopLogActivity extends AppCompatActivity {
             call.enqueue(new Callback<List<ShopLogData>>() {
                 @Override
                 public void onResponse(Call<List<ShopLogData>> call, Response<List<ShopLogData>> response) {
-                    //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     Log.i("TEST", call.toString());
                     Log.i("TEST", response.toString());
                     LogList = response.body();
@@ -59,16 +59,13 @@ public class ShowShopLogActivity extends AppCompatActivity {
                         mLayoutEmptyNotify.setVisibility(View.VISIBLE);
                     }
                     else {
-                        for (int i = 0; i < LogList.size(); i++) {
+                        Collections.reverse(LogList);
+                        for (int i = 0; i < LogList.size(); i++)
                             adapter.addItem(LogList.get(i), i);
-//                        Log.i("TEST1112",LogList.get(i).get_id());
                         }
                     }
-                }
                 @Override
                 public void onFailure(Call<List<ShopLogData>> call, Throwable t) {
-                    Log.e("ERROR", call.toString());
-                    Log.e("ERROR", t.toString());
                 }
             });
         }
