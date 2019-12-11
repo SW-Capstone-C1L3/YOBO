@@ -161,7 +161,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             int action = event.getAction();
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
-                    vibrator.vibrate(VibrationEffect.createOneShot(100,5));
+                    vibrator.vibrate(VibrationEffect.createOneShot(100,10));
                     break;
 
                 case DragEvent.ACTION_DRAG_ENTERED:
