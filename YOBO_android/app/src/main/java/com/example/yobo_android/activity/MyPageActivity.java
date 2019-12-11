@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MyPageActivity extends AppCompatActivity {
@@ -83,6 +84,7 @@ public class MyPageActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     userData = response.body();
+                    Log.i("TEST mypage",userData.getInterest_category().toString());
                     mEditUserName.setText(userData.getUser_name());
                     mEditUserAddress1.setText(userData.getUser_address().get(0));
                     mEditUserAddress2.setText(userData.getUser_address().get(1));
@@ -118,8 +120,14 @@ public class MyPageActivity extends AppCompatActivity {
                 userAddress.add(mEditUserAddress1.getText().toString());
                 userAddress.add(mEditUserAddress2.getText().toString());
 
-                for(int i=0; i< mUserFavorites.size(); i++)
-                    userInterestCategory.add(mUserFavorites.get(i).getSelectedItem().toString());
+                userInterestCategory = new ArrayList<>();
+                for(int i=0; i< mUserFavorites.size(); i++){
+                    if(mUserFavorites.get(i).getSelectedItem().toString().equals("미선택"))
+                        userInterestCategory.add("");
+                    else
+                        userInterestCategory.add(mUserFavorites.get(i).getSelectedItem().toString());
+
+                }
 
                 userData.setUser_name(mEditUserName.getText().toString());
                 userData.setUser_address(userAddress);
