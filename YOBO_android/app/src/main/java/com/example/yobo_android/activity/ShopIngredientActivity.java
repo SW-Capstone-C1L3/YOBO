@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -38,7 +39,6 @@ public class ShopIngredientActivity extends AppCompatActivity {
     private String query = null;
     private RecyclerView recyclerView;
 
-    private int REQUEST_TEST =1000;
     private int REQUEST_SHOP =2000;
     List<ShoppingIngredientData> ingredientList = new ArrayList<>();
 
