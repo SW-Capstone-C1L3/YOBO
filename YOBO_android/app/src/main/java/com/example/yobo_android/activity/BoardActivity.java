@@ -1,37 +1,24 @@
 package com.example.yobo_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.util.Log;
-
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.BoardAdapter;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.Recipe;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/*
-* 검색에 따른 레시피 목록을 보여주는 Activity
-* 레시피 item 선택 시 RecipeActivity 이동
- */
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -116,8 +103,6 @@ public class BoardActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                Log.i("TEST", call.toString());
-                Log.i("TEST", response.toString());
                 recipeList = response.body();
                 if(recipeList.size()==0){
                     recyclerView.setVisibility(View.GONE);
@@ -133,8 +118,6 @@ public class BoardActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                Log.e("ERROR", call.toString());
-                Log.e("ERROR", t.toString());
             }
         });
     }

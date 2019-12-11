@@ -25,7 +25,6 @@
         <activity android:name=".activity.MyPageActivity"/>
         <activity android:name=".activity.BoardActivity" />
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.TestActivity" />
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/Full">
@@ -40,7 +39,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.CategorySearchActivity" />
         <activity android:name=".activity.MyRecipeListActivity" />
-        <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.ChoiceIngredientActivity" />
         <activity android:name=".activity.RecipeMainActivity" />

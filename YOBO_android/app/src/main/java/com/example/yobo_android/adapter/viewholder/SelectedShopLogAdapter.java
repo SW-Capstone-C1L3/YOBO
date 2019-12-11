@@ -2,7 +2,6 @@ package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,7 @@ public class SelectedShopLogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition() ;
-            if (pos != RecyclerView.NO_POSITION) { // 갱신하는 과정에서 뷰홀더가 참조하는 아이템이 어댑터에서 삭제되면 NO_POSITION 리턴
+            if (pos != RecyclerView.NO_POSITION) {
                 Intent intent = new Intent(context, ShowSelectedIngredientInfoActivity.class);
                 intent.putExtra("Ingredient_id",product_id);
                 intent.putExtra("fromLog","true");
@@ -74,11 +73,8 @@ public class SelectedShopLogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.i("TEST333",position+"");
-        // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
         SelectedShopLogAdapter.ItemViewHolder itemViewHolder = (SelectedShopLogAdapter.ItemViewHolder) holder;
-        Log.i("TEST113","onBind");
-        itemViewHolder.onBind(productDataList.get(position), position); // if add header, listRecipe.get(position - 1)
+        itemViewHolder.onBind(productDataList.get(position), position);
     }
 
     @Override
@@ -86,12 +82,10 @@ public class SelectedShopLogAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        // RecyclerView의 총 개수 입니다.
         return productDataList.size();
     }
 
     public void addItem(ProductData productData, int position,String status) {
-        // 외부에서 item을 추가시킬 함수입니다.
         productDataList.add(productData);
         statusList.add(status);
         notifyItemChanged(position);

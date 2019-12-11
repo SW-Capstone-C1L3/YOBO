@@ -13,18 +13,15 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +30,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,20 +42,12 @@ import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.UserData;
 import com.example.yobo_android.fragment.RecipeRecomFragment;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/*
-* 레시피 목록을 보여주는 BoardActivity
-* 1. RecipeDetailFragment로 요리추천 -> RecipeActivity로 이동
-* 2. 요리재료검색 선택 -> ChoiceIngredientActivity로 이동
-* 3. 요리카테고리검색 선택 -> CategorySearchActivity로 이동
-*/
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -237,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Thread.sleep(4000);
                         handler.sendEmptyMessage(0);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -264,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 @Override
                 public void onFailure(Call<UserData> call, Throwable t) {
-//                    Toast.makeText(getApplicationContext(),"asd",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -310,14 +296,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("레시피 검색");
-        // Detect SearchView icon clicks
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mtoolbarTitle.setVisibility(View.GONE);
             }
         });
-        // Detect SearchView close
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -326,7 +310,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent intent = new Intent(getApplication(),BoardActivity.class);
@@ -335,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 searchView.clearFocus();
                 return true;
             }
-            //텍스트가 바뀔때마다 호출
             @Override
             public boolean onQueryTextChange(String newText) {
                 return true;
@@ -384,13 +366,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialogFlag = true;
             }
             else{
-                //내 회원정보 수정으로 변경
                 intent = new Intent(MainActivity.this, MyPageActivity.class);
                 startActivityForResult(intent,REQUEST_IMAGE_CHANGE);
             }
         }
         else if(id==R.id.nav_myShopLog){
-            //내 쇼핑정보 보기
             if(u_id.equals(null)) {
                 showLoginAlertDialog(2);
                 dialogFlag = true;
@@ -398,7 +378,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else
                 intent = new Intent(MainActivity.this,ShowShopLogActivity.class);
         }
-        // 수정 필요(프사 바꿀때 실시간으로 업뎃하기 위해서는 MyPageActivity를 startActivityForResult(intent,REQUEST_IMAGE_CHANGE);로 시작해야함
         if(!dialogFlag && id != R.id.nav_modifyMyInfo) startActivity(intent);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -467,28 +446,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    //검색 일치 항목이 존재하지 않는 경우 상단에 snackbar가 뜨도록 설정하는 함수
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TEST) {
-            if (resultCode == RESULT_OK) {
-                String snackBarMessage;
-                snackBarMessage = "일치하는 항목이 존재하지 않습니다.";
-                Snackbar make = Snackbar.make(getWindow().getDecorView().getRootView(),
-                        snackBarMessage, Snackbar.LENGTH_LONG);
-                View view = make.getView();
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
-                params.gravity = Gravity.TOP;
-                params.width = getScreenSize(this).x;
-                make.setAction("확인", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-                make.setActionTextColor(Color.RED);
-                make.show();
-            }
         }
         else if(requestCode == REQUEST_NAVER){
             if(resultCode==RESULT_OK) {
@@ -520,12 +481,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getRecommendImage();
             }
         }
-    }
-    public Point getScreenSize(Activity activity) {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return  size;
     }
 
     public void showLoginAlertDialog(int flag){

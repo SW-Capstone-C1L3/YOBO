@@ -14,12 +14,13 @@ import com.example.yobo_android.adapter.viewholder.ShopLogAdapter;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.ShopLogData;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
-//TODO: ShowDetailedShopLogActvitiy포함해서 바뀐 형태의 DB로부터 정보를 잘 받아오는지 확인해야함 -CW
 
 public class ShowShopLogActivity extends AppCompatActivity {
 
@@ -58,15 +59,13 @@ public class ShowShopLogActivity extends AppCompatActivity {
                         mLayoutEmptyNotify.setVisibility(View.VISIBLE);
                     }
                     else {
-                        for (int i = 0; i < LogList.size(); i++) {
+                        Collections.reverse(LogList);
+                        for (int i = 0; i < LogList.size(); i++)
                             adapter.addItem(LogList.get(i), i);
                         }
                     }
-                }
                 @Override
                 public void onFailure(Call<List<ShopLogData>> call, Throwable t) {
-                    Log.e("ERROR", call.toString());
-                    Log.e("ERROR", t.toString());
                 }
             });
         }
