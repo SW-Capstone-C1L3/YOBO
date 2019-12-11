@@ -85,7 +85,7 @@ public class NaverLoginActivity  extends AppCompatActivity {
 
     protected void initView() {
 //        mApiResultText = (TextView) findViewById(R.id.api_result_text);
-        View =this.findViewById(android.R.id.content);
+        View = this.findViewById(android.R.id.content);
 //        buttonOAuth=View.findViewById(R.id.buttonOAuth);
 //        buttonRefresh=View.findViewById(R.id.buttonRefresh);
 //        buttonOAuthLogout=View.findViewById(R.id.buttonOAuthLogout);
@@ -145,20 +145,8 @@ public class NaverLoginActivity  extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UserData> call, Response<UserData> response) {
                         Toast.makeText(NaverLoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        userdata = response.body();
                         Intent intent = new Intent();
-                        intent.putExtra("user_id", userdata.get_id());
-                        intent.putExtra("user_email", userdata.getUser_id());
-                        intent.putExtra("user_name", userdata.getUser_name());
-                        intent.putExtra("user_phone",userdata.getUser_phone_num());
-                        tmp = new ArrayList<>();
-                        for(int i=0;i<userdata.getInterest_category().size();i++){
-                            if(!userdata.getInterest_category().get(i).equals("미선택"))
-                                tmp.add(userdata.getInterest_category().get(i));
-                            else
-                                tmp.add("");
-                        }
-                        intent.putStringArrayListExtra("interest_category",tmp);
+                        intent.putExtra("user_id",response.body().get_id());
                         setResult(RESULT_OK, intent);
                         finish();
                     }

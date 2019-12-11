@@ -27,7 +27,7 @@ public class UserData {
     private String user_phone_num;
     @SerializedName("interest_category")
     @Expose
-    private List<String> interest_category = null;
+    private ArrayList<String> interest_category = null;
     @SerializedName("user_grade")
     @Expose
     private Integer user_grade;
@@ -36,7 +36,7 @@ public class UserData {
     private String user_email;
     @SerializedName("user_address")
     @Expose
-    private List<String> user_address = null;
+    private ArrayList<String> user_address = null;
     @SerializedName("recipe_shotcut")
     @Expose
     private ArrayList<String> recipe_shotcut = null;
@@ -90,11 +90,11 @@ public class UserData {
         this.user_phone_num = user_phone_num;
     }
 
-    public List<String> getInterest_category() {
+    public ArrayList<String> getInterest_category() {
         return interest_category;
     }
 
-    public void setInterest_category(List<String> interest_category) {
+    public void setInterest_category(ArrayList<String> interest_category) {
         this.interest_category = interest_category;
     }
 
@@ -114,11 +114,11 @@ public class UserData {
         this.user_email = user_email;
     }
 
-    public List<String> getUser_address() {
+    public ArrayList<String> getUser_address() {
         return user_address;
     }
 
-    public void setUser_address(List<String> user_address) {
+    public void setUser_address(ArrayList<String> user_address) {
         this.user_address = user_address;
     }
 

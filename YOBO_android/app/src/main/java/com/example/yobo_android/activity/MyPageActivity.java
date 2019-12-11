@@ -58,8 +58,6 @@ public class MyPageActivity extends AppCompatActivity {
     EditText mEditUserAddress1;
     EditText mEditUserAddress2;
     ArrayList<Spinner> mUserFavorites = new ArrayList<>();
-    Boolean flagImageChange = false;
-    String flagInfo;
     Button btnModify;
     Button btnCancel;
 
@@ -84,7 +82,6 @@ public class MyPageActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     userData = response.body();
-                    Log.i("TEST mypage",userData.getInterest_category().toString());
                     mEditUserName.setText(userData.getUser_name());
                     mEditUserAddress1.setText(userData.getUser_address().get(0));
                     mEditUserAddress2.setText(userData.getUser_address().get(1));
@@ -135,7 +132,6 @@ public class MyPageActivity extends AppCompatActivity {
 
                 MultipartBody.Part imagePart = null;
                 Call<ResponseBody> call2 = null;
-
                 if(userPicture == null){
                     userData.setImage("exit");
                     call2 = RetrofitClient.getInstance().getApiService().updateUser(null,userData);
@@ -241,7 +237,6 @@ public class MyPageActivity extends AppCompatActivity {
         opts.inSampleSize=(int)sampleRatio;
 
         Bitmap resizedBitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor, null, opts);
-        Log.d("Resizing", "Resized Width / Height" + resizedBitmap.getWidth() + "/" + resizedBitmap.getHeight());
         parcelFileDescriptor.close();
         return resizedBitmap;
     }
