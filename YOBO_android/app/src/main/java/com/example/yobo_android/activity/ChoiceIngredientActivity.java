@@ -40,7 +40,7 @@ public class ChoiceIngredientActivity extends AppCompatActivity {
             = new ArrayList<>(Arrays.asList(
             new IngredientData("김",R.drawable.ingre_seaweed),
             new IngredientData("돼지고기",R.drawable.ingre_pork),
-            new IngredientData("닭고기",R.drawable.ingre_chicken),
+            new IngredientData("닭",R.drawable.ingre_chicken),
             new IngredientData("소고기",R.drawable.ingre_beef),
             new IngredientData("계란",R.drawable.ingre_egg),
             new IngredientData("고등어",R.drawable.ingre_fish),
