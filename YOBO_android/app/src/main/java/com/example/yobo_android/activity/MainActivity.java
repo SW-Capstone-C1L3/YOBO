@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int REQUEST_IMAGE_CHANGE=3000;
-//    private Button mBtnRecipeRecommendation;
     private LinearLayout mBtnChoiceIngredient;
     private LinearLayout mBtnRecipeCategory;
     private LinearLayout mBtnShop;
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String u_email;
     private ImageView mUserPicture;
     UserData userData;
-    Uri userPicture = null;
     Thread thread = null;
     Handler handler = null;
     int p=0;	//페이지번호
@@ -371,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(id==R.id.nav_myShopLog){
-            if(u_id.equals(null)) {
+            if(u_id == null) {
                 showLoginAlertDialog(2);
                 dialogFlag = true;
             }
