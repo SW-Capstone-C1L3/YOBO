@@ -34,13 +34,23 @@
                     android:layout_marginLeft="16dp"
                     android:layout_alignParentLeft="true"
                     android:background="@drawable/speaker" />
-
-                <Button
-                    android:id="@+id/btnStart"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/start_speaking" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true">
+                    <Button
+                        android:id="@+id/btnStart"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/start_speaking" />
+                    <Button
+                        android:id="@+id/btnStop"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_toRightOf="@+id/btnStart"
+                        android:background="@drawable/stop_speaking"/>
+                </RelativeLayout>
 
                 <Button
                     android:id="@+id/btnSST"
