@@ -58,12 +58,13 @@ public class RecipeActivity extends AppCompatActivity {
     private int j=0;
     private static String recipeId;
     private static int recipeDescriptionNum;
+    public static boolean startTTS=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-
+        startTTS=false;
         recipeId = getIntent().getStringExtra("recipeId");
         recipeDescriptionNum = getIntent().getIntExtra("recipeDescriptionNum",recipeDescriptionNum) - 1;
 
