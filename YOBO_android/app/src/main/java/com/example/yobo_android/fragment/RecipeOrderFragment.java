@@ -40,11 +40,12 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
     private Button btn;
     private Button sst;
     private Button btnStart;
+    private Button btnStop;
     private TextToSpeech tts;
     private static final int MY_DATA_CHECK =1234;
     Thread thread = null;
     Handler handler = null;
-    private  int flag = 0;
+    private int flag = 0;
 
     // newInstance constructor for creating fragment with arguments
     public static RecipeOrderFragment newInstance(String recipeId, int position) {
@@ -71,8 +72,8 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_recipe_order, container, false);
         mCurImage = view.findViewById(R.id.curimage);
         mCurDescription = view.findViewById(R.id.curdescription);
-        mCurDescription.setHint("1");
-
+        btnStop = view.findViewById(R.id.btnStop);
+        mCurDescription.setHint(position+"");
         Call<Recipe> call = null;
         call = RetrofitClient.getInstance().getApiService().getReicpebyDid(recipeId);
         if(call != null) {
@@ -106,6 +107,7 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 ((RecipeActivity)getActivity()).start();
+                RecipeActivity.startTTS = true;
             }
         });
         btnStart.setOnClickListener(new View.OnClickListener(){
@@ -113,6 +115,12 @@ public class RecipeOrderFragment extends Fragment implements View.OnClickListene
             public void onClick(View view) {
                 RecipeActivity.startTTS = true;
                 Speech();
+            }
+        });
+        btnStop.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                RecipeActivity.startTTS = false;
             }
         });
         tts = new TextToSpeech(getActivity(), this);

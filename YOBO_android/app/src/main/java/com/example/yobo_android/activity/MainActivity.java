@@ -371,7 +371,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if(id==R.id.nav_myShopLog){
-            //내 쇼핑정보 보기
             if(u_id == null) {
                 showLoginAlertDialog(2);
                 dialogFlag = true;

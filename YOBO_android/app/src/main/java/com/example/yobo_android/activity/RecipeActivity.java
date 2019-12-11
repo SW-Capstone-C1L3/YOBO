@@ -44,11 +44,10 @@ public class RecipeActivity extends AppCompatActivity {
     SpeechRecognizer mRecognizer;
     ViewPager vpPager;
     String result;
-    int cnt = 0;
     private int i=0;
     private int j=0;
     private static String recipeId;
-    private static int recipeDescriptionNum;
+    public static int recipeDescriptionNum;
     public static boolean startTTS=false;
 
     @Override
@@ -118,9 +117,8 @@ public class RecipeActivity extends AppCompatActivity {
         }
     }
 
-    public void selectIndex(int nexIdx){
-//        vpPager.setCurrentItem(nexIdx,true);
-        vpPager.setCurrentItem(vpPager.getCurrentItem()+1,true);
+    public void selectIndex(){
+        vpPager.setCurrentItem(vpPager.getCurrentItem() + 1,true);
     }
 
     public void start(){
@@ -197,18 +195,15 @@ public class RecipeActivity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
             if(result.equals("다음")) {
-                if(cnt!=recipeDescriptionNum) {
-                    mRecognizer.stopListening();
-                    selectIndex(++cnt);
-                }
-                else {
-                    //넘어갈 다음 페이지가 존재하지 않음 -> 처리안함
-                }
+                mRecognizer.stopListening();
+                if(vpPager.getCurrentItem()+1!=recipeDescriptionNum)
+                    selectIndex();
             }
             else if(result.equals("다시")){
-                selectIndex(cnt);
+                mRecognizer.stopListening();
+                vpPager.setCurrentItem(vpPager.getCurrentItem(),true);
                 RecipeOrderFragment tf = (RecipeOrderFragment) getSupportFragmentManager().findFragmentById(R.id.vpPager);
-                tf.Speech(descriptionlist.get(cnt));
+                tf.Speech(descriptionlist.get(vpPager.getCurrentItem()));
             }
         }
 
