@@ -9,15 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.yobo_android.R;
-import com.example.yobo_android.api.ApiService;
+import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.CommentData;
 import com.example.yobo_android.etc.UserData;
 import com.squareup.picasso.Picasso;
@@ -54,17 +50,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     YYMMDD=splitText[i];
             }
             user_id = commentData.getUser_id();
-            OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            okhttpClientBuilder.addInterceptor(logging);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(ApiService.API_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okhttpClientBuilder.build())
-                    .build();
-            ApiService apiService = retrofit.create(ApiService.class);
-            Call<UserData> call = apiService.getbyDid(user_id);
+
+            Call<UserData> call = RetrofitClient.getInstance().getApiService().getbyDid(user_id);
             if (call != null) {
                 call.enqueue(new Callback<UserData>() {
                     @Override
