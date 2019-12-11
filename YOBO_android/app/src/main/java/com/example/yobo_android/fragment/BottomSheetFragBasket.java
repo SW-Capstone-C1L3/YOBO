@@ -2,17 +2,13 @@ package com.example.yobo_android.fragment;
 
 import android.app.Dialog;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.BasketActivity;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -39,52 +35,11 @@ public class BottomSheetFragBasket extends BottomSheetDialogFragment {
         mbtmBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getActivity(), "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 if(checkDestination())
                     ((BasketActivity)getActivity()).buy(Integer.parseInt(price),etDestination.getText().toString());
             }
         });
         etDestination = view.findViewById(R.id.editDestination);
-
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
-        CoordinatorLayout.Behavior behavior = params.getBehavior();
-
-        if (behavior != null && behavior instanceof BottomSheetBehavior) {
-            ((BottomSheetBehavior) behavior).setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    String state = "";
-
-                    switch (newState) {
-                        case BottomSheetBehavior.STATE_DRAGGING: {
-                            state = "DRAGGING";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_SETTLING: {
-                            state = "SETTLING";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_EXPANDED: {
-                            state = "EXPANDED";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_COLLAPSED: {
-                            state = "COLLAPSED";
-                            break;
-                        }
-                        case BottomSheetBehavior.STATE_HIDDEN: {
-                            dismiss();
-                            state = "HIDDEN";
-                            break;
-                        }
-                    }
-                    //Toast.makeText(getContext(), "Bottom Sheet State Changed to: " + state, Toast.LENGTH_SHORT).show();
-                }
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                }
-            });
-        }
     }
 
     public boolean checkDestination(){
@@ -110,5 +65,4 @@ public class BottomSheetFragBasket extends BottomSheetDialogFragment {
             make.show();
         }
     }
-
 }

@@ -1,24 +1,18 @@
 package com.example.yobo_android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.adapter.viewholder.CommentByUserAdapter;
 import com.example.yobo_android.api.RetrofitClient;
 import com.example.yobo_android.etc.CommentData;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,13 +45,9 @@ public class CommentActivity extends AppCompatActivity {
             call2.enqueue(new Callback<List<CommentData>>() {
                 @Override
                 public void onResponse(Call<List<CommentData>> call, Response<List<CommentData>> response) {
-                    //Toast.makeText(BoardActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    Log.i("TEST", call.toString());
-                    Log.i("TEST", response.toString());
                     commentList = response.body();
                     Collections.reverse(commentList);
                     if(commentList.size()==0){
-                        //여기에 작업
                         recyclerView.setVisibility(View.GONE);
                         mLayoutEmptyNotify.setVisibility(View.VISIBLE);
                     }
@@ -69,8 +59,6 @@ public class CommentActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<List<CommentData>> call, Throwable t) {
-                    Log.e("ERROR", call.toString());
-                    Log.e("ERROR", t.toString());
                 }
             });
         }
@@ -81,8 +69,6 @@ public class CommentActivity extends AppCompatActivity {
         mLayoutEmptyNotify.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.recyclerCommentView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setReverseLayout(true);
-//        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentAdapter = new CommentByUserAdapter();
         recyclerView.setAdapter(commentAdapter);

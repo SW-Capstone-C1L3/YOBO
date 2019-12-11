@@ -2,15 +2,11 @@ package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.OkHttpClient;
@@ -20,28 +16,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import com.example.yobo_android.R;
-import com.example.yobo_android.activity.BasketActivity;
-import com.example.yobo_android.activity.MainActivity;
 import com.example.yobo_android.api.ApiService;
 import com.example.yobo_android.etc.CommentData;
-import com.example.yobo_android.etc.IngredientsBasketData;
 import com.example.yobo_android.etc.UserData;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_ITEM = 1;
-    // adapter에 들어갈 list 입니다.
     private ArrayList<CommentData> commentlist = new ArrayList<>();
     private Context context;
 
-    // RecyclerView의 핵심인 ViewHolder 입니다.
-    // 여기서 subView를 setting 해줍니다.
-    // 즉 item view를 저장하는 뷰홀드 클래스
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private String user_id;
         private String comment_id;
@@ -60,14 +47,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void onBind(CommentData commentData, int position) {
-
             YYMMDD = commentData.getTimestamp();
             String[] splitText = YYMMDD.split("T");
             for(int i=0;i<splitText.length;i++) {
                 if(i==0)
                     YYMMDD=splitText[i];
             }
-
             user_id = commentData.getUser_id();
             OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -94,7 +79,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     @Override
                     public void onFailure(Call<UserData> call, Throwable t) {
-                        Toast.makeText(context,"asd",Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -109,7 +93,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onClick(View view) { int pos = getAdapterPosition() ;}
     }
 
-    // item view를 위한 viewHolder 객체 생성 및 return
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -123,9 +106,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
         CommentAdapter.ItemViewHolder itemViewHolder = (CommentAdapter.ItemViewHolder) holder;
-        Log.i("kkkk onBindView ",commentlist.get(position)+"");
         itemViewHolder.onBind(commentlist.get(position), position);
     }
 
@@ -134,14 +115,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        // RecyclerView의 총 개수 입니다.
         return commentlist.size();
     }
 
     public void addItem(CommentData commentData, int position) {
-        // 외부에서 item을 추가시킬 함수입니다.
         commentlist.add(commentData);
-        Log.i("kkkk additem ",commentData+"");
         notifyItemChanged(position);
     }
 }

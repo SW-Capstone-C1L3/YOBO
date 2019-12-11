@@ -2,21 +2,17 @@ package com.example.yobo_android.adapter.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.yobo_android.R;
 import com.example.yobo_android.activity.ShowSelectedIngredientInfoActivity;
 import com.example.yobo_android.etc.ShoppingIngredientData;
 import com.squareup.picasso.Picasso;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,13 +21,9 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     static final String ImageURL = "http://45.119.146.82:8081/yobo/recipe/getImage/?filePath=";
     private static final int TYPE_ITEM = 1;
-    // adapter에 들어갈 list 입니다.
     private ArrayList<ShoppingIngredientData> listShopIngredient = new ArrayList<>();
     private Context context;
 
-    // RecyclerView의 핵심인 ViewHolder 입니다.
-    // 여기서 subView를 setting 해줍니다.
-    // 즉 item view를 저장하는 뷰홀드 클래스
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private String sel_ingredient_Id;
         private ImageView product_image;
@@ -70,14 +62,13 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             product_name.setText(shoppingIngredientData.getProduct_name());
             product_price.setText(shoppingIngredientData.getProduct_price() + "원/"+shoppingIngredientData.getProduct_qty()+product_unit);
             mCompanyName.setText("판매자 : " + shoppingIngredientData.getCompany_name());
-            Log.i("TEST222",product_name.getText().toString());
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition() ;
-            if (pos != RecyclerView.NO_POSITION) { // 갱신하는 과정에서 뷰홀더가 참조하는 아이템이 어댑터에서 삭제되면 NO_POSITION 리턴
+            if (pos != RecyclerView.NO_POSITION) {
                 Intent intent = new Intent(context, ShowSelectedIngredientInfoActivity.class);
                 intent.putExtra("Ingredient_id",sel_ingredient_Id);
                 context.startActivity(intent);
@@ -85,24 +76,20 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    // item view를 위한 viewHolder 객체 생성 및 return
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
         RecyclerView.ViewHolder holder;
-        View view;
-
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shop_ingredient, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shop_ingredient, parent, false);
         holder = new ShopIngredientAdapter.ItemViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
         ShopIngredientAdapter.ItemViewHolder itemViewHolder = (ShopIngredientAdapter.ItemViewHolder) holder;
-        itemViewHolder.onBind(listShopIngredient.get(position), position); // if add header, listRecipe.get(position - 1)
+        itemViewHolder.onBind(listShopIngredient.get(position), position);
     }
 
     @Override
@@ -110,19 +97,13 @@ public class ShopIngredientAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return TYPE_ITEM;
     }
 
-
     @Override
     public int getItemCount() {
-        // RecyclerView의 총 개수 입니다.
         return listShopIngredient.size();
     }
 
     public void addItem(ShoppingIngredientData shoppingIngredientData, int position) {
-        // 외부에서 item을 추가시킬 함수입니다.
         listShopIngredient.add(shoppingIngredientData);
         notifyItemChanged(position);
-    }
-    public void setImage(int position, String str){
-        listShopIngredient.get(position).setProduct_image(str);
     }
 }
