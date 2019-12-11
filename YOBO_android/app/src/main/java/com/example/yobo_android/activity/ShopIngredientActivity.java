@@ -33,6 +33,7 @@ public class ShopIngredientActivity extends AppCompatActivity {
     private LinearLayout mLayoutNonEmptyNotify;
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
+    private ImageButton mBtnBack;
     private Button mbtnGoToBakset;
     private String query = null;
     private RecyclerView recyclerView;
@@ -46,6 +47,13 @@ public class ShopIngredientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_ingredient);
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
+        mBtnBack = findViewById(R.id.arrow_back_ImageButton);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mbtnGoToBakset = findViewById(R.id.btnGoToBasket);
         if (getIntent().getStringExtra("query") != null) {
             query = getIntent().getStringExtra("query");

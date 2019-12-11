@@ -57,6 +57,7 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View v) { finish(); }
         });
         mSearchView = findViewById(R.id.toolbar_search);
+        mSearchView.setVisibility(View.GONE);
         searchViewSetting();
         
         recyclerViewInit();
@@ -79,19 +80,16 @@ public class BoardActivity extends AppCompatActivity {
         
         Call<List<Recipe>> call = null;
 
-        if (query != null)
+        if (query != null) {
+            mSearchView.setVisibility(View.VISIBLE);
             call = RetrofitClient.getInstance().getApiService().search(query, 0, 10);
-        else if(category != null){
-            mSearchView.setVisibility(View.GONE);
+        }else if(category != null){
             call = RetrofitClient.getInstance().getApiService().getListByCate(category, 0, 10);
-        } else if(ingredients != null){
-            mSearchView.setVisibility(View.GONE);
+        }else if(ingredients != null){
             call = RetrofitClient.getInstance().getApiService().getByingredients(ingredients, 0, 10);
-        }
-        else if(shotcut)
-            call = RetrofitClient.getInstance().getApiService().getByshortcut(MainActivity.u_id,0,10);
-        else{
-            mSearchView.setVisibility(View.GONE);
+        }else if(shotcut) {
+            call = RetrofitClient.getInstance().getApiService().getByshortcut(MainActivity.u_id, 0, 10);
+        }else{
             call = RetrofitClient.getInstance().getApiService().getRecipeList(0,10);
         }
 
