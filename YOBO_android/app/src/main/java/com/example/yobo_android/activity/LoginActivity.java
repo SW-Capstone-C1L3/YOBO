@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import com.example.yobo_android.R;
 
+/*
+* 사용 X
+*/
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput;

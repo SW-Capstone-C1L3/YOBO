@@ -86,7 +86,7 @@ public interface ApiService {
                             @Query("uid") String uid);
 
     @GET("/yobo/recipe/getByrecommend/")
-    Call<List<Recipe>> getRecommendRecipe(@Query("favorite") List<String> favorite_list);
+    Call<List<Recipe>> getRecommendedRecipe(@Query("favorite") List<String> favorite_list);
 
     /*Market*/
 
