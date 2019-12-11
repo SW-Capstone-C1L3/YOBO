@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
     private TextView mIngredientPrice;
     private TextView mCompanyName;
     private TextView mIngredientDescription;
+    private ImageButton mBtnBack;
     private Button mBuy;
     private String Ingredient_id;
     private String Company_id;
@@ -59,6 +61,14 @@ public class ShowSelectedIngredientInfoActivity extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar_enroll_recipe);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mBtnBack = findViewById(R.id.arrow_back_ImageButton);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         Ingredient_id = intent.getStringExtra("Ingredient_id");

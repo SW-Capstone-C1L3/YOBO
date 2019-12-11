@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class BasketActivity extends AppCompatActivity{
     private SearchView mSearchview;
     private TextView mtoolbarTitle;
     private BasketIngredientAdapter adapter;
+    private ImageButton mBtnBack;
     private Button mbtnBuyAll;
     private Integer sum_all_price=0;
     private String user_id;
@@ -73,6 +75,13 @@ public class BasketActivity extends AppCompatActivity{
 
         mtoolbarTitle = findViewById(R.id.toolbar_title);
         mSearchview = findViewById(R.id.action_search);
+        mBtnBack = findViewById(R.id.arrow_back_ImageButton);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mbtnBuyAll = findViewById(R.id.btnBuyAll);
         mbtnBuyAll.setOnClickListener(new Button.OnClickListener() {
             @Override
