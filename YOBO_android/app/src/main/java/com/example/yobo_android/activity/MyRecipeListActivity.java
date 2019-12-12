@@ -71,7 +71,7 @@ public class MyRecipeListActivity extends AppCompatActivity {
         myRecipeListAdapter = new BoardAdapter();
         recyclerView.setAdapter(myRecipeListAdapter);
 
-        Call<List<Recipe>> call = RetrofitClient.getInstance().getApiService().geListByUid(MainActivity.u_id, 0, 10);
+        Call<List<Recipe>> call = RetrofitClient.getInstance().getApiService().geListByUid(MainActivity.u_id, 0, 20);
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {

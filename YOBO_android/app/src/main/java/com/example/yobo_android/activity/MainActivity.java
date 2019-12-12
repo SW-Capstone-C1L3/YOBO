@@ -236,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     userData = response.body();
+                    u_name = userData.getUser_name();
+                    u_email = userData.getUser_email() + "@naver.com";
+                    u_phone = userData.getUser_phone_num();
                     if(userData.getImage() != null){
                         String temp = userData.getImage();
                         temp = temp.replace("/", "%2F");
